@@ -1,5 +1,7 @@
 /* app css stylesheet */
 
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;
