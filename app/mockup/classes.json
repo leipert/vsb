@@ -1,0 +1,22 @@
+{
+    "head": {
+        "link": [],
+        "vars": ["class", "alias"]
+    },
+    "results": {
+        "distinct": false,
+        "ordered": true,
+        "bindings": [
+            {
+                "class": {
+                    "type": "uri",
+                    "value": "http://a.de/Person"
+                },
+                "alias": {
+                    "type": "literal",
+                    "value": "Mensch"
+                }
+            }
+        ]
+    }
+}
