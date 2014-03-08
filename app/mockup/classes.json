@@ -60,7 +60,18 @@
                     "type": "literal",
                     "value": "Studiengang"
                 }
-            },            
+            }, 
+            
+            {
+                "class": {
+                    "type": "uri",
+                    "value": "http://a.de/Firma"
+                },
+                "alias": {
+                    "type": "literal",
+                    "value": "Firma"
+                }
+            }
             
         ]
     }
