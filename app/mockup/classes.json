@@ -16,7 +16,52 @@
                     "type": "literal",
                     "value": "Mensch"
                 }
-            }
+            },
+            
+            {
+                "class": {
+                    "type": "uri",
+                    "value": "http://a.de/Universitaet"
+                },
+                "alias": {
+                    "type": "literal",
+                    "value": "Uni"
+                }
+            },
+            
+            {
+                "class": {
+                    "type": "uri",
+                    "value": "http://a.de/Stadt"
+                },
+                "alias": {
+                    "type": "literal",
+                    "value": "Stadt"
+                }
+            },
+            
+            {
+                "class": {
+                    "type": "uri",
+                    "value": "http://a.de/Land"
+                },
+                "alias": {
+                    "type": "literal",
+                    "value": "Land"
+                }
+            },
+
+            {
+                "class": {
+                    "type": "uri",
+                    "value": "http://a.de/Studiengang"
+                },
+                "alias": {
+                    "type": "literal",
+                    "value": "Studiengang"
+                }
+            },            
+            
         ]
     }
 }
