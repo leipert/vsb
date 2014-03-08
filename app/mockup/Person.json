@@ -336,5 +336,112 @@
                     "value": "http://a.de/Studiengang"
                 }
             },
+            
+            {
+                "property": {
+                    "type": "uri",
+                    "value": "http://a.de/flaeche"
+                },
+                "propertyOf": {
+                    "type": "uri",
+                    "value": "http://a.de/Stadt"
+                },
+                "propertyType": {
+                    "type": "uri",
+                    "value": "http://www.w3.org/2001/XMLSchema#double"
+                }
+            },
+            
+            {
+                "property": {
+                    "type": "uri",
+                    "value": "http://a.de/flaeche"
+                },
+                "propertyOf": {
+                    "type": "uri",
+                    "value": "http://a.de/Land"
+                },
+                "propertyType": {
+                    "type": "uri",
+                    "value": "http://www.w3.org/2001/XMLSchema#double"
+                }
+            },
+            
+            
+            {
+                "property": {
+                    "type": "uri",
+                    "value": "http://a.de/gruendungsjahr"
+                },
+                "propertyOf": {
+                    "type": "uri",
+                    "value": "http://a.de/Stadt"
+                },
+                "propertyType": {
+                    "type": "uri",
+                    "value": "http://www.w3.org/2001/XMLSchema#date"
+                }
+            },
+            
+            {
+                "property": {
+                    "type": "uri",
+                    "value": "http://a.de/gruendungsjahr"
+                },
+                "propertyOf": {
+                    "type": "uri",
+                    "value": "http://a.de/Universitaet"
+                },
+                "propertyType": {
+                    "type": "uri",
+                    "value": "http://www.w3.org/2001/XMLSchema#date"
+                }
+            },
+            
+            
+            {
+                "property": {
+                    "type": "uri",
+                    "value": "http://a.de/liegt_in"
+                },
+                "propertyOf": {
+                    "type": "uri",
+                    "value": "http://a.de/Stadt"
+                },
+                "propertyType": {
+                    "type": "uri",
+                    "value": "http://a.de/Land"
+                }
+            },
+            
+            {
+                "property": {
+                    "type": "uri",
+                    "value": "http://a.de/liegt_in"
+                },
+                "propertyOf": {
+                    "type": "uri",
+                    "value": "http://a.de/Universitaet"
+                },
+                "propertyType": {
+                    "type": "uri",
+                    "value": "http://a.de/Land"
+                }
+            },
+            
+            {
+                "property": {
+                    "type": "uri",
+                    "value": "http://a.de/liegt_in"
+                },
+                "propertyOf": {
+                    "type": "uri",
+                    "value": "http://a.de/Universitaet"
+                },
+                "propertyType": {
+                    "type": "uri",
+                    "value": "http://a.de/Stadt"
+                }
+            }
         ]
     } }
