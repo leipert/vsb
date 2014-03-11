@@ -19,7 +19,6 @@
     width: 250px;
 }
 
-
 .startpoint {
     background: red;
 }
@@ -31,6 +30,11 @@
 background: green;
 }
 
+#sparql-query {
+    border: 1px solid black;
+    font-family: Monospace;
+    min-height: 300px;
+}
 
 /*
 .menu {

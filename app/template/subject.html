@@ -1,0 +1,14 @@
+<div class="subject">
+    <h4>{{subjectId.name}}</h4>
+    <div>
+        <p class="property">
+            <a ng-click="removeProperty()"><span class="glyphicon glyphicon-trash"></span></a> <span>{{property.text}}</span>
+        </p>
+        <form ng-submit="addProperty()">
+            <input class="btn btn-primary" type="submit" value="add">
+            <select ng-model="propertySelected" ng-required="true">
+                <option style="display:none" value="">Add a property</option>
+            </select>
+        </form>
+    </div>
+</div>

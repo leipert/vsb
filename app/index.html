@@ -13,34 +13,21 @@
         <h1>Graphical SPARQL Builder</h1>
     </div>
     <div class="row">
-        <div id="top-controls" class="col-sm-9">
+        <div id="top-controls" class="col-sm-12">
             <a href="#" class="btn btn-warning">Build Query</a>
             <a href="#" class="btn btn-info">Save as JSON</a>
-            <a href="#" class="btn btn-danger pull-right">Reset Query</a>
+            <a href="#" class="btn btn-danger">Reset Query</a>
         </div>
     </div>
   <div id="top" class="row">
-      <div id="workspace" class="col-sm-9">
+      <div id="workspace" class="col-sm-12" ng-controller="WorkSpaceController">
+          <a href="#" class="btn btn-success pull-right">Add Subject</a>
           <div class="startpoint">
               LIST ALL
           </div>
-          <div class="subject">
-              <h4>City</h4>
-              <div ng-controller="SubjectCtrl">
-                  <p class="property" ng-repeat="property in properties">
-                        <a class="btn btn-danger" ng-click="removeProperty()">Rem</a> <span>{{property.text}} </span><br>
-                  </p>
-                  <form ng-submit="addProperty()">
-                      <input class="btn btn-primary" type="submit" value="add">
-                      <select ng-model="propertySelected" ng-options="a.text for a in available" ng-required="true">
-                          <option style="display:none" value="">Add an property</option>
-                      </select>
-
-                  </form>
-          </div>
+              <div gsb-subject gsb-id="person"></div>
+              <div gsb-subject gsb-id="city"></div>
       </div>
-      </div>
-      <div id="toolbar" class="col-sm-3">Toolbar</div>
   </div>
     <div class="row">
         <h3 class="col-sm-12">SPARQL Query</h3>
