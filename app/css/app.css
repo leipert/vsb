@@ -2,10 +2,35 @@
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
+.row {
+    margin: 10px 0;
+}
+
 #workspace {
     min-height: 400px;
     background-color: #eeeeee;
 }
+
+#workspace > div {
+    border-radius: 5px;
+    border:1px solid black;
+    padding: 10px;
+    margin: 10px 0;
+    width: 250px;
+}
+
+
+.startpoint {
+    background: red;
+}
+
+.subject {
+    background-color: #ffff00;
+}
+.subject .property {
+background: green;
+}
+
 
 /*
 .menu {
