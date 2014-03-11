@@ -1,0 +1,55 @@
+{ "head": {
+    "link": [],
+    "vars": ["property", "propertyOf", "propertyType"]
+},
+    "results": {
+        "distinct": false,
+        "ordered": true,
+        "bindings": [
+            
+            {
+                "property": {
+                    "type": "uri",
+                    "value": "http://a.de/heisst"
+                },
+                "propertyOf": {
+                    "type": "uri",
+                    "value": "http://a.de/Land"
+                },
+                "propertyType": {
+                    "type": "uri",
+                    "value": "http://www.w3.org/2001/XMLSchema#string"
+                }
+            },
+            
+            {
+                "property": {
+                    "type": "uri",
+                    "value": "http://a.de/einwohnerZahl"
+                },
+                "propertyOf": {
+                    "type": "uri",
+                    "value": "http://a.de/Land"
+                },
+                "propertyType": {
+                    "type": "uri",
+                    "value": "http://www.w3.org/2001/XMLSchema#integer"
+                }
+            },
+            
+            {
+                "property": {
+                    "type": "uri",
+                    "value": "http://a.de/flaeche"
+                },
+                "propertyOf": {
+                    "type": "uri",
+                    "value": "http://a.de/Land"
+                },
+                "propertyType": {
+                    "type": "uri",
+                    "value": "http://www.w3.org/2001/XMLSchema#double"
+                }
+            }
+        ]
+    } }
