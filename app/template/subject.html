@@ -1,14 +1,27 @@
 <div class="subject">
-    <h4>{{subjectId.name}}</h4>
-    <div>
-        <p class="property">
-            <a ng-click="removeProperty()"><span class="glyphicon glyphicon-trash"></span></a> <span>{{property.text}}</span>
-        </p>
+    <h2>{{subject.alias}}</h2>
+
+    <!-- Input for changing the Alias: -->
+    <p>Alias: <input type="text" ng-model="subject.alias" /></p>
+
+    <!-- Here there will be the properties of the Subject, see @js/controller/property.js -->
+    <div ng-controller="PropertyController">
+
+        <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
+        <property ng-repeat="property in subject.selectedProperties" property="property"></property>
+
+        <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js -->
         <form ng-submit="addProperty()">
+
             <input class="btn btn-primary" type="submit" value="add">
-            <select ng-model="propertySelected" ng-required="true">
+
+            <!-- Dropdown with all available Properties of a subject -->
+            <select ng-model="propertySelected" ng-required="true" ng-options="a.alias for a in subject.availableProperties">
                 <option style="display:none" value="">Add a property</option>
             </select>
+
         </form>
+
     </div>
+
 </div>

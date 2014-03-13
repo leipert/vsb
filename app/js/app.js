@@ -1,17 +1,10 @@
 'use strict';
 
-
-// Declare app level module which depends on filters, and services
+// Loads all our components
 angular.module('GSB', [
-  'ngRoute',
   'ui.bootstrap',
-  'GSB.filters',
-  'GSB.services',
-  'GSB.directives',
-  'GSB.controllers'
-]).
-config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: 'MyCtrl1'});
-  $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
-  $routeProvider.otherwise({redirectTo: '/view1'});
-}]);
+  'GSB.controllers.subject',
+  'GSB.controllers.property',
+  'GSB.directives.subject',
+  'GSB.directives.property'
+]);
