@@ -21,5 +21,11 @@ angular.module('GSB.controllers.subject', [])
 
         //Adds first Subject
         $scope.addSubject('http://a.de/Person')
+		
+		
+		//Removes the selected subject !!! FUNCTION IS NOT CALLED BY property.html DOES ANYBODY KNOW WHY?
+        $scope.removeSubject = function() {
+			alert ('Test!');        //The subject must be removed here
+        }
 
     }]);

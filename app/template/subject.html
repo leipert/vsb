@@ -1,6 +1,13 @@
 <div class="subject">
     <!-- Template for subject directive -->
-    <h2>{{subject.alias}}</h2>
+    
+	<!-- Button (Trash-ICON) to remove Subject from list @js/controller/subject.js -->
+    <!--FUNCTION removeSubject() IS NOT CALLED BY property.html! DOES ANYBODY KNOW WHY?-->
+	<a ng-click="removeSubject()"><span class="glyphicon glyphicon-trash"></span></a>
+	
+	
+	
+	<h2>{{subject.alias}}</h2>
     <p class="small">URI: {{subject.uri}}</p>
 
     <!-- Input for changing the Alias: -->
