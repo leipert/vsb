@@ -1,17 +1,21 @@
 <!doctype html>
 <html lang="en" ng-app="GSB">
 <head>
-  <meta charset="utf-8">
-  <title>My AngularJS App</title>
+    <meta charset="utf-8">
+    <title>My AngularJS App</title>
     <!-- Import bootstrap CSS Framework for Styles, see http://getbootstrap.com -->
     <link rel="stylesheet" href="lib/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="css/app.css"/>
 </head>
 <body>
 <div class="container">
+
+    <!-- Row containing Page title -->
     <div class="row">
         <h1>Graphical SPARQL Builder</h1>
     </div>
+
+    <!-- Row containing top controls -->
     <div class="row">
         <div id="top-controls" class="col-sm-12">
             <a href="#" class="btn btn-warning">Build Query</a>
@@ -19,51 +23,50 @@
             <a href="#" class="btn btn-danger">Reset Query</a>
         </div>
     </div>
-  <div id="top" class="row">
-          <a href="#" class="btn btn-success pull-right">Add Subject</a>
-          <div class="startpoint">
-              LIST ALL
-          </div>
-              <div gsb-subject gsb-id="person"></div>
-              <div gsb-subject gsb-id="city"></div>
+
+    <!-- WORKSPACE, this is where most of the magic happens -->
+    <div id="top" class="row">
+
+        <!-- See @js/controllers/subject.js -->
         <div id="workspace" class="col-sm-12" ng-controller="SubjectController">
-      </div>
-  </div>
-    <div class="row">
-        <h3 class="col-sm-12">SPARQL Query</h3>
-        <div id="middle-controls" class="col-sm-12">Controls for SPARQL Result
+
+            <!-- Button for adding Subjects, See @js/controllers/subject.js
+                 TODO: At the moment the class of the subject will be "Person". Needs to be made dynamic,maybe use a modal, see here: http://angular-ui.github.io/bootstrap/#/modal
+            -->
+            <a href="#" ng-click="addSubject('http://a.de/Person')" class="btn btn-success pull-right">Add Subject</a>
+
+            <!-- Start Point, ATM no function -->
+            <div class="startpoint">LIST ALL</div>
+
+            <!-- Inserts all existing subjects in workspace, See @js/directives/subject.js -->
+            <subject ng-repeat="subject in subjects" subject="subject"></subject>
         </div>
     </div>
-  <div id="middle" class="row">
 
-      <div id="sparql-query" class="col-sm-12">SPARQL Result</div>
-  </div>
+    <!-- Result area, at the moment not populated -->
+    <div class="row">
+        <h3 class="col-sm-12">SPARQL Query</h3>
+        <div id="middle-controls" class="col-sm-12">Controls for SPARQL Result</div>
+        <div id="sparql-query" class="col-sm-12">SPARQL Result</div>
+    </div>
 </div>
-  <!--
-  <ul  class="menu">
-    <li><a href="#/view1">view1</a></li>
-    <li><a href="#/view2">view2</a></li>
-  </ul>
-  <div></div>
-  <div ng-view></div>
 
-  <div>Angular seed app: v<span app-version></span></div>
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
 
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-  -->
 <!-- Import Angular JS Framework, see http://angularjs.org -->
-
-  <script src="lib/angular/angular.js"></script>
-  <script src="lib/angular/angular-route.js"></script>
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular/angular-route.js"></script>
 <!-- Import Angular-UI bootstrap for Bootstrap JS, see https://github.com/angular-ui/bootstrap/ -->
-  <script src="lib/ui-bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
-  <script src="lib/jquery-1.11.0.min.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/services.js"></script>
-  <script src="js/controllers.js"></script>
-  <script src="js/filters.js"></script>
-  <script src="js/directives.js"></script>
-  <script src="js/draggable.js"></script>
+<script src="lib/ui-bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
+<script src="lib/jquery-1.11.0.min.js"></script>
+<!-- Import our app and controllers and directives -->
+<script src="js/app.js"></script>
+<script src="js/controllers/subject.js"></script>
+<script src="js/controllers/property.js"></script>
+<script src="js/directives/subject.js"></script>
+<script src="js/directives/property.js"></script>
+<script src="js/draggable.js"></script>
 </body>
 </html>

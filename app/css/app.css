@@ -1,15 +1,24 @@
-/* app css stylesheet */
-
+/* No need to think about the following */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 .row {
     margin: 10px 0;
 }
 
+/* Set height and color of workspace and result area */
+
 #workspace {
     min-height: 400px;
     background-color: #eeeeee;
 }
+
+#sparql-query {
+    border: 1px solid black;
+    font-family: Monospace;
+    min-height: 300px;
+}
+
+/* Set layout of startpoints, subjects etc. */
 
 #workspace > div {
     border-radius: 5px;
@@ -19,50 +28,35 @@
     width: 250px;
 }
 
-.startpoint {
+#workspace > div.startpoint {
     background: red;
 }
 
-.subject {
+#workspace > div.subject {
     background-color: #ffff00;
 }
-.subject .property {
-background: green;
+
+div.subject > h1,h2,h3,h4,h5,h6 {
+    margin-top:5px;
+    margin-bottom:5px;
 }
 
-#sparql-query {
-    border: 1px solid black;
-    font-family: Monospace;
-    min-height: 300px;
+div.subject > h1 {
+    font-size: 24px;
 }
 
-/*
-.menu {
-    list-style: none;
-    border-bottom: 0.1em solid black;
-    margin-bottom: 2em;
-    padding: 0 0 0.5em;
+div.subject > h2 {
+    font-size: 20px;
 }
 
-.menu:before {
-    content: "[";
+/* Set layout of properties etc. */
+
+div.subject p.property {
+    background: #444444;
+    color:#fff;
 }
 
-.menu:after {
-    content: "]";
+div.subject p.property a {
+    color:#ff0000;
 }
 
-.menu > li {
-    display: inline;
-}
-
-.menu > li:before {
-    content: "|";
-    padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-    content: "";
-    padding: 0;
-}
-*/

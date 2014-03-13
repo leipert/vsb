@@ -43,11 +43,11 @@
     }
 })(jQuery);
 
-//$('div').drags();
-//$('.subject').drags();
-$('#workspace').on('mouseover', '.subject', function() {
-    $(this).drags();
-});
-//$('gsb-startpoint').drags();
+////$('div').drags();
+////$('.subject').drags();
+//TODO: Currently, if the following three lines are uncommented, the alias input box of the subject won't work
+//$('#workspace').on('mouseover', '.subject', function() {
+//    $(this).drags();
+//});
 
 
