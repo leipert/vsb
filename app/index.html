@@ -6,6 +6,15 @@
     <!-- Import bootstrap CSS Framework for Styles, see http://getbootstrap.com -->
     <link rel="stylesheet" href="lib/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="css/app.css"/>
+	
+	<!--Import for modal must be in header-->
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.js"></script>
+	<script src="js/example.js"></script>
+    <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />	
+	Test end-->
+	
+	
+	
 </head>
 <body>
 <div class="container">
@@ -30,11 +39,15 @@
         <!-- See @js/controllers/subject.js -->
         <div id="workspace" class="col-sm-12" ng-controller="SubjectController">
 
-            <!-- Button for adding Subjects, See @js/controllers/subject.js
+            <!-- Button/Modal for adding Subjects, See @js/controllers/subject.js
                  TODO: At the moment the class of the subject will be "Person". Needs to be made dynamic,maybe use a modal, see here: http://angular-ui.github.io/bootstrap/#/modal
-            -->
             <a href="#" ng-click="addSubject('http://a.de/Person')" class="btn btn-success pull-right">Add Subject</a>
-
+			-->
+			<div class="addSubjectClass" ng-controller="ModalDemoCtrl">
+			<button class="btn btn-success" ng-click="open()">Choose subject!</button>
+			<div ng-show="selected">Selected subject: {{selected}}</div>
+			</div>
+			
             <!-- Start Point, ATM no function -->
             <div class="startpoint">LIST ALL</div>
 
@@ -68,5 +81,7 @@
 <script src="js/directives/subject.js"></script>
 <script src="js/directives/property.js"></script>
 <script src="js/draggable.js"></script>
+
+
 </body>
 </html>

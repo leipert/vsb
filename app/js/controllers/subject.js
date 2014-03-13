@@ -9,7 +9,9 @@ angular.module('GSB.controllers.subject', [])
 
         // Adds Subject with the provided URI
         $scope.addSubject = function(uri){
-            $scope.subjects.push(
+            
+			
+			$scope.subjects.push(
                 {
                     alias: "",
                     uri: uri,
@@ -20,7 +22,7 @@ angular.module('GSB.controllers.subject', [])
         }
 
         //Adds first Subject
-        $scope.addSubject('http://a.de/Person')
+        $scope.addSubject('http://a.de/Person');
 		
 		
 		//Removes the selected subject !!! FUNCTION IS NOT CALLED BY property.html DOES ANYBODY KNOW WHY?
