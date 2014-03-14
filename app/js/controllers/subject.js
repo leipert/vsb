@@ -27,7 +27,7 @@ angular.module('GSB.controllers.subject', [])
 		
 		//Removes the selected subject !!! FUNCTION IS NOT CALLED BY property.html DOES ANYBODY KNOW WHY?
         $scope.removeSubject = function() {
-			alert ('Test!');        //The subject must be removed here
+			alert('Test!');        //The subject must be removed here
         }
 
     }]);
