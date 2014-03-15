@@ -128,14 +128,21 @@ function translateEigenschaft (itsSubject, eigenschaft, shownValues, translated,
   
   
       if(eigenschaft.operator === "IS_OF") {
-	   SPARQL += itsSubject.alias + " ^" + eigenschaft.property +  " " + itsSubject.link.linkPartner + " .";
+	   SPARQL += itsSubject.alias + " ^" + eigenschaft.property +  " " + itsSubject.link.linkPartner + " .\n";
      
-	  translateSubjekt(itsSubject.link.linkPartner, shownValues, translated, json);
+	   SPARQL += translateSubjekt(itsSubject.link.linkPartner, shownValues, translated, json);
 	
 	  }
   
-      
+  
+      if(eigenschaft.operator === "IS_NOT_OF") {
+	  SPARQL += translateSubjekt(itsSubject.link.linkPartner, shownValues, translated, json);
+	  
+	  SPARQL += "FILTER NOT EXIST { " + itsSubject.alias + " ^" + eigenschaft.property +  " " + itsSubject.link.linkPartner + " } .\n";
+	
+	  }
 
+	  
     }
     else if(eigenschaft.typ === "DATATYP_PROPERTY") {
      
@@ -147,15 +154,6 @@ function translateEigenschaft (itsSubject, eigenschaft, shownValues, translated,
  
   return SPARQL;
 }
-
-
-function translateMUST(itsSubject, eigenschaft, shownValues, translated, json) {
-
-
-
-
-}
-
 
 
 
