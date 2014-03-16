@@ -84,7 +84,13 @@ function translateSubject (oneSubject, shownValues, translated, json) {
 	
 	
 	for(i in oneSubject.properties) {
-	  SPARQL += translateEigenschaft(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
+	
+	  if(oneSubject.properties[i].typ === "OBJECT_PROPERTY") {
+	    SPARQL += translateObjectProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
+	  }
+	  else if(oneSubject.properties[i].typ === "DATATYP_PROPERTY") { 
+	    SPARQL += translateDatatypeProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
+	  }	  
 	}
   }
   
@@ -93,74 +99,77 @@ function translateSubject (oneSubject, shownValues, translated, json) {
 
 
 /*
- * function to translate properties. Checks for type and operator of property, calls translateSubject when necessary
+ * function to translate Object properties. Checks for operator of property, calls translateSubject when necessary
  */
-function translateEigenschaft (itsSubject, eigenschaft, shownValues, translated, json) {
+function translateObjectProperty (itsSubject, eigenschaft, shownValues, translated, json) {
 
   var SPARQL = "";
 
-  
-  if(eigenschaft.typ === "OBJECT_PROPERTY") {
-  
-    if(eigenschaft.operator === "MUST" || eigenschaft.operator === "CAN") { 
+  if(eigenschaft.operator === "MUST" || eigenschaft.operator === "CAN") { 
 	    
-	  if(eigenschaft.operator === "CAN") { 
-	    SPARQL += "OPTIONAL { ";
-	  }
+	if(eigenschaft.operator === "CAN") { 
+	  SPARQL += "OPTIONAL { ";
+	}
 	  
-      SPARQL += "?" + itsSubject.alias + " " + eigenschaft.property + " ?";
+    SPARQL += "?" + itsSubject.alias + " " + eigenschaft.property + " ?";
        
-	  if(typeof eigenschaft.link.linkPartner != "undefined") {
+	if(typeof eigenschaft.link.linkPartner != "undefined") {
 		   
-	    SPARQL += eigenschaft.link.linkPartner + " .\n";
+	  SPARQL += eigenschaft.link.linkPartner + " .\n";
 		  
-		if(eigenschaft.operator === "CAN") { 
-		  SPARQL += "}\n";
+    if(eigenschaft.operator === "CAN") { 
+      SPARQL += "}\n";
+    }
+		  
+      for(i in json) {
+		if(i!=='START') {
+		  if(json[i].alias === eigenschaft.link.linkPartner) { 
+			SPARQL +=  translateSubject(json[i], shownValues, translated, json); 
+		  }		
 		}
-		  
-        for(i in json) {
-		  if(i!=='START') {
-		    if(json[i].alias === eigenschaft.link.linkPartner) { 
-			  SPARQL +=  translateSubject(json[i], shownValues, translated, json); 
-			}		
-		  }
-	    }
 	  }
+	}
 	  
-	  else { 
-	    SPARQL += eigenschaft.alias  + " .\n"; ;
-		if(eigenschaft.operator === "CAN") { 
-		  SPARQL += "}\n";
-		}
-	    shownValues[shownValues.length] = eigenschaft.alias;
-	  }  
+	else { 
+	  SPARQL += eigenschaft.alias  + " .\n"; ;
+	  if(eigenschaft.operator === "CAN") { 
+		SPARQL += "}\n";
+	  }
+	  shownValues[shownValues.length] = eigenschaft.alias;
+	}  
 	  
      
 
-    }
-  
-  
-    if(eigenschaft.operator === "IS_OF") {
-	
-	  SPARQL += itsSubject.alias + " ^" + eigenschaft.property +  " " + itsSubject.link.linkPartner + " .\n";    
-	  SPARQL += translateSubject(itsSubject.link.linkPartner, shownValues, translated, json);
-	}
-  
-  
-    if(eigenschaft.operator === "IS_NOT_OF") {
-	
-	  SPARQL += translateSubject(itsSubject.link.linkPartner, shownValues, translated, json);	  
-	  SPARQL += "FILTER NOT EXIST { " + itsSubject.alias + " ^" + eigenschaft.property +  " " + itsSubject.link.linkPartner + " } .\n";
-	}
-
-	  
   }
   
-  else if(eigenschaft.typ === "DATATYP_PROPERTY") {
   
-    SPARQL += "?" + itsSubject.alias + " " + eigenschaft.property + " ?" + eigenschaft.alias + " .\n";
-	shownValues[shownValues.length] = eigenschaft.alias;
-  }  
+  if(eigenschaft.operator === "IS_OF") {
+	
+	SPARQL += itsSubject.alias + " ^" + eigenschaft.property +  " " + itsSubject.link.linkPartner + " .\n";    
+	SPARQL += translateSubject(itsSubject.link.linkPartner, shownValues, translated, json);
+  }
+  
+  
+  if(eigenschaft.operator === "IS_NOT_OF") {
+	
+	SPARQL += translateSubject(itsSubject.link.linkPartner, shownValues, translated, json);	  
+	SPARQL += "FILTER NOT EXIST { " + itsSubject.alias + " ^" + eigenschaft.property +  " " + itsSubject.link.linkPartner + " } .\n";
+  }
+
+  return SPARQL;
+}
+  
+  
+/*
+ * function to translate Datatype properties. Checks for operator of property, calls translateSubject when necessary
+ */  
+function translateDatatypeProperty (itsSubject, eigenschaft, shownValues, translated, json) {
+
+  var SPARQL = "";
+
+  SPARQL += "?" + itsSubject.alias + " " + eigenschaft.property + " ?" + eigenschaft.alias + " .\n";
+  shownValues[shownValues.length] = eigenschaft.alias;
+  
  
   return SPARQL;
 }
