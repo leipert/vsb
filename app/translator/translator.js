@@ -18,7 +18,7 @@ function test (){
  */
 function translateAll () {
 
-  var obj = '{  "START": {"type": "LIST_ALL","link": {"direction" :"TO", "linkPartner" : "Universitaet"}},"CLASS1": {"view": true,"alias": "Universitaet","uri": "ex:Unviversitaet","xCord": 120,"yCord": 100,"properties": [{"typ": "OBJECT_PROPERTY","view": true,"alias": "Standort","operator": "CAN","property": "ex: StandortOf","link": {"direction": "TO","linkPartner": "Stadt"}}]  },    "CLASS2": {        "view": true,        "alias": "Stadt",        "uri": "ex:Stadt",        "xCord": 220,        "yCord": 400,        "properties": [            {                "typ": "DATATYP_PROPERTY",                "view": true,                "alias": "Population",                "operator": "CAN",                "property": "ex: PopoulationOf",                "arithmetic": {},               "compare": {}           }       ]   }}';
+  var obj = '{  "START": {"type": "LIST_ALL","link": {"direction" :"TO", "linkPartner" : "Universitaet"}},"CLASS1": {"view": true,"alias": "Universitaet","uri": "ex:Unviversitaet","xCord": 120,"yCord": 100,"properties": [{"typ": "OBJECT_PROPERTY","view": true,"alias": "Standort","operator": "CAN","property": "ex: StandortOf","link": {"direction": "TO","linkPartner": "Stadt"}}]  },    "CLASS2": {        "view": true,        "alias": "Stadt",        "uri": "ex:Stadt",        "xCord": 220,        "yCord": 400,        "properties": [            {                "typ": "DATATYP_PROPERTY", "view": true, "alias": "Population", "operator": "MUST", "property": "ex: PopoulationOf", "arithmetic": {"operator" : "+" , "amount" : 250}, "compare": {"operator" : "<" , "amount" : 1000}           }       ]   }}';
   var json = JSON.parse(obj);
   
   var shownValues = [];
@@ -108,7 +108,7 @@ function translateObjectProperty (itsSubject, eigenschaft, shownValues, translat
   if(eigenschaft.operator === "MUST" || eigenschaft.operator === "CAN") { 
 	    
 	if(eigenschaft.operator === "CAN") { 
-	  SPARQL += "OPTIONAL { ";
+	  SPARQL += "OPTIONAL { \n";
 	}
 	  
     SPARQL += "?" + itsSubject.alias + " " + eigenschaft.property + " ?";
@@ -161,16 +161,44 @@ function translateObjectProperty (itsSubject, eigenschaft, shownValues, translat
   
   
 /*
- * function to translate Datatype properties. Checks for operator of property, calls translateSubject when necessary
+ * function to translate Datatype properties. Checks for operator of property
  */  
 function translateDatatypeProperty (itsSubject, eigenschaft, shownValues, translated, json) {
 
   var SPARQL = "";
 
-  SPARQL += "?" + itsSubject.alias + " " + eigenschaft.property + " ?" + eigenschaft.alias + " .\n";
-  shownValues[shownValues.length] = eigenschaft.alias;
+  if(eigenschaft.operator === "MUST" || eigenschaft.operator === "CAN") { 
+	    
+    if(eigenschaft.operator === "CAN") { 
+	  SPARQL += "OPTIONAL { \n";
+	}
+	  
+	  
+    if(typeof eigenschaft.arithmetic.operator != "undefined") { 
+	
+	  SPARQL += "?" + itsSubject.alias + " " + eigenschaft.property + " ?" + eigenschaft.alias + "_temp .\n";
+	  SPARQL += "BIND (( ?" + eigenschaft.alias + "_temp " + eigenschaft.arithmetic.operator + " " + eigenschaft.arithmetic.amount + " ) as ?" + eigenschaft.alias + ") .\n";  
+	}	
+    else {	
+      SPARQL += "?" + itsSubject.alias + " " + eigenschaft.property + " ?" + eigenschaft.alias + " .\n";
+    }   
+	
+	
+	if(typeof eigenschaft.compare.operator != "undefined") {
+		   
+	  SPARQL += "FILTER ( ?" + eigenschaft.alias + " " + eigenschaft.compare.operator + " " + eigenschaft.compare.amount + " ) .\n";
+	}	  
+	
+    if(eigenschaft.operator === "CAN") { 
+      SPARQL += "}\n";
+    }
+	
+  }
   
- 
+  if(eigenschaft.view === true) {
+    shownValues[shownValues.length] = eigenschaft.alias;
+  }
+  
   return SPARQL;
 }
 
