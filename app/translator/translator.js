@@ -18,7 +18,7 @@ function test (){
  */
 function translateAll () {
 
-  var obj = '{  "START": {"type": "LIST_ALL","link": {"direction" :"TO", "linkPartner" : "Universitaet"}},"CLASS1": {"view": true,"alias": "Universitaet","uri": "ex:Unviversitaet","xCord": 120,"yCord": 100,"properties": [{"typ": "OBJECT_PROPERTY","view": true,"alias": "Standort","operator": "MUST_NOT","property": "ex: StandortOf","link": {"direction": "TO","linkPartner": "Stadt"}}]  },    "CLASS2": {        "view": true,        "alias": "Stadt",        "uri": "ex:Stadt",        "xCord": 220,        "yCord": 400,        "properties": [            {                "typ": "DATATYP_PROPERTY", "view": true, "alias": "Population", "operator": "MUST", "property": "ex: PopoulationOf", "arithmetic": {"operator" : "+" , "amount" : 250}, "compare": {"operator" : "<" , "amount" : 1000}           }       ]   }}';
+  var obj = '{  "START": {"type": "LIST_ALL","link": {"direction" :"TO", "linkPartner" : "Universitaet"}},"CLASS1": {"view": true,"alias": "Universitaet","URI": "ex:Unviversitaet","xCord": 120,"yCord": 100,"properties": [{"type": "OBJECT_PROPERTY","view": true,"alias": "Standort","operator": "MUST_NOT","URI": "ex: StandortOf","link": {"direction": "TO","linkPartner": "Stadt"}}]  },    "CLASS2": {        "view": true,        "alias": "Stadt",        "URI": "ex:Stadt",        "xCord": 220,        "yCord": 400,        "properties": [            {                "type": "DATATYP_PROPERTY", "view": true, "alias": "Population", "operator": "MUST", "property": "ex: PopoulationOf", "arithmetic": {"operator" : "+" , "amount" : 250}, "compare": {"operator" : "<" , "amount" : 1000}           }       ]   }}';
   var json = JSON.parse(obj);
   
   var shownValues = [];
@@ -74,7 +74,7 @@ function translateSubject (oneSubject, shownValues, translated, json) {
   
 
   if(!presentInArray(translated, oneSubject.alias)) {  
-    SPARQL += "?" + oneSubject.alias + " a " + oneSubject.uri + " .\n";
+    SPARQL += "?" + oneSubject.alias + " a " + oneSubject.URI + " .\n";
   
     if(oneSubject.view) {
       shownValues[shownValues.length] = oneSubject.alias;
@@ -85,10 +85,10 @@ function translateSubject (oneSubject, shownValues, translated, json) {
 	
 	for(i in oneSubject.properties) {
 	
-	  if(oneSubject.properties[i].typ === "OBJECT_PROPERTY") {
+	  if(oneSubject.properties[i].type === "OBJECT_PROPERTY") {
 	    SPARQL += translateObjectProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
 	  }
-	  else if(oneSubject.properties[i].typ === "DATATYP_PROPERTY") { 
+	  else if(oneSubject.properties[i].type === "DATATYP_PROPERTY") { 
 	    SPARQL += translateDatatypeProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
 	  }	  
 	}
@@ -111,7 +111,7 @@ function translateObjectProperty (itsSubject, eigenschaft, shownValues, translat
 	  SPARQL += "OPTIONAL { \n";
 	}
 	  
-    SPARQL += "?" + itsSubject.alias + " " + eigenschaft.property + " ?";
+    SPARQL += "?" + itsSubject.alias + " " + eigenschaft.URI + " ?";
        
 	if(typeof eigenschaft.link.linkPartner != "undefined") {
 		   
@@ -155,14 +155,14 @@ function translateObjectProperty (itsSubject, eigenschaft, shownValues, translat
 	  }
     }
     
-    SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " " + eigenschaft.property + " ?" + eigenschaft.link.linkPartner + " } .\n";
+    SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " " + eigenschaft.URI + " ?" + eigenschaft.link.linkPartner + " } .\n";
     	
   }
   
   
   if(eigenschaft.operator === "IS_OF") {
 	
-	SPARQL += itsSubject.alias + " ^" + eigenschaft.property +  " " + itsSubject.link.linkPartner + " .\n";    
+	SPARQL += itsSubject.alias + " ^" + eigenschaft.URI +  " " + itsSubject.link.linkPartner + " .\n";    
 	SPARQL += translateSubject(itsSubject.link.linkPartner, shownValues, translated, json);
   }
   
@@ -170,7 +170,7 @@ function translateObjectProperty (itsSubject, eigenschaft, shownValues, translat
   if(eigenschaft.operator === "IS_NOT_OF") {
 	
 	SPARQL += translateSubject(itsSubject.link.linkPartner, shownValues, translated, json);	  
-	SPARQL += "FILTER NOT EXIST { " + itsSubject.alias + " ^" + eigenschaft.property +  " " + itsSubject.link.linkPartner + " } .\n";
+	SPARQL += "FILTER NOT EXIST { " + itsSubject.alias + " ^" + eigenschaft.URI +  " " + itsSubject.link.linkPartner + " } .\n";
   }
 
   return SPARQL;
@@ -193,11 +193,11 @@ function translateDatatypeProperty (itsSubject, eigenschaft, shownValues, transl
 	  
     if(typeof eigenschaft.arithmetic.operator != "undefined") { 
 	
-	  SPARQL += "?" + itsSubject.alias + " " + eigenschaft.property + " ?" + eigenschaft.alias + "_temp .\n";
+	  SPARQL += "?" + itsSubject.alias + " " + eigenschaft.URI + " ?" + eigenschaft.alias + "_temp .\n";
 	  SPARQL += "BIND (( ?" + eigenschaft.alias + "_temp " + eigenschaft.arithmetic.operator + " " + eigenschaft.arithmetic.amount + " ) as ?" + eigenschaft.alias + ") .\n";  
 	}	
     else {	
-      SPARQL += "?" + itsSubject.alias + " " + eigenschaft.property + " ?" + eigenschaft.alias + " .\n";
+      SPARQL += "?" + itsSubject.alias + " " + eigenschaft.URI + " ?" + eigenschaft.alias + " .\n";
     }   
 	
 	
@@ -213,7 +213,7 @@ function translateDatatypeProperty (itsSubject, eigenschaft, shownValues, transl
   
   
   if(eigenschaft.operator === "MUST_NOT") { 
-    SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " " + eigenschaft.property + " ?" + eigenschaft.alias + " } .\n";
+    SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " " + eigenschaft.URI + " ?" + eigenschaft.alias + " } .\n";
   }
   
   
