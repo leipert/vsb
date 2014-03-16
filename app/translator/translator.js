@@ -161,15 +161,30 @@ function translateObjectProperty (itsSubject, eigenschaft, shownValues, translat
   
   
   if(eigenschaft.operator === "IS_OF") {
+  
+	SPARQL += itsSubject.alias + " ^" + eigenschaft.URI +  " " + eigenschaft.link.linkPartner + " .\n"; 
 	
-	SPARQL += itsSubject.alias + " ^" + eigenschaft.URI +  " " + eigenschaft.link.linkPartner + " .\n";    
-	SPARQL += translateSubject(eigenschaft.link.linkPartner, shownValues, translated, json);
+	for(i in json) {
+	  if(i!=='START') {
+		if(json[i].alias === eigenschaft.link.linkPartner) { 
+		  SPARQL +=  translateSubject(json[i], shownValues, translated, json); 
+		}		
+	  }
+	}
+	
   }
   
   
   if(eigenschaft.operator === "IS_NOT_OF") {
 	
-	SPARQL += translateSubject(eigenschaft.link.linkPartner, shownValues, translated, json);	  
+    for(i in json) {
+	  if(i!=='START') {
+		if(json[i].alias === eigenschaft.link.linkPartner) { 
+		  SPARQL +=  translateSubject(json[i], shownValues, translated, json); 
+		}		
+	  }
+	} 
+	
 	SPARQL += "FILTER NOT EXIST { " + itsSubject.alias + " ^" + eigenschaft.URI +  " " + eigenschaft.link.linkPartner + " } .\n";
   }
 
