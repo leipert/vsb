@@ -3,23 +3,23 @@
 
 /*
  *  test function, to run a translation (together with testHTML.html)
+ *  For now, the JSON is stored and parsed locally in this function
  */
 function test (){
 
-  var erg = translateAll();
+  var obj = '{  "START": {"type": "LIST_ALL","link": {"direction" :"TO", "linkPartner" : "Universitaet"}},"CLASS1": {"view": true,"alias": "Universitaet","URI": "ex:Unviversitaet","xCord": 120,"yCord": 100,"properties": [{"type": "OBJECT_PROPERTY","view": true,"alias": "Standort","operator": "MUST_NOT","URI": "ex: StandortOf","link": {"direction": "TO","linkPartner": "Stadt"}}]  },    "CLASS2": {        "view": true,        "alias": "Stadt",        "URI": "ex:Stadt",        "xCord": 220,        "yCord": 400,        "properties": [            {                "type": "DATATYP_PROPERTY", "view": true, "alias": "Population", "operator": "MUST", "property": "ex: PopoulationOf", "arithmetic": {"operator" : "+" , "amount" : 250}, "compare": {"operator" : "<" , "amount" : 1000}           }       ]   }}';
+  var json = JSON.parse(obj);
+
+  var erg = translateAll(json);
   alert(erg);
   return erg;
 }
 
 
 /*
- *  main function, looks for the main class and starts translation there, and in the end adds shown values and SPARQL-'header' (e.g. SELECT DISTINCT..)
- *  For now, the JSON is stored and parsed locally in this function
+ *  main function, takes a JSON-object, looks for the main class and starts translation there, and in the end adds shown values and SPARQL-'header' (e.g. SELECT DISTINCT..)
  */
-function translateAll () {
-
-  var obj = '{  "START": {"type": "LIST_ALL","link": {"direction" :"TO", "linkPartner" : "Universitaet"}},"CLASS1": {"view": true,"alias": "Universitaet","URI": "ex:Unviversitaet","xCord": 120,"yCord": 100,"properties": [{"type": "OBJECT_PROPERTY","view": true,"alias": "Standort","operator": "MUST_NOT","URI": "ex: StandortOf","link": {"direction": "TO","linkPartner": "Stadt"}}]  },    "CLASS2": {        "view": true,        "alias": "Stadt",        "URI": "ex:Stadt",        "xCord": 220,        "yCord": 400,        "properties": [            {                "type": "DATATYP_PROPERTY", "view": true, "alias": "Population", "operator": "MUST", "property": "ex: PopoulationOf", "arithmetic": {"operator" : "+" , "amount" : 250}, "compare": {"operator" : "<" , "amount" : 1000}           }       ]   }}';
-  var json = JSON.parse(obj);
+function translateAll (json) {
   
   var shownValues = [];
   var translated = [];
