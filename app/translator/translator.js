@@ -162,7 +162,7 @@ function translateObjectProperty (itsSubject, eigenschaft, shownValues, translat
   
   if(eigenschaft.operator === "IS_OF") {
 	
-	SPARQL += itsSubject.alias + " ^" + eigenschaft.URI +  " " + itsSubject.link.linkPartner + " .\n";    
+	SPARQL += itsSubject.alias + " ^" + eigenschaft.URI +  " " + eigenschaft.link.linkPartner + " .\n";    
 	SPARQL += translateSubject(itsSubject.link.linkPartner, shownValues, translated, json);
   }
   
@@ -170,7 +170,7 @@ function translateObjectProperty (itsSubject, eigenschaft, shownValues, translat
   if(eigenschaft.operator === "IS_NOT_OF") {
 	
 	SPARQL += translateSubject(itsSubject.link.linkPartner, shownValues, translated, json);	  
-	SPARQL += "FILTER NOT EXIST { " + itsSubject.alias + " ^" + eigenschaft.URI +  " " + itsSubject.link.linkPartner + " } .\n";
+	SPARQL += "FILTER NOT EXIST { " + itsSubject.alias + " ^" + eigenschaft.URI +  " " + eigenschaft.link.linkPartner + " } .\n";
   }
 
   return SPARQL;
