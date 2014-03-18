@@ -2,69 +2,69 @@
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 .row {
-    margin: 10px 0;
+  margin: 10px 0;
 }
 
 /* Set height and color of workspace and result area */
 
 #workspace {
-    min-height: 400px;
-    background-color: #eeeeee;
+  min-height: 400px;
+  background-color: #eeeeee;
 }
 
 #sparql-query {
-    border: 1px solid black;
-    font-family: Monospace;
-    min-height: 300px;
+  border: 1px solid black;
+  font-family: Monospace;
+  min-height: 300px;
 }
 
 /* Set layout of startpoints, subjects etc. */
 
 #workspace > div {
-    border-radius: 5px;
-    border:1px solid black;
-    padding: 10px;
-    margin: 10px 0;
-    width: 250px;
+  border-radius: 5px;
+  border:1px solid black;
+  padding: 10px;
+  margin: 10px 0;
+  width: 250px;
 }
 
 #workspace > div.addSubjectClass{
-	border-radius: 0px;
-    border:0px solid black;
-    padding: 10px;
-    margin-left:1000px;
-    width: 0px;
+  border-radius: 0px;
+  border:0px solid black;
+  padding: 10px;
+  margin-left:1000px;
+  width: 0px;
 }
 
 #workspace > div.startpoint {
-    background: red;
+  background: red;
 }
 
 #workspace > div.subject {
-    background-color: #ffff00;
+  background-color: #ffff00;
 }
 
 div.subject > h1,h2,h3,h4,h5,h6 {
-    margin-top:5px;
-    margin-bottom:5px;
+  margin-top:5px;
+  margin-bottom:5px;
 }
 
 div.subject > h1 {
-    font-size: 24px;
+  font-size: 24px;
 }
 
 div.subject > h2 {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 /* Set layout of properties etc. */
 
 div.subject p.property {
-    background: #444444;
-    color:#fff;
+  background: #444444;
+  color:#fff;
 }
 
 div.subject p.property a {
-    color:#ff0000;
+  color:#ff0000;
 }
 
