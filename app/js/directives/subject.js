@@ -14,9 +14,11 @@ angular.module('GSB.directives.subject', [])
     return {
         restrict: "E",
         replace: true,
-        scope: {
-            subject: '='
-        },
+        // removeSubject() in controllers/subject.js does not work if the scope is set to '='
+        // what is the purpose for this scope setting? what is it needed for?
+//        scope: {
+//            subject: '='
+//        },
         templateUrl: 'template/subject.html'
     }
 })

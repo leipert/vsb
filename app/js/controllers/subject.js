@@ -23,8 +23,9 @@ angular.module('GSB.controllers.subject', [])
   $scope.addSubject('http://a.de/Person');
 
   //Removes the selected subject !!! FUNCTION IS NOT CALLED BY property.html DOES ANYBODY KNOW WHY?
-  $scope.removeSubject = function() {
-    alert('Test!');        //The subject must be removed here
+  // yes we know: u must give the splice-function the instance of subject
+  $scope.removeSubject = function(subjectInstance) {
+    $scope.subjects.splice($scope.subjects.indexOf(subjectInstance), 1);
   }
 
 }]);  

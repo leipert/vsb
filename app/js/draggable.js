@@ -44,10 +44,14 @@
 })(jQuery);
 
 ////$('div').drags();
-////$('.subject').drags();
+//$('.subject').drags();
 //TODO: Currently, if the following three lines are uncommented, the alias input box of the subject won't work
-//$('#workspace').on('mouseover', '.subject', function() {
+//$('#workspace').on('mousenter', '.subject', function() {
 //    $(this).drags();
 //});
+//Some testing on draggable, ignore it this time
+//$('#workspace').on('mouseleave', '.subject', function(){
+//    $(this).
+//})
 
 
