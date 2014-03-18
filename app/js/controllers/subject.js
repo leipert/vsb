@@ -5,7 +5,7 @@
 angular.module('GSB.controllers.subject', [])
     .controller('SubjectController', ['$scope', function($scope) {
         //Initial State of Subjects
-        $scope.subjects = []
+        $scope.subjects = [];
 
         // Adds Subject with the provided URI
         $scope.addSubject = function(uri){
