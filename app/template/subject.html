@@ -1,36 +1,30 @@
 <div class="subject">
-    <!-- Template for subject directive -->
-    
-	<!-- Button (Trash-ICON) to remove Subject from list @js/controller/subject.js -->
-    <!--FUNCTION removeSubject() IS NOT CALLED BY property.html! DOES ANYBODY KNOW WHY?-->
-	<a ng-click="removeSubject()"><span class="glyphicon glyphicon-trash"></span></a>
-	
-	
-	
-	<h2>{{subject.alias}}</h2>
-    <p class="small">URI: {{subject.uri}}</p>
+  <!-- Template for subject directive -->
+  
+  <!-- Button (Trash-ICON) to remove Subject from list @js/controller/subject.js -->
+  <!--FUNCTION removeSubject() IS NOT CALLED BY property.html! DOES ANYBODY KNOW WHY?-->
+  <a ng-click="removeSubject()"><span class="glyphicon glyphicon-trash"></span></a>
+  
+  <h2>{{subject.alias}}</h2>
+  <p class="small">URI: {{subject.uri}}</p>
 
-    <!-- Input for changing the Alias: -->
-    <p>Alias: <input type="text" ng-model="subject.alias" /></p>
+  <!-- Input for changing the Alias: -->
+  <p>Alias: <input type="text" ng-model="subject.alias" /></p>
 
-    <!-- Here there will be the properties of the Subject, see @js/controller/property.js -->
-    <div ng-controller="PropertyController">
+  <!-- Here there will be the properties of the Subject, see @js/controller/property.js -->
+  <div ng-controller="PropertyController">
 
-        <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
-        <property ng-repeat="property in subject.selectedProperties" property="property"></property>
+    <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
+    <property ng-repeat="property in subject.selectedProperties" property="property"></property>
 
-        <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js -->
-        <form ng-submit="addProperty()">
+    <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js -->
+    <form ng-submit="addProperty()">
+      <input class="btn btn-primary" type="submit" value="add">
 
-            <input class="btn btn-primary" type="submit" value="add">
-
-            <!-- Dropdown with all available Properties of a subject -->
-            <select ng-model="propertySelected" ng-required="true" ng-options="a.alias for a in subject.availableProperties">
-                <option style="display:none" value="">Add a property</option>
-            </select>
-
-        </form>
-
-    </div>
-
+      <!-- Dropdown with all available Properties of a subject -->
+      <select ng-model="propertySelected" ng-required="true" ng-options="a.alias for a in subject.availableProperties">
+        <option style="display:none" value="">Add a property</option>
+      </select>
+    </form>
+  </div>
 </div>
