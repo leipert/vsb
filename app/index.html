@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="en" ng-app="GSB">
-  <head>
-    <meta charset="utf-8">
-    <title>My AngularJS App</title>
-    <!-- Import bootstrap CSS Framework for Styles, see http://getbootstrap.com -->
-    <link rel="stylesheet" href="lib/bootstrap/bootstrap.css">
-    <link rel="stylesheet" href="css/app.css"/>
-    
-    <!--Import for modal must be in header-->
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.js"></script>
-    <script src="js/example.js"></script>
-    <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />	
-	Test end-->
+<head>
+  <meta charset="utf-8">
+  <title>My AngularJS App</title>
+  <!-- Import bootstrap CSS Framework for Styles, see http://getbootstrap.com -->
+  <link rel="stylesheet" href="lib/bootstrap/bootstrap.css">
+  <link rel="stylesheet" href="css/app.css"/>
+  
+  <!--Import for modal must be in header-->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.js"></script>
+  <script src="js/example.js"></script>
+    <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />  
+    Test end-->
   </head>
   <body>
     <div class="container">
@@ -40,45 +40,45 @@
                TODO: At the moment the class of the subject will be
                "Person". Needs to be made dynamic, maybe use a modal, see here: http://angular-ui.github.io/bootstrap/#/modal
                <a href="#" ng-click="addSubject('http://a.de/Person')" class="btn btn-success pull-right">Add Subject</a>
-	       -->
-	  <div class="addSubjectClass" ng-controller="ModalDemoCtrl">
-	    <button class="btn btn-success" ng-click="open()">Choose subject!</button>
-	    <div ng-show="selected">Selected subject: {{selected}}</div>
-	  </div>
-	  
-          <!-- Start Point, ATM no function -->
-          <div class="startpoint">LIST ALL</div>
+             -->
+             <div class="addSubjectClass" ng-controller="ModalDemoCtrl">
+              <button class="btn btn-success" ng-click="open()">Choose subject!</button>
+              <div ng-show="selected">Selected subject: {{selected}}</div>
+            </div>
+            
+            <!-- Start Point, ATM no function -->
+            <div class="startpoint">LIST ALL</div>
 
-          <!-- Inserts all existing subjects in workspace, See @js/directives/subject.js -->
-          <subject ng-repeat="subject in subjects" subject="subject"></subject>
+            <!-- Inserts all existing subjects in workspace, See @js/directives/subject.js -->
+            <subject ng-repeat="subject in subjects" subject="subject"></subject>
+          </div>
+        </div>
+
+        <!-- Result area, at the moment not populated -->
+        <div class="row">
+          <h3 class="col-sm-12">SPARQL Query</h3>
+          <div id="middle-controls" class="col-sm-12">Controls for SPARQL Result</div>
+          <div id="sparql-query" class="col-sm-12">SPARQL Result</div>
         </div>
       </div>
 
-      <!-- Result area, at the moment not populated -->
-      <div class="row">
-        <h3 class="col-sm-12">SPARQL Query</h3>
-        <div id="middle-controls" class="col-sm-12">Controls for SPARQL Result</div>
-        <div id="sparql-query" class="col-sm-12">SPARQL Result</div>
-      </div>
-    </div>
-
     <!-- In production use:
-	 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-	 -->
+   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+ -->
 
-    <!-- Import Angular JS Framework, see http://angularjs.org -->
-    <script src="lib/angular/angular.js"></script>
-    <script src="lib/angular/angular-route.js"></script>
-    <!-- Import Angular-UI bootstrap for Bootstrap JS, see https://github.com/angular-ui/bootstrap/ -->
-    <script src="lib/ui-bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
-    <script src="lib/jquery-1.11.0.min.js"></script>
-    <!-- Import our app and controllers and directives -->
-    <script src="js/app.js"></script>
-    <script src="js/controllers/subject.js"></script>
-    <script src="js/controllers/property.js"></script>
-    <script src="js/directives/subject.js"></script>
-    <script src="js/directives/property.js"></script>
-    <script src="js/draggable.js"></script>
+ <!-- Import Angular JS Framework, see http://angularjs.org -->
+ <script src="lib/angular/angular.js"></script>
+ <script src="lib/angular/angular-route.js"></script>
+ <!-- Import Angular-UI bootstrap for Bootstrap JS, see https://github.com/angular-ui/bootstrap/ -->
+ <script src="lib/ui-bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
+ <script src="lib/jquery-1.11.0.min.js"></script>
+ <!-- Import our app and controllers and directives -->
+ <script src="js/app.js"></script>
+ <script src="js/controllers/subject.js"></script>
+ <script src="js/controllers/property.js"></script>
+ <script src="js/directives/subject.js"></script>
+ <script src="js/directives/property.js"></script>
+ <script src="js/draggable.js"></script>
 
-  </body>
+</body>
 </html>
