@@ -7,7 +7,7 @@
  */
  function test (){
 
-  var obj = '{  "START": {"type": "LIST_ALL","link": {"direction" :"TO", "linkPartner" : "Universitaet"}},"CLASS1": {"view": true,"alias": "Universitaet","URI": "ex:Unviversitaet","xCord": 120,"yCord": 100,"properties": [{"type": "OBJECT_PROPERTY","view": true,"alias": "Standort","operator": "MUST_NOT","URI": "ex: StandortOf","link": {"direction": "TO","linkPartner": "Stadt"}}]  },    "CLASS2": {        "view": true,        "alias": "Stadt",        "URI": "ex:Stadt",        "xCord": 220,        "yCord": 400,        "properties": [            {                "type": "DATATYP_PROPERTY", "view": true, "alias": "Population", "operator": "MUST", "property": "ex: PopoulationOf", "arithmetic": {"operator" : "+" , "amount" : 250}, "compare": {"operator" : "<" , "amount" : 1000}           }       ]   }}';
+  var obj = '{  "START": {"type": "LIST_ALL","link": {"direction" :"TO", "linkPartner" : "Universitaet"}},"CLASS1": {"view": true,"alias": "Universitaet","URI": "ex:Unviversitaet","xCord": 120,"yCord": 100,"properties": [{"type": "OBJECT_PROPERTY","view": true,"alias": "Standort","operator": "MUST_NOT","URI": "ex: StandortOf","link": {"direction": "TO","linkPartner": "Stadt"}}]  },    "CLASS2": {        "view": true,        "alias": "Stadt",        "URI": "ex:Stadt",        "xCord": 220,        "yCord": 400,        "properties": [            {                "type": "DATATYPE_PROPERTY", "view": true, "alias": "Population", "operator": "MUST", "property": "ex: PopoulationOf", "arithmetic": {"operator" : "+" , "amount" : 250}, "compare": {"operator" : "<" , "amount" : 1000}           }       ]   }}';
   var json = JSON.parse(obj);
 
   var erg = translateAll(json);
@@ -88,7 +88,7 @@
       if(oneSubject.properties[i].type === "OBJECT_PROPERTY") {
         SPARQL += translateObjectProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
       }
-      else if(oneSubject.properties[i].type === "DATATYP_PROPERTY") { 
+      else if(oneSubject.properties[i].type === "DATATYPE_PROPERTY") { 
         SPARQL += translateDatatypeProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
       }   
     }
