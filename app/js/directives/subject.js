@@ -19,6 +19,11 @@ angular.module('GSB.directives.subject', [])
 //        scope: {
 //            subject: '='
 //        },
-        templateUrl: 'template/subject.html'
+        templateUrl: 'template/subject.html',
+		link: function(scope, elem, attrs) {
+		  elem.bind('mouseover', function() {
+            elem.css('cursor', 'pointer');
+          });
+		}
     }
 })
