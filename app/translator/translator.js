@@ -153,10 +153,13 @@
           }   
         }
       }
+	  
+	  SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " " + eigenschaft.URI + " ?" + eigenschaft.link.linkPartner + " } .\n";
     }
     
-    SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " " + eigenschaft.URI + " ?" + eigenschaft.link.linkPartner + " } .\n";
-    
+    else {
+	  SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " " + eigenschaft.URI + " ?" + eigenschaft.alias + " } .\n";
+    }
   }
   
   
