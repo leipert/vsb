@@ -74,7 +74,7 @@
   
 
   if(!presentInArray(translated, oneSubject.alias)) {  
-    SPARQL += "?" + oneSubject.alias + " a " + oneSubject.URI + " .\n";
+    SPARQL += "?" + oneSubject.alias + " a <" + oneSubject.URI + "> .\n";
     
     if(oneSubject.view) {
       shownValues[shownValues.length] = oneSubject.alias;
@@ -111,7 +111,7 @@
       SPARQL += "OPTIONAL { \n";
     }
     
-    SPARQL += "?" + itsSubject.alias + " " + eigenschaft.URI + " ?";
+    SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.URI + "> ?";
     
     if(typeof eigenschaft.link.linkPartner != "undefined") {
       
@@ -154,18 +154,18 @@
         }
       }
 	  
-	  SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " " + eigenschaft.URI + " ?" + eigenschaft.link.linkPartner + " } .\n";
+	  SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " <" + eigenschaft.URI + "> ?" + eigenschaft.link.linkPartner + " } .\n";
     }
     
     else {
-	  SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " " + eigenschaft.URI + " ?" + eigenschaft.alias + " } .\n";
+	  SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " <" + eigenschaft.URI + "> ?" + eigenschaft.alias + " } .\n";
     }
   }
   
   
   if(eigenschaft.operator === "IS_OF") {
     
-    SPARQL += itsSubject.alias + " ^" + eigenschaft.URI +  " " + eigenschaft.link.linkPartner + " .\n"; 
+    SPARQL += itsSubject.alias + " ^<" + eigenschaft.URI +  "> " + eigenschaft.link.linkPartner + " .\n"; 
     
     for(i in json) {
       if(i!=='START') {
@@ -188,7 +188,7 @@
       }
     } 
     
-    SPARQL += "FILTER NOT EXIST { " + itsSubject.alias + " ^" + eigenschaft.URI +  " " + eigenschaft.link.linkPartner + " } .\n";
+    SPARQL += "FILTER NOT EXIST { " + itsSubject.alias + " ^<" + eigenschaft.URI +  "> " + eigenschaft.link.linkPartner + " } .\n";
   }
 
   return SPARQL;
@@ -211,11 +211,11 @@
     
     if(typeof eigenschaft.arithmetic.operator != "undefined") { 
       
-      SPARQL += "?" + itsSubject.alias + " " + eigenschaft.URI + " ?" + eigenschaft.alias + "_temp .\n";
+      SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.URI + "> ?" + eigenschaft.alias + "_temp .\n";
       SPARQL += "BIND (( ?" + eigenschaft.alias + "_temp " + eigenschaft.arithmetic.operator + " " + eigenschaft.arithmetic.amount + " ) as ?" + eigenschaft.alias + ") .\n";  
     } 
     else {  
-      SPARQL += "?" + itsSubject.alias + " " + eigenschaft.URI + " ?" + eigenschaft.alias + " .\n";
+      SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.URI + "> ?" + eigenschaft.alias + " .\n";
     }   
     
     
@@ -231,7 +231,7 @@
   
   
   if(eigenschaft.operator === "MUST_NOT") { 
-    SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " " + eigenschaft.URI + " ?" + eigenschaft.alias + " } .\n";
+    SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " <" + eigenschaft.URI + "> ?" + eigenschaft.alias + " } .\n";
   }
   
   
