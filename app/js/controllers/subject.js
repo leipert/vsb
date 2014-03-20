@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('GSB.controllers.subject', [])
-.controller('SubjectController', ['$scope', function($scope) {
+.controller('SubjectCtrl', ['$scope', function($scope) {
   //Initial State of Subjects
   $scope.subjects = [];
 
@@ -51,8 +51,8 @@ angular.module('GSB.controllers.subject', [])
 
   //Removes the selected subject !!! FUNCTION IS NOT CALLED BY property.html DOES ANYBODY KNOW WHY?
   // yes we know: u must give the splice-function the instance of subject
-  $scope.removeSubject = function(subjectInstance) {
-    $scope.subjects.splice($scope.subjects.indexOf(subjectInstance), 1);
+  $scope.removeSubject = function(subjectInst) {
+    $scope.subjects.splice($scope.subjects.indexOf(subjectInst), 1);
   }
 
 }]);  

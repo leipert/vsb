@@ -29,39 +29,39 @@
 }
 
 #workspace > div.addSubjectClass{
-  border-radius: 0px;
-  border:0px solid black;
+  border-radius: 0;
+  border:0 solid black;
 }
 
-#workspace > div.startpoint {
+#workspace > div.startPointCSS {
   background: red;
 }
 
-#workspace > div.subject {
+#workspace > div.subjectCSS {
   background-color: #ffff00;
 }
 
-div.subject > h1,h2,h3,h4,h5,h6 {
+div.subjectCSS > h1,h2,h3,h4,h5,h6 {
   margin-top:5px;
   margin-bottom:5px;
 }
 
-div.subject > h1 {
+div.subjectCSS > h1 {
   font-size: 24px;
 }
 
-div.subject > h2 {
+div.subjectCSS > h2 {
   font-size: 20px;
 }
 
 /* Set layout of properties etc. */
 
-div.subject p.property {
+div.subjectCSS p.propertyCSS {
   background: #444444;
   color:#fff;
 }
 
-div.subject p.property a {
+div.subjectCSS p.propertyCSS a {
   color:#ff0000;
 }
 

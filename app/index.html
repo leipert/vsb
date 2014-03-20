@@ -29,7 +29,7 @@
       <div id="top" class="row">
 
         <!-- See @js/controllers/subject.js -->
-        <div id="workspace" class="col-sm-12" ng-controller="SubjectController">
+        <div id="workspace" class="col-sm-12" ng-controller="SubjectCtrl">
 
           <!-- Button/Modal for adding Subjects, See @js/controllers/subject.js
                TODO: At the moment the class of the subject will be
@@ -41,10 +41,10 @@
             </div>
             
             <!-- Start Point, ATM no function -->
-            <div class="startpoint">LIST ALL</div>
+            <div class="startPointCSS">LIST ALL</div>
 
             <!-- Inserts all existing subjects in workspace, See @js/directives/subject.js -->
-            <subject ng-repeat="subject in subjects" subject="subject"></subject>
+            <subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
           </div>
         </div>
 

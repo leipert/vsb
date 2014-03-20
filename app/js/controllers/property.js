@@ -3,22 +3,22 @@
 /* Property Controller */
 
 angular.module('GSB.controllers.property', [])
-.controller('PropertyController', ['$scope','$http', function($scope,$http) {
+.controller('PropertyCtrl', ['$scope','$http', function($scope,$http) {
 
   //Named a few variables, for shorter access
-  var $subject = $scope.subject,
-  $selectedProperties = $subject.selectedProperties;
+  var $parentSubject = $scope.subjectInst,
+  $selectedProperties = $parentSubject.selectedProperties;
 
-  $subject.availableProperties = [];
+  $parentSubject.availableProperties = [];
 
-  console.log('Lade die Properties von ' + $subject.uri);
+  console.log('Lade die Properties von ' + $parentSubject.uri);
   //Retrieve Properties from Server
-  $http.get($subject.uri).success(function (data){
-      $subject.availableProperties = [];
-      var availProperty = data.results.bindings;
-      for (var key in availProperty){
-          var property = availProperty[key];
-          $subject.availableProperties.push(
+  $http.get($parentSubject.uri).success(function (data){
+      $parentSubject.availableProperties = [];
+      var returnedProperties = data.results.bindings;
+      for (var key in returnedProperties){
+          var property = returnedProperties[key];
+          $parentSubject.availableProperties.push(
               {
                   alias: property.property.value,
                   uri: property.property.value,
@@ -35,7 +35,7 @@ angular.module('GSB.controllers.property', [])
   }
 
   //Removes the selected from selectedProperties
-  $scope.removeProperty = function(property) {
-    $selectedProperties.splice($selectedProperties.indexOf(property), 1);
+  $scope.removeProperty = function(propertyInst) {
+    $selectedProperties.splice($selectedProperties.indexOf(propertyInst), 1);
   }
 }]);

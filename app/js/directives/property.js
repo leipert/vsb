@@ -7,7 +7,7 @@
  */
 
 angular.module('GSB.directives.property', [])
-    .directive('property', function () {
+    .directive('propertyDir', function () {
     return {
         restrict: "E",
         replace: true,
