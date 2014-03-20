@@ -31,9 +31,6 @@
 #workspace > div.addSubjectClass{
   border-radius: 0px;
   border:0px solid black;
-  padding: 10px;
-  margin-left:1000px;
-  width: 0px;
 }
 
 #workspace > div.startpoint {

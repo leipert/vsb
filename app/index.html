@@ -7,11 +7,6 @@
   <link rel="stylesheet" href="lib/bootstrap/bootstrap.css">
   <link rel="stylesheet" href="css/app.css"/>
   
-  <!--Import for modal must be in header-->
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.js"></script>
-  <script src="js/example.js"></script>
-    <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />  
-    Test end-->
   </head>
   <body>
     <div class="container">
@@ -41,7 +36,7 @@
                "Person". Needs to be made dynamic, maybe use a modal, see here: http://angular-ui.github.io/bootstrap/#/modal
                <a href="#" ng-click="addSubject('http://a.de/Person')" class="btn btn-success pull-right">Add Subject</a>
              -->
-             <div class="addSubjectClass" ng-controller="ModalDemoCtrl">
+             <div class="addSubjectClass pull-right" ng-controller="ModalDemoCtrl">
               <button class="btn btn-success" ng-click="open()">Choose subject!</button>
               <div ng-show="selected">Selected subject: {{selected}}</div>
             </div>
