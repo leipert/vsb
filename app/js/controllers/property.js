@@ -9,23 +9,13 @@ angular.module('GSB.controllers.property', [])
   var $subject = $scope.subject,
   $selectedProperties = $subject.selectedProperties;
 
-  //TODO: Here the availableProperties have to be loaded from the Server / Mockup Data
-  console.log('Lade die Properties von ' + $subject.uri);
-  $subject.availableProperties = [
-    {
-      alias: "Property 1",
-      uri: "http://a.de/property1"
-    },
-    {
-      alias: "Property 2",
-      uri: "http://a.de/property2"
-    }
-  ];
+  $subject.availableProperties = [];
 
+  console.log('Lade die Properties von ' + $subject.uri);
+  //Retrieve Properties from Server
   $http.get($subject.uri).success(function (data){
       $subject.availableProperties = [];
       var availProperty = data.results.bindings;
-      console.log(availProperty)
       for (var key in availProperty){
           var property = availProperty[key];
           $subject.availableProperties.push(

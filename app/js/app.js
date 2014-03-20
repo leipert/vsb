@@ -13,12 +13,11 @@ var ModalDemoCtrl = function ($scope,$http, $modal, $log) {
 
     $scope.items = [];
 
+    // Get Availabe Subject Classes from Server
     $http.get('/app/mockup/classes.json').success(function (data){
         $scope.items = [];
         var availClasses = data.results.bindings;
-        console.log(availClasses)
         for (var key in availClasses){
-            console.log(availClasses[key]);
             $scope.items.push(
                 {
                     alias: availClasses[key].alias.value,
@@ -30,7 +29,7 @@ var ModalDemoCtrl = function ($scope,$http, $modal, $log) {
 
     $scope.open = function () {
 
-        console.log($scope.items);
+        // Create modalInstance
         var modalInstance = $modal.open({
             templateUrl: 'template/modal.html',
             controller: ModalInstanceCtrl,
@@ -41,6 +40,7 @@ var ModalDemoCtrl = function ($scope,$http, $modal, $log) {
             }
         });
 
+        // User closed modal
         modalInstance.result.then(function (selectedItem) {
             $scope.selected = selectedItem;
             $scope.$emit('newSubjectEvent', selectedItem);
@@ -52,20 +52,17 @@ var ModalDemoCtrl = function ($scope,$http, $modal, $log) {
 
 var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
 
-//src="directives/subject.js"
-
     $scope.items = items;
     $scope.selected = {
         item: $scope.items[0]
     };
 
+    // User clicked okay
     $scope.ok = function () {
-
         $modalInstance.close($scope.selected.item);
-        //alert($scope.selected.item);
-        console.log("OK")
     };
 
+    // USer clicked cancel
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
