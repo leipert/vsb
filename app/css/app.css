@@ -31,6 +31,7 @@
 #workspace > div.addSubjectClass{
   border-radius: 0;
   border:0 solid black;
+    width:auto;
 }
 
 #workspace > div.startPointCSS {

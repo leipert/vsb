@@ -2,10 +2,11 @@
 
 /* Controllers */
 
-angular.module('GSB.controllers.subject', [])
-.controller('SubjectCtrl', ['$scope', function($scope) {
+angular.module('GSB.controllers.workspace', [])
+.controller('WorkspaceCtrl', ['$scope', function($scope) {
   //Initial State of Subjects
   $scope.subjects = [];
+  $scope.result = "Here are the results, bitch!";
 
   // Adds Subject with the provided URI and Alias
   $scope.addSubject = function(uri, alias) {
@@ -53,6 +54,15 @@ angular.module('GSB.controllers.subject', [])
   // yes we know: u must give the splice-function the instance of subject
   $scope.removeSubject = function(subjectInst) {
     $scope.subjects.splice($scope.subjects.indexOf(subjectInst), 1);
+  }
+
+  $scope.translate = function(){
+      $scope.result = "";
+      for(var key in $scope.subjects){
+          var currSubject = angular.copy($scope.subjects[key]);
+          delete currSubject["availableProperties"];
+          $scope.result += JSON.stringify(currSubject) + "\n";
+      }
   }
 
 }]);  

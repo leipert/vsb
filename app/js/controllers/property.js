@@ -20,13 +20,24 @@ angular.module('GSB.controllers.property', [])
           var property = returnedProperties[key];
           $parentSubject.availableProperties.push(
               {
-                  alias: property.property.value,
+                  alias: property.property.value, // TODO!!!
                   uri: property.property.value,
-                  type: property.propertyType.value
+                  type: $scope.getType(property.propertyType.value),
+                  propertyType: property.propertyType.value, // URI des
+                  view: true,
+                  operator: "MUST", //Vorprojekt okay
+                  link : {},
+                  arithmetic : {} , //Vorprojekt leave empty
+                  compare : {} //Vorprojekt leave empty
               }
           );
       }
   });
+
+  //Return type based on propertyType TODO!!!-> Distinction OBJECT_PROPERTY || DATATYPE_PROPERTY
+  $scope.getType = function (propertyType) {
+      return "OBJECT_PROPERTY";
+  }
 
   //Adds the selected property in dropdown to selectedProperties
   $scope.addProperty = function(){
@@ -38,4 +49,8 @@ angular.module('GSB.controllers.property', [])
   $scope.removeProperty = function(propertyInst) {
     $selectedProperties.splice($selectedProperties.indexOf(propertyInst), 1);
   }
+
+  //TODO: Change visibility of property
+
+  //TODO: Link Objectproperty with another subject
 }]);

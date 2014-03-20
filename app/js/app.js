@@ -3,13 +3,13 @@
 // Loads all our components
 angular.module('GSB', [
   'ui.bootstrap',
-  'GSB.controllers.subject',
+  'GSB.controllers.workspace',
   'GSB.controllers.property',
   'GSB.directives.subject',
   'GSB.directives.property'
 ]);
 
-var ModalDemoCtrl = function ($scope,$http, $modal, $log) {
+var ModalCtrl = function ($scope,$http, $modal, $log) {
 
     $scope.items = [];
 

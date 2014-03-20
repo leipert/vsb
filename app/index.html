@@ -9,41 +9,36 @@
 
   </head>
   <body>
-    <div class="container">
+    <div class="container" ng-controller="WorkspaceCtrl">
 
       <!-- Row containing Page title -->
       <div class="row">
         <h1>Graphical SPARQL Builder</h1>
       </div>
-
       <!-- Row containing top controls -->
       <div class="row">
-        <div id="top-controls" class="col-sm-12">
-          <a href="#" class="btn btn-warning">Build Query</a>
-          <a href="#" class="btn btn-info">Save as JSON</a>
-          <a href="#" class="btn btn-danger">Reset Query</a>
-        </div>
+          <div id="top-controls" class="col-sm-12">
+              <a href="#" class="btn btn-warning" ng-click="translate()">Build Query</a>
+              <a href="#" class="btn btn-info">Save as JSON</a>
+              <a href="#" class="btn btn-danger">Reset Query</a>
+          </div>
       </div>
 
       <!-- WORKSPACE, this is where most of the magic happens -->
       <div id="top" class="row">
 
-        <!-- See @js/controllers/subject.js -->
-        <div id="workspace" class="col-sm-12" ng-controller="SubjectCtrl">
+        <!-- See @js/controllers/workspace.js -->
+        <div id="workspace" class="col-sm-12">
 
-          <!-- Button/Modal for adding Subjects, See @js/controllers/subject.js
-               TODO: At the moment the class of the subject will be
-               "Person". Needs to be made dynamic, maybe use a modal, see here: http://angular-ui.github.io/bootstrap/#/modal
-               <a href="#" ng-click="addSubject('http://a.de/Person')" class="btn btn-success pull-right">Add Subject</a>
-             -->
-             <div class="addSubjectClass pull-right" ng-controller="ModalDemoCtrl">
+          <!-- Button/Modal for adding Subjects, See @js/controllers/workspace.js -->
+             <div class="addSubjectClass pull-right" ng-controller="ModalCtrl">
               <button class="btn btn-success" ng-click="open()">Choose subject!</button>
             </div>
             
             <!-- Start Point, ATM no function -->
             <div class="startPointCSS">LIST ALL</div>
 
-            <!-- Inserts all existing subjects in workspace, See @js/directives/subject.js -->
+            <!-- Inserts all existing subjects in workspace, See @js/directives/workspace.js -->
             <subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
           </div>
         </div>
@@ -52,7 +47,7 @@
         <div class="row">
           <h3 class="col-sm-12">SPARQL Query</h3>
           <div id="middle-controls" class="col-sm-12">Controls for SPARQL Result</div>
-          <div id="sparql-query" class="col-sm-12">SPARQL Result</div>
+          <pre id="sparql-query" class="col-sm-12">{{result}}</pre>
         </div>
       </div>
 
@@ -68,7 +63,7 @@
  <script src="lib/jquery-1.11.0.min.js"></script>
  <!-- Import our app and controllers and directives -->
  <script src="js/app.js"></script>
- <script src="js/controllers/subject.js"></script>
+ <script src="js/controllers/workspace.js"></script>
  <script src="js/controllers/property.js"></script>
  <script src="js/directives/subject.js"></script>
  <script src="js/directives/property.js"></script>
