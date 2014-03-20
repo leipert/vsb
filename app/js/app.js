@@ -13,6 +13,21 @@ var ModalDemoCtrl = function ($scope,$http, $modal, $log) {
 
     $scope.items = [];
 
+    $http.get('/app/mockup/classes.json').success(function (data){
+        $scope.items = [];
+        var availClasses = data.results.bindings;
+        console.log(availClasses)
+        for (var key in availClasses){
+            console.log(availClasses[key]);
+            $scope.items.push(
+                {
+                    alias: availClasses[key].alias.value,
+                    uri: availClasses[key].class.value
+                }
+            );
+        }
+    });
+
     $scope.open = function () {
 
         console.log($scope.items);

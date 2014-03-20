@@ -5,7 +5,7 @@
     <div class="modal-body">
       <ul>
         <li ng-repeat="item in items">
-          <a ng-click="selected.item=item">{{item}}</a>
+          <a ng-click="selected.item=item">{{item.alias}}</a>
         </li>
       </ul>
       <div>Selected Item: {{selected.item}}</div>

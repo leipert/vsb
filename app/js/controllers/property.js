@@ -3,7 +3,7 @@
 /* Property Controller */
 
 angular.module('GSB.controllers.property', [])
-.controller('PropertyController', ['$scope', function($scope) {
+.controller('PropertyController', ['$scope','$http', function($scope,$http) {
 
   //Named a few variables, for shorter access
   var $subject = $scope.subject,
@@ -21,6 +21,22 @@ angular.module('GSB.controllers.property', [])
       uri: "http://a.de/property2"
     }
   ];
+
+  $http.get($subject.uri).success(function (data){
+      $subject.availableProperties = [];
+      var availProperty = data.results.bindings;
+      console.log(availProperty)
+      for (var key in availProperty){
+          var property = availProperty[key];
+          $subject.availableProperties.push(
+              {
+                  alias: property.property.value,
+                  uri: property.property.value,
+                  type: property.propertyType.value
+              }
+          );
+      }
+  });
 
   //Adds the selected property in dropdown to selectedProperties
   $scope.addProperty = function(){
