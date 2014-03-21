@@ -37,12 +37,13 @@
 
 										<!-- Button/Drop Down for adding Subjects, See @js/controllers/workspace.js -->
 										<div class="addSubjectClass pull-right" ng-controller="AddSubjectDropDownCtrl">
-												<button class="btn btn-success" ng-click="">
-														Choose subject! (dropdown)
+												<button class="btn btn-success" ng-click="dropDownAddSubject()">
+														Add
+														
+														<select ng-model="selectedSubjectClass" ng-options="asc.alias for asc in availableSubjectClasses">
+																<option value="">-choose subject-</option>
+														</select>
 												</button>
-												<select>
-														<option ng-repeat="asc in availableSubjectClasses">{{asc.alias}}</option>
-												</select>
 										</div>
 
 										<!-- Start Point, ATM no function -->

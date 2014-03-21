@@ -13,9 +13,11 @@ var AddSubjectDropDownCtrl = function($scope, $http) {
 		//	 List of available subject classes that can be added to the workspace.
 		$scope.availableSubjectClasses = [];
 		
+		//  Subject selected to be added to the workspace.
+		$scope.selectedSubjectClass;
+		
 		//  Get Availabe Subject Classes from Server
 		$http.get('/app/mockup/classes.json').success(function(data) {
-				//$scope.availableSubjectClasses = [];
 				var availClasses = data.results.bindings;
 				for (var key in availClasses) {
 						$scope.availableSubjectClasses.push(
@@ -24,10 +26,16 @@ var AddSubjectDropDownCtrl = function($scope, $http) {
 										uri: availClasses[key].class.value
 								}
 						);
-						console.log(availClasses[key].alias.value);
+						// console.log(availClasses[key].alias.value);
 				}
 		});
 		
+		$scope.dropDownAddSubject = function() {
+				// console.log($scope.selectedSubjectClass);
+				if($scope.selectedSubjectClass) { // If the selected option is undefined no subject will be added.
+						$scope.$emit('newSubjectEvent', $scope.selectedSubjectClass);
+				}
+		};
 };
 
 var ModalCtrl = function($scope, $http, $modal, $log) {
