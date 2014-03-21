@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en" ng-app="GSB">
-<head>
-  <meta charset="utf-8">
-  <title>My AngularJS App</title>
-  <!-- Import bootstrap CSS Framework for Styles, see http://getbootstrap.com -->
-  <link rel="stylesheet" href="lib/bootstrap/bootstrap.css">
-  <link rel="stylesheet" href="css/app.css"/>
+		<head>
+				<meta charset="utf-8">
+				<title>My AngularJS App</title>
+				<!-- Import bootstrap CSS Framework for Styles, see http://getbootstrap.com -->
+				<link rel="stylesheet" href="lib/bootstrap/bootstrap.css">
+				<link rel="stylesheet" href="css/app.css"/>
 
   </head>
   <body>
@@ -17,11 +17,11 @@
       </div>
       <!-- Row containing top controls -->
       <div class="row">
-          <div id="top-controls" class="col-sm-12">
-              <a href="#" class="btn btn-warning" ng-click="translate()">Build Query</a>
-              <a href="#" class="btn btn-info">Save as JSON</a>
-              <a href="#" class="btn btn-danger">Reset Query</a>
-          </div>
+								<div id="top-controls" class="col-sm-12">
+										<a href="#" class="btn btn-warning" ng-click="translate()">Build Query</a>
+										<a href="#" class="btn btn-info">Save as JSON</a>
+										<a href="#" class="btn btn-danger">Reset Query</a>
+								</div>
       </div>
 
       <!-- WORKSPACE, this is where most of the magic happens -->
@@ -34,7 +34,7 @@
 										<div class="addSubjectClass pull-right" ng-controller="ModalCtrl">
 												<button class="btn btn-success" ng-click="open()">Choose subject! (modal)</button>
 										</div>
-										
+
 										<!-- Button/Drop Down for adding Subjects, See @js/controllers/workspace.js -->
 										<div class="addSubjectClass pull-right" ng-controller="AddSubjectDropDownCtrl">
 												<button class="btn btn-success" ng-click="">
@@ -53,31 +53,31 @@
 								</div>
 						</div>
 
-        <!-- Result area, at the moment not populated -->
-        <div class="row">
-          <h3 class="col-sm-12">SPARQL Query</h3>
-          <div id="middle-controls" class="col-sm-12">Controls for SPARQL Result</div>
-          <pre id="sparql-query" class="col-sm-12">{{result}}</pre>
-        </div>
-      </div>
+						<!-- Result area, at the moment not populated -->
+						<div class="row">
+								<h3 class="col-sm-12">SPARQL Query</h3>
+								<div id="middle-controls" class="col-sm-12">Controls for SPARQL Result</div>
+								<pre id="sparql-query" class="col-sm-12">{{result}}</pre>
+						</div>
+				</div>
 
     <!-- In production use:
    <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
- -->
+				-->
 
- <!-- Import Angular JS Framework, see http://angularjs.org -->
- <script src="lib/angular/angular.js"></script>
- <script src="lib/angular/angular-route.js"></script>
- <!-- Import Angular-UI bootstrap for Bootstrap JS, see https://github.com/angular-ui/bootstrap/ -->
- <script src="lib/ui-bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
- <script src="lib/jquery-1.11.0.min.js"></script>
- <!-- Import our app and controllers and directives -->
- <script src="js/app.js"></script>
- <script src="js/controllers/workspace.js"></script>
- <script src="js/controllers/property.js"></script>
- <script src="js/directives/subject.js"></script>
- <script src="js/directives/property.js"></script>
- <script src="js/draggable.js"></script>
+				<!-- Import Angular JS Framework, see http://angularjs.org -->
+				<script src="lib/angular/angular.js"></script>
+				<script src="lib/angular/angular-route.js"></script>
+				<!-- Import Angular-UI bootstrap for Bootstrap JS, see https://github.com/angular-ui/bootstrap/ -->
+				<script src="lib/ui-bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
+				<script src="lib/jquery-1.11.0.min.js"></script>
+				<!-- Import our app and controllers and directives -->
+				<script src="js/app.js"></script>
+				<script src="js/controllers/workspace.js"></script>
+				<script src="js/controllers/property.js"></script>
+				<script src="js/directives/subject.js"></script>
+				<script src="js/directives/property.js"></script>
+				<script src="js/draggable.js"></script>
 
-</body>
+		</body>
 </html>
