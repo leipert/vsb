@@ -32,11 +32,11 @@ var AddSubjectDropDownCtrl = function($scope, $http) {
 
 var ModalCtrl = function($scope, $http, $modal, $log) {
 
-		$scope.items = [];
+		$scope.items = []; // Is this the right place?
 
 		// Get Availabe Subject Classes from Server
 		$http.get('/app/mockup/classes.json').success(function(data) {
-				$scope.items = [];
+				$scope.items = []; // This is a duplicate of the code 4 lines above. Any ideas which one is preferable?
 				var availClasses = data.results.bindings;
 				for (var key in availClasses) {
 						$scope.items.push(
