@@ -38,6 +38,10 @@
   background: red;
 }
 
+#workspace > div.startPointCSS > select {
+  float : right;
+}
+
 #workspace > div.subjectCSS {
   background-color: #ffff00;
 }

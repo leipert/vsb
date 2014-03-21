@@ -61,8 +61,13 @@
 												</select>
 										</div>
 
-										<!-- Start Point, ATM no function -->
-										<div class="startPointCSS">LIST ALL</div>
+										<!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
+										<div class="startPointCSS">
+										  LIST ALL
+										  <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects">
+										    <option style="display:none" value="">Pick main subject</option>
+										  </select>
+										</div>
 
 										<!-- Inserts all existing subjects in workspace, See @js/directives/workspace.js -->
 										<subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
