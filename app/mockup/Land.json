@@ -19,6 +19,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://www.w3.org/2001/XMLSchema#string"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "heisst"
                 }
             },
             
@@ -34,6 +38,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://www.w3.org/2001/XMLSchema#integer"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "Einwohnerzahl"
                 }
             },
             
@@ -49,6 +57,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://www.w3.org/2001/XMLSchema#double"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "Flaeche"
                 }
             }
         ]

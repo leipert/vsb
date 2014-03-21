@@ -18,6 +18,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://www.w3.org/2001/XMLSchema#integer"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "Alter"
                 }
             },
             
@@ -33,6 +37,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://www.w3.org/2001/XMLSchema#double"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "Gehalt"
                 }
             },            
             
@@ -48,6 +56,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://www.w3.org/2001/XMLSchema#integer"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "Fachsemester"
                 }
             },            
             
@@ -63,6 +75,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://a.de/Universitaet"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "studiert an"
                 }
             },
             
@@ -79,6 +95,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://a.de/Firma"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "arbeitet bei"
                 }
             },            
             
@@ -94,6 +114,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://a.de/Universitaet"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "arbeitet bei"
                 }
             },
             
@@ -109,6 +133,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://a.de/Stadt"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "lebt in"
                 }
             },
             
@@ -124,6 +152,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://a.de/Land"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "lebt in"
                 }
             },
             
@@ -141,6 +173,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://www.w3.org/2001/XMLSchema#string"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "Vorname"
                 }
             },
             
@@ -156,6 +192,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://www.w3.org/2001/XMLSchema#string"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "Nachname"
                 }
             },
             
@@ -171,6 +211,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://www.w3.org/2001/XMLSchema#integer"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "Matrikelnummer"
                 }
             },
             
@@ -186,6 +230,10 @@
                 "propertyType": {
                     "type": "uri",
                     "value": "http://a.de/Studiengang"
+                },
+				"propertyAlias": {
+                    "type": "literal",
+                    "value": "studiert"
                 }
             }
          
