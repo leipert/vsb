@@ -31,17 +31,27 @@
         <div id="workspace" class="col-sm-12">
 
           <!-- Button/Modal for adding Subjects, See @js/controllers/workspace.js -->
-             <div class="addSubjectClass pull-right" ng-controller="ModalCtrl">
-              <button class="btn btn-success" ng-click="open()">Choose subject!</button>
-            </div>
-            
-            <!-- Start Point, ATM no function -->
-            <div class="startPointCSS">LIST ALL</div>
+										<div class="addSubjectClass pull-right" ng-controller="ModalCtrl">
+												<button class="btn btn-success" ng-click="open()">Choose subject! (modal)</button>
+										</div>
+										
+										<!-- Button/Drop Down for adding Subjects, See @js/controllers/workspace.js -->
+										<div class="addSubjectClass pull-right" ng-controller="AddSubjectDropDownCtrl">
+												<button class="btn btn-success" ng-click="">
+														Choose subject! (dropdown)
+												</button>
+												<select>
+														<option ng-repeat="asc in availableSubjectClasses">{{asc.alias}}</option>
+												</select>
+										</div>
 
-            <!-- Inserts all existing subjects in workspace, See @js/directives/workspace.js -->
-            <subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
-          </div>
-        </div>
+										<!-- Start Point, ATM no function -->
+										<div class="startPointCSS">LIST ALL</div>
+
+										<!-- Inserts all existing subjects in workspace, See @js/directives/workspace.js -->
+										<subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
+								</div>
+						</div>
 
         <!-- Result area, at the moment not populated -->
         <div class="row">

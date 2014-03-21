@@ -6,7 +6,7 @@ angular.module('GSB.controllers.workspace', [])
 .controller('WorkspaceCtrl', ['$scope', function($scope) {
   //Initial State of Subjects
   $scope.subjects = [];
-  $scope.result = "Here are the results, bitch!";
+  $scope.result = "In the near future the results will be displayed here.";
 
   // Adds Subject with the provided URI and Alias
   $scope.addSubject = function(uri, alias) {
