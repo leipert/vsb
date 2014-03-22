@@ -1,6 +1,6 @@
 { "head": {
     "link": [],
-    "vars": ["property", "propertyOf", "propertyType"]
+    "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
 },
     "results": {
         "distinct": false,
@@ -10,11 +10,11 @@
             {
                 "property": {
                     "type": "uri",
-                    "value": "http://a.de/heisst"
+                    "value": "/app/mockup/heisst.json"
                 },
                 "propertyOf": {
                     "type": "uri",
-                    "value": "http://a.de/Studiengang"
+                    "value": "/app/mockup/Studiengang.json"
                 },
                 "propertyType": {
                     "type": "uri",
@@ -22,7 +22,7 @@
                 },
 				"propertyAlias": {
                     "type": "literal",
-                    "value": "heisst"
+                    "value": "heißt"
                 }
             }
         ]

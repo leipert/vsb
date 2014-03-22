@@ -1,48 +1,48 @@
 { "head": {
     "link": [],
-    "vars": ["property", "propertyOf", "propertyType"]
+    "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
 },
     "results": {
         "distinct": false,
         "ordered": true,
-        "bindings": [         
+        "bindings": [
             {
                 "property": {
                     "type": "uri",
-                    "value": "http://a.de/heisst"
+                    "value": "/app/mockup/heisst.json"
                 },
                 "propertyOf": {
                     "type": "uri",
-                    "value": "http://a.de/Firma"
+                    "value": "/app/mockup/Firma.json"
                 },
                 "propertyType": {
                     "type": "uri",
                     "value": "http://www.w3.org/2001/XMLSchema#string"
                 },
-				"propertyAlias": {
+				        "propertyAlias": {
                     "type": "literal",
-                    "value": "heisst"
+                    "value": "heißt"
                 }
             },
-            
+
             {
                 "property": {
                     "type": "uri",
-                    "value": "http://a.de/beschaeftigtenZahl"
+                    "value": "/app/mockup/beschaeftigtenZahl.json"
                 },
                 "propertyOf": {
                     "type": "uri",
-                    "value": "http://a.de/Firma"
+                    "value": "/app/mockup/Firma.json"
                 },
                 "propertyType": {
                     "type": "uri",
                     "value": "http://www.w3.org/2001/XMLSchema#integer"
                 },
-				"propertyAlias": {
+				        "propertyAlias": {
                     "type": "literal",
-                    "value": "Beschaeftigtenzahl"
+                    "value": "Beschäftigtenzahl"
                 }
             }
-			
+
         ]
     } }

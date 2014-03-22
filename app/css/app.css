@@ -61,12 +61,15 @@ div.subjectCSS > h2 {
 
 /* Set layout of properties etc. */
 
-div.subjectCSS p.propertyCSS {
+div.subjectCSS div.propertyCSS {
   background: #444444;
   color:#fff;
 }
 
-div.subjectCSS p.propertyCSS a {
+div.subjectCSS div.propertyCSS a {
   color:#ff0000;
 }
 
+div.subjectCSS div.propertyCSS select {
+  color: #000;
+}
