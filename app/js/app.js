@@ -8,7 +8,8 @@ angular.module('GSB', [
   'GSB.controllers.workspace',
   'GSB.controllers.property',
   'GSB.directives.subject',
-  'GSB.directives.property'
+  'GSB.directives.property',
+		'GSB.directives.dragModule'
 ]);
 
 //Global functions
