@@ -18,8 +18,8 @@
       <!-- Row containing top controls -->
       <div class="row">
 								<div id="top-controls" class="col-sm-12">
-										<a href="#" class="btn btn-warning" ng-click="translate()">Build Query</a>
-										<a href="#" class="btn btn-info">Save as JSON</a>
+										<a href="#" class="btn btn-warning" ng-click="translateGSBLToJSON()">Build Query</a>
+										<a href="#" class="btn btn-info" ng-click="translateJSONtoSPARQL()">Save as JSON</a>
 										<a href="#" class="btn btn-danger">Reset Query</a>
 								</div>
       </div>
@@ -78,7 +78,10 @@
 						<div class="row">
 								<h3 class="col-sm-12">SPARQL Query</h3>
 								<div id="middle-controls" class="col-sm-12">Controls for SPARQL Result</div>
-								<pre id="sparql-query" class="col-sm-12">{{result}}</pre>
+								<div class="col-sm-6">JSON:</div>
+								<div class="col-sm-6">SPARL:</div>
+								<pre id="json-query" class="col-sm-6">{{translatedJSON}}</pre>
+								<pre id="sparql-query" class="col-sm-6">{{translatedSPARQL}}</pre>
 						</div>
 				</div>
 
