@@ -8,7 +8,7 @@
 /* Set height and color of workspace and result area */
 
 #workspace {
-  min-height: 400px;
+  min-height: 450px;
   background-color: #eeeeee;
 }
 
@@ -23,9 +23,13 @@
 #workspace > div {
   border-radius: 5px;
   border:1px solid black;
-  padding: 10px;
-  margin: 10px 0;
+  padding: 5px;
+  margin: 5px 0;
   width: 250px;
+}
+
+div a {
+  color: #CC0000;
 }
 
 #workspace > div.addSubjectClass{
@@ -35,7 +39,8 @@
 }
 
 #workspace > div.startPointCSS {
-  background: red;
+  background: #CC0000;
+  border-color: #DD0000;
 }
 
 #workspace > div.startPointCSS > select {
@@ -43,31 +48,41 @@
 }
 
 #workspace > div.subjectCSS {
-  background-color: #ffff00;
+  background-color: #ffff99;
+  border-color: #ffff11;
+  width: 350px;
+  min-height: 200px;
+}
+/* doesnt work right now, anybody know why? where is the difference to subjectBodyCSS?*/
+div.subjectCSS > div.subjectHeadCSS {
+    /*background-color: #00ff00;*/
+    padding: 5px;
+    margin: 5px 0;    
 }
 
-div.subjectCSS > h1,h2,h3,h4,h5,h6 {
-  margin-top:5px;
-  margin-bottom:5px;
-}
+div.subjectCSS > div.subjectHeadCSS > label {}
+div.subjectCSS > div.subjectHeadCSS > input-group {}
+div.subjectCSS > div.subjectHeadCSS > input-group-addon {}
 
-div.subjectCSS > h1 {
-  font-size: 24px;
-}
 
-div.subjectCSS > h2 {
-  font-size: 20px;
+div.subjectCSS div.subjectBodyCSS {
+    /*background-color: #ff0000;*/
+    padding: 5px;
+    margin: 5px 0;    
 }
 
 /* Set layout of properties etc. */
 
 div.subjectCSS div.propertyCSS {
-  background: #444444;
-  color:#fff;
+  background: #B0E57C;
+  color:#000000;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px 0;
 }
 
 div.subjectCSS div.propertyCSS a {
-  color:#ff0000;
+  color: #CC0000;
 }
 
 div.subjectCSS div.propertyCSS select {

@@ -1,30 +1,33 @@
 <div class="subjectCSS">
   <!-- Template for subject directive -->
-  
-  <!-- Button (Trash-ICON) to remove Subject from list @js/controller/subject.js -->
-  <!--FUNCTION removeSubject() IS NOT CALLED BY property.html! DOES ANYBODY KNOW WHY?-->
-  <a ng-click="removeSubject(subjectInst)"><span class="glyphicon glyphicon-trash"></span></a>
-  
-  <h2>{{subjectInst.alias}}</h2>
-  <p class="small">URI: {{subjectInst.uri}}</p>
+  <div class="subjectHeadCSS">
+    <!--Button (Trash-ICON) to remove Subject from list @js/controller/subject.js--> 
+    <!--FUNCTION removeSubject() IS NOT CALLED BY property.html! DOES ANYBODY KNOW WHY?-->
+    <a ng-click="removeSubject(subjectInst)" class="glyphicon glyphicon-trash pull-right"></a>
 
-  <!-- Input for changing the Alias: -->
-  <p>Alias: <input type="text" ng-model="subjectInst.alias" /></p>
+    <!--Head of a subjectform includes the label and the alias-->
+    <p class="label label-warning pull-left">{{subjectInst.uri}}</p>
+    <!--Input for changing the Alias:--> 
+    <p class="input-group pull-left">
+      <span class="input-group-addon">as {{subjectInst.alias}}</span>
+      <input type="text" size="30" maxlength="40" class="form-control" placeholder="Alias" ng-model="subjectInst.alias">
+    </p>
+    <br><br><br>
+  </div>
 
   <!-- Here there will be the properties of the subjectInst, see @js/controller/property.js -->
-  <div ng-controller="PropertyCtrl">
-
-    <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
-    <property-dir ng-repeat="propertyInst in subjectInst.selectedProperties"></property-dir>
-
+  <div class="subjectBodyCSS" ng-controller="PropertyCtrl">
     <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js -->
     <form ng-submit="addProperty()">
-      <input class="btn btn-primary" type="submit" value="add">
-
       <!-- Dropdown with all available Properties of a subjectInst -->
       <select ng-model="propertySelected" ng-required="true" ng-options="v.alias for (k,v) in subjectInst.availableProperties">
-        <option style="display:none" value="">Add a property</option>
+        <option class="pull-left" style="display:none" value="">Add a property</option>
       </select>
+      <!--Add button, 2do: Bootstrap compability for class="btn btn-primary pull-right"-->
+      <input type="submit" value="add">
     </form>
+    
+    <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
+    <property-dir ng-repeat="propertyInst in subjectInst.selectedProperties"></property-dir>
   </div>
 </div>

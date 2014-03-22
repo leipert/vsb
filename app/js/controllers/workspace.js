@@ -86,5 +86,5 @@ angular.module('GSB.controllers.workspace', [])
     $scope.translateJSONtoSPARQL = function(){
       $scope.translateGSBLToJSON();
     };
-
+    
 }]);  
