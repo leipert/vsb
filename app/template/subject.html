@@ -22,7 +22,7 @@
       <input class="btn btn-primary" type="submit" value="add">
 
       <!-- Dropdown with all available Properties of a subjectInst -->
-      <select ng-model="propertySelected" ng-required="true" ng-options="a.alias for a in subjectInst.availableProperties">
+      <select ng-model="propertySelected" ng-required="true" ng-options="v.alias for (k,v) in subjectInst.availableProperties">
         <option style="display:none" value="">Add a property</option>
       </select>
     </form>

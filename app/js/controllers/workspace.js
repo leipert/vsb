@@ -17,7 +17,7 @@ angular.module('GSB.controllers.workspace', [])
         alias: alias,
         uri: uri,
         selectedProperties: [],
-        availableProperties: []
+        availableProperties: {}
       }
     );
   }

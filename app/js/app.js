@@ -3,11 +3,22 @@
 // Loads all our components
 angular.module('GSB', [
   'ui.bootstrap',
+  'GSB.config',
   'GSB.controllers.workspace',
   'GSB.controllers.property',
   'GSB.directives.subject',
   'GSB.directives.property'
 ]);
+
+//Global functions
+
+//Now you can check with str1.startWith(str2) whether a string str1 starts with another string str2
+if (typeof String.prototype.startsWith != 'function') {
+  // see below for better implementation!
+  String.prototype.startsWith = function (str){
+    return this.indexOf(str) == 0;
+  };
+}
 
 var AddSubjectDropDownCtrl = function($scope, $http) {
 		//	 List of available subject classes that can be added to the workspace.
