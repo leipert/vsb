@@ -80,11 +80,12 @@ angular.module('GSB.controllers.workspace', [])
     });
     json.SUBJECTS = allSubjects;
     $scope.translatedJSON = JSON.stringify(json, null, 2);
+	return json;
   };
 
     //TODO: Translation from JSON to SPARQL ( Issue #6)
     $scope.translateJSONtoSPARQL = function(){
-      $scope.translateGSBLToJSON();
+    $scope.translatedSPARQL = translateAll($scope.translateGSBLToJSON());
     };
     
 }]);  
