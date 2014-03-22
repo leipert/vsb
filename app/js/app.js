@@ -4,6 +4,7 @@
 angular.module('GSB', [
   'ui.bootstrap',
   'GSB.config',
+  'GSB.filters',
   'GSB.controllers.workspace',
   'GSB.controllers.property',
   'GSB.directives.subject',
