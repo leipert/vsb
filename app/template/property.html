@@ -6,4 +6,15 @@
 
   <!-- Alias of propertyInst -->
   <span>{{propertyInst.alias}}</span>
+
+  <!-- This span will only be shown, if the property is an OBJECT_DATATYPE -->
+  <span ng-show="propertyInst.isObjectProperty">
+    <!-- if a property is selected, it will be linked with the subject -->
+    <select ng-model="propertyInst.link.linkPartner">
+      <option value="">Link with a subject</option>
+      <!-- ng-repeat of a list of subjects, filtered with custom filter from @js/filters.js -->
+      <option ng-repeat="x in subjects | filterArrayOfObjectsByKeyWithArray : 'uri' : propertyInst.propertyType "
+              value="{{x.alias}}">{{x.alias}}</option>
+    </select>
+  </span>
 </div>
