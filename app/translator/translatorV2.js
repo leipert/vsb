@@ -123,7 +123,6 @@ var json = JSON.parse(obj);
           if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) { 
             SPARQL +=  translateSubject(json.SUBJECTS[i], shownValues, translated, json); 
           }   
-        
       }
     }
     
@@ -143,12 +142,10 @@ var json = JSON.parse(obj);
     
     if(typeof eigenschaft.link.linkPartner != "undefined") {
       
-      for(i in json) {
-        if(i!=='START') {
-          if(json[i].alias === eigenschaft.link.linkPartner) { 
-            SPARQL +=  translateSubject(json[i], shownValues, translated, json); 
+      for(var i = 0; i < json.SUBJECTS.length; i++) {
+          if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) { 
+            SPARQL +=  translateSubject(json.SUBJECTS[i], shownValues, translated, json); 
           }   
-        }
       }
 	  
 	  SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?" + eigenschaft.link.linkPartner + " } .\n";
@@ -164,12 +161,10 @@ var json = JSON.parse(obj);
     
     SPARQL += itsSubject.alias + " ^<" + eigenschaft.uri +  "> " + eigenschaft.link.linkPartner + " .\n"; 
     
-    for(i in json) {
-      if(i!=='START') {
-        if(json[i].alias === eigenschaft.link.linkPartner) { 
-          SPARQL +=  translateSubject(json[i], shownValues, translated, json); 
+    for(var i = 0; i < json.SUBJECTS.length; i++) {
+        if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) { 
+          SPARQL +=  translateSubject(json.SUBJECTS[i], shownValues, translated, json); 
         }   
-      }
     }
     
   }
@@ -177,12 +172,10 @@ var json = JSON.parse(obj);
   
   if(eigenschaft.operator === "IS_NOT_OF") {
     
-    for(i in json) {
-      if(i!=='START') {
-        if(json[i].alias === eigenschaft.link.linkPartner) { 
-          SPARQL +=  translateSubject(json[i], shownValues, translated, json); 
+    for(var i = 0; i < json.SUBJECTS.length; i++) {
+        if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) { 
+          SPARQL +=  translateSubject(json.SUBJECTS[i], shownValues, translated, json); 
         }   
-      }
     } 
     
     SPARQL += "FILTER NOT EXIST { " + itsSubject.alias + " ^<" + eigenschaft.uri +  "> " + eigenschaft.link.linkPartner + " } .\n";
