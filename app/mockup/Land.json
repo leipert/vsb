@@ -1,6 +1,6 @@
 { "head": {
     "link": [],
-    "vars": ["property", "propertyOf", "propertyType"]
+    "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
 },
     "results": {
         "distinct": false,
@@ -10,11 +10,11 @@
             {
                 "property": {
                     "type": "uri",
-                    "value": "http://a.de/heisst"
+                    "value": "/app/mockup/heisst.json"
                 },
                 "propertyOf": {
                     "type": "uri",
-                    "value": "http://a.de/Land"
+                    "value": "/app/mockup/Land.json"
                 },
                 "propertyType": {
                     "type": "uri",
@@ -22,18 +22,18 @@
                 },
 				"propertyAlias": {
                     "type": "literal",
-                    "value": "heisst"
+                    "value": "heißt"
                 }
             },
             
             {
                 "property": {
                     "type": "uri",
-                    "value": "http://a.de/einwohnerZahl"
+                    "value": "/app/mockup/einwohnerZahl.json"
                 },
                 "propertyOf": {
                     "type": "uri",
-                    "value": "http://a.de/Land"
+                    "value": "/app/mockup/Land.json"
                 },
                 "propertyType": {
                     "type": "uri",
@@ -48,11 +48,11 @@
             {
                 "property": {
                     "type": "uri",
-                    "value": "http://a.de/flaeche"
+                    "value": "/app/mockup/flaeche.json"
                 },
                 "propertyOf": {
                     "type": "uri",
-                    "value": "http://a.de/Land"
+                    "value": "/app/mockup/Land.json"
                 },
                 "propertyType": {
                     "type": "uri",
@@ -60,7 +60,7 @@
                 },
 				"propertyAlias": {
                     "type": "literal",
-                    "value": "Flaeche"
+                    "value": "Fläche"
                 }
             }
         ]

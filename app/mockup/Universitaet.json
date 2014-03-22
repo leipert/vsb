@@ -1,6 +1,6 @@
 { "head": {
     "link": [],
-    "vars": ["property", "propertyOf", "propertyType"]
+    "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
 },
     "results": {
         "distinct": false,
@@ -10,11 +10,11 @@
             {
                 "property": {
                     "type": "uri",
-                    "value": "http://a.de/heisst"
+                    "value": "/app/mockup/heisst.json"
                 },
                 "propertyOf": {
                     "type": "uri",
-                    "value": "http://a.de/Universitaet"
+                    "value": "/app/mockup/Universitaet.json"
                 },
                 "propertyType": {
                     "type": "uri",
@@ -22,7 +22,7 @@
                 },
 				"propertyAlias": {
                     "type": "literal",
-                    "value": "heisst"
+                    "value": "heißt"
                 }
             },
 			
@@ -30,11 +30,11 @@
             {
                 "property": {
                     "type": "uri",
-                    "value": "http://a.de/beschaeftigtenZahl"
+                    "value": "/app/mockup/beschaeftigtenZahl.json"
                 },
                 "propertyOf": {
                     "type": "uri",
-                    "value": "http://a.de/Universitaet"
+                    "value": "/app/mockup/Universitaet.json"
                 },
                 "propertyType": {
                     "type": "uri",
@@ -42,7 +42,7 @@
                 },
 				"propertyAlias": {
                     "type": "literal",
-                    "value": "Beschaeftigtenzahl"
+                    "value": "Beschäftigtenzahl"
                 }
             },
             
@@ -51,15 +51,15 @@
             {
                 "property": {
                     "type": "uri",
-                    "value": "http://a.de/bietet_an"
+                    "value": "/app/mockup/bietet_an.json"
                 },
                 "propertyOf": {
                     "type": "uri",
-                    "value": "http://a.de/Universitaet"
+                    "value": "/app/mockup/Universitaet.json"
                 },
                 "propertyType": {
                     "type": "uri",
-                    "value": "http://a.de/Studiengang"
+                    "value": "/app/mockup/Studiengang.json"
                 },
 				"propertyAlias": {
                     "type": "literal",
@@ -72,11 +72,11 @@
             {
                 "property": {
                     "type": "uri",
-                    "value": "http://a.de/gruendungsjahr"
+                    "value": "/app/mockup/gruendungsjahr.json"
                 },
                 "propertyOf": {
                     "type": "uri",
-                    "value": "http://a.de/Universitaet"
+                    "value": "/app/mockup/Universitaet.json"
                 },
                 "propertyType": {
                     "type": "uri",
@@ -84,7 +84,7 @@
                 },
 				"propertyAlias": {
                     "type": "literal",
-                    "value": "Gruendungsjahr"
+                    "value": "Gründungsjahr"
                 }
             },
             
@@ -92,15 +92,15 @@
             {
                 "property": {
                     "type": "uri",
-                    "value": "http://a.de/liegt_in"
+                    "value": "/app/mockup/liegt_in.json"
                 },
                 "propertyOf": {
                     "type": "uri",
-                    "value": "http://a.de/Universitaet"
+                    "value": "/app/mockup/Universitaet.json"
                 },
                 "propertyType": {
                     "type": "uri",
-                    "value": "http://a.de/Land"
+                    "value": "/app/mockup/Land.json"
                 },
 				"propertyAlias": {
                     "type": "literal",
@@ -113,15 +113,15 @@
             {
                 "property": {
                     "type": "uri",
-                    "value": "http://a.de/liegt_in"
+                    "value": "/app/mockup/liegt_in.json"
                 },
                 "propertyOf": {
                     "type": "uri",
-                    "value": "http://a.de/Universitaet"
+                    "value": "/app/mockup/Universitaet.json"
                 },
                 "propertyType": {
                     "type": "uri",
-                    "value": "http://a.de/Stadt"
+                    "value": "/app/mockup/Stadt.json"
                 },
 				"propertyAlias": {
                     "type": "literal",
