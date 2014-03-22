@@ -20,5 +20,5 @@ angular.module('GSB.directives.subject', [])
             elem.css('cursor', 'pointer');
           });
 		}
-    }
-})
+    };
+});
