@@ -14,7 +14,11 @@ var json = JSON.parse(obj);
   return erg;
  }
 
- 
+
+function translateAllFromString(string){
+  return translateAll(JSON.parse(string));
+}
+
 
 /*
  *  main function, takes a JSON-object, looks for the main class and starts translation there, and in the end adds shown values and SPARQL-'header' (e.g. SELECT DISTINCT..)

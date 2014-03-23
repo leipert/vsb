@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('GSB.controllers.workspace', [])
-.controller('WorkspaceCtrl', ['$scope', function($scope) {
+.controller('WorkspaceCtrl', ['$scope', '$log', function($scope, $log) {
   //Initial State of Subjects
   $scope.subjects = [];
   $scope.translatedJSON = "In the near future the translated JSON will be here.";
@@ -62,6 +62,11 @@ angular.module('GSB.controllers.workspace', [])
 
   //Translate GSBL to JSON
   $scope.translateGSBLToJSON = function(){
+    if($scope.mainSubjectSelected == null){
+      $log.error("Main Subject not connected");
+      $scope.translatedJSON = null;
+      return;
+    }
     var json = {
         START: {
           type: "LIST_ALL",
@@ -90,12 +95,16 @@ angular.module('GSB.controllers.workspace', [])
     });
     json.SUBJECTS = allSubjects;
     $scope.translatedJSON = JSON.stringify(json, null, 2);
-	return json;
   };
 
     //TODO: Translation from JSON to SPARQL ( Issue #6)
     $scope.translateJSONtoSPARQL = function(){
-    $scope.translatedSPARQL = translateAll($scope.translateGSBLToJSON());
+      $scope.translateGSBLToJSON();
+      if($scope.translatedJSON == null){
+        $log.error("JSON is not valid");
+        return;
+      }
+      $scope.translatedSPARQL = translateAllFromString($scope.translatedJSON);
     };
     
     //Reset workspace function
