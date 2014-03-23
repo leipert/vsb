@@ -75,7 +75,16 @@ angular.module('GSB.controllers.workspace', [])
       allSubjects = angular.copy($scope.subjects);
     allSubjects.map(function(currentSubject){
       delete currentSubject["availableProperties"];
-      currentSubject.properties = currentSubject["selectedProperties"];
+      currentSubject.properties = currentSubject["selectedProperties"].map(function(currentProperty){
+        delete currentProperty["isObjectProperty"];
+        delete currentProperty["propertyType"];
+        if(currentProperty.link.linkPartner.hasOwnProperty("alias")){
+          currentProperty.link.linkPartner = currentProperty.link.linkPartner.alias;
+        } else {
+          delete currentProperty["link"];
+        }
+        return currentProperty;
+      });
       delete currentSubject["selectedProperties"];
       return currentSubject;
     });
