@@ -28,47 +28,66 @@
   width: 250px;
 }
 
-div a {
+#workspace > div a {
   color: #CC0000;
 }
 
 #workspace > div.addSubjectClass{
   border-radius: 0;
   border:0 solid black;
-    width:auto;
+  width:auto;
 }
 
 #workspace > div.startPointCSS {
-  background: #CC0000;
-  border-color: #DD0000;
+  background: #D2646A;
+  border-color: #A53238;
+  color: #6B1015;
 }
 
 #workspace > div.startPointCSS > select {
   float : right;
+  background: #E9A6A9;
+  color: #6B1015;
 }
 
+/*SubjectForm: http://colorschemedesigner.com/#1T21TcOw0w0w0*/
 #workspace > div.subjectCSS {
   background-color: #ffff99;
-  border-color: #ffff11;
+  border-color: #A4A019;
   width: 350px;
   min-height: 200px;
 }
 /* doesnt work right now, anybody know why? where is the difference to subjectBodyCSS?*/
 div.subjectCSS > div.subjectHeadCSS {
-    /*background-color: #00ff00;*/
-    padding: 5px;
-    margin: 5px 0;    
+  /*background-color: #00ff00;*/
+  padding: 5px;
+  margin: 5px 0;    
 }
 
-div.subjectCSS > div.subjectHeadCSS > label {}
-div.subjectCSS > div.subjectHeadCSS > input-group {}
-div.subjectCSS > div.subjectHeadCSS > input-group-addon {}
+div.subjectCSS div.subjectHeadCSS b {
+  color: darkgoldenrod;
+}
+
+div.subjectCSS div.subjectHeadCSS input-group {}
+#workspace div.subjectCSS > div.subjectHeadCSS > input-group-addon {
+  background: #BF98D5;
+  color: #54226F;
+}
+div.subjectCSS > div.subjectHeadCSS > form-control {
+  background: #C5A8D5;
+  color: #735B80;
+}
 
 
 div.subjectCSS div.subjectBodyCSS {
-    /*background-color: #ff0000;*/
-    padding: 5px;
-    margin: 5px 0;    
+  /*background-color: #ff0000;*/
+  padding: 5px;
+  margin: 5px 0;    
+}
+
+div.subjectCSS div.subjectBodyCSS select{
+  background-color: #ffffc7;
+  color:darkgoldenrod;
 }
 
 /* Set layout of properties etc. */
@@ -81,10 +100,21 @@ div.subjectCSS div.propertyCSS {
   margin: 5px 0;
 }
 
+div.subjectCSS div.propertyCSS b {
+  color: #0D5516;
+}
+
 div.subjectCSS div.propertyCSS a {
   color: #CC0000;
 }
 
 div.subjectCSS div.propertyCSS select {
-  color: #000;
+  background: #D3F2B5;
+  color: #0D5516;
 }
+
+div.subjectCSS div.propertyCSS div.propertyHeadCSS i {
+  color: #0000bb;
+}
+
+div.subjectCSS div.propertyCSS div.propertyBodyCSS pull-right {}

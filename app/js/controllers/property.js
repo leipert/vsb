@@ -31,7 +31,7 @@ angular.module('GSB.controllers.property', [])
         }
       }
       return true;
-    }
+    };
 
     //Adds Property to availableProperties.
     $scope.addToAvailableProperties = function (property) {
@@ -54,19 +54,27 @@ angular.module('GSB.controllers.property', [])
           compare : {} //Vorprojekt leave empty
         };
       }
-    }
+    };
 
   //Adds the selected property in dropdown to selectedProperties
   $scope.addProperty = function(){
     $selectedProperties.push(angular.copy($scope.propertySelected));
     $scope.propertySelected = '';
-  }
+  };
 
   //Removes the selected from selectedProperties
   $scope.removeProperty = function(propertyInst) {
     $selectedProperties.splice($selectedProperties.indexOf(propertyInst), 1);
-  }
+  };
 
-  //TODO: Change visibility of property
-
+  //Change visibility of a property
+  $scope.changePropertyView = function(propertyInst) {
+    var i = $selectedProperties.indexOf(propertyInst);
+    $selectedProperties[i].view = !$selectedProperties[i].view;
+  };
+  
+  //Returns whether the property should viewed or not
+  $scope.isViewed = function(propertyInst) {
+      return $selectedProperties[$selectedProperties.indexOf(propertyInst)].view;
+  };
 }]);

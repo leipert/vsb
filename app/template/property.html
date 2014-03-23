@@ -1,20 +1,32 @@
 <div class="propertyCSS">
   <!-- Template for property directive -->
 
-  <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/propertyInst.js -->
-  <a ng-click="removeProperty(propertyInst)"><span class="glyphicon glyphicon-trash"></span></a>
+  <div class="propertyHeadCSS">
+      <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/propertyInst.js -->
+      <a ng-click="removeProperty(propertyInst)"><span class="glyphicon glyphicon-trash pull-right"></span></a>
+      <a ng-show="isViewed(propertyInst)" ng-click="changePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-open pull-right">&nbsp;</i></a>
+      <a ng-show="!isViewed(propertyInst)" ng-click="changePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-close pull-right">&nbsp;</i></a>
 
-  <!-- Alias of propertyInst -->
-  <span>{{propertyInst.alias}}</span>
-
-  <!-- This span will only be shown, if the property is an OBJECT_DATATYPE -->
-  <span ng-show="propertyInst.isObjectProperty">
-    <!-- if a property is selected, it will be linked with the subject -->
-    <select ng-model="propertyInst.link.linkPartner">
-      <option value="">Link with a subject</option>
-      <!-- ng-repeat of a list of subjects, filtered with custom filter from @js/filters.js -->
-      <option ng-repeat="x in subjects | filterArrayOfObjectsByKeyWithArray : 'uri' : propertyInst.propertyType "
-              value="{{x.alias}}">{{x.alias}}</option>
-    </select>
-  </span>
+      <!-- Alias of propertyInst -->
+      <span><b>{{propertyInst.alias}}</b></span>
+  </div>
+  
+  <div class="propertyBodyCSS">
+      <!-- This span will only be shown, if the property is an OBJECT_DATATYPE -->
+      <span ng-show="propertyInst.isObjectProperty">
+        <!-- if a property is selected, it will be linked with the subject -->
+        <select ng-model="propertyInst.link.linkPartner">
+          <option style="display:none" value="">Link with a subject</option>
+          <!-- ng-repeat of a list of subjects, filtered with custom filter from @js/filters.js -->
+          <option ng-repeat="x in subjects | filterArrayOfObjectsByKeyWithArray : 'uri' : propertyInst.propertyType "
+                  value="{{x.alias}}">{{x.alias}}</option>
+        </select>
+      </span>
+      <!--TODO: should be binded on PropertyObject.property "operator" @js/controllers/property.js-->
+      <span class="pull-right">
+          <select>
+              <option style="display:none" value="">must</option>
+          </select>
+      </span>
+  </div>
 </div>
