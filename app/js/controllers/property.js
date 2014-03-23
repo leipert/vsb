@@ -68,13 +68,8 @@ angular.module('GSB.controllers.property', [])
   };
 
   //Change visibility of a property
-  $scope.changePropertyView = function(propertyInst) {
-    var i = $selectedProperties.indexOf(propertyInst);
-    $selectedProperties[i].view = !$selectedProperties[i].view;
+  $scope.togglePropertyView = function(propertyInst) {
+    propertyInst.view = !propertyInst.view;
   };
   
-  //Returns whether the property should viewed or not
-  $scope.isViewed = function(propertyInst) {
-      return $selectedProperties[$selectedProperties.indexOf(propertyInst)].view;
-  };
 }]);

@@ -4,8 +4,8 @@
   <div class="propertyHeadCSS">
       <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/propertyInst.js -->
       <a ng-click="removeProperty(propertyInst)"><span class="glyphicon glyphicon-trash pull-right"></span></a>
-      <a ng-show="isViewed(propertyInst)" ng-click="changePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-open pull-right">&nbsp;</i></a>
-      <a ng-show="!isViewed(propertyInst)" ng-click="changePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-close pull-right">&nbsp;</i></a>
+      <a ng-show="propertyInst.view" ng-click="togglePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-open pull-right">&nbsp;</i></a>
+      <a ng-show="!propertyInst.view" ng-click="togglePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-close pull-right">&nbsp;</i></a>
 
       <!-- Alias of propertyInst -->
       <span><b>{{propertyInst.alias}}</b></span>
