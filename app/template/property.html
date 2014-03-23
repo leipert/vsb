@@ -12,18 +12,16 @@
   </div>
   
   <div class="propertyBodyCSS">
-      <!-- This span will only be shown, if the property is an OBJECT_DATATYPE -->
+    <!-- This span will only be shown, if the property is an OBJECT_DATATYPE -->
       <span ng-show="propertyInst.isObjectProperty">
         <!-- if a property is selected, it will be linked with the subject -->
         <select ng-model="propertyInst.link.linkPartner" ng-options="x as x.alias for x in subjects | filterArrayOfObjectsByKeyWithArray : 'uri' : propertyInst.propertyType">
           <option style="display:none" value="">Link with a subject</option>
         </select>
       </span>
-      <!--TODO: should be binded on PropertyObject.property "operator" @js/controllers/property.js-->
+      <!--This select is for changing the property Operator-->
       <span class="pull-right">
-          <select>
-              <option style="display:none" value="">must</option>
-          </select>
+          <select ng-model="propertyInst.operator" ng-options="x.value as x.label for x in propertyOperators"></select>
       </span>
   </div>
 </div>

@@ -9,8 +9,8 @@ angular.module('GSB.controllers.property', [])
   //Named a few variables, for shorter access
   var $parentSubject = $scope.subjectInst,
   $selectedProperties = $parentSubject.selectedProperties;
-
-    $parentSubject.availableProperties = {};
+  $parentSubject.availableProperties = {};
+  $scope.propertyOperators = globalConfig.propertyOperators;
 
   console.log('Lade die Properties von ' + $parentSubject.uri);
   //Retrieve Properties from Server and add them to availableProperties
@@ -71,5 +71,5 @@ angular.module('GSB.controllers.property', [])
   $scope.togglePropertyView = function(propertyInst) {
     propertyInst.view = !propertyInst.view;
   };
-  
+
 }]);
