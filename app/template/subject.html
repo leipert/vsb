@@ -21,7 +21,7 @@
     <form ng-submit="addProperty()">
       <!-- Dropdown with all available Properties of a subjectInst -->
       <select ng-model="propertySelected" ng-required="true" ng-options="v.alias for (k,v) in subjectInst.availableProperties">
-        <option class="pull-left" style="display:none" value="">Add a property</option>
+        <option style="display:none" value="">Choose a property</option>
       </select>
       <!--Add button, 2do: Bootstrap compability for class="btn btn-primary pull-right"-->
       <input type="submit" value="add">

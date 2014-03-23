@@ -17,7 +17,7 @@ angular.module('GSB.controllers.workspace', [])
       {
         alias: alias,
         uri: uri,
-		view: true,
+	view: true,
         selectedProperties: [],
         availableProperties: {}
       }
@@ -72,7 +72,7 @@ angular.module('GSB.controllers.workspace', [])
         },
         SUBJECTS: []
       },
-      allSubjects = angular.copy($scope.subjects)
+      allSubjects = angular.copy($scope.subjects);
     allSubjects.map(function(currentSubject){
       delete currentSubject["availableProperties"];
       currentSubject.properties = currentSubject["selectedProperties"];
@@ -89,4 +89,8 @@ angular.module('GSB.controllers.workspace', [])
     $scope.translatedSPARQL = translateAll($scope.translateGSBLToJSON());
     };
     
+    //Reset workspace function
+    $scope.initializeWorkspace = function(){
+        $scope.subjects = [];
+    };
 }]);  
