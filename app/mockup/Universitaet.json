@@ -1,132 +1,132 @@
 { "head": {
-    "link": [],
-    "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
+  "link": [],
+  "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
 },
-    "results": {
-        "distinct": false,
-        "ordered": true,
-        "bindings": [
-        
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/heisst.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Universitaet.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#string"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "heißt"
-                }
-            },
-			
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/beschaeftigtenZahl.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Universitaet.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#integer"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "Beschäftigtenzahl"
-                }
-            },
-            
-           
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/bietet_an.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Universitaet.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "/app/mockup/Studiengang.json"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "bietet an"
-                }
-            },
-            
-            
-			
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/gruendungsjahr.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Universitaet.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#date"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "Gründungsjahr"
-                }
-            },
-            
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/liegt_in.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Universitaet.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "/app/mockup/Land.json"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "liegt in"
-                }
-            },
-            
-			
-			
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/liegt_in.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Universitaet.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "/app/mockup/Stadt.json"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "liegt in"
-                }
-            }
-        ]
-    } }
+  "results": {
+    "distinct": false,
+    "ordered": true,
+    "bindings": [
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/heisst.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Universitaet.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "heißt"
+        }
+      },
+
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/beschaeftigtenZahl.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Universitaet.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "Beschäftigtenzahl"
+        }
+      },
+
+
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/bietet_an.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Universitaet.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "/app/mockup/Studiengang.json"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "bietet an"
+        }
+      },
+
+
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/gruendungsjahr.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Universitaet.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#date"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "Gründungsjahr"
+        }
+      },
+
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/liegt_in.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Universitaet.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "/app/mockup/Land.json"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "liegt in"
+        }
+      },
+
+
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/liegt_in.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Universitaet.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "/app/mockup/Stadt.json"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "liegt in"
+        }
+      }
+    ]
+  } }

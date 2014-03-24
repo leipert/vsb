@@ -61,7 +61,7 @@
 div.subjectCSS > div.subjectHeadCSS {
   /*background-color: #00ff00;*/
   padding: 5px;
-  margin: 5px 0;    
+  margin: 5px 0;
 }
 
 div.subjectCSS div.subjectHeadCSS b {
@@ -82,7 +82,7 @@ div.subjectCSS > div.subjectHeadCSS > form-control {
 div.subjectCSS div.subjectBodyCSS {
   /*background-color: #ff0000;*/
   padding: 5px;
-  margin: 5px 0;    
+  margin: 5px 0;
 }
 
 div.subjectCSS div.subjectBodyCSS select{

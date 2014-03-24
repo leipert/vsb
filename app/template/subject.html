@@ -1,14 +1,14 @@
 <div class="subjectCSS">
   <!-- Template for subject directive -->
   <div class="subjectHeadCSS">
-    <!--Button (Trash-ICON) to remove Subject from list @js/controller/subject.js--> 
+    <!--Button (Trash-ICON) to remove Subject from list @js/controller/subject.js-->
     <!--FUNCTION removeSubject() IS NOT CALLED BY property.html! DOES ANYBODY KNOW WHY?-->
     <a ng-click="removeSubject(subjectInst)"><span class="glyphicon glyphicon-trash pull-right"></span></a>
 
     <!--Head of a subjectform includes the label and the alias-->
     <!-- Label/URI of subjectInst -->
     <span><b>{{subjectInst.uri}}</b></span>
-    <!--Input for changing the Alias:--> 
+    <!--Input for changing the Alias:-->
     <p class="input-group pull-left">
       <span class="input-group-addon">as {{subjectInst.alias}}</span>
       <input type="text" size="30" maxlength="40" class="form-control" placeholder="Alias" ng-model="subjectInst.alias">
@@ -26,7 +26,7 @@
       <!--Add button, 2do: Bootstrap compability for class="btn btn-primary pull-right"-->
       <input type="submit" value="add">
     </form>
-    
+
     <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
     <property-dir ng-repeat="propertyInst in subjectInst.selectedProperties"></property-dir>
   </div>

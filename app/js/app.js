@@ -9,7 +9,7 @@ angular.module('GSB', [
   'GSB.controllers.property',
   'GSB.directives.subject',
   'GSB.directives.property',
-		'GSB.directives.dragModule'
+  'GSB.directives.dragModule'
 ]);
 
 //Global functions
@@ -23,32 +23,34 @@ if (typeof String.prototype.startsWith != 'function') {
 }
 
 var AddSubjectDropDownCtrl = function($scope, $http) {
-		//	 List of available subject classes that can be added to the workspace.
-		$scope.availableSubjectClasses = [];
-		
-		//  Subject selected to be added to the workspace.
-		$scope.selectedSubjectClass;
-		
-		//  Get Availabe Subject Classes from Server
-		$http.get('/app/mockup/classes.json').success(function(data) {
-				var availClasses = data.results.bindings;
-				for (var key in availClasses) {
-						$scope.availableSubjectClasses.push(
-								{
-										alias: availClasses[key].alias.value,
-										uri: availClasses[key].class.value
-								}
-						);
-						// console.log(availClasses[key].alias.value);
-				}
-		});
-		
-		$scope.dropDownAddSubject = function() {
-				// console.log($scope.selectedSubjectClass);
-				if($scope.selectedSubjectClass) { // If the selected option is undefined no subject will be added.
-						$scope.$emit('newSubjectEvent', $scope.selectedSubjectClass);
-				}
-		};
+  //	 List of available subject classes that can be added to the workspace.
+  $scope.availableSubjectClasses = [];
+
+  //  Subject selected to be added to the workspace.
+  $scope.selectedSubjectClass = null;
+
+  //  Get Availabe Subject Classes from Server
+  $http.get('/app/mockup/classes.json').success(function(data) {
+    var availClasses = data.results.bindings;
+    for (var key in availClasses) {
+      if(availClasses.hasOwnProperty(key)){
+        $scope.availableSubjectClasses.push(
+          {
+            alias: availClasses[key].alias.value,
+            uri: availClasses[key].class.value
+          }
+        );
+      }
+      // console.log(availClasses[key].alias.value);
+    }
+  });
+
+  $scope.dropDownAddSubject = function() {
+    // console.log($scope.selectedSubjectClass);
+    if($scope.selectedSubjectClass) { // If the selected option is undefined no subject will be added.
+      $scope.$emit('newSubjectEvent', $scope.selectedSubjectClass);
+    }
+  };
 };
 
 //var ModalCtrl = function($scope, $http, $modal, $log) {

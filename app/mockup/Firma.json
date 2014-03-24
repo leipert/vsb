@@ -1,48 +1,48 @@
 { "head": {
-    "link": [],
-    "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
+  "link": [],
+  "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
 },
-    "results": {
-        "distinct": false,
-        "ordered": true,
-        "bindings": [
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/heisst.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Firma.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#string"
-                },
-				        "propertyAlias": {
-                    "type": "literal",
-                    "value": "heißt"
-                }
-            },
+  "results": {
+    "distinct": false,
+    "ordered": true,
+    "bindings": [
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/heisst.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Firma.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "heißt"
+        }
+      },
 
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/beschaeftigtenZahl.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Firma.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#integer"
-                },
-				        "propertyAlias": {
-                    "type": "literal",
-                    "value": "Beschäftigtenzahl"
-                }
-            }
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/beschaeftigtenZahl.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Firma.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "Beschäftigtenzahl"
+        }
+      }
 
-        ]
-    } }
+    ]
+  } }

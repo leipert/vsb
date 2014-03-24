@@ -7,10 +7,10 @@
  */
 
 angular.module('GSB.directives.property', [])
-    .directive('propertyDir', function () {
+  .directive('propertyDir', function () {
     return {
-        restrict: "E",
-        replace: true,
-        templateUrl: 'template/property.html'
+      restrict: "E",
+      replace: true,
+      templateUrl: 'template/property.html'
     }
-})
+  });

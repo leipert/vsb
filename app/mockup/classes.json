@@ -1,78 +1,78 @@
 {
-    "head": {
-        "link": [],
-        "vars": ["class", "alias"]
-    },
-    "results": {
-        "distinct": false,
-        "ordered": true,
-        "bindings": [
-            {
-                "class": {
-                    "type": "uri",
-                    "value": "/app/mockup/Person.json"
-                },
-                "alias": {
-                    "type": "literal",
-                    "value": "Mensch"
-                }
-            },
-            
-            {
-                "class": {
-                    "type": "uri",
-                    "value": "/app/mockup/Universitaet.json"
-                },
-                "alias": {
-                    "type": "literal",
-                    "value": "Uni"
-                }
-            },
-            
-            {
-                "class": {
-                    "type": "uri",
-                    "value": "/app/mockup/Stadt.json"
-                },
-                "alias": {
-                    "type": "literal",
-                    "value": "Stadt"
-                }
-            },
-            
-            {
-                "class": {
-                    "type": "uri",
-                    "value": "/app/mockup/Land.json"
-                },
-                "alias": {
-                    "type": "literal",
-                    "value": "Land"
-                }
-            },
+  "head": {
+    "link": [],
+    "vars": ["class", "alias"]
+  },
+  "results": {
+    "distinct": false,
+    "ordered": true,
+    "bindings": [
+      {
+        "class": {
+          "type": "uri",
+          "value": "/app/mockup/Person.json"
+        },
+        "alias": {
+          "type": "literal",
+          "value": "Mensch"
+        }
+      },
 
-            {
-                "class": {
-                    "type": "uri",
-                    "value": "/app/mockup/Studiengang.json"
-                },
-                "alias": {
-                    "type": "literal",
-                    "value": "Studiengang"
-                }
-            }, 
-            
-            {
-                "class": {
-                    "type": "uri",
-                    "value": "/app/mockup/Firma.json"
-                },
-                "alias": {
-                    "type": "literal",
-                    "value": "Firma"
-                }
-            }
-            
-        ]
-    }
+      {
+        "class": {
+          "type": "uri",
+          "value": "/app/mockup/Universitaet.json"
+        },
+        "alias": {
+          "type": "literal",
+          "value": "Uni"
+        }
+      },
+
+      {
+        "class": {
+          "type": "uri",
+          "value": "/app/mockup/Stadt.json"
+        },
+        "alias": {
+          "type": "literal",
+          "value": "Stadt"
+        }
+      },
+
+      {
+        "class": {
+          "type": "uri",
+          "value": "/app/mockup/Land.json"
+        },
+        "alias": {
+          "type": "literal",
+          "value": "Land"
+        }
+      },
+
+      {
+        "class": {
+          "type": "uri",
+          "value": "/app/mockup/Studiengang.json"
+        },
+        "alias": {
+          "type": "literal",
+          "value": "Studiengang"
+        }
+      },
+
+      {
+        "class": {
+          "type": "uri",
+          "value": "/app/mockup/Firma.json"
+        },
+        "alias": {
+          "type": "literal",
+          "value": "Firma"
+        }
+      }
+
+    ]
+  }
 }

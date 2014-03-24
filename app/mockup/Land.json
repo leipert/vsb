@@ -1,67 +1,67 @@
 { "head": {
-    "link": [],
-    "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
+  "link": [],
+  "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
 },
-    "results": {
-        "distinct": false,
-        "ordered": true,
-        "bindings": [
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/heisst.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Land.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#string"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "heißt"
-                }
-            },
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/einwohnerZahl.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Land.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#integer"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "Einwohnerzahl"
-                }
-            },
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/flaeche.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Land.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#double"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "Fläche"
-                }
-            }
-        ]
-    } }
+  "results": {
+    "distinct": false,
+    "ordered": true,
+    "bindings": [
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/heisst.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Land.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "heißt"
+        }
+      },
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/einwohnerZahl.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Land.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "Einwohnerzahl"
+        }
+      },
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/flaeche.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Land.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#double"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "Fläche"
+        }
+      }
+    ]
+  } }

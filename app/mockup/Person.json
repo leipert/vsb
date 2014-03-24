@@ -1,241 +1,241 @@
 { "head": {
-    "link": [],
-    "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
+  "link": [],
+  "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
 },
-    "results": {
-        "distinct": false,
-        "ordered": true,
-        "bindings": [
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/alter.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Person.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#integer"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "Alter"
-                }
-            },
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/gehalt.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Person.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#double"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "Gehalt"
-                }
-            },            
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/fachsemester.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Person.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#integer"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "Fachsemester"
-                }
-            },            
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/studiert_an.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Person.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "/app/mockup/Universitaet.json"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "studiert an"
-                }
-            },
-            
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/arbeitet_bei.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Person.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "/app/mockup/Firma.json"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "arbeitet bei"
-                }
-            },            
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/arbeitet_bei.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Person.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "/app/mockup/Universitaet.json"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "arbeitet bei"
-                }
-            },
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/lebt_in.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Person.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "/app/mockup/Stadt.json"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "lebt in"
-                }
-            },
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/lebt_in.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Person.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "/app/mockup/Land.json"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "lebt in"
-                }
-            },
-            
-            
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/vorname.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Person.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#string"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "Vorname"
-                }
-            },
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/nachname.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Person.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#string"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "Nachname"
-                }
-            },
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/matrikelnummer.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Person.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "http://www.w3.org/2001/XMLSchema#integer"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "Matrikelnummer"
-                }
-            },
-            
-            {
-                "property": {
-                    "type": "uri",
-                    "value": "/app/mockup/studiert.json"
-                },
-                "propertyOf": {
-                    "type": "uri",
-                    "value": "/app/mockup/Person.json"
-                },
-                "propertyType": {
-                    "type": "uri",
-                    "value": "/app/mockup/Studiengang.json"
-                },
-				"propertyAlias": {
-                    "type": "literal",
-                    "value": "studiert"
-                }
-            }
-         
-        ]
-    } }
+  "results": {
+    "distinct": false,
+    "ordered": true,
+    "bindings": [
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/alter.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Person.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "Alter"
+        }
+      },
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/gehalt.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Person.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#double"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "Gehalt"
+        }
+      },
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/fachsemester.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Person.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "Fachsemester"
+        }
+      },
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/studiert_an.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Person.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "/app/mockup/Universitaet.json"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "studiert an"
+        }
+      },
+
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/arbeitet_bei.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Person.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "/app/mockup/Firma.json"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "arbeitet bei"
+        }
+      },
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/arbeitet_bei.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Person.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "/app/mockup/Universitaet.json"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "arbeitet bei"
+        }
+      },
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/lebt_in.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Person.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "/app/mockup/Stadt.json"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "lebt in"
+        }
+      },
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/lebt_in.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Person.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "/app/mockup/Land.json"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "lebt in"
+        }
+      },
+
+
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/vorname.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Person.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "Vorname"
+        }
+      },
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/nachname.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Person.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "Nachname"
+        }
+      },
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/matrikelnummer.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Person.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "Matrikelnummer"
+        }
+      },
+
+      {
+        "property": {
+          "type": "uri",
+          "value": "/app/mockup/studiert.json"
+        },
+        "propertyOf": {
+          "type": "uri",
+          "value": "/app/mockup/Person.json"
+        },
+        "propertyType": {
+          "type": "uri",
+          "value": "/app/mockup/Studiengang.json"
+        },
+        "propertyAlias": {
+          "type": "literal",
+          "value": "studiert"
+        }
+      }
+
+    ]
+  } }

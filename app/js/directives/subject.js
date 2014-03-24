@@ -10,15 +10,15 @@
 
 angular.module('GSB.directives.subject', [])
 
-    .directive('subjectDir', function () {
+  .directive('subjectDir', function () {
     return {
-        restrict: "E",
-        replace: true,
-        templateUrl: 'template/subject.html',
-		link: function(scope, elem, attrs) {
-		  elem.bind('mouseover', function() {
-            elem.css('cursor', 'pointer');
-          });
-		}
+      restrict: "E",
+      replace: true,
+      templateUrl: 'template/subject.html',
+      link: function(scope, elem, attrs) {
+        elem.bind('mouseover', function() {
+          elem.css('cursor', 'pointer');
+        });
+      }
     };
-});
+  });

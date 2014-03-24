@@ -6,27 +6,29 @@ angular.module('GSB.controllers.property', [])
   //Inject $scope, $http and globalConfig (see @ js/config.js) into controller
   .controller('PropertyCtrl', ['$scope', '$http', 'globalConfig', function($scope, $http, globalConfig) {
 
-  //Named a few variables, for shorter access
-  var $parentSubject = $scope.subjectInst,
-  $selectedProperties = $parentSubject.selectedProperties;
-  $parentSubject.availableProperties = {};
-  $scope.propertyOperators = globalConfig.propertyOperators;
-
-  console.log('Lade die Properties von ' + $parentSubject.uri);
-  //Retrieve Properties from Server and add them to availableProperties
-  $http.get($parentSubject.uri).success(function (data){
+    //Named a few variables, for shorter access
+    var $parentSubject = $scope.subjectInst,
+      $selectedProperties = $parentSubject.selectedProperties;
     $parentSubject.availableProperties = {};
+    $scope.propertyOperators = globalConfig.propertyOperators;
+
+    console.log('Lade die Properties von ' + $parentSubject.uri);
+    //Retrieve Properties from Server and add them to availableProperties
+    $http.get($parentSubject.uri).success(function (data){
+      $parentSubject.availableProperties = {};
       var returnedProperties = data.results.bindings;
       for (var key in returnedProperties){
-        $scope.addToAvailableProperties(returnedProperties[key]);
+        if(returnedProperties.hasOwnProperty(key)){
+          $scope.addToAvailableProperties(returnedProperties[key]);
+        }
       }
-  });
+    });
 
-  //Returns whether a property is an Object Property
+    //Returns whether a property is an Object Property
     $scope.isObjectProperty = function (propertyType) {
       var dataTypeURIs = globalConfig['dataTypeURIs'];
       for(var key in dataTypeURIs){
-        if(propertyType.startsWith(dataTypeURIs[key])){
+        if(dataTypeURIs.hasOwnProperty(key) && propertyType.startsWith(dataTypeURIs[key])){
           return false;
         }
       }
@@ -56,20 +58,20 @@ angular.module('GSB.controllers.property', [])
       }
     };
 
-  //Adds the selected property in dropdown to selectedProperties
-  $scope.addProperty = function(){
-    $selectedProperties.push(angular.copy($scope.propertySelected));
-    $scope.propertySelected = '';
-  };
+    //Adds the selected property in dropdown to selectedProperties
+    $scope.addProperty = function(){
+      $selectedProperties.push(angular.copy($scope.propertySelected));
+      $scope.propertySelected = '';
+    };
 
-  //Removes the selected from selectedProperties
-  $scope.removeProperty = function(propertyInst) {
-    $selectedProperties.splice($selectedProperties.indexOf(propertyInst), 1);
-  };
+    //Removes the selected from selectedProperties
+    $scope.removeProperty = function(propertyInst) {
+      $selectedProperties.splice($selectedProperties.indexOf(propertyInst), 1);
+    };
 
-  //Change visibility of a property
-  $scope.togglePropertyView = function(propertyInst) {
-    propertyInst.view = !propertyInst.view;
-  };
+    //Change visibility of a property
+    $scope.togglePropertyView = function(propertyInst) {
+      propertyInst.view = !propertyInst.view;
+    };
 
-}]);
+  }]);
