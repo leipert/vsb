@@ -49,7 +49,7 @@ angular.module('GSB.controllers.property', [])
           propertyType: [propertyType],
           view: true,
           operator: "MUST", //Vorprojekt okay
-          link : {direction: "TO", linkPartner: ""}, //Vorprojekt okay
+          link : {direction: "TO", linkPartner: null}, //Vorprojekt okay
           arithmetic : {} , //Vorprojekt leave empty
           compare : {} //Vorprojekt leave empty
         };

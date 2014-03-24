@@ -22,6 +22,9 @@ angular.module('GSB.controllers.workspace', [])
         availableProperties: {}
       }
     );
+    if($scope.subjects.length === 1){
+      $scope.mainSubjectSelected = $scope.subjects[0];
+    }
   };
 
   //Checks whether an alias name is unique.
@@ -58,6 +61,9 @@ angular.module('GSB.controllers.workspace', [])
   // yes we know: u must give the splice-function the instance of subject
   $scope.removeSubject = function(subjectInst) {
     $scope.subjects.splice($scope.subjects.indexOf(subjectInst), 1);
+    if($scope.subjects.length === 1){
+      $scope.mainSubjectSelected = $scope.subjects[0];
+    }
   };
 
   //Translate GSBL to JSON
@@ -83,7 +89,7 @@ angular.module('GSB.controllers.workspace', [])
       currentSubject.properties = currentSubject["selectedProperties"].map(function(currentProperty){
         delete currentProperty["isObjectProperty"];
         delete currentProperty["propertyType"];
-        if(currentProperty.link.linkPartner.hasOwnProperty("alias")){
+        if(currentProperty.link.linkPartner !== null && currentProperty.link.linkPartner.hasOwnProperty("alias")){
           currentProperty.link.linkPartner = currentProperty.link.linkPartner.alias;
         } else {
           delete currentProperty["link"];
