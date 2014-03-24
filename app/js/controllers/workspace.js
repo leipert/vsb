@@ -92,7 +92,7 @@ angular.module('GSB.controllers.workspace', [])
           if (currentProperty.link.linkPartner !== null && currentProperty.link.linkPartner.hasOwnProperty("alias")) {
             currentProperty.link.linkPartner = currentProperty.link.linkPartner.alias;
           } else {
-            delete currentProperty["link"];
+            currentProperty.link = {};
           }
           return currentProperty;
         });
