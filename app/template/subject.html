@@ -2,20 +2,21 @@
   <!-- Template for subject directive -->
   <div class="subjectHeadCSS">
     <!--Button (Trash-ICON) to remove Subject from list @js/controller/subject.js-->
-    <div class="pull-right">
+    <span class="pull-right">
       <a ng-click="subjectInst.showInfos = !subjectInst.showInfos "><i class="glyphicon glyphicon-info-sign"></i></a>
       <a ng-show="subjectInst.view" ng-click="toggleSubjectView(subjectInst)"><i class="glyphicon glyphicon-eye-open"></i></a>
       <a ng-show="!subjectInst.view" ng-click="toggleSubjectView(subjectInst)"><i class="glyphicon glyphicon-eye-close"></i></a>
       <a ng-click="removeSubject(subjectInst)"><i class="glyphicon glyphicon-trash"></i></a>
-    </div>
-    <div class="clearfix"></div>
-
+    </span>
     <!--Head of a subjectform includes the label and the alias-->
     <!-- Label/URI of subjectInst -->
-    <div ng-show="expertView"><b>{{subjectInst.uri}}</b></div>
+    <p>
+    <b>Class: {{subjectInst.label}}<br>
+    <span ng-show="expertView">{{subjectInst.uri}}</span></b>
+    </p>
     <!--Input for changing the Alias:-->
     <p class="input-group pull-left">
-      <span class="input-group-addon">{{subjectInst.label}} as</span>
+      <span class="input-group-addon">as</span>
       <input type="text" size="30" maxlength="40" class="form-control" placeholder="Alias" ng-model="subjectInst.alias">
     </p>
   </div>
