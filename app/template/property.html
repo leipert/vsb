@@ -3,10 +3,11 @@
 
   <div class="propertyHeadCSS">
     <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/propertyInst.js -->
-    <a ng-click="removeProperty(propertyInst)"><span class="glyphicon glyphicon-trash pull-right"></span></a>
-    <a ng-show="propertyInst.view" ng-click="togglePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-open pull-right">&nbsp;</i></a>
-    <a ng-show="!propertyInst.view" ng-click="togglePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-close pull-right">&nbsp;</i></a>
-
+    <span class="pull-right">
+      <a ng-show="propertyInst.view" ng-click="togglePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-open"></i></a>
+      <a ng-show="!propertyInst.view" ng-click="togglePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-close"></i></a>
+      <a ng-click="removeProperty(propertyInst)"><span class="glyphicon glyphicon-trash"></span></a>
+    </span>
     <!-- Alias of propertyInst -->
     <span><b>{{propertyInst.alias}}</b></span>
   </div>
@@ -20,8 +21,10 @@
         </select>
       </span>
     <!--This select is for changing the property Operator-->
-      <span>
+      <span class="pull-right">
           <select ng-model="propertyInst.operator" ng-options="x.value as x.label for x in propertyOperators"></select>
       </span>
+    <!-- CSS Trick, because pull-right does not make the container higher -->
+    <div class="clearfix"></div>
   </div>
 </div>
