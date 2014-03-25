@@ -2,20 +2,32 @@
   <!-- Template for subject directive -->
   <div class="subjectHeadCSS">
     <!--Button (Trash-ICON) to remove Subject from list @js/controller/subject.js-->
-    <!--FUNCTION removeSubject() IS NOT CALLED BY property.html! DOES ANYBODY KNOW WHY?-->
-    <a ng-click="removeSubject(subjectInst)"><span class="glyphicon glyphicon-trash pull-right"></span></a>
+    <div class="pull-right">
+      <a ng-click="subjectInst.showInfos = !subjectInst.showInfos "><i class="glyphicon glyphicon-info-sign"></i></a>
+      <a ng-show="subjectInst.view" ng-click="toggleSubjectView(subjectInst)"><i class="glyphicon glyphicon-eye-open"></i></a>
+      <a ng-show="!subjectInst.view" ng-click="toggleSubjectView(subjectInst)"><i class="glyphicon glyphicon-eye-close"></i></a>
+      <a ng-click="removeSubject(subjectInst)"><i class="glyphicon glyphicon-trash"></i></a>
+    </div>
+    <div class="clearfix"></div>
 
     <!--Head of a subjectform includes the label and the alias-->
     <!-- Label/URI of subjectInst -->
-    <span><b>Class: {{subjectInst.label}}</b></span><br>
-    <span ng-show="expertView"><b>{{subjectInst.uri}}</b></span>
+    <div ng-show="expertView"><b>{{subjectInst.uri}}</b></div>
     <!--Input for changing the Alias:-->
     <p class="input-group pull-left">
-      <span class="input-group-addon">as</span>
+      <span class="input-group-addon">{{subjectInst.label}} as</span>
       <input type="text" size="30" maxlength="40" class="form-control" placeholder="Alias" ng-model="subjectInst.alias">
     </p>
   </div>
-
+<div class="subjectDescriptionCSS" ng-show="subjectInst.showInfos && subjectInst.showAdditionalFields">
+  <p><b>Description:</b></p>
+  <p>
+    Tolle Erklärung goes here:
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam molestie neque sit amet ante suscipit, ac luctus enim faucibus.
+    Sed ullamcorper erat nulla, nec hendrerit risus ultricies mattis. Pellentesque lacinia neque eget arcu faucibus congue.
+    Aenean condimentum tristique massa vitae elementum.
+  </p>
+</div>
   <!-- Here there will be the properties of the subjectInst, see @js/controller/property.js -->
   <div class="subjectBodyCSS" ng-controller="PropertyCtrl">
     <div class="clearfix"></div>

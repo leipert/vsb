@@ -121,4 +121,8 @@ angular.module('GSB.controllers.workspace', [])
     $scope.initializeWorkspace = function () {
       $scope.subjects = [];
     };
+
+    $scope.toggleSubjectView = function(subjectInst){
+      subjectInst.view = !subjectInst.view;
+    }
   }]);
