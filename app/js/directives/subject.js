@@ -16,8 +16,17 @@ angular.module('GSB.directives.subject', [])
       replace: true,
       templateUrl: 'template/subject.html',
       link: function(scope, elem, attrs) {
-        elem.bind('mouseover', function() {
-          elem.css('cursor', 'pointer');
+
+        elem.on("mouseenter",function(){
+          scope.subjectInst.showAddProperty = true;
+          scope.$apply();
+          console.log(scope.subjectInst);
+        });
+
+        elem.on("mouseleave",function(){
+          scope.subjectInst.showAddProperty = false;
+          scope.$apply();
+          console.log(scope.subjectInst);
         });
       }
     };
