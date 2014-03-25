@@ -49,7 +49,7 @@
       </div>
 
       <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
-      <div class="startPointCSS">
+      <div class="startPointCSS" start-point-dir>
         <b>LIST ALL</b>
         <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects">
           <option style="display:none" value="">Pick main subject</option>
@@ -89,6 +89,7 @@
 <script src="js/controllers/property.js"></script>
 <script src="js/directives/subject.js"></script>
 <script src="js/directives/property.js"></script>
+<script src="js/directives/startPoint.js"></script>
 <script src="js/directives/dragModule.js"></script>
 
 <script src="js/draggable.js"></script>

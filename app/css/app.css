@@ -55,8 +55,12 @@
   background-color: #ffff99;
   border-color: #A4A019;
   width: 350px;
-  min-height: 200px;
 }
+
+#workspace > div.subjectCSS.highlightSubject {
+  border: 4px black solid;
+}
+
 /* doesnt work right now, anybody know why? where is the difference to subjectBodyCSS?*/
 div.subjectCSS > div.subjectHeadCSS {
   /*background-color: #00ff00;*/

@@ -6,6 +6,7 @@ angular.module('GSB.controllers.workspace', [])
   .controller('WorkspaceCtrl', ['$scope', '$log', function ($scope, $log) {
     //Initial State of Subjects
     $scope.subjects = [];
+    $scope.highlightedSubject = null;
     $scope.translatedJSON = "In the near future the translated JSON will be here.";
     $scope.translatedSPARQL = "In the near future the translated SPARQL will be here.";
     $scope.mainSubjectSelected = null;
@@ -21,7 +22,8 @@ angular.module('GSB.controllers.workspace', [])
           uri: uri,
           view: true,
           selectedProperties: [],
-          availableProperties: {}
+          availableProperties: {},
+          showAdditionalFields: false
         }
       );
       if ($scope.subjects.length === 1) {
@@ -119,4 +121,8 @@ angular.module('GSB.controllers.workspace', [])
     $scope.initializeWorkspace = function () {
       $scope.subjects = [];
     };
+
+    $scope.toggleSubjectView = function(subjectInst){
+      subjectInst.view = !subjectInst.view;
+    }
   }]);

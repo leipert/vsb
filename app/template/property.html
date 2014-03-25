@@ -3,27 +3,33 @@
 
   <div class="propertyHeadCSS">
     <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/propertyInst.js -->
-    <span class="pull-right">
-      <a ng-show="propertyInst.view" ng-click="togglePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-open"></i></a>
-      <a ng-show="!propertyInst.view" ng-click="togglePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-close"></i></a>
-      <a ng-click="removeProperty(propertyInst)"><span class="glyphicon glyphicon-trash"></span></a>
-    </span>
+    <div class="pull-right" ng-show="subjectInst.showAdditionalFields">
+      <a href="#" ng-click="propertyInst.showInfos = !propertyInst.showInfos "><i class="glyphicon glyphicon-info-sign"></i></a>
+      <a href="#" ng-show="propertyInst.view" ng-click="togglePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-open"></i></a>
+      <a href="#" ng-show="!propertyInst.view" ng-click="togglePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-close"></i></a>
+      <a href="#" ng-click="removeProperty(propertyInst)"><i class="glyphicon glyphicon-trash"></i></a>
+    </div>
     <!-- Alias of propertyInst -->
-    <span><b>{{propertyInst.alias}}</b></span>
+    <div><b>{{propertyInst.alias}}</b></div>
   </div>
-
+  <div class="propertyDescriptionCSS" ng-show="subjectInst.showAdditionalFields && (subjectInst.showInfos || propertyInst.showInfos)">
+    <p><b>Description:</b></p>
+    <p>
+      Kurze Erklärung zur Eigenschaft
+    </p>
+  </div>
   <div class="propertyBodyCSS">
-    <!-- This span will only be shown, if the property is an OBJECT_DATATYPE -->
-      <span ng-show="propertyInst.isObjectProperty">
+    <!--This select is for changing the property Operator-->
+    <div class="pull-right" ng-show="subjectInst.showAdditionalFields">
+      <select ng-model="propertyInst.operator" ng-options="x.value as x.label for x in propertyOperators"></select>
+    </div>
+    <!-- This div will only be shown, if the property is an OBJECT_DATATYPE -->
+      <div ng-show="propertyInst.isObjectProperty">
         <!-- if a property is selected, it will be linked with the subject -->
-        <select ng-model="propertyInst.link.linkPartner" ng-options="x as x.alias for x in subjects | filterArrayOfObjectsByKeyWithArray : 'uri' : propertyInst.propertyType">
+        <select ng-show="subjectInst.showAdditionalFields || propertyInst.link.linkPartner != null" ng-model="propertyInst.link.linkPartner" ng-options="x as x.alias for x in subjects | filterArrayOfObjectsByKeyWithArray : 'uri' : propertyInst.propertyType">
           <option value="">Link with a subject</option>
         </select>
-      </span>
-    <!--This select is for changing the property Operator-->
-      <span class="pull-right">
-          <select ng-model="propertyInst.operator" ng-options="x.value as x.label for x in propertyOperators"></select>
-      </span>
+      </div>
     <!-- CSS Trick, because pull-right does not make the container higher -->
     <div class="clearfix"></div>
   </div>
