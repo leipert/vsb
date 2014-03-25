@@ -9,6 +9,7 @@ angular.module('GSB', [
   'GSB.controllers.property',
   'GSB.directives.subject',
   'GSB.directives.property',
+  'GSB.directives.startPoint',
   'GSB.directives.dragModule'
 ]);
 
