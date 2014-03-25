@@ -9,6 +9,7 @@ angular.module('GSB.controllers.workspace', [])
     $scope.translatedJSON = "In the near future the translated JSON will be here.";
     $scope.translatedSPARQL = "In the near future the translated SPARQL will be here.";
     $scope.mainSubjectSelected = null;
+    $scope.expertView = false;
 
     // Adds Subject with the provided URI and Alias
     $scope.addSubject = function (uri, alias) {
@@ -16,6 +17,7 @@ angular.module('GSB.controllers.workspace', [])
       $scope.subjects.push(
         {
           alias: alias,
+          label: alias,
           uri: uri,
           view: true,
           selectedProperties: [],

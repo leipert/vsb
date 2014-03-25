@@ -7,7 +7,8 @@
 
     <!--Head of a subjectform includes the label and the alias-->
     <!-- Label/URI of subjectInst -->
-    <span><b>{{subjectInst.uri}}</b></span>
+    <span><b>Class: {{subjectInst.label}}</b></span><br>
+    <span ng-show="expertView"><b>{{subjectInst.uri}}</b></span>
     <!--Input for changing the Alias:-->
     <p class="input-group pull-left">
       <span class="input-group-addon">as</span>
