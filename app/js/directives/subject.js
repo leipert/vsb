@@ -31,12 +31,12 @@ angular.module('GSB.directives.subject', [])
           }
         });
 
-        elem.on("mouseenter",function(){
+        element.on("mouseenter",function(){
           scope.subjectInst.showAdditionalFields = true;
           scope.$apply();
         });
 
-        elem.on("mouseleave",function(){
+        element.on("mouseleave",function(){
           scope.subjectInst.showAdditionalFields = false;
           scope.$apply();
         });
