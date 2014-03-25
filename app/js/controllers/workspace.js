@@ -22,7 +22,8 @@ angular.module('GSB.controllers.workspace', [])
           uri: uri,
           view: true,
           selectedProperties: [],
-          availableProperties: {}
+          availableProperties: {},
+          showAdditionalFields: false
         }
       );
       if ($scope.subjects.length === 1) {

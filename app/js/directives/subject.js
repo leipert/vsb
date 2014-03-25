@@ -30,6 +30,16 @@ angular.module('GSB.directives.subject', [])
             element.removeClass("highlightSubject");
           }
         });
+
+        elem.on("mouseenter",function(){
+          scope.subjectInst.showAdditionalFields = true;
+          scope.$apply();
+        });
+
+        elem.on("mouseleave",function(){
+          scope.subjectInst.showAdditionalFields = false;
+          scope.$apply();
+        });
       }
     };
   });
