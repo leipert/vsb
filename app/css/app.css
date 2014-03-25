@@ -32,11 +32,11 @@
   color: #CC0000;
 }
 
-#workspace > div.addSubjectClass{
+/*#workspace > div.addSubjectClass{
   border-radius: 0;
   border:0 solid black;
   width:auto;
-}
+}*/
 
 #workspace > div.startPointCSS {
   background: #D2646A;
