@@ -9,11 +9,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/alter.json"
+          "value": "mockup/alter.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Person.json"
+          "value": "mockup/Person.json"
         },
         "propertyType": {
           "type": "uri",
@@ -28,11 +28,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/gehalt.json"
+          "value": "mockup/gehalt.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Person.json"
+          "value": "mockup/Person.json"
         },
         "propertyType": {
           "type": "uri",
@@ -47,11 +47,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/fachsemester.json"
+          "value": "mockup/fachsemester.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Person.json"
+          "value": "mockup/Person.json"
         },
         "propertyType": {
           "type": "uri",
@@ -66,15 +66,15 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/studiert_an.json"
+          "value": "mockup/studiert_an.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Person.json"
+          "value": "mockup/Person.json"
         },
         "propertyType": {
           "type": "uri",
-          "value": "/app/mockup/Universitaet.json"
+          "value": "mockup/Universitaet.json"
         },
         "propertyAlias": {
           "type": "literal",
@@ -86,15 +86,15 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/arbeitet_bei.json"
+          "value": "mockup/arbeitet_bei.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Person.json"
+          "value": "mockup/Person.json"
         },
         "propertyType": {
           "type": "uri",
-          "value": "/app/mockup/Firma.json"
+          "value": "mockup/Firma.json"
         },
         "propertyAlias": {
           "type": "literal",
@@ -105,15 +105,15 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/arbeitet_bei.json"
+          "value": "mockup/arbeitet_bei.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Person.json"
+          "value": "mockup/Person.json"
         },
         "propertyType": {
           "type": "uri",
-          "value": "/app/mockup/Universitaet.json"
+          "value": "mockup/Universitaet.json"
         },
         "propertyAlias": {
           "type": "literal",
@@ -124,15 +124,15 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/lebt_in.json"
+          "value": "mockup/lebt_in.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Person.json"
+          "value": "mockup/Person.json"
         },
         "propertyType": {
           "type": "uri",
-          "value": "/app/mockup/Stadt.json"
+          "value": "mockup/Stadt.json"
         },
         "propertyAlias": {
           "type": "literal",
@@ -143,15 +143,15 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/lebt_in.json"
+          "value": "mockup/lebt_in.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Person.json"
+          "value": "mockup/Person.json"
         },
         "propertyType": {
           "type": "uri",
-          "value": "/app/mockup/Land.json"
+          "value": "mockup/Land.json"
         },
         "propertyAlias": {
           "type": "literal",
@@ -164,11 +164,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/vorname.json"
+          "value": "mockup/vorname.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Person.json"
+          "value": "mockup/Person.json"
         },
         "propertyType": {
           "type": "uri",
@@ -183,11 +183,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/nachname.json"
+          "value": "mockup/nachname.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Person.json"
+          "value": "mockup/Person.json"
         },
         "propertyType": {
           "type": "uri",
@@ -202,11 +202,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/matrikelnummer.json"
+          "value": "mockup/matrikelnummer.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Person.json"
+          "value": "mockup/Person.json"
         },
         "propertyType": {
           "type": "uri",
@@ -221,15 +221,15 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/studiert.json"
+          "value": "mockup/studiert.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Person.json"
+          "value": "mockup/Person.json"
         },
         "propertyType": {
           "type": "uri",
-          "value": "/app/mockup/Studiengang.json"
+          "value": "mockup/Studiengang.json"
         },
         "propertyAlias": {
           "type": "literal",

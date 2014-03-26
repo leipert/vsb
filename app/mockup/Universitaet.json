@@ -10,11 +10,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/heisst.json"
+          "value": "mockup/heisst.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Universitaet.json"
+          "value": "mockup/Universitaet.json"
         },
         "propertyType": {
           "type": "uri",
@@ -30,11 +30,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/beschaeftigtenZahl.json"
+          "value": "mockup/beschaeftigtenZahl.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Universitaet.json"
+          "value": "mockup/Universitaet.json"
         },
         "propertyType": {
           "type": "uri",
@@ -51,15 +51,15 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/bietet_an.json"
+          "value": "mockup/bietet_an.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Universitaet.json"
+          "value": "mockup/Universitaet.json"
         },
         "propertyType": {
           "type": "uri",
-          "value": "/app/mockup/Studiengang.json"
+          "value": "mockup/Studiengang.json"
         },
         "propertyAlias": {
           "type": "literal",
@@ -72,11 +72,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/gruendungsjahr.json"
+          "value": "mockup/gruendungsjahr.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Universitaet.json"
+          "value": "mockup/Universitaet.json"
         },
         "propertyType": {
           "type": "uri",
@@ -92,15 +92,15 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/liegt_in.json"
+          "value": "mockup/liegt_in.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Universitaet.json"
+          "value": "mockup/Universitaet.json"
         },
         "propertyType": {
           "type": "uri",
-          "value": "/app/mockup/Land.json"
+          "value": "mockup/Land.json"
         },
         "propertyAlias": {
           "type": "literal",
@@ -113,15 +113,15 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/liegt_in.json"
+          "value": "mockup/liegt_in.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Universitaet.json"
+          "value": "mockup/Universitaet.json"
         },
         "propertyType": {
           "type": "uri",
-          "value": "/app/mockup/Stadt.json"
+          "value": "mockup/Stadt.json"
         },
         "propertyAlias": {
           "type": "literal",

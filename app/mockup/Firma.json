@@ -9,11 +9,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/heisst.json"
+          "value": "mockup/heisst.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Firma.json"
+          "value": "mockup/Firma.json"
         },
         "propertyType": {
           "type": "uri",
@@ -28,11 +28,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/beschaeftigtenZahl.json"
+          "value": "mockup/beschaeftigtenZahl.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Firma.json"
+          "value": "mockup/Firma.json"
         },
         "propertyType": {
           "type": "uri",

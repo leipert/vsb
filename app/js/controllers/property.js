@@ -14,7 +14,7 @@ angular.module('GSB.controllers.property', [])
 
     console.log('Lade die Properties von ' + $parentSubject.uri);
     //Retrieve Properties from Server and add them to availableProperties
-    $http.get($parentSubject.uri).success(function (data){
+    $http.get(globalConfig.baseURL + $parentSubject.uri).success(function (data){
       $parentSubject.availableProperties = {};
       var returnedProperties = data.results.bindings;
       for (var key in returnedProperties){

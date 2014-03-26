@@ -58,8 +58,8 @@ angular.module('GSB.controllers.workspace', [])
     });
 
     //Adds first Subject
-    $scope.addSubject('/app/mockup/Person.json', "Mensch");
-    $scope.addSubject('/app/mockup/Stadt.json', "Stadt");
+    $scope.addSubject('mockup/Person.json', "Mensch");
+    $scope.addSubject('mockup/Stadt.json', "Stadt");
 
     //Removes the selected subject !!! FUNCTION IS NOT CALLED BY property.html DOES ANYBODY KNOW WHY?
     // yes we know: u must give the splice-function the instance of subject

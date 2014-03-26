@@ -10,11 +10,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/heisst.json"
+          "value": "mockup/heisst.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Land.json"
+          "value": "mockup/Land.json"
         },
         "propertyType": {
           "type": "uri",
@@ -29,11 +29,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/einwohnerZahl.json"
+          "value": "mockup/einwohnerZahl.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Land.json"
+          "value": "mockup/Land.json"
         },
         "propertyType": {
           "type": "uri",
@@ -48,11 +48,11 @@
       {
         "property": {
           "type": "uri",
-          "value": "/app/mockup/flaeche.json"
+          "value": "mockup/flaeche.json"
         },
         "propertyOf": {
           "type": "uri",
-          "value": "/app/mockup/Land.json"
+          "value": "mockup/Land.json"
         },
         "propertyType": {
           "type": "uri",

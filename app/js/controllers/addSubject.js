@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('GSB.controllers.addSubject', ['ngSanitize', 'ui.select'])
-.controller('AddSubjectCtrl', function($scope, $http) {
+.controller('AddSubjectCtrl', ['$scope', '$http', 'globalConfig', function($scope, $http, globalConfig) {
 //	 List of available subject classes that can be added to the workspace.
   $scope.availableSubjectClasses = [];
 
@@ -9,7 +9,7 @@ angular.module('GSB.controllers.addSubject', ['ngSanitize', 'ui.select'])
   $scope.selectedSubjectClass = undefined;
 
   //  Get Availabe Subject Classes from Server
-  $http.get('/app/mockup/classes.json').success(function(data) {
+  $http.get(globalConfig.baseURL + 'mockup/classes.json').success(function(data) {
     var availClasses = data.results.bindings;
     for (var key in availClasses) {
       if(availClasses.hasOwnProperty(key)){
@@ -32,6 +32,6 @@ angular.module('GSB.controllers.addSubject', ['ngSanitize', 'ui.select'])
 						  $scope.selectedSubjectClass = undefined;
     }
   };
-});
+}]);
 
 
