@@ -2,16 +2,14 @@
 
 // Loads all our components
 angular.module('GSB', [
-  'ui.bootstrap',
   'GSB.config',
   'GSB.filters',
   'GSB.controllers.workspace',
   'GSB.controllers.property',
-		'GSB.controllers.addSubject',
+  'GSB.controllers.addSubject',
   'GSB.directives.subject',
   'GSB.directives.property',
-  'GSB.directives.startPoint',
-  'GSB.directives.dragModule'
+  'GSB.directives.startPoint'
 ]);
 
 //Global functions
