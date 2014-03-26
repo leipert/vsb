@@ -1,6 +1,6 @@
 { "head": {
   "link": [],
-  "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
+  "vars": ["propertyURI", "propertyDomain", "propertyRange", "propertyAlias"]
 },
   "results": {
     "distinct": false,
@@ -8,15 +8,15 @@
     "bindings": [
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/heisst.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Universitaet.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#string"
         },
@@ -28,15 +28,15 @@
 
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/beschaeftigtenZahl.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Universitaet.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#integer"
         },
@@ -49,15 +49,15 @@
 
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/bietet_an.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Universitaet.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "mockup/Studiengang.json"
         },
@@ -70,15 +70,15 @@
 
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/gruendungsjahr.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Universitaet.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#date"
         },
@@ -90,15 +90,15 @@
 
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/liegt_in.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Universitaet.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "mockup/Land.json"
         },
@@ -111,15 +111,15 @@
 
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/liegt_in.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Universitaet.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "mockup/Stadt.json"
         },

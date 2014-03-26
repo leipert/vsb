@@ -1,21 +1,21 @@
 { "head": {
   "link": [],
-  "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
+  "vars": ["propertyURI", "propertyDomain", "propertyRange", "propertyAlias"]
 },
   "results": {
     "distinct": false,
     "ordered": true,
     "bindings": [
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/heisst.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Firma.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#string"
         },
@@ -26,15 +26,15 @@
       },
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/beschaeftigtenZahl.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Firma.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#integer"
         },

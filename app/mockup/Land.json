@@ -1,6 +1,6 @@
 { "head": {
   "link": [],
-  "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
+  "vars": ["propertyURI", "propertyDomain", "propertyRange", "propertyAlias"]
 },
   "results": {
     "distinct": false,
@@ -8,15 +8,15 @@
     "bindings": [
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/heisst.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Land.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#string"
         },
@@ -27,15 +27,15 @@
       },
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/einwohnerZahl.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Land.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#integer"
         },
@@ -46,15 +46,15 @@
       },
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/flaeche.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Land.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#double"
         },

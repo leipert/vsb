@@ -25,10 +25,10 @@ angular.module('GSB.controllers.property', [])
     });
 
     //Returns whether a property is an Object Property
-    $scope.isObjectProperty = function (propertyType) {
+    $scope.isObjectProperty = function (propertyRange) {
       var dataTypeURIs = globalConfig['dataTypeURIs'];
       for(var key in dataTypeURIs){
-        if(dataTypeURIs.hasOwnProperty(key) && propertyType.startsWith(dataTypeURIs[key])){
+        if(dataTypeURIs.hasOwnProperty(key) && propertyRange.startsWith(dataTypeURIs[key])){
           return false;
         }
       }
@@ -37,18 +37,18 @@ angular.module('GSB.controllers.property', [])
 
     //Adds Property to availableProperties.
     $scope.addToAvailableProperties = function (property) {
-      var propertyURI = property.property.value,
-        propertyType = property.propertyType.value,
-        isObjectProperty = ($scope.isObjectProperty(propertyType));
+      var propertyURI = property.propertyURI.value,
+        propertyRange = property.propertyRange.value,
+        isObjectProperty = ($scope.isObjectProperty(propertyRange));
       if($parentSubject.availableProperties.hasOwnProperty(propertyURI)){
-        $parentSubject.availableProperties[propertyURI].propertyType.push(propertyType);
+        $parentSubject.availableProperties[propertyURI].propertyRange.push(propertyRange);
       }else {
         $parentSubject.availableProperties[propertyURI] = {
           alias: property.propertyAlias.value,
           uri: propertyURI,
           type: isObjectProperty ? 'OBJECT_PROPERTY' : 'DATATYPE_PROPERTY',
           isObjectProperty: isObjectProperty,
-          propertyType: [propertyType],
+          propertyRange: [propertyRange],
           view: true,
           operator: "MUST", //Vorprojekt okay
           link : {direction: "TO", linkPartner: null}, //Vorprojekt okay
