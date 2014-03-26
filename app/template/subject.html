@@ -3,7 +3,7 @@
   <div class="subjectHeadCSS">
     <!--Button (Trash-ICON) to remove Subject from list @js/controller/subject.js-->
     <span class="pull-right">
-      <a ng-click="subjectInst.showInfos = !subjectInst.showInfos "><i class="glyphicon glyphicon-info-sign"></i></a>
+      <a ng-mouseenter="subjectInst.showInfos = true" ng-mouseleave="subjectInst.showInfos = false"><i class="glyphicon glyphicon-info-sign"></i></a>
       <a ng-show="subjectInst.view" ng-click="toggleSubjectView(subjectInst)"><i class="glyphicon glyphicon-eye-open"></i></a>
       <a ng-show="!subjectInst.view" ng-click="toggleSubjectView(subjectInst)"><i class="glyphicon glyphicon-eye-close"></i></a>
       <a ng-click="removeSubject(subjectInst)"><i class="glyphicon glyphicon-trash"></i></a>

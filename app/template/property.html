@@ -4,7 +4,7 @@
   <div class="propertyHeadCSS">
     <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/propertyInst.js -->
     <div class="pull-right" ng-show="subjectInst.showAdditionalFields">
-      <a href="#" ng-click="propertyInst.showInfos = !propertyInst.showInfos "><i class="glyphicon glyphicon-info-sign"></i></a>
+      <a href="#" ng-mouseenter="propertyInst.showInfos = true" ng-mouseleave="propertyInst.showInfos = false"><i class="glyphicon glyphicon-info-sign"></i></a>
       <a href="#" ng-show="propertyInst.view" ng-click="togglePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-open"></i></a>
       <a href="#" ng-show="!propertyInst.view" ng-click="togglePropertyView(propertyInst)"><i class="glyphicon glyphicon-eye-close"></i></a>
       <a href="#" ng-click="removeProperty(propertyInst)"><i class="glyphicon glyphicon-trash"></i></a>
