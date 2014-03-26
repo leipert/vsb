@@ -1,21 +1,21 @@
 { "head": {
   "link": [],
-  "vars": ["property", "propertyOf", "propertyType", "propertyAlias"]
+  "vars": ["propertyURI", "propertyDomain", "propertyRange", "propertyAlias"]
 },
   "results": {
     "distinct": false,
     "ordered": true,
     "bindings": [
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/alter.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Person.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#integer"
         },
@@ -26,15 +26,15 @@
       },
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/gehalt.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Person.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#double"
         },
@@ -45,15 +45,15 @@
       },
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/fachsemester.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Person.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#integer"
         },
@@ -64,15 +64,15 @@
       },
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/studiert_an.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Person.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "mockup/Universitaet.json"
         },
@@ -84,15 +84,15 @@
 
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/arbeitet_bei.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Person.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "mockup/Firma.json"
         },
@@ -103,15 +103,15 @@
       },
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/arbeitet_bei.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Person.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "mockup/Universitaet.json"
         },
@@ -122,15 +122,15 @@
       },
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/lebt_in.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Person.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "mockup/Stadt.json"
         },
@@ -141,15 +141,15 @@
       },
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/lebt_in.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Person.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "mockup/Land.json"
         },
@@ -162,15 +162,15 @@
 
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/vorname.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Person.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#string"
         },
@@ -181,15 +181,15 @@
       },
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/nachname.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Person.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#string"
         },
@@ -200,15 +200,15 @@
       },
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/matrikelnummer.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Person.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "http://www.w3.org/2001/XMLSchema#integer"
         },
@@ -219,15 +219,15 @@
       },
 
       {
-        "property": {
+        "propertyURI": {
           "type": "uri",
           "value": "mockup/studiert.json"
         },
-        "propertyOf": {
+        "propertyDomain": {
           "type": "uri",
           "value": "mockup/Person.json"
         },
-        "propertyType": {
+        "propertyRange": {
           "type": "uri",
           "value": "mockup/Studiengang.json"
         },
