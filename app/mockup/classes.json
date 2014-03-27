@@ -1,7 +1,7 @@
 {
   "head": {
     "link": [],
-    "vars": ["class", "alias"]
+    "vars": ["class", "alias", "comment"]
   },
   "results": {
     "distinct": false,
@@ -15,7 +15,11 @@
         "alias": {
           "type": "literal",
           "value": "Mensch"
-        }
+        },
+        "comment": {
+          "type": "literal",
+          "value": "Ein Individuum der Spezies Mensch."
+        }        
       },
 
       {
@@ -26,7 +30,11 @@
         "alias": {
           "type": "literal",
           "value": "Uni"
-        }
+        },
+        "comment": {
+          "type": "literal",
+          "value": "Eine Hochschule."
+        }        
       },
 
       {
@@ -37,7 +45,11 @@
         "alias": {
           "type": "literal",
           "value": "Stadt"
-        }
+        },
+        "comment": {
+          "type": "literal",
+          "value": "Eine Siedlung, größer als ein Dorf."
+        }        
       },
 
       {
@@ -48,7 +60,11 @@
         "alias": {
           "type": "literal",
           "value": "Land"
-        }
+        },
+        "comment": {
+          "type": "literal",
+          "value": "Eine physische oder politische regionale Einheit."
+        }        
       },
 
       {
@@ -59,7 +75,7 @@
         "alias": {
           "type": "literal",
           "value": "Studiengang"
-        }
+        }       
       },
 
       {
@@ -70,7 +86,7 @@
         "alias": {
           "type": "literal",
           "value": "Firma"
-        }
+        }    
       }
 
     ]
