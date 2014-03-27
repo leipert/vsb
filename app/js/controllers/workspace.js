@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('GSB.controllers.workspace', [])
-  .controller('WorkspaceCtrl', ['$scope', '$log', function ($scope, $log) {
+  .controller('WorkspaceCtrl', ['$scope', '$log', 'classes', function ($scope, $log, classes) {
     //Initial State of Subjects
     $scope.subjects = [];
     $scope.highlightedSubject = null;
@@ -11,6 +11,9 @@ angular.module('GSB.controllers.workspace', [])
     $scope.translatedSPARQL = "In the near future the translated SPARQL will be here.";
     $scope.mainSubjectSelected = null;
     $scope.expertView = false;
+
+    $scope.asc = [];
+    classes.get($scope.asc);
 
     // Adds Subject with the provided URI and Alias
     $scope.addSubject = function (uri, alias) {
