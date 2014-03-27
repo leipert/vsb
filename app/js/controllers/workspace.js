@@ -11,10 +11,7 @@ angular.module('GSB.controllers.workspace', [])
     $scope.translatedSPARQL = "In the near future the translated SPARQL will be here.";
     $scope.mainSubjectSelected = null;
     $scope.expertView = false;
-
-    $scope.asc = [];
-    classes.get($scope.asc);
-
+    
     // Adds Subject with the provided URI and Alias
     $scope.addSubject = function (uri, alias, comment) {
       alias = $scope.createUniqueAlias(alias);
@@ -61,11 +58,19 @@ angular.module('GSB.controllers.workspace', [])
 	    $scope.addSubject(subjectClass.uri, subjectClass.alias, subjectClass.comment);
     });
 
+
     //Adds first Subject
-    $scope.addSubject('mockup/Person.json', "Mensch", 'testCommentMensch');
-    $scope.addSubject('mockup/Stadt.json', "Stadt", 'testCommentStadt');
-//    $scope.addSubject('mockup/Person.json', "Mensch");
-//    $scope.addSubject('mockup/Stadt.json', "Stadt");
+     //  List of available subject classes that can be added to the workspace.
+    $scope.availableSubjectClasses = [];
+    classes.get($scope.availableSubjectClasses);
+    console.log($scope.availableSubjectClasses);
+	  
+// Does not work, $scope.availableSubjectClasses stille empty at this point.
+// Does sombody know why?
+//    $scope.addSubject($scope.asc[0].uri, $scope.asc[0].alias, $scope.asc[0].comment);
+//    $scope.addSubject($scope.asc[1].uri, $scope.asc[1].alias, $scope.asc[1].comment);
+    $scope.addSubject('mockup/Person.json', "Mensch", "Ein Individuum der Spezies Mensch.");
+    $scope.addSubject('mockup/Stadt.json', "Stadt", "Eine Siedlung, größer als ein Dorf.");
 
     //Removes the selected subject !!! FUNCTION IS NOT CALLED BY property.html DOES ANYBODY KNOW WHY?
     // yes we know: u must give the splice-function the instance of subject
