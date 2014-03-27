@@ -1,7 +1,7 @@
 <div class="subjectCSS">
   <!-- Template for subject directive -->
   <div class="subjectHeadCSS">
-    <!--Button (Trash-ICON) to remove Subject from list @js/controller/subject.js-->
+    <!--Button (Trash-ICON) to remove Subject from list @js/controller/workspace.js-->
     <span class="pull-right">
       <a ng-mouseenter="subjectInst.showInfos = true" ng-mouseleave="subjectInst.showInfos = false"><i class="glyphicon glyphicon-info-sign"></i></a>
       <a ng-show="subjectInst.view" ng-click="toggleSubjectView(subjectInst)"><i class="glyphicon glyphicon-eye-open"></i></a>
@@ -22,12 +22,7 @@
   </div>
 <div class="subjectDescriptionCSS" ng-show="subjectInst.showInfos && subjectInst.showAdditionalFields">
   <p><b>Description:</b></p>
-  <p>
-    Tolle Erklärung goes here:
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam molestie neque sit amet ante suscipit, ac luctus enim faucibus.
-    Sed ullamcorper erat nulla, nec hendrerit risus ultricies mattis. Pellentesque lacinia neque eget arcu faucibus congue.
-    Aenean condimentum tristique massa vitae elementum.
-  </p>
+  <p>{{subjectInst.comment}}</p>
 </div>
   <!-- Here there will be the properties of the subjectInst, see @js/controller/property.js -->
   <div class="subjectBodyCSS" ng-controller="PropertyCtrl">

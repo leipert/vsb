@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('GSB.controllers.workspace', [])
-  .controller('WorkspaceCtrl', ['$scope', '$log', function ($scope, $log) {
+  .controller('WorkspaceCtrl', ['$scope', '$log', 'classes', function ($scope, $log, classes) {
     //Initial State of Subjects
     $scope.subjects = [];
     $scope.highlightedSubject = null;
@@ -12,14 +12,18 @@ angular.module('GSB.controllers.workspace', [])
     $scope.mainSubjectSelected = null;
     $scope.expertView = false;
 
+    $scope.asc = [];
+    classes.get($scope.asc);
+
     // Adds Subject with the provided URI and Alias
-    $scope.addSubject = function (uri, alias) {
+    $scope.addSubject = function (uri, alias, comment) {
       alias = $scope.createUniqueAlias(alias);
       $scope.subjects.push(
         {
           alias: alias,
           label: alias,
           uri: uri,
+          comment: comment,
           view: true,
           selectedProperties: [],
           availableProperties: {},
@@ -35,9 +39,9 @@ angular.module('GSB.controllers.workspace', [])
     //If not it will provide us with an unique one.
     $scope.createUniqueAlias = function (alias) {
       var aliasUnique = true,
-        newAlias = alias,
-        key = null,
-        c = 1;
+      newAlias = alias,
+      key = null,
+      c = 1;
       do {
         for (key in $scope.subjects) {
           if ($scope.subjects[key].alias === newAlias) {
@@ -54,12 +58,14 @@ angular.module('GSB.controllers.workspace', [])
 
     //Eventlistener. If this Event is called, a new Subject will be created.
     $scope.$on('newSubjectEvent', function ($event, subjectClass) {
-      $scope.addSubject(subjectClass.uri, subjectClass.alias);
+	    $scope.addSubject(subjectClass.uri, subjectClass.alias, subjectClass.comment);
     });
 
     //Adds first Subject
-    $scope.addSubject('mockup/Person.json', "Mensch");
-    $scope.addSubject('mockup/Stadt.json', "Stadt");
+    $scope.addSubject('mockup/Person.json', "Mensch", 'testCommentMensch');
+    $scope.addSubject('mockup/Stadt.json', "Stadt", 'testCommentStadt');
+//    $scope.addSubject('mockup/Person.json', "Mensch");
+//    $scope.addSubject('mockup/Stadt.json', "Stadt");
 
     //Removes the selected subject !!! FUNCTION IS NOT CALLED BY property.html DOES ANYBODY KNOW WHY?
     // yes we know: u must give the splice-function the instance of subject
@@ -78,16 +84,16 @@ angular.module('GSB.controllers.workspace', [])
         return;
       }
       var json = {
-          START: {
-            type: "LIST_ALL",
-            "link": {
-              "direction": "TO",
-              "linkPartner": $scope.mainSubjectSelected.alias
-            }
-          },
-          SUBJECTS: []
+        START: {
+          type: "LIST_ALL",
+          "link": {
+            "direction": "TO",
+            "linkPartner": $scope.mainSubjectSelected.alias
+          }
         },
-        allSubjects = angular.copy($scope.subjects);
+        SUBJECTS: []
+      },
+      allSubjects = angular.copy($scope.subjects);
       allSubjects.map(function (currentSubject) {
         delete currentSubject["availableProperties"];
         currentSubject.properties = currentSubject["selectedProperties"].map(function (currentProperty) {
