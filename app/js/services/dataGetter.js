@@ -2,7 +2,7 @@
 
 
 angular.module('GSB.services.dataGetter', []).
-  // service('mockUpClasses', function($http, globalConfig) {
+  // service('availableClassesService', function($http, globalConfig) {
   //   this.get = function(asc) {
   //     //  Get Availabe Subject Classes from Server
   //     $http.get(globalConfig.baseURL + 'mockup/classes.json').success(function(data) {
@@ -25,7 +25,7 @@ angular.module('GSB.services.dataGetter', []).
   //     }); 
   //   }
   // });
-  factory('mockUpClasses', function($http, globalConfig) {
+  factory('availableClassesService', function($http, globalConfig) {
     var factory = {};
     factory.get = function(asc) {
       //  Get Availabe Subject Classes from Server
