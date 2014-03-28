@@ -1,10 +1,9 @@
 'use strict';
 
 
-angular.module('GSB.factories.dataGetter', []).
-  // service('classes', function($http, globalConfig) {
+angular.module('GSB.services.dataGetter', []).
+  // service('mockUpClasses', function($http, globalConfig) {
   //   this.get = function(asc) {
-  //     console.log('classes.get called');
   //     //  Get Availabe Subject Classes from Server
   //     $http.get(globalConfig.baseURL + 'mockup/classes.json').success(function(data) {
   //       var availClasses = data.results.bindings;
@@ -26,7 +25,7 @@ angular.module('GSB.factories.dataGetter', []).
   //     }); 
   //   }
   // });
-  factory('classes', function($http, globalConfig) {
+  factory('mockUpClasses', function($http, globalConfig) {
     var factory = {};
     factory.get = function(asc) {
       //  Get Availabe Subject Classes from Server
