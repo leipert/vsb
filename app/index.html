@@ -16,92 +16,92 @@
 
       <!-- Row containing Page title -->
       <div class="row">
-	      <h1>Graphical SPARQL Builder</h1>
+	<h1>Graphical SPARQL Builder</h1>
       </div>
       <!-- Row containing top controls -->
       <div class="row">
-	      <div id="top-controls" class="col-sm-12">
-	        <a href="#" class="btn btn-warning" ng-click="translateJSONtoSPARQL()">Build Query</a>
-	        <!--<a href="#" class="btn btn-info" ng-click="translateJSONtoSPARQL()">Save as JSON</a>-->
-	        <a href="#" class="btn btn-danger" ng-click="initializeWorkspace()">Reset Workspace</a>
-	        <a href="#" class="btn btn-info" ng-click="expertView = !expertView"><span class="glyphicon glyphicon-tower"></span></a>
-	      </div>
+	<div id="top-controls" class="col-sm-12">
+	  <a href="#" class="btn btn-warning" ng-click="translateJSONtoSPARQL()">Build Query</a>
+	  <!--<a href="#" class="btn btn-info" ng-click="translateJSONtoSPARQL()">Save as JSON</a>-->
+	  <a href="#" class="btn btn-danger" ng-click="initializeWorkspace()">Reset Workspace</a>
+	  <a href="#" class="btn btn-info" ng-click="expertView = !expertView"><span class="glyphicon glyphicon-tower"></span></a>
+	</div>
       </div>
 
       <!-- WORKSPACE, this is where most of the magic happens -->
       <div id="top" class="row">
 
-	      <!-- See @js/controllers/workspace.js -->
-	      <div id="workspace" class="col-sm-12">
+	<!-- See @js/controllers/workspace.js -->
+	<div id="workspace" class="col-sm-12">
 
-	        <!-- Button/Modal for adding Subjects, See @js/controllers/workspace.js
-	             <div class="addSubjectClass pull-right" ng-controller="ModalCtrl">
+	  <!-- Button/Modal for adding Subjects, See @js/controllers/workspace.js
+	       <div class="addSubjectClass pull-right" ng-controller="ModalCtrl">
                  modal version<br>
                  <button class="btn btn-success" ng-click="open()">Choose subject!</button>
-	             </div>-->
+	       </div>-->
 
-	        <!-- Button/Drop Down for adding Subjects, See @js/controllers/workspace.js -->
-	        <!--	hope this on works fine-->
-	        <!--<div class="addSubjectClass pull-right" ng-controller="AddSubjectDropDownCtrl">
+	  <!-- Button/Drop Down for adding Subjects, See @js/controllers/workspace.js -->
+	  <!--	hope this on works fine-->
+	  <!--<div class="addSubjectClass pull-right" ng-controller="AddSubjectDropDownCtrl">
               <button class="btn btn-success" ng-click="dropDownAddSubject()">
-		            Add
+		Add
               </button>
               <select ng-model="selectedSubjectClass" ng-options="asc.alias for asc in availableSubjectClasses">
-		            <option value="">-choose subject-</option>
+		<option value="">-choose subject-</option>
               </select>
-	        </div>-->
-	        <div class="form-group pull-right" ng-controller="AddSubjectCtrl">
+	  </div>-->
+	  <div class="form-group pull-right" ng-controller="AddSubjectCtrl">
             <div class="input-group">
 
-	            <ui-select ng-model="$parent.selectedSubjectClass" theme="lib/ui-select/bootstrap">
-		            <match placeholder="Please choose a subject.">
-		              {{$select.selected.alias}}
-		            </match>
-		            <!-- IMPORTANT: it has to be item in 'repeat="item in...', 
-		                 as ui-select defines it internally.	Anything else wont work!	-->
-		            <choices repeat="item in availableSubjectClasses | filter: $select.search">
-		              <div ng-bind-html="item.alias | highlight: $select.search"></div>
-		              <small ng-bind-html="item.uri | highlight: $select.search"></small>
-		            </choices>
-	            </ui-select>
+	      <ui-select ng-model="$parent.selectedSubjectClass" theme="lib/ui-select/bootstrap">
+		<match placeholder="Please choose a subject.">
+		  {{$select.selected.alias}}
+		</match>
+		<!-- IMPORTANT: it has to be item in 'repeat="item in...', 
+		     as ui-select defines it internally.	Anything else wont work!	-->
+		<choices repeat="item in availableSubjectClasses | filter: $select.search">
+		  <div ng-bind-html="item.alias | highlight: $select.search"></div>
+		  <small ng-bind-html="item.uri | highlight: $select.search"></small>
+		</choices>
+	      </ui-select>
 
-	            <span class="input-group-btn">
-		            <button ng-click="uiAddSubject()" class="btn btn-success">
+	      <span class="input-group-btn">
+		<button ng-click="uiAddSubject()" class="btn btn-success">
                   <span class="glyphicon glyphicon-plus"></span>
-		            </button>
+		</button>
               </span>
 
             </div>
-	        </div>
+	  </div>
 
-	        <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
-	        <div class="startPointCSS" start-point-dir>
+	  <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
+	  <div class="startPointCSS" start-point-dir>
             <b>LIST ALL</b>
             <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects">
               <option style="display:none" value="">Pick main subject</option>
             </select>
-	        </div>
+	  </div>
 
-	        <!-- Inserts all existing subjects in workspace, See @js/directives/workspace.js -->
-	        <subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
+	  <!-- Inserts all existing subjects in workspace, See @js/directives/workspace.js -->
+	  <subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
 
-	      </div>
+	</div>
       </div>
 
       <!-- Result area, at the moment not populated -->
       <div class="row">
-	      <h3 class="col-sm-12">SPARQL Query</h3>
-	      <div id="middle-controls" class="col-sm-12">Controls for SPARQL Result</div>
-	      <div class="col-sm-6">JSON:</div>
-	      <div class="col-sm-6">SPARQL:</div>
-	      <pre id="json-query" class="col-sm-6">{{translatedJSON}}</pre>
-	      <pre id="sparql-query" class="col-sm-6">{{translatedSPARQL}}</pre>
+	<h3 class="col-sm-12">SPARQL Query</h3>
+	<div id="middle-controls" class="col-sm-12">Controls for SPARQL Result</div>
+	<div class="col-sm-6">JSON:</div>
+	<div class="col-sm-6">SPARQL:</div>
+	<pre id="json-query" class="col-sm-6">{{translatedJSON}}</pre>
+	<pre id="sparql-query" class="col-sm-6">{{translatedSPARQL}}</pre>
       </div>
     </div>
 
     <!-- In production use:
-	       <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-	       -->
+	 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+	 -->
     <!-- Import Angular JS Framework, see http://angularjs.org -->
     <script src="lib/angular/angular.js"></script>
     <!-- Import angular-sanitize for ui-select -->
