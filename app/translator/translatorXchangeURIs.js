@@ -113,6 +113,7 @@ function translateAll (json) {
   var translated = [];
   var SPARQL = "";
 
+  json = replaceAliasSpaces(json);
 
   for(var i = 0; i < json.SUBJECTS.length; i++)
   {
@@ -319,6 +320,29 @@ function translateDatatypeProperty (itsSubject, eigenschaft, shownValues, transl
 
   return SPARQL;
 }
+
+
+/*
+ * little helper function to replace spaces in aliases with an underscore
+ */
+function replaceAliasSpaces(json) {
+
+  var patt = new RegExp("[^A-Za-z0-9_]","g");
+
+
+  for(var i = 0; i < json.SUBJECTS.length; i++) {
+ 
+    json.SUBJECTS[i].alias = json.SUBJECTS[i].alias.replace(patt, "_");
+   
+    for(var j = 0; j < json.SUBJECTS[i].properties.length; j++) {
+   
+      json.SUBJECTS[i].properties[j].alias = json.SUBJECTS[i].properties[j].alias.replace(patt, "_");
+    }
+  }
+  
+  return json;
+}
+
 
 
 /*
