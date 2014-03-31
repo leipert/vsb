@@ -53,9 +53,9 @@ function findURI(oldURI, label) {
 
   if(oldURI === "mockup/Land.json") return "http://dbpedia.org/ontology/Country";
   
-  if(oldURI === "mockup/einwohnerZahl.json") return "http://dbpedia.org/ontology/populationTotal";
+  if(oldURI === "mockup/einwohnerZahl.json") return "http://dbpedia.org/ontology/populationTotal";	// GEHT NICHT FUER LAND
   
-  if(oldURI === "mockup/flaeche.json") return "http://dbpedia.org/ontology/PopulatedPlace/area";
+  if(oldURI === "mockup/flaeche.json") return "http://dbpedia.org/ontology/areaTotal";
   
   if(oldURI === "mockup/Person.json") return "http://dbpedia.org/ontology/Person";
   
@@ -71,9 +71,9 @@ function findURI(oldURI, label) {
   
   if(oldURI === "mockup/lebt_in.json") return "http://dbpedia.org/ontology/residence";
   
-  if(oldURI === "mockup/vorname.json") return "http://dbpedia.org/ontology/GivenName";
+  if(oldURI === "mockup/vorname.json") return "http://dbpedia.org/ontology/GivenName";		// GEHT NICHT
   
-  if(oldURI === "mockup/nachname.json") return "http://dbpedia.org/ontology/Surname";
+  if(oldURI === "mockup/nachname.json") return "http://dbpedia.org/ontology/Surname";		// GEHT NICHT
   
   if(oldURI === "mockup/Stadt.json") return "http://dbpedia.org/ontology/Settlement";
  
@@ -85,9 +85,9 @@ function findURI(oldURI, label) {
   
   if(oldURI === "mockup/gruendungsjahr.json" && label === "Uni") return "http://dbpedia.org/ontology/formationYear";
   
-  if(oldURI === "mockup/liegt_in.json" && label === "Stadt") return "http://dbpedia.org/ontology/nation";
+  if(oldURI === "mockup/liegt_in.json" && label === "Stadt") return "http://dbpedia.org/ontology/nation";     // GEHT NICHT
   
-  if(oldURI === "mockup/liegt_in.json" && label === "Uni") return "http://dbpedia.org/ontology/locationCity";
+  if(oldURI === "mockup/liegt_in.json" && label === "Uni") return "http://dbpedia.org/ontology/locationCity"; // GEHT NICHT
   
   if(oldURI === "mockup/Studiengang.json") return "mockup/Studiengang.json";				// FEHLT
   
