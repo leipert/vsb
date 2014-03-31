@@ -2,8 +2,8 @@
 
 /* Controllers */
 
-angular.module('GSB.controllers.workspace', [])
-  .controller('WorkspaceCtrl', ['$scope', '$log', 'availableClassesService', function ($scope, $log, availableClassesService) {
+angular.module('GSB.controllers.workspace', ['GSB.config'])
+  .controller('WorkspaceCtrl', ['$scope', '$log', 'availableClassesService', 'globalConfig', function ($scope, $log, availableClassesService, globalConfig) {
     //Initial State of Subjects
     $scope.subjects = [];
     $scope.highlightedSubject = null;
@@ -136,4 +136,10 @@ angular.module('GSB.controllers.workspace', [])
     $scope.toggleSubjectView = function(subjectInst){
       subjectInst.view = !subjectInst.view;
     }
+
+    $scope.openInNewTab = function () {
+        var win=window.open(globalConfig.queryURL + encodeURIComponent($scope.translatedSPARQL), '_blank');
+        win.focus();
+    }
+
   }]);
