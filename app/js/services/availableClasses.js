@@ -1,9 +1,14 @@
-/** @namespace data.results.bindings */
-
 'use strict';
+/**
+ * AvailableClassesService
+ * A Service, which gets the available SPARQL classes from the Server.
+ *
+ * @namespace data.results.bindings
+ *
+ */
 
-angular.module('GSB.services.availableClasses', [])
-  .factory('availableClassesService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
+angular.module('GSB.services.availableClasses', ['GSB.config'])
+  .factory('AvailableClassesService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
     var factory = {};
 
     /**
@@ -11,14 +16,14 @@ angular.module('GSB.services.availableClasses', [])
      *
      * @param asc the array into which the availableClasses will be written
      */
-    var get = function (asc) {
+    factory.get = function (asc) {
 
       // Get Available Subject Classes from Server
 
       $http.get(globalConfig.baseURL + 'mockup/classes.json')
         .success(function (data) {
 
-          $log.info('Available Classes loaded from server.')
+          $log.info('Available Classes loaded from server.');
 
           var availClasses = data.results.bindings;
 
@@ -35,7 +40,7 @@ angular.module('GSB.services.availableClasses', [])
           }
         })
         .error(function () {
-          $log.error('Available Classes could not be loaded from server.')
+          $log.error('Available Classes could not be loaded from server.');
         });
     };
 

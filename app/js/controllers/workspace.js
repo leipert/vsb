@@ -2,8 +2,8 @@
 
 /* Controllers */
 
-angular.module('GSB.controllers.workspace', ['GSB.config'])
-  .controller('WorkspaceCtrl', ['$scope', '$log', 'availableClassesService', 'globalConfig', function ($scope, $log, availableClassesService, globalConfig) {
+angular.module('GSB.controllers.workspace', ['GSB.config', 'GSB.services.availableClasses'])
+  .controller('WorkspaceCtrl', ['$scope', '$log', 'AvailableClassesService', 'globalConfig', function ($scope, $log, AvailableClassesService, globalConfig) {
     //Initial State of Subjects
     $scope.subjects = [];
     $scope.highlightedSubject = null;
@@ -62,7 +62,7 @@ angular.module('GSB.controllers.workspace', ['GSB.config'])
     //Adds first Subject
      //  List of available subject classes that can be added to the workspace.
     $scope.availableSubjectClasses = [];
-    availableClassesService.get($scope.availableSubjectClasses);
+    AvailableClassesService.get($scope.availableSubjectClasses);
     console.log($scope.availableSubjectClasses);
 	  
 // Does not work, $scope.availableSubjectClasses stille empty at this point.

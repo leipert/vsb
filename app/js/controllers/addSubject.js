@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('GSB.controllers.addSubject', ['ngSanitize', 'ui.select']).
-  controller('AddSubjectCtrl', ['$scope', 'availableClassesService', function($scope, availableClassesService) {
+  controller('AddSubjectCtrl', ['$scope', 'AvailableClassesService', function($scope, AvailableClassesService) {
     //  List of available subject classes that can be added to the workspace.
     $scope.availableSubjectClasses = [];
 
     //  Subject selected to be added to the workspace.
     $scope.selectedSubjectClass = undefined;
     
-    availableClassesService.get($scope.availableSubjectClasses);
+    AvailableClassesService.get($scope.availableSubjectClasses);
     
     $scope.uiAddSubject = function() {
       console.log($scope.selectedSubjectClass);
