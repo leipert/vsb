@@ -10,7 +10,7 @@ angular.module('GSB', [
   'GSB.directives.subject',
   'GSB.directives.property',
   'GSB.directives.startPoint',
-  'GSB.services.dataGetter'
+  'GSB.services.availableClasses'
 ]);
 
 //Global functions
