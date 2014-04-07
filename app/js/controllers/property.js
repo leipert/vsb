@@ -1,10 +1,14 @@
 'use strict';
 
-/* Property Controller */
+/**
+ * PropertyCtrl
+ * Controller which holds all the properties of a subject.
+ * TODO: Better definition what this controller actually does
+ */
 
-angular.module('GSB.controllers.property', [])
-  //Inject $scope, $http and globalConfig (see @ js/config.js) into controller
-  .controller('PropertyCtrl', ['$scope', '$http', 'globalConfig', function($scope, $http, globalConfig) {
+angular.module('GSB.controllers.property', ['GSB.config'])
+  //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
+  .controller('PropertyCtrl', ['$scope', '$http', '$log', 'globalConfig', function($scope, $http, $log, globalConfig) {
 
     //Named a few variables, for shorter access
     var $parentSubject = $scope.subjectInst,
@@ -12,9 +16,11 @@ angular.module('GSB.controllers.property', [])
     $parentSubject.availableProperties = {};
     $scope.propertyOperators = globalConfig.propertyOperators;
 
-    console.log('Lade die Properties von ' + $parentSubject.uri);
+    $log.info('Lade die Properties von ' + $parentSubject.uri);
+
     //Retrieve Properties from Server and add them to availableProperties
     $http.get(globalConfig.baseURL + $parentSubject.uri).success(function (data){
+      $log.info(' Properties loaded from: ' + $parentSubject.uri, data);
       $parentSubject.availableProperties = {};
       var returnedProperties = data.results.bindings;
       for (var key in returnedProperties){
@@ -22,9 +28,15 @@ angular.module('GSB.controllers.property', [])
           $scope.addToAvailableProperties(returnedProperties[key]);
         }
       }
+    }).error(function(){
+      $log.error('Error loading properties from: ' + $parentSubject.uri)
     });
 
-    //Returns whether a property is an Object Property
+    /**
+     * Returns whether an property is an objectProperty
+     * @param propertyRange
+     * @returns {boolean}
+     */
     $scope.isObjectProperty = function (propertyRange) {
       var dataTypeURIs = globalConfig['dataTypeURIs'];
       for(var key in dataTypeURIs){
@@ -35,7 +47,11 @@ angular.module('GSB.controllers.property', [])
       return true;
     };
 
-    //Adds Property to availableProperties.
+    /**
+     * Adds a given property to the availableProperties of a subjectInst
+     * @param property
+     * @namespace property.propertyURI
+     */
     $scope.addToAvailableProperties = function (property) {
       var propertyURI = property.propertyURI.value,
         propertyRange = property.propertyRange.value,
@@ -58,18 +74,27 @@ angular.module('GSB.controllers.property', [])
       }
     };
 
-    //Adds the selected property in dropdown to selectedProperties
+    /**
+     * Adds a property selected from the availableProperties of a
+     * subjectInst to the selectedProperties of the same subjectInst
+     */
     $scope.addProperty = function(){
       $selectedProperties.push(angular.copy($scope.propertySelected));
       $scope.propertySelected = '';
     };
 
-    //Removes the selected from selectedProperties
+    /**
+     * Removes a given propertyInst from the selectedProperties of the subjectInst
+     * @param propertyInst
+     */
     $scope.removeProperty = function(propertyInst) {
       $selectedProperties.splice($selectedProperties.indexOf(propertyInst), 1);
     };
 
-    //Change visibility of a property
+    /**
+     * Changes visibility of a given propertyInst
+     * @param propertyInst
+     */
     $scope.togglePropertyView = function(propertyInst) {
       propertyInst.view = !propertyInst.view;
     };

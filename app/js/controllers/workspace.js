@@ -7,6 +7,7 @@
  */
 
 angular.module('GSB.controllers.workspace', ['GSB.config', 'GSB.services.availableClasses'])
+  //Inject $scope, $log, AvailableClassesService and globalConfig (see @ js/config.js, @js/services/availableClasses.js) into controller
   .controller('WorkspaceCtrl', ['$scope', '$log', 'AvailableClassesService', 'globalConfig', function ($scope, $log, AvailableClassesService, globalConfig) {
 
     //** FUNCTIONS START **//
