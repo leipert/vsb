@@ -1,11 +1,12 @@
 'use strict';
 
-/*
+/**
  * Subject directive
- * Creates the possibility to use a <subject> element,
+ * Creates the possibility to use a <subject-dir> element,
  * which will be replaced with the contents of template/subject.html
  * Additionally a subject directive uses it's own scope which is needed,
  * so that each subject can hold it's own property list
+ *
  */
 
 angular.module('GSB.directives.subject', [])
@@ -15,14 +16,20 @@ angular.module('GSB.directives.subject', [])
       restrict: "E",
       replace: true,
       templateUrl: 'template/subject.html',
-      link: function (scope, element, attrs) {
-
+      /**
+       * The link function is the function where you can interact with the DOM
+       *
+       * @param scope The current Scope, equivalent to the scope holding subjectInst
+       * @param element The current element
+       *
+       */
+      link: function (scope, element) {
         // Set watch for change of the highlightedSubject
         scope.$watch('highlightedSubject', function () {
-
           //If the highlightedSubject has the same alias as the current subject, highlight it, else not
-          if (scope.highlightedSubject !== undefined && scope.highlightedSubject !== null &&
-            scope.hasOwnProperty("subjectInst") && scope.highlightedSubject.hasOwnProperty("alias") &&
+          if (scope.highlightedSubject !== undefined &&
+            scope.highlightedSubject !== null &&
+            scope.hasOwnProperty("subjectInst") &&
             scope.highlightedSubject.hasOwnProperty("alias") &&
             scope.highlightedSubject.alias == scope.subjectInst.alias) {
             element.addClass("highlightSubject");
@@ -31,11 +38,13 @@ angular.module('GSB.directives.subject', [])
           }
         });
 
+        //Show additional fields on mouseEnter
         element.on("mouseenter",function(){
           scope.subjectInst.showAdditionalFields = true;
           scope.$apply();
         });
 
+        //Hide additional fields on mouseEnter
         element.on("mouseleave",function(){
           scope.subjectInst.showAdditionalFields = false;
           scope.$apply();
