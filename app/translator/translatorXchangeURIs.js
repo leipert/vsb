@@ -1,4 +1,9 @@
-
+/**
+ * Translator
+ * TODO: Make nicer
+ * TODO: Move to own service!
+ *
+ */
 
 /*
  *  test function, to run a translation (together with testHTML.html)

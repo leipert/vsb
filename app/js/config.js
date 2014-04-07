@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('GSB.config', [])
   .constant('globalConfig', {
     dataTypeURIs : [

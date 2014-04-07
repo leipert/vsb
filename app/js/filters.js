@@ -1,6 +1,12 @@
+'use strict';
 angular.module('GSB.filters', [])
-  // custom filter which filters an array of objects based on a key and an array of allowed values for that key.
   .filter('filterArrayOfObjectsByKeyWithArray', function() {
+    /**
+     * Filters an array of Objects based on a given Key and allowed values for that key
+     * @param arrayOfObjects
+     * @param filterKey
+     * @param allowedKeyValues
+     */
     return function(arrayOfObjects, filterKey, allowedKeyValues) {
       return arrayOfObjects.filter(
         function(currentObject){
