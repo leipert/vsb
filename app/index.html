@@ -1,130 +1,116 @@
 <!doctype html>
 <html lang="en" ng-app="GSB">
-  <head>
-    <meta charset="utf-8">
-    <title>My AngularJS App</title>
-    <!-- Import bootstrap CSS Framework for Styles, see http://getbootstrap.com -->
-    <link rel="stylesheet" href="lib/bootstrap/bootstrap.css">
-    <!-- Import ui-select files -->
-    <link rel="stylesheet" href="lib/ui-select/select.css">
+<head>
+  <meta charset="utf-8">
+  <title>GSB: Prototyp</title>
+  <!-- Import bootstrap CSS Framework for Styles, see http://getbootstrap.com -->
+  <link rel="stylesheet" href="lib/bootstrap/bootstrap.css">
+  <!-- Import ui-select files -->
+  <link rel="stylesheet" href="lib/ui-select/select.css">
+  <!-- Import our own styles -->
+  <link rel="stylesheet" href="css/app.css"/>
 
-    <link rel="stylesheet" href="css/app.css"/>
+</head>
+<body>
+<!-- WORKSPACE, this is where most of the magic happens -->
+<!-- See @js/controllers/workspace.js -->
+<div class="container" ng-controller="WorkspaceCtrl">
 
-  </head>
-  <body>
-    <div class="container" ng-controller="WorkspaceCtrl">
+  <!-- Row containing Page title -->
+  <div class="row">
+    <h1>Graphical SPARQL Builder</h1>
+  </div>
 
-      <!-- Row containing Page title -->
-      <div class="row">
-	<h1>Graphical SPARQL Builder</h1>
-      </div>
-      <!-- Row containing top controls -->
-      <div class="row">
-	<div id="top-controls" class="col-sm-12">
-	  <a href="#" class="btn btn-warning" ng-click="translateJSONtoSPARQL()">Build Query</a>
-	  <!--<a href="#" class="btn btn-info" ng-click="translateJSONtoSPARQL()">Save as JSON</a>-->
-	  <a href="#" class="btn btn-danger" ng-click="initializeWorkspace()">Reset Workspace</a>
-	  <a href="#" class="btn btn-info" ng-click="expertView = !expertView"><span class="glyphicon glyphicon-tower"></span></a>
-	</div>
-      </div>
+  <!-- Row containing top controls -->
+  <div class="row">
+    <div id="top-controls" class="col-sm-12">
+      <a href="#" class="btn btn-warning" ng-click="translateJSONtoSPARQL()">Build Query</a>
+      <a href="#" class="btn btn-danger" ng-click="initializeWorkspace()">Reset Workspace</a>
+      <a href="#" class="btn btn-info" ng-click="expertView = !expertView"><span
+          class="glyphicon glyphicon-tower"></span></a>
+    </div>
+  </div>
 
-      <!-- WORKSPACE, this is where most of the magic happens -->
-      <div id="top" class="row">
+  <!-- Row containing workspace -->
+  <div id="top" class="row">
 
-	<!-- See @js/controllers/workspace.js -->
-	<div id="workspace" class="col-sm-12">
+    <div id="workspace" class="col-sm-12">
 
-	  <!-- Button/Modal for adding Subjects, See @js/controllers/workspace.js
-	       <div class="addSubjectClass pull-right" ng-controller="ModalCtrl">
-                 modal version<br>
-                 <button class="btn btn-success" ng-click="open()">Choose subject!</button>
-	       </div>-->
+      <!-- See @js/controllers/addSubject.js -->
+      <div class="form-group pull-right" ng-controller="AddSubjectCtrl">
+        <div class="input-group">
+          <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
+          <ui-select ng-model="$parent.selectedSubjectClass" theme="lib/ui-select/bootstrap">
+            <match placeholder="Please choose a subject.">
 
-	  <!-- Button/Drop Down for adding Subjects, See @js/controllers/workspace.js -->
-	  <!--	hope this on works fine-->
-	  <!--<div class="addSubjectClass pull-right" ng-controller="AddSubjectDropDownCtrl">
-              <button class="btn btn-success" ng-click="dropDownAddSubject()">
-		Add
-              </button>
-              <select ng-model="selectedSubjectClass" ng-options="asc.alias for asc in availableSubjectClasses">
-		<option value="">-choose subject-</option>
-              </select>
-	  </div>-->
-	  <div class="form-group pull-right" ng-controller="AddSubjectCtrl">
-            <div class="input-group">
-
-	      <ui-select ng-model="$parent.selectedSubjectClass" theme="lib/ui-select/bootstrap">
-		<match placeholder="Please choose a subject.">
-		  {{$select.selected.alias}}
-		</match>
-		<!-- IMPORTANT: it has to be item in 'repeat="item in...', 
-		     as ui-select defines it internally.	Anything else wont work!	-->
-		<choices repeat="item in availableSubjectClasses | filter: $select.search">
-		  <div ng-bind-html="item.alias | highlight: $select.search"></div>
-		  <small ng-bind-html="item.uri | highlight: $select.search"></small>
-		</choices>
-	      </ui-select>
-
+              {{$select.selected.alias}}
+            </match>
+            <!-- IMPORTANT: it has to be item in 'repeat="item in...',
+                 as ui-select defines it internally.	Anything else wont work!	-->
+            <choices repeat="item in availableSubjectClasses | filter: $select.search">
+              <div ng-bind-html="item.alias | highlight: $select.search"></div>
+              <small ng-bind-html="item.uri | highlight: $select.search"></small>
+            </choices>
+          </ui-select>
 	      <span class="input-group-btn">
-		<button ng-click="uiAddSubject()" class="btn btn-success">
-                  <span class="glyphicon glyphicon-plus"></span>
-		</button>
-              </span>
+		      <button ng-click="uiAddSubject()" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+        </span>
 
-            </div>
-	  </div>
-
-	  <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
-	  <div class="startPointCSS" start-point-dir>
-            <b>LIST ALL</b>
-            <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects">
-              <option style="display:none" value="">Pick main subject</option>
-            </select>
-	  </div>
-
-	  <!-- Inserts all existing subjects in workspace, See @js/directives/workspace.js -->
-	  <subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
-
-	</div>
+        </div>
       </div>
 
-      <!-- Result area, at the moment not populated -->
-      <div class="row">
-	<h3 class="col-sm-12">SPARQL Query</h3>
-	<div id="middle-controls" class="col-sm-12">Controls for SPARQL Result</div>
-	<div class="col-sm-6">JSON:</div>
-	<div class="col-sm-6">SPARQL: <a href="#" ng-click="openInNewTab()">Starte dbpedia-query!</a></div>
-	<pre id="json-query" class="col-sm-6">{{translatedJSON}}</pre>
-	<pre id="sparql-query" class="col-sm-6">{{translatedSPARQL}}</pre>
+      <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
+      <div class="startPointCSS" start-point-dir>
+        <b>LIST ALL</b>
+        <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects" title="Main Subject Select">
+          <option style="display:none" value="">Pick main subject</option>
+        </select>
       </div>
+
+      <!-- Inserts all existing subjects in workspace, See @js/directives/subject.js -->
+      <subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
+
+    </div>
+  </div>
+
+  <!-- Result area -->
+  <div class="row">
+    <h3 class="col-sm-12">Results</h3>
+    <div id="middle-controls" class="col-sm-12">Controls for SPARQL Result</div>
+    <div class="col-sm-6">
+      <p>JSON:</p>
+      <pre id="json-query">{{translatedJSON}}</pre>
+    </div>
+    <div class="col-sm-6">
+      <p>SPARQL:&nbsp;<a href="#" ng-click="openInNewTab()">Starte dbpedia-query!</a></p>
+      <pre id="sparql-query" class="col-sm-6">{{translatedSPARQL}}</pre>
     </div>
 
-    <!-- In production use:
-	 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-	 -->
-    <!-- Import Angular JS Framework, see http://angularjs.org -->
-    <script src="lib/angular/angular.js"></script>
-    <!-- Import angular-sanitize for ui-select -->
-    <script src="lib/angular/angular-sanitize.js"></script>
-    <!-- Import Angular-UI bootstrap for Bootstrap JS, see https://github.com/angular-ui/bootstrap/ -->
-    <script src="lib/ui-bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
-    <script src="lib/jquery-1.11.0.min.js"></script>
-    <script src="lib/ui-select/select.js"></script>
-    <!-- Import our app and controllers and directives -->
-    <script src="js/app.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/filters.js"></script>
-    <script src="js/services/availableClasses.js"></script>
-    <script src="js/controllers/workspace.js"></script>
-    <script src="js/controllers/property.js"></script>
-    <script src="js/controllers/addSubject.js"></script>
-    <script src="js/directives/subject.js"></script>
-    <script src="js/directives/property.js"></script>
-    <script src="js/directives/startPoint.js"></script>
-    <script src="js/directives/dragModule.js"></script>
-    
-
-    <script src="js/draggable.js"></script>
-    <script src="translator/translatorXchangeURIs.js"></script>
-  </body>
+  </div>
+</div>
+<!-- Always import JQuery before angular, so angular uses the FULL power of it -->
+<script src="lib/jquery-1.11.0.min.js"></script>
+<!-- Import Angular JS Framework, see http://angularjs.org -->
+<script src="lib/angular/angular.js"></script>
+<!-- Import angular-sanitize for ui-select -->
+<script src="lib/angular/angular-sanitize.js"></script>
+<!-- Import Angular-UI bootstrap for Bootstrap JS, see https://github.com/angular-ui/bootstrap/ -->
+<!-- Not used, at the moment: <script src="lib/ui-bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>-->
+<!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
+<script src="lib/ui-select/select.js"></script>
+<!-- Import our app and controllers and directives -->
+<script src="js/app.js"></script>
+<script src="js/config.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/services/availableClasses.js"></script>
+<script src="js/controllers/workspace.js"></script>
+<script src="js/controllers/property.js"></script>
+<script src="js/controllers/addSubject.js"></script>
+<script src="js/directives/subject.js"></script>
+<script src="js/directives/property.js"></script>
+<script src="js/directives/startPoint.js"></script>
+<script src="translator/translatorXchangeURIs.js"></script>
+</body>
 </html>
