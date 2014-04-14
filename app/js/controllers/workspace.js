@@ -36,7 +36,7 @@ angular.module('GSB.controllers.workspace', ['GSB.config', 'GSB.services.availab
           showAdditionalFields: false
         }
       );
-      //If there is only one subject, it will be automatically the selected by the startPoint.
+      //If there is only one subject, it will be the one selected by the startPoint (automatically).
       //TODO: Move to separate $watch ???
       if ($scope.subjects.length === 1) {
         $scope.mainSubjectSelected = $scope.subjects[0];
@@ -78,7 +78,7 @@ angular.module('GSB.controllers.workspace', ['GSB.config', 'GSB.services.availab
      */
     $scope.removeSubject = function (subjectInst) {
       $scope.subjects.splice($scope.subjects.indexOf(subjectInst), 1);
-      //If there is only one subject, it will be automatically the selected by the startPoint.
+      //If there is only one subject, it will be the one selected by the startPoint automatically .
       //TODO: Move to separate $watch ???
       if ($scope.subjects.length === 1) {
         $scope.mainSubjectSelected = $scope.subjects[0];
@@ -126,6 +126,7 @@ angular.module('GSB.controllers.workspace', ['GSB.config', 'GSB.services.availab
         return currentSubject;
       });
       json.SUBJECTS = allSubjects;
+      //Converts the 'json'-named-object to JSON notation
       $scope.translatedJSON = JSON.stringify(json, null, 2);
     };
 
