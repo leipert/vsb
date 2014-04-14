@@ -23,7 +23,7 @@ angular.module('GSB.controllers.workspace', ['GSB.config', 'GSB.services.availab
      */
     $scope.addSubject = function (uri, alias, comment) {
       $log.info('Subject added');
-      alias = $scope.createUniqueAlias(alias);
+      alias = $scope.createUniqueAlias(alias, uri);
       $scope.subjects.push(
         {
           alias: alias,
@@ -49,13 +49,19 @@ angular.module('GSB.controllers.workspace', ['GSB.config', 'GSB.services.availab
      * TODO: Handle empty alias
      *
      * @param alias
+     * @param uri
      * @returns {*}
      */
-    $scope.createUniqueAlias = function (alias) {
+    $scope.createUniqueAlias = function (alias, uri) {
       var aliasUnique = true,
         newAlias = alias,
         key = null,
         c = 1;
+
+        //Handling for empty alias, try an extract of uri
+        if (newAlias.length==0)
+        {newAlias = uri;}
+
       do {
         for (key in $scope.subjects) {
           if ($scope.subjects.hasOwnProperty(key)) {
