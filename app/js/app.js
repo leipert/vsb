@@ -9,9 +9,11 @@ angular.module('GSB', [
   'GSB.controllers.subjectInstance',
   'GSB.controllers.propertyCollection',
   'GSB.controllers.propertyInstance',
+  'GSB.controllers.propertyType.object',
   'GSB.directives.subject',
   'GSB.directives.property',
   'GSB.directives.startPoint',
+  'GSB.directives.propertyType.object',
   'GSB.services.availableClasses'
 ]);
 
