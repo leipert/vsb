@@ -11,6 +11,7 @@ angular.module('GSB.directives.property', [])
     return {
       restrict: "E",
       replace: true,
+      controller: 'PropertyInstanceCtrl',
       templateUrl: 'template/property.html',
       /**
        * The link function is the function where you can interact with the DOM

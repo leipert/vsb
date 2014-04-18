@@ -1,20 +1,40 @@
 'use strict';
 
 /**
- * PropertyCtrl
+ * PropertyCollectionCtrl
  * Controller which holds all the properties of a subject.
- * TODO: Better definition what this controller actually does
  */
 
-angular.module('GSB.controllers.property', ['GSB.config'])
+angular.module('GSB.controllers.propertyCollection', ['GSB.config'])
   //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
-  .controller('PropertyCtrl', ['$scope', '$http', '$log', 'globalConfig', function($scope, $http, $log, globalConfig) {
+  .controller('PropertyCollectionCtrl', ['$scope', '$http', '$log', 'globalConfig', function($scope, $http, $log, globalConfig) {
 
     //Named a few variables, for shorter access
     var $parentSubject = $scope.subjectInst,
       $selectedProperties = $parentSubject.selectedProperties;
     $parentSubject.availableProperties = {};
     $scope.propertyOperators = globalConfig.propertyOperators;
+
+    /**
+     * Adds a property selected from the availableProperties of a
+     * subjectInst to the selectedProperties of the same subjectInst
+     */
+    $scope.addProperty = function(){
+      $selectedProperties.push(angular.copy($scope.propertySelected));
+      $scope.propertySelected = '';
+    };
+
+    /**
+     * Removes a given propertyInst from the selectedProperties of the subjectInst
+     * @param propertyInst
+     */
+    $scope.removeProperty = function(propertyInst) {
+      $selectedProperties.splice($selectedProperties.indexOf(propertyInst), 1);
+    };
+
+    /** FOLGENDES MUSS AUS DIESEM CONTROLLER RAUS!
+     * TODO-SIGGI: Move the stuff below to the availableClasses/endPoint - Service.
+     * **/
 
     $log.info('Lade die Properties von ' + $parentSubject.uri);
 
@@ -72,31 +92,6 @@ angular.module('GSB.controllers.property', ['GSB.config'])
           compare : {} //Vorprojekt leave empty
         };
       }
-    };
-
-    /**
-     * Adds a property selected from the availableProperties of a
-     * subjectInst to the selectedProperties of the same subjectInst
-     */
-    $scope.addProperty = function(){
-      $selectedProperties.push(angular.copy($scope.propertySelected));
-      $scope.propertySelected = '';
-    };
-
-    /**
-     * Removes a given propertyInst from the selectedProperties of the subjectInst
-     * @param propertyInst
-     */
-    $scope.removeProperty = function(propertyInst) {
-      $selectedProperties.splice($selectedProperties.indexOf(propertyInst), 1);
-    };
-
-    /**
-     * Changes visibility of a given propertyInst
-     * @param propertyInst
-     */
-    $scope.togglePropertyView = function(propertyInst) {
-      propertyInst.view = !propertyInst.view;
     };
 
   }]);
