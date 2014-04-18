@@ -4,7 +4,7 @@
 angular.module('GSB', [
   'GSB.config',
   'GSB.filters',
-  'GSB.controllers.workspace',
+  'GSB.controllers.main',
   'GSB.controllers.property',
   'GSB.controllers.addSubject',
   'GSB.directives.subject',
