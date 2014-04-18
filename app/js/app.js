@@ -6,6 +6,7 @@ angular.module('GSB', [
   'GSB.filters',
   'GSB.controllers.main',
   'GSB.controllers.subjectCollection',
+  'GSB.controllers.subjectInstance',
   'GSB.controllers.property',
   'GSB.directives.subject',
   'GSB.directives.property',

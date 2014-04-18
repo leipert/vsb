@@ -15,6 +15,7 @@ angular.module('GSB.directives.subject', [])
     return {
       restrict: "E",
       replace: true,
+      controller: 'SubjectInstanceCtrl',
       templateUrl: 'template/subject.html',
       /**
        * The link function is the function where you can interact with the DOM
@@ -25,6 +26,7 @@ angular.module('GSB.directives.subject', [])
        */
       link: function (scope, element) {
         // Set watch for change of the highlightedSubject
+
         scope.$watch('highlightedSubject', function () {
           //If the highlightedSubject has the same alias as the current subject, highlight it, else not
           if (scope.highlightedSubject !== undefined &&
