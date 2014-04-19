@@ -15,76 +15,91 @@
 <!-- WORKSPACE, this is where most of the magic happens -->
 <!-- See @js/controllers/main.js -->
 <div ng-mousedown="theMouseDown($event)" ng-mousemove="theMouseMove($event)" ng-mouseup="theMouseUp()"
-     style="position: fixed;top:0;left:0;background: green;width:100%;height: 100%;cursor:all-scroll"></div>
+     style="position: fixed;top:0;left:0;width:100%;height: 100%;cursor:all-scroll"
+     ng-show="showArea == 'workspace'"></div>
 <div style="z-index: 10;position: fixed;background: #808080;top:0;left:0;width:100%;">
-  <!-- Row containing Page title -->
-  <div class="row">
-    <h1>Graphical SPARQL Builder</h1>
-  </div>
   <!-- Row containing top controls -->
   <div class="row">
     <div id="top-controls" class="col-sm-12">
-      <a href="#" class="btn btn-warning" ng-click="translateJSONtoSPARQL()">Build Query</a>
+      <h1>Graphical SPARQL Builder</h1>
+            <span ng-show="showArea == 'workspace'">
+      <a href="#" class="btn btn-warning" ng-click="showArea = 'query'">Run Query</a>
       <a href="#" class="btn btn-danger" ng-click="initializeWorkspace()">Reset Workspace</a>
-      <a href="#" class="btn btn-info" ng-click="expertView = !expertView"><span
-          class="glyphicon glyphicon-tower"></span></a>
+      <a href="#" class="btn btn-info" ng-click="expertView = !expertView">
+        <i class="glyphicon glyphicon-tower"></i>
+      </a>
+        </span>
+                  <span ng-show="showArea == 'query'">
+      <a href="#" class="btn btn-warning" ng-click="showArea = 'workspace'">Back to Workspace</a>
+        </span>
     </div>
   </div>
 </div>
 
-  <!-- Row containing workspace -->
-
-      <div ng-controller="SubjectCollectionCtrl">
-      <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
+<!-- Row containing workspace -->
+<div ng-controller="SubjectCollectionCtrl" ng-show="showArea == 'workspace'">
+  <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
   <div class="box startPointCSS" start-point-dir style="z-index: 0; position: fixed; top: 165px;left:25px;">
-        <b>LIST ALL</b>
-        <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects" title="Main Subject Select">
-          <option style="display:none" value="">Pick main subject</option>
-        </select>
-      </div>
+    <b>LIST ALL</b>
+    <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects" title="Main Subject Select">
+      <option style="display:none" value="">Pick main subject</option>
+    </select>
+  </div>
 
-        <!-- See @js/controllers/addSubject.js -->
-        <div class="addSubjectBox form-group pull-right">
-          <div class="input-group">
-            <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
-            <ui-select ng-model="$parent.selectedSubjectClass" theme="lib/ui-select/bootstrap">
-              <match placeholder="Please choose a subject.">
+  <!-- See @js/controllers/addSubject.js -->
+  <div class="addSubjectBox form-group pull-right" style="z-index: 0; position: fixed; top: 165px;right:25px;">
+    <div class="input-group">
+      <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
+      <ui-select ng-model="$parent.selectedSubjectClass" theme="lib/ui-select/bootstrap">
+        <match placeholder="Please choose a subject.">
 
-                {{$select.selected.alias}}
-              </match>
-              <!-- IMPORTANT: it has to be item in 'repeat="item in...',
-                   as ui-select defines it internally.	Anything else wont work!	-->
-              <choices repeat="item in availableSubjectClasses | filter: $select.search">
-                <div ng-bind-html="item.alias | highlight: $select.search"></div>
-                <small ng-bind-html="item.uri | highlight: $select.search"></small>
-              </choices>
-            </ui-select>
+          {{$select.selected.alias}}
+        </match>
+        <!-- IMPORTANT: it has to be item in 'repeat="item in...',
+             as ui-select defines it internally.	Anything else wont work!	-->
+        <choices repeat="item in availableSubjectClasses | filter: $select.search">
+          <div ng-bind-html="item.alias | highlight: $select.search"></div>
+          <small ng-bind-html="item.uri | highlight: $select.search"></small>
+        </choices>
+      </ui-select>
 	      <span class="input-group-btn">
 		      <button ng-click="uiAddSubject()" class="btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
           </button>
         </span>
 
-          </div>
-        </div>
-
-        <!-- Inserts all existing subjects in workspace, See @js/directives/subject.js -->
-        <subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
-      </div>
-
-  <div class="row">
-    <h3 class="col-sm-12">Results</h3>
-    <div id="middle-controls" class="col-sm-12">Controls for SPARQL Result</div>
-    <div class="col-sm-6">
-      <p>JSON:</p>
-      <pre id="json-query">{{translatedJSON}}</pre>
     </div>
-    <div class="col-sm-6">
-      <p>SPARQL:&nbsp;<a href="#" ng-click="openInNewTab()">Starte dbpedia-query!</a></p>
-      <pre id="sparql-query">{{translatedSPARQL}}</pre>
-    </div>
-
   </div>
+
+  <!-- Inserts all existing subjects in workspace, See @js/directives/subject.js -->
+  <subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
+</div>
+
+<!-- Result area -->
+<div class="container" ng-show="showArea == 'query'" style="top:165px;position: relative">
+  <div ng-hide="hideQueries" class="col-sm-12">
+    <div class="col-sm-12 text-center">
+    <a ng-click="hideQueries = true"> Hide Queries</a>
+      </div>
+    <h3>Queries</h3>
+  <div class="col-sm-6">
+    <p>JSON:</p>
+    <pre id="json-query">{{translatedJSON}}</pre>
+  </div>
+  <div class="col-sm-6">
+    <p>SPARQL:&nbsp;<a href="#" ng-click="openInNewTab()">Starte dbpedia-query!</a></p>
+    <pre id="sparql-query">{{translatedSPARQL}}</pre>
+  </div>
+  </div>
+  <div class="col-sm-12 text-center">
+    <a ng-hide="hideQueries" ng-click="hideQueries = true"> Hide Queries</a>
+    <a ng-show="hideQueries" ng-click="hideQueries = false"> Show Queries</a>
+  </div>
+  <div class="col-sm-12" style="">
+  <h3>Results</h3>
+
+</div>
+</div>
 </div>
 <!-- Always import JQuery before angular, so angular uses the FULL power of it -->
 <script src="lib/jquery-1.11.0.min.js"></script>

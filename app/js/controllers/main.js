@@ -11,6 +11,7 @@ angular.module('GSB.controllers.main', ['GSB.config'])
 
     //** FUNCTIONS START **//
 
+    $scope.showArea = 'workspace';
     $scope.offsetX = 0;
     $scope.offsetY = 0;
     $scope.mouseDownAct = false;
