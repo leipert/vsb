@@ -11,16 +11,16 @@
   <link rel="stylesheet" href="css/app.css"/>
 
 </head>
-<body>
+<body ng-controller="MainCtrl">
 <!-- WORKSPACE, this is where most of the magic happens -->
 <!-- See @js/controllers/main.js -->
-<div class="container" ng-controller="MainCtrl">
-
+<div ng-mousedown="theMouseDown($event)" ng-mousemove="theMouseMove($event)" ng-mouseup="theMouseUp()"
+     style="position: fixed;top:0;left:0;background: green;width:100%;height: 100%;cursor:all-scroll"></div>
+<div style="z-index: 10;position: fixed;background: #808080;top:0;left:0;width:100%;">
   <!-- Row containing Page title -->
   <div class="row">
     <h1>Graphical SPARQL Builder</h1>
   </div>
-
   <!-- Row containing top controls -->
   <div class="row">
     <div id="top-controls" class="col-sm-12">
@@ -30,15 +30,13 @@
           class="glyphicon glyphicon-tower"></span></a>
     </div>
   </div>
+</div>
 
   <!-- Row containing workspace -->
-  <div id="top" class="row">
-
-    <div id="workspace" class="col-sm-12">
 
       <div ng-controller="SubjectCollectionCtrl">
       <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
-      <div class="box startPointCSS" start-point-dir>
+  <div class="box startPointCSS" start-point-dir style="z-index: 0; position: fixed; top: 165px;left:25px;">
         <b>LIST ALL</b>
         <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects" title="Main Subject Select">
           <option style="display:none" value="">Pick main subject</option>
@@ -74,10 +72,6 @@
         <subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
       </div>
 
-    </div>
-  </div>
-
-  <!-- Result area -->
   <div class="row">
     <h3 class="col-sm-12">Results</h3>
     <div id="middle-controls" class="col-sm-12">Controls for SPARQL Result</div>

@@ -1,4 +1,4 @@
-<div class="subjectCSS" ng-class="{true: 'highlight-subject'}[highlightedSubject.alias == subjectInst.alias]">
+<div class="subjectCSS box" ng-class="{true: 'highlight-subject'}[highlightedSubject.alias == subjectInst.alias]" style="position:relative;">
   <!-- Template for subject directive -->
 
   <!--Head of a subject includes the label, the alias and some controls -->
@@ -9,6 +9,8 @@
       <a ng-mouseenter="subjectInst.showInfos = true" ng-mouseleave="subjectInst.showInfos = false">
         <i class="glyphicon glyphicon-info-sign"></i>
       </a>
+
+      <mover><i class="glyphicon glyphicon-move"></i> </mover>
 
       <!-- Button (Eyes) to show whether a subjectInst will be visible in the result or not. -->
       <a ng-show="subjectInst.view" ng-click="toggleSubjectView()">
