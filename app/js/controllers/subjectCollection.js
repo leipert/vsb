@@ -8,6 +8,9 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
   //Inject $scope, $log, AvailableClassesService and globalConfig (see @ js/config.js, @js/services/availableClasses.js) into controller
   .controller('SubjectCollectionCtrl', ['$scope', '$log','AvailableClassesService', 'globalConfig', function ($scope, $log, AvailableClassesService, globalConfig) {
 
+    $scope.highlightedSubject = null; //
+    $scope.mainSubjectSelected = null; //The subject connected with the start point
+
     //  List of available subject classes that can be added to the workspace.
     $scope.availableSubjectClasses = [];
 
@@ -17,7 +20,6 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
     AvailableClassesService.get($scope.availableSubjectClasses);
 
     $scope.uiAddSubject = function() {
-      console.log($scope.selectedSubjectClass);
       if($scope.selectedSubjectClass) { // If the selected option is undefined no subject will be added.
         var newSubject = $scope.selectedSubjectClass;
         addSubject(newSubject.uri, newSubject.alias, newSubject.comment);
@@ -104,6 +106,10 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
         $scope.mainSubjectSelected = $scope.subjects[0];
       }
     };
+
+    $scope.$on('setHighLightTo',function(event,data) {
+        $scope.highlightedSubject = data;
+      });
 
     $scope.availableSubjectClasses = [];
     $scope.subjects = [];

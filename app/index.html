@@ -36,6 +36,7 @@
 
     <div id="workspace" class="col-sm-12">
 
+      <div ng-controller="SubjectCollectionCtrl">
       <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
       <div class="box startPointCSS" start-point-dir>
         <b>LIST ALL</b>
@@ -44,7 +45,6 @@
         </select>
       </div>
 
-      <div ng-controller="SubjectCollectionCtrl">
         <!-- See @js/controllers/addSubject.js -->
         <div class="addSubjectBox form-group pull-right">
           <div class="input-group">

@@ -23,8 +23,6 @@ angular.module('GSB.controllers.main', ['GSB.config'])
      */
     $scope.initializeWorkspace = function () {
       $log.info('Initialize Workspace');
-      $scope.highlightedSubject = null; //
-      $scope.mainSubjectSelected = null; //The subject connected with the start point
       $scope.translatedJSON = "In the near future the translated JSON will be here.";
       $scope.translatedSPARQL = "In the near future the translated SPARQL will be here.";
       $scope.expertView = false;

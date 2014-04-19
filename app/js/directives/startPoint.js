@@ -21,14 +21,14 @@ angular.module('GSB.directives.startPoint', [])
         // On mouseEnter, set highlightedSubject to mainSubjectSelected
         // TODO: Maybe work with $emit, $on and $broadcast instead, see @js/directives/property.js
         element.on('mouseenter',function(){
-          scope.highlightedSubject = scope.mainSubjectSelected;
+          scope.$emit('setHighLightTo',scope.mainSubjectSelected);
           scope.$apply();
         });
 
         // On mouseLeave, set highlightedSubject subject to null
         // TODO: Maybe work with $emit, $on and $broadcast instead, see @js/directives/property.js
         element.on('mouseleave',function(){
-          scope.highlightedSubject = null;
+          scope.$emit('setHighLightTo',{});
           scope.$apply();
         });
       }
