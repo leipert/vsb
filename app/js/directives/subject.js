@@ -27,16 +27,6 @@ angular.module('GSB.directives.subject', [])
       link: function (scope, element) {
         // Set watch for change of the highlightedSubject
 
-        scope.$watch('highlightedSubject', function () {
-          //If the highlightedSubject has the same alias as the current subject, highlight it, else not
-          if (scope.highlightedSubject !== undefined &&
-            scope.highlightedSubject !== null &&
-            scope.hasOwnProperty("subjectInst") &&
-            scope.highlightedSubject.hasOwnProperty("alias") &&
-            scope.highlightedSubject.alias == scope.subjectInst.alias) {
-            element.addClass("highlightSubject");
-          } else {
-            element.removeClass("highlightSubject");
           }
         });
 
