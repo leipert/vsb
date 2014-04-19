@@ -37,17 +37,16 @@
     <div id="workspace" class="col-sm-12">
 
       <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
-      <div class="startPointCSS" start-point-dir>
+      <div class="box startPointCSS" start-point-dir>
         <b>LIST ALL</b>
         <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects" title="Main Subject Select">
           <option style="display:none" value="">Pick main subject</option>
         </select>
       </div>
 
-      <!-- Inserts all existing subjects in workspace, See @js/directives/subject.js -->
       <div ng-controller="SubjectCollectionCtrl">
         <!-- See @js/controllers/addSubject.js -->
-        <div class="form-group pull-right">
+        <div class="addSubjectBox form-group pull-right">
           <div class="input-group">
             <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
             <ui-select ng-model="$parent.selectedSubjectClass" theme="lib/ui-select/bootstrap">
@@ -70,6 +69,8 @@
 
           </div>
         </div>
+
+        <!-- Inserts all existing subjects in workspace, See @js/directives/subject.js -->
         <subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
       </div>
 
@@ -86,7 +87,7 @@
     </div>
     <div class="col-sm-6">
       <p>SPARQL:&nbsp;<a href="#" ng-click="openInNewTab()">Starte dbpedia-query!</a></p>
-      <pre id="sparql-query" class="col-sm-6">{{translatedSPARQL}}</pre>
+      <pre id="sparql-query">{{translatedSPARQL}}</pre>
     </div>
 
   </div>
