@@ -11,6 +11,31 @@ angular.module('GSB.controllers.main', ['GSB.config'])
 
     //** FUNCTIONS START **//
 
+    $scope.showArea = 'workspace';
+    $scope.offsetX = 0;
+    $scope.offsetY = 0;
+    $scope.mouseDownAct = false;
+    $scope.theMouseDown = function($event){
+      $scope.offsetX = 0;
+      $scope.offsetY = 0;
+      $scope.startX = $event.pageX;
+      $scope.startY = $event.pageY;
+      $scope.mouseDownAct = true;
+    };
+
+    $scope.theMouseMove = function($event){
+      if($scope.mouseDownAct){
+        $scope.offsetX = $event.pageX - $scope.startX;
+        $scope.offsetY = $event.pageY - $scope.startY;
+        $scope.startX = $event.pageX;
+        $scope.startY = $event.pageY;
+      }
+    };
+
+    $scope.theMouseUp = function(){
+      $scope.mouseDownAct = false;
+    };
+
     /**
      * TODO: Call translate function...
      */
