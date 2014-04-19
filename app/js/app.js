@@ -4,12 +4,16 @@
 angular.module('GSB', [
   'GSB.config',
   'GSB.filters',
-  'GSB.controllers.workspace',
-  'GSB.controllers.property',
-  'GSB.controllers.addSubject',
+  'GSB.controllers.main',
+  'GSB.controllers.subjectCollection',
+  'GSB.controllers.subjectInstance',
+  'GSB.controllers.propertyCollection',
+  'GSB.controllers.propertyInstance',
+  'GSB.controllers.propertyType.object',
   'GSB.directives.subject',
   'GSB.directives.property',
   'GSB.directives.startPoint',
+  'GSB.directives.propertyType.object',
   'GSB.services.availableClasses'
 ]);
 

@@ -1,4 +1,4 @@
-<div class="subjectCSS">
+<div class="subjectCSS" ng-class="{true: 'highlight-subject'}[highlightedSubject.alias == subjectInst.alias]">
   <!-- Template for subject directive -->
 
   <!--Head of a subject includes the label, the alias and some controls -->
@@ -11,14 +11,14 @@
       </a>
 
       <!-- Button (Eyes) to show whether a subjectInst will be visible in the result or not. -->
-      <a ng-show="subjectInst.view" ng-click="toggleSubjectView(subjectInst)">
+      <a ng-show="subjectInst.view" ng-click="toggleSubjectView()">
         <i class="glyphicon glyphicon-eye-open"></i>
       </a>
-      <a ng-show="!subjectInst.view" ng-click="toggleSubjectView(subjectInst)">
+      <a ng-show="!subjectInst.view" ng-click="toggleSubjectView()">
         <i class="glyphicon glyphicon-eye-close"></i>
       </a>
 
-      <!--Button (Trash-ICON) to remove subjectInst from list @js/controller/workspace.js-->
+      <!--Button (Trash-ICON) to remove subjectInst from list @js/controller/main.js-->
       <a ng-click="removeSubject(subjectInst)"><i class="glyphicon glyphicon-trash"></i></a>
 
     </span>
@@ -46,7 +46,7 @@
   </div>
 
   <!-- Here there will be the properties of the subjectInst, see @js/controller/property.js -->
-  <div class="subjectBodyCSS" ng-controller="PropertyCtrl">
+  <div class="subjectBodyCSS" ng-controller="PropertyCollectionCtrl">
     <div class="clearfix"></div>
 
     <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->

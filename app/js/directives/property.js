@@ -11,6 +11,7 @@ angular.module('GSB.directives.property', [])
     return {
       restrict: "E",
       replace: true,
+      controller: 'PropertyInstanceCtrl',
       templateUrl: 'template/property.html',
       /**
        * The link function is the function where you can interact with the DOM
@@ -22,16 +23,14 @@ angular.module('GSB.directives.property', [])
       link: function(scope, element) {
 
         // On mouseEnter, set highlightedSubject to linked Subject of Property
-        //TODO: Do not work with $parent³, use $emit, $on and $broadcast instead
         element.on('mouseenter',function(){
-          scope.$parent.$parent.$parent.highlightedSubject = scope.propertyInst.link.linkPartner;
+          scope.$emit('setHighLightTo',scope.propertyInst.link.linkPartner);
           scope.$apply();
         });
 
         // On mouseLeave, set highlightedSubject subject to null
-        //TODO: Do not work with $parent³, use $emit, $on and $broadcast instead
         element.on('mouseleave',function(){
-          scope.$parent.$parent.$parent.highlightedSubject = null;
+          scope.$emit('setHighLightTo',{});
           scope.$apply();
         });
       }
