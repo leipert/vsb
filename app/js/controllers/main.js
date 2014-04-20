@@ -39,8 +39,10 @@ angular.module('GSB.controllers.main', ['GSB.config'])
     /**
      * TODO: Call translate function...
      */
-    $scope.startTranslation = function () {
-
+  $scope.translate = function () {
+	
+	  $scope.$broadcast('translationEvent');
+	
     };
 
     /**
@@ -68,9 +70,9 @@ angular.module('GSB.controllers.main', ['GSB.config'])
      *
      * @namespace currentProperty.link.linkPartner
      */
-    $scope.translateGSBLToJSON = function () {
+    $scope.translateGSBLToJSON = function (mainSubjectSelected, subjects) {
       $log.info('Translate GSBL to JSON');
-      if ($scope.mainSubjectSelected == null) {
+      if (mainSubjectSelected == null) {
         $log.error("Main Subject not connected");
         $scope.translatedJSON = null;
         return;
@@ -80,12 +82,12 @@ angular.module('GSB.controllers.main', ['GSB.config'])
             type: "LIST_ALL",
             "link": {
               "direction": "TO",
-              "linkPartner": $scope.mainSubjectSelected.alias
+              "linkPartner": mainSubjectSelected.alias
             }
           },
           SUBJECTS: []
         },
-        allSubjects = angular.copy($scope.subjects);
+        allSubjects = angular.copy(subjects);
       allSubjects.map(function (currentSubject) {
         delete currentSubject["availableProperties"];
         currentSubject.properties = currentSubject["selectedProperties"].map(function (currentProperty) {
@@ -110,9 +112,9 @@ angular.module('GSB.controllers.main', ['GSB.config'])
      * translates the JSON to SPARQL
      * TODO-FELIX: Move it to translation Service
      */
-    $scope.translateJSONtoSPARQL = function () {
+    $scope.translateJSONtoSPARQL = function (mainSubjectSelected, subjects) {
       $log.info('Translate JSON to SPARQL');
-      $scope.translateGSBLToJSON();
+      $scope.translateGSBLToJSON(mainSubjectSelected, subjects);
       if ($scope.translatedJSON == null) {
         $log.error("JSON is not valid");
         return;

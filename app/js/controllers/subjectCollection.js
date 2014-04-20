@@ -110,6 +110,12 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
     $scope.$on('setHighLightTo',function(event,data) {
         $scope.highlightedSubject = data;
       });
+	  
+	$scope.$on('translationEvent',function() {
+      $scope.translateJSONtoSPARQL($scope.mainSubjectSelected, $scope.subjects);
+    });  
+	  
+
 
     $scope.availableSubjectClasses = [];
     $scope.subjects = [];
