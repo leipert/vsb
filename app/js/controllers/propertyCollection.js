@@ -12,10 +12,9 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
     var selectedProperties = $scope.subjectInst.selectedProperties;
     AvailablePropertiesService.getProperties($scope.subjectInst.uri)
       .then(function(data) {
-        console.log('HIER', data);
         $scope.subjectInst.availableProperties = data;
       }, function(error) {
-        console.log('alles doof');
+        log.error(error);
       });
     $scope.propertyOperators = globalConfig.propertyOperators;
 
