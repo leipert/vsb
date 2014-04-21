@@ -5,9 +5,9 @@
  * Controller which holds all the properties of a subject.
  */
 
-angular.module('GSB.controllers.propertyCollection', ['GSB.config'])
-  //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
-  .controller('PropertyCollectionCtrl', ['$scope', '$http', '$log', 'globalConfig', function($scope, $http, $log, globalConfig) {
+angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.services.availableClasses'])
+//Inject $scope, $http, $log and globalConfig (see @js/config.js, @js/services/availableClasses.js) into controller
+  .controller('PropertyCollectionCtrl', ['$scope', '$http', '$log', 'globalConfig', 'AvailableClassesService', function($scope, $http, $log, globalConfig, AvailableClassesService) {
 
     //Named a few variables, for shorter access
     var $parentSubject = $scope.subjectInst,
