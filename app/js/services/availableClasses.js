@@ -57,7 +57,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
           var property = data[key];
           var propertyURI = property.propertyURI.value,
           propertyRange = property.propertyRange.value,
-          isObjectProperty = (factory.isObjectProperty(propertyRange));
+          isObjectProperty = (isObjProp(propertyRange));
           if(ret.hasOwnProperty(propertyURI)){
             ret[propertyURI].propertyRange.push(propertyRange);
           } else {
@@ -78,6 +78,21 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
       }
       return ret;
     }
+
+    /**
+     * Returns whether an property is an objectProperty
+     * @param propertyRange
+     * @returns {boolean}
+     */
+    var isObjProp = function (propertyRange) {
+      var dataTypeURIs = globalConfig['dataTypeURIs'];
+      for(var key in dataTypeURIs){
+        if(dataTypeURIs.hasOwnProperty(key) && propertyRange.startsWith(dataTypeURIs[key])){
+          return false;
+        }
+      }
+      return true;
+    };
 
     /**
      * Returns properties of a SPARQL-Class given by the classes uri.
@@ -102,30 +117,6 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
           $log.error('Error loading properties from: ' + uri)
         });
       
-    };
-
-    /**
-     * Returns properties that have a SPARQL-Class, given by its uri, as their respective 'propertyRange'.
-     *
-     * @param uri the uri of the SPARQL-Class.
-     */
-    factory.getInverseProperties = function (uri) {
-      return {};
-    };
-
-    /**
-     * Returns whether an property is an objectProperty
-     * @param propertyRange
-     * @returns {boolean}
-     */
-    factory.isObjectProperty = function (propertyRange) {
-      var dataTypeURIs = globalConfig['dataTypeURIs'];
-      for(var key in dataTypeURIs){
-        if(dataTypeURIs.hasOwnProperty(key) && propertyRange.startsWith(dataTypeURIs[key])){
-          return false;
-        }
-      }
-      return true;
     };
 
     return factory;
