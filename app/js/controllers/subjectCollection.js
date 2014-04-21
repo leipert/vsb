@@ -6,7 +6,7 @@
 
 angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','GSB.config', 'GSB.services.availableClasses'])
   //Inject $scope, $log, AvailableClassesService and globalConfig (see @ js/config.js, @js/services/availableClasses.js) into controller
-  .controller('SubjectCollectionCtrl', ['$scope', '$log','AvailableClassesService', 'globalConfig', 'TranslatorManager', function ($scope, $log, AvailableClassesService, globalConfig, TranslatorManager) {
+  .controller('SubjectCollectionCtrl', ['$scope', '$q', '$log','AvailableClassesService', 'globalConfig', 'TranslatorManager', function ($scope, $q, $log, AvailableClassesService, globalConfig, TranslatorManager) {
 
     $scope.highlightedSubject = null; //
     $scope.mainSubjectSelected = null; //The subject connected with the start point
@@ -136,7 +136,12 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
 	  
     $scope.availableSubjectClasses = [];
     $scope.subjects = [];
-    AvailableClassesService.getAvailableClasses($scope.availableSubjectClasses);
+    AvailableClassesService.getAvailableClasses($scope.availableSubjectClasses)
+      .then(function() {
+        console.log('Available classes loaded', $scope.availableSubjectClasses)
+      }, function(error) {
+        console.log(error)
+      });
     addSubject('mockup/Person.json', "Mensch", "Ein Individuum der Spezies Mensch.");
     addSubject('mockup/Stadt.json', "Stadt", "Eine Siedlung, größer als ein Dorf.");
 
