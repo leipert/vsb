@@ -45,6 +45,7 @@ angular.module('GSB.controllers.main', ['GSB.config'])
 	
     };
 
+	
     /**
      * Initializes the Workspace
      */
@@ -62,65 +63,6 @@ angular.module('GSB.controllers.main', ['GSB.config'])
 
 
     /** FOLGENDES MUSS AUS DIESEM CONTROLLER RAUS! **/
-
-    /**
-     * translates the GSBL to JSON
-     * TODO-FELIX: Make code nicer (if you need help, ask @leipert, der hat den bockmist geschrieben)
-     * TODO-FELIX: Move it to translation Service
-     *
-     * @namespace currentProperty.link.linkPartner
-     */
-    $scope.translateGSBLToJSON = function (mainSubjectSelected, subjects) {
-      $log.info('Translate GSBL to JSON');
-      if (mainSubjectSelected == null) {
-        $log.error("Main Subject not connected");
-        $scope.translatedJSON = null;
-        return;
-      }
-      var json = {
-          START: {
-            type: "LIST_ALL",
-            "link": {
-              "direction": "TO",
-              "linkPartner": mainSubjectSelected.alias
-            }
-          },
-          SUBJECTS: []
-        },
-        allSubjects = angular.copy(subjects);
-      allSubjects.map(function (currentSubject) {
-        delete currentSubject["availableProperties"];
-        currentSubject.properties = currentSubject["selectedProperties"].map(function (currentProperty) {
-          delete currentProperty["isObjectProperty"];
-          delete currentProperty["propertyType"];
-          if (currentProperty.link.linkPartner !== null && currentProperty.link.linkPartner.hasOwnProperty("alias")) {
-            currentProperty.link.linkPartner = currentProperty.link.linkPartner.alias;
-          } else {
-            currentProperty.link = {};
-          }
-          return currentProperty;
-        });
-        delete currentSubject["selectedProperties"];
-        return currentSubject;
-      });
-      json.SUBJECTS = allSubjects;
-      //Converts the 'json'-named-object to JSON notation
-      $scope.translatedJSON = JSON.stringify(json, null, 2);
-    };
-
-    /**
-     * translates the JSON to SPARQL
-     * TODO-FELIX: Move it to translation Service
-     */
-    $scope.translateJSONtoSPARQL = function (mainSubjectSelected, subjects) {
-      $log.info('Translate JSON to SPARQL');
-      $scope.translateGSBLToJSON(mainSubjectSelected, subjects);
-      if ($scope.translatedJSON == null) {
-        $log.error("JSON is not valid");
-        return;
-      }
-      $scope.translatedSPARQL = translateAllFromString($scope.translatedJSON);
-    };
 
     /**
      * Open the SPARQL Query in a new dbpedia tab

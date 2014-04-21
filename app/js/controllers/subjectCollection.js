@@ -6,7 +6,7 @@
 
 angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','GSB.config', 'GSB.services.availableClasses'])
   //Inject $scope, $log, AvailableClassesService and globalConfig (see @ js/config.js, @js/services/availableClasses.js) into controller
-  .controller('SubjectCollectionCtrl', ['$scope', '$log','AvailableClassesService', 'globalConfig', function ($scope, $log, AvailableClassesService, globalConfig) {
+  .controller('SubjectCollectionCtrl', ['$scope', '$log','AvailableClassesService', 'globalConfig', 'TranslatorManager', function ($scope, $log, AvailableClassesService, globalConfig, TranslatorManager) {
 
     $scope.highlightedSubject = null; //
     $scope.mainSubjectSelected = null; //The subject connected with the start point
@@ -107,16 +107,33 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
       }
     };
 
+	
+	/*
+     * 		------  EVENT HANDLING  -----------------------------
+     */
     $scope.$on('setHighLightTo',function(event,data) {
         $scope.highlightedSubject = data;
       });
 	  
 	$scope.$on('translationEvent',function() {
-      $scope.translateJSONtoSPARQL($scope.mainSubjectSelected, $scope.subjects);
+	
+      TranslatorManager.translateGSBLToSPARQL($scope.mainSubjectSelected, $scope.subjects);
+    });  
+	 
+	 
+    $scope.$on('JSONUpdateEvent',function(event, newJSON) {
+	
+      $scope.$parent.translatedJSON = newJSON;
     });  
 	  
+	  
+	$scope.$on('SPARQLUpdateEvent',function(event, newSPARQL) {
+	
+      $scope.$parent.translatedSPARQL = newSPARQL;
+    });  
+	// 		 ----------------------------------------------------  
 
-
+	  
     $scope.availableSubjectClasses = [];
     $scope.subjects = [];
     AvailableClassesService.getAvailableClasses($scope.availableSubjectClasses);

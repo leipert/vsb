@@ -14,7 +14,10 @@ angular.module('GSB', [
   'GSB.directives.property',
   'GSB.directives.startPoint',
   'GSB.directives.propertyType.object',
-  'GSB.services.availableClasses'
+  'GSB.services.availableClasses',
+  'GSB.services.translatorManager',
+  'GSB.services.translatorToJSON',
+  'GSB.services.translatorToSPARQL'
 ]);
 
 //Global functions
