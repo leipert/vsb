@@ -27,7 +27,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
 
           var availClasses = data.results.bindings;
 
-          for (var key in availClasses) {
+          for(var key in availClasses) {
             if (availClasses.hasOwnProperty(key)) {
               asc.push(
                 {
@@ -43,6 +43,85 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
           $log.error('Available Classes could not be loaded from server.');
         });
     };
+
+
+    /**
+     * Returns properties of a SPARQL-Class given by the classes uri.
+     * In other words: the properties have the given class as their 'propertyDomain'.
+     * 
+     * @param uri the uri identifiying the SPARQL-Class.
+     */
+    var availableProperties = {};
+    
+    factory.getProperties = function (uri) {
+      $log.info('Lade die Properties von ' + uri);
+
+      //Retrieve Properties from Server and add them to availableProperties
+      $http.get(globalConfig.baseURL + uri).success(function (data){
+        $log.info(' Properties loaded from: ' + uri, data);
+        var returnedProperties = data.results.bindings;
+        for(var key in returnedProperties){
+          if(returnedProperties.hasOwnProperty(key)){
+            factory.addToAvailableProperties(returnedProperties[key]);
+          }
+        }
+      }).error(function(){
+        $log.error('Error loading properties from: ' + uri)
+      });
+      return availableProperties;
+    };
+
+    /**
+     * Returns properties that have a SPARQL-Class, given by its uri, as their respective 'propertyRange'.
+     *
+     * @param uri the uri of the SPARQL-Class.
+     */
+    factory.getInverseProperties = function (uri) {
+      return {};
+    };
+
+    /**
+     * Returns whether an property is an objectProperty
+     * @param propertyRange
+     * @returns {boolean}
+     */
+    factory.isObjectProperty = function (propertyRange) {
+      var dataTypeURIs = globalConfig['dataTypeURIs'];
+      for(var key in dataTypeURIs){
+        if(dataTypeURIs.hasOwnProperty(key) && propertyRange.startsWith(dataTypeURIs[key])){
+          return false;
+        }
+      }
+      return true;
+    };
+
+    /**
+     * Adds a given property to the availableProperties of a subjectInst
+     * @param property
+     * @namespace property.propertyURI
+     */
+    factory.addToAvailableProperties = function (property) {
+      var propertyURI = property.propertyURI.value,
+        propertyRange = property.propertyRange.value,
+        isObjectProperty = (factory.isObjectProperty(propertyRange));
+      if(availableProperties.hasOwnProperty(propertyURI)){
+        availableProperties[propertyURI].propertyRange.push(propertyRange);
+      } else {
+        availableProperties[propertyURI] = {
+          alias: property.propertyAlias.value,
+          uri: propertyURI,
+          type: isObjectProperty ? 'OBJECT_PROPERTY' : 'DATATYPE_PROPERTY',
+          isObjectProperty: isObjectProperty,
+          propertyRange: [propertyRange],
+          view: true,
+          operator: "MUST", //Vorprojekt okay
+          link : {direction: "TO", linkPartner: null}, //Vorprojekt okay
+          arithmetic : {} , //Vorprojekt leave empty
+          compare : {} //Vorprojekt leave empty
+        };
+      }
+
+    }
 
     return factory;
 
