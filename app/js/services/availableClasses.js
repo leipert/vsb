@@ -16,7 +16,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
      *
      * @param asc the array into which the availableClasses will be written
      */
-    factory.get = function (asc) {
+    factory.getAvailableClasses = function (asc) {
 
       // Get Available Subject Classes from Server
 

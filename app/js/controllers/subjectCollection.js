@@ -17,7 +17,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
     //  Subject selected to be added to the workspace.
     $scope.selectedSubjectClass = undefined;
 
-    AvailableClassesService.get($scope.availableSubjectClasses);
+    AvailableClassesService.getAvailableClasses($scope.availableSubjectClasses);
 
     $scope.uiAddSubject = function() {
       if($scope.selectedSubjectClass) { // If the selected option is undefined no subject will be added.
@@ -119,7 +119,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
 
     $scope.availableSubjectClasses = [];
     $scope.subjects = [];
-    AvailableClassesService.get($scope.availableSubjectClasses);
+    AvailableClassesService.getAvailableClasses($scope.availableSubjectClasses);
     addSubject('mockup/Person.json', "Mensch", "Ein Individuum der Spezies Mensch.");
     addSubject('mockup/Stadt.json', "Stadt", "Eine Siedlung, größer als ein Dorf.");
 
