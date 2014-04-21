@@ -7,10 +7,16 @@
 
 angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.services.availableClasses'])
 //Inject $scope, $http, $log and globalConfig (see @js/config.js, @js/services/availableClasses.js) into controller
-  .controller('PropertyCollectionCtrl', ['$scope', '$http', '$log', 'globalConfig', 'AvailablePropertiesService', function($scope, $http, $log, globalConfig, AvailablePropertiesService) {
+  .controller('PropertyCollectionCtrl', ['$scope', '$http', '$q', '$log', 'globalConfig', 'AvailablePropertiesService', function($scope, $http, $q, $log, globalConfig, AvailablePropertiesService) {
 
     var selectedProperties = $scope.subjectInst.selectedProperties;
-    $scope.subjectInst.availableProperties = AvailablePropertiesService.getProperties($scope.subjectInst.uri);
+    AvailablePropertiesService.getProperties($scope.subjectInst.uri)
+      .then(function(data) {
+        console.log('HIER', data);
+        $scope.subjectInst.availableProperties = data;
+      }, function(error) {
+        console.log('alles doof');
+      });
     $scope.propertyOperators = globalConfig.propertyOperators;
 
     /**

@@ -50,7 +50,34 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
   .factory('AvailablePropertiesService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
     var factory = {};
 
-    var availableProperties = {};
+    var createAvailablePropertyObject = function(data) {
+      var ret = {};
+      for(var key in data) {
+        if(data.hasOwnProperty(key)){
+          var property = data[key];
+          var propertyURI = property.propertyURI.value,
+          propertyRange = property.propertyRange.value,
+          isObjectProperty = (factory.isObjectProperty(propertyRange));
+          if(ret.hasOwnProperty(propertyURI)){
+            ret[propertyURI].propertyRange.push(propertyRange);
+          } else {
+            ret[propertyURI] = {
+              alias: property.propertyAlias.value,
+              uri: propertyURI,
+              type: isObjectProperty ? 'OBJECT_PROPERTY' : 'DATATYPE_PROPERTY',
+              isObjectProperty: isObjectProperty,
+              propertyRange: [propertyRange],
+              view: true,
+              operator: "MUST", //Vorprojekt okay
+              link : {direction: "TO", linkPartner: null}, //Vorprojekt okay
+              arithmetic : {} , //Vorprojekt leave empty
+              compare : {} //Vorprojekt leave empty
+            };
+          }
+        }
+      }
+      return ret;
+    }
 
     /**
      * Returns properties of a SPARQL-Class given by the classes uri.
@@ -60,20 +87,21 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
      */    
     factory.getProperties = function (uri) {
       $log.info('Lade die Properties von ' + uri);
-
+      
       //Retrieve Properties from Server and add them to availableProperties
-      $http.get(globalConfig.baseURL + uri).success(function (data){
-        $log.info(' Properties loaded from: ' + uri, data);
-        var returnedProperties = data.results.bindings;
-        for(var key in returnedProperties){
-          if(returnedProperties.hasOwnProperty(key)){
-            factory.addToAvailableProperties(returnedProperties[key]);
-          }
-        }
-      }).error(function(){
-        $log.error('Error loading properties from: ' + uri)
-      });
-      return availableProperties;
+      return $http.get(globalConfig.baseURL + uri)
+        .then(function(response) {
+          $log.info('Response: ', response);
+          var availableProperties = createAvailablePropertyObject(response.data.results.bindings);
+          $log.info(' Properties loaded from: ' + uri, response);
+          
+          $log.info('getaP', availableProperties);
+          return availableProperties;
+
+        }, function(response) {
+          $log.error('Error loading properties from: ' + uri)
+        });
+      
     };
 
     /**
@@ -99,34 +127,6 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
       }
       return true;
     };
-
-    /**
-     * Adds a given property to the availableProperties of a subjectInst
-     * @param property
-     * @namespace property.propertyURI
-     */
-    factory.addToAvailableProperties = function (property) {
-      var propertyURI = property.propertyURI.value,
-        propertyRange = property.propertyRange.value,
-        isObjectProperty = (factory.isObjectProperty(propertyRange));
-      if(availableProperties.hasOwnProperty(propertyURI)){
-        availableProperties[propertyURI].propertyRange.push(propertyRange);
-      } else {
-        availableProperties[propertyURI] = {
-          alias: property.propertyAlias.value,
-          uri: propertyURI,
-          type: isObjectProperty ? 'OBJECT_PROPERTY' : 'DATATYPE_PROPERTY',
-          isObjectProperty: isObjectProperty,
-          propertyRange: [propertyRange],
-          view: true,
-          operator: "MUST", //Vorprojekt okay
-          link : {direction: "TO", linkPartner: null}, //Vorprojekt okay
-          arithmetic : {} , //Vorprojekt leave empty
-          compare : {} //Vorprojekt leave empty
-        };
-      }
-
-    }
 
     return factory;
 
