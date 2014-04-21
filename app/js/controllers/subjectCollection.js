@@ -17,8 +17,6 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
     //  Subject selected to be added to the workspace.
     $scope.selectedSubjectClass = undefined;
 
-    AvailableClassesService.getAvailableClasses($scope.availableSubjectClasses);
-
     $scope.uiAddSubject = function() {
       if($scope.selectedSubjectClass) { // If the selected option is undefined no subject will be added.
         var newSubject = $scope.selectedSubjectClass;
