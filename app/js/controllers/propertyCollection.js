@@ -9,10 +9,8 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
 //Inject $scope, $http, $log and globalConfig (see @js/config.js, @js/services/availableClasses.js) into controller
   .controller('PropertyCollectionCtrl', ['$scope', '$http', '$log', 'globalConfig', 'AvailableClassesService', function($scope, $http, $log, globalConfig, AvailableClassesService) {
 
-    //Named a few variables, for shorter access
-    var $parentSubject = $scope.subjectInst,
-      $selectedProperties = $parentSubject.selectedProperties;
-    $parentSubject.availableProperties = {};
+    var selectedProperties = $scope.subjectInst.selectedProperties;
+    $scope.subjectInst.availableProperties = AvailableClassesService.getProperties($scope.subjectInst.uri);
     $scope.propertyOperators = globalConfig.propertyOperators;
 
     /**
@@ -20,7 +18,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
      * subjectInst to the selectedProperties of the same subjectInst
      */
     $scope.addProperty = function(){
-      $selectedProperties.push(angular.copy($scope.propertySelected));
+      selectedProperties.push(angular.copy($scope.propertySelected));
       $scope.propertySelected = '';
     };
 
@@ -29,7 +27,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
      * @param propertyInst
      */
     $scope.removeProperty = function(propertyInst) {
-      $selectedProperties.splice($selectedProperties.indexOf(propertyInst), 1);
+      selectedProperties.splice(selectedProperties.indexOf(propertyInst), 1);
     };
 
     /** FOLGENDES MUSS AUS DIESEM CONTROLLER RAUS!
