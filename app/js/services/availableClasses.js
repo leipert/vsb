@@ -20,12 +20,12 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
 
       // Get Available Subject Classes from Server
 
-      $http.get(globalConfig.baseURL + 'mockup/classes.json')
-        .success(function (data) {
+      return $http.get(globalConfig.baseURL + 'mockup/classes.json')
+        .then(function (response) {
 
           $log.info('Available Classes loaded from server.');
-
-          var availClasses = data.results.bindings;
+          
+          var availClasses = response.data.results.bindings;
 
           for(var key in availClasses) {
             if (availClasses.hasOwnProperty(key)) {
@@ -38,9 +38,9 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
               );
             }
           }
-        })
-        .error(function () {
-          $log.error('Available Classes could not be loaded from server.');
+          
+        }, function(error) {
+          $log.error(error, 'Available Classes could not be loaded from server.');
         });
     };
 
@@ -106,11 +106,9 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
       //Retrieve Properties from Server and add them to availableProperties
       return $http.get(globalConfig.baseURL + uri)
         .then(function(response) {
-          $log.info('Response: ', response);
           var availableProperties = createAvailablePropertyObject(response.data.results.bindings);
           $log.info(' Properties loaded from: ' + uri, response);
           
-          $log.info('getaP', availableProperties);
           return availableProperties;
 
         }, function(response) {
