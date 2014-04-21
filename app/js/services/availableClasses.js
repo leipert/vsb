@@ -44,15 +44,20 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
         });
     };
 
+    return factory;
+
+  }])
+  .factory('AvailablePropertiesService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
+    var factory = {};
+
+    var availableProperties = {};
 
     /**
      * Returns properties of a SPARQL-Class given by the classes uri.
      * In other words: the properties have the given class as their 'propertyDomain'.
      * 
      * @param uri the uri identifiying the SPARQL-Class.
-     */
-    var availableProperties = {};
-    
+     */    
     factory.getProperties = function (uri) {
       $log.info('Lade die Properties von ' + uri);
 
