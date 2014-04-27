@@ -20,7 +20,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
 
       // Get Available Subject Classes from Server
 
-      return $http.get(globalConfig.baseURL + 'mockup/classes.json')
+      return $http.get(globalConfig.testURLstart + escape('select ?class where {?class a owl:Class .}') + globalConfig.testURLend)
         .then(function (response) {
 
           $log.info('Available Classes loaded from server.');
@@ -31,7 +31,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
             if (availClasses.hasOwnProperty(key)) {
               asc.push(
                 {
-                  alias: availClasses[key].alias.value,
+                  alias: availClasses[key].class.value.substr(availClasses[key].class.value.lastIndexOf('/')+1, availClasses[key].class.value.length - (availClasses[key].class.value.lastIndexOf('/')+1)),
                   uri: availClasses[key].class.value,
                   comment: availClasses[key].comment ? availClasses[key].comment.value : 'No description available.'
                 }

@@ -6,6 +6,8 @@ angular.module('GSB.config', [])
       'http://www.w3.org/2001/XMLSchema'
     ],
     queryURL: 'http://dbpedia.org/sparql?format=text%2Fhtml&timeout=5000&debug=on&query=',
+	testURLstart: 'http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=',
+	testURLend: '&format=json&timeout=30000&debug=on',
     baseURL: 'http://' + (location.host + location.pathname).substring(0,(location.host + location.pathname).lastIndexOf('app/') + 4),
     propertyOperators : [
       {
