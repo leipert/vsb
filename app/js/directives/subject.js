@@ -49,7 +49,6 @@ angular.module('GSB.directives.subject', [])
 
         element.find("mover").on('mousedown', function(event) {
           // Prevent default dragging of selected content
-          console.log(event);
           event.preventDefault();
           startX = event.pageX - x;
           startY = event.pageY - y;
