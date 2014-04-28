@@ -50,6 +50,10 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
   .factory('AvailablePropertiesService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
     var factory = {};
 
+	
+	factory.availableProperties = '';
+	
+	
     var createAvailablePropertyObject = function(data) {
       var ret = {};
       for(var key in data) {
@@ -112,6 +116,8 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
      * @param uri the uri identifiying the SPARQL-Class.
      */    
     factory.getProperties = function (uri) {
+	
+	  
       $log.info('Lade die Properties von ' + uri);
       
 	  
@@ -120,17 +126,42 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
         .then(function(response) {
 		
 		
-          var availableProperties = createAvailablePropertyObject(response.data.results.bindings);
+          factory.availableProperties = factory.mergeTwoObjects(createAvailablePropertyObject(response.data.results.bindings), factory.availableProperties);
           $log.info(' Properties loaded from: ' + uri, response);
           
-          return availableProperties;
+		  return factory.getParentClassProperties(uri)
+		         .then( function() {
+         
+		             return factory.availableProperties; 
+				   })
+				  
+				 .then (function(availableProperties) {
+                   return availableProperties;
+                  });
+ 
+        }, function(response) { $log.error('Error loading properties from: ' + uri) }
+		)};
 
-        }, function(response) {
-          $log.error('Error loading properties from: ' + uri)
-        });
-      
-    };
-
+	
+	
+	factory.getParentClassProperties = function (uri) {
+	
+	  return $http
+	         .get(globalConfig.testURLstart + escape('select ?parent where { <' + uri + '> rdfs:subClassOf ?parent . }') + globalConfig.testURLend)
+             .then(function(response) {
+	
+	            if((typeof response.data.results.bindings[0] != 'undefined')) {
+				
+			        var parentClassURI = response.data.results.bindings[0].parent.value;
+			
+			        return factory.getProperties(parentClassURI);
+			    }
+	          });
+	};
+	
+	
+	
+	
 	factory.buildAllPropertyQuery = function (uri) {
 	  var query = globalConfig.testURLstart;
 	
@@ -159,6 +190,20 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
                       + ' FILTER(LANGMATCHES(LANG(?propertyComment), "en")) } }}'  );	  
 	  query += globalConfig.testURLend;
 	  return query;
+	};
+	
+	/**
+     * Helper function to merge two objects
+     * 
+     * @param obj1 the merged Object
+     */ 
+	factory.mergeTwoObjects = function (obj1, obj2) {
+	   
+	   for (var key in obj2) {
+         obj1[key] = obj2[key];
+       }
+	
+	  return obj1;
 	};
 	
     return factory;
