@@ -40,10 +40,11 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
           SUBJECTS: []
         },
         allSubjects = angular.copy(subjects);
-		
+		    console.log(allSubjects)
         allSubjects.map(function (currentSubject) {
           delete currentSubject["availableProperties"];
-          currentSubject.properties = currentSubject["selectedProperties"].map(function (currentProperty) {
+          delete currentSubject["availableInverseProperties"];
+          currentSubject.properties = currentSubject["selectedProperties"].concat(currentSubject["selectedInverseProperties"]).map(function (currentProperty) {
             delete currentProperty["propertyType"];
             if (currentProperty.link.linkPartner !== null && currentProperty.link.linkPartner.hasOwnProperty("alias")) {
               currentProperty.link.linkPartner = currentProperty.link.linkPartner.alias;
@@ -53,6 +54,7 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
             return currentProperty;
           });
           delete currentSubject["selectedProperties"];
+          delete currentSubject["selectedInverseProperties"];
           return currentSubject;
         });
 	  

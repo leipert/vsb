@@ -230,37 +230,14 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
 
 	  factory.buildAllInversePropertyQuery = function (uri) {
 	    var query = globalConfig.testURLstart;
-
-	    query += escape('select distinct ?propertyDomain ?propertyURI ?propertyRange ?propertyAlias where {{<');
-      query += escape(uri);
-      query += escape('> rdfs:subClassOf+ ?class.{ '
-                      + '          ?propertyURI rdfs:domain ?class .  '
-                      + '          ?propertyURI rdfs:domain ?propertyDomain . '
-                      + '          OPTIONAL { ?propertyURI rdfs:range ?propertyRange . } . '
-                      + '          OPTIONAL { '
-                      + '              ?propertyURI rdfs:label ?propertyAlias. '
-                      + '              FILTER(LANGMATCHES(LANG(?propertyAlias), "en")) '
-                      + '          } .  '
-                      + '          OPTIONAL { '
-                      + '              ?propertyURI rdfs:comment ?propertyComment. '
-                      + '              FILTER(LANGMATCHES(LANG(?propertyComment), "en")) '
-                      + '          } '
-                      + '       } '
-                      + '    } UNION { '
-                      + '       ?propertyURI rdfs:domain <');
-      query += escape(uri);
-      query += escape('>. '
-                      + '       ?propertyURI rdfs:domain ?propertyDomain . '
-                      + '       OPTIONAL { ?propertyURI rdfs:range ?propertyRange . } . '
-                      + '       OPTIONAL { '
-                      + '        ?propertyURI rdfs:label ?propertyAlias. '
-                      + '        FILTER(LANGMATCHES(LANG(?propertyAlias), "en")) '
-                      + '     } .  '
-                      + '     OPTIONAL { '
-                      + '     ?propertyURI rdfs:comment ?propertyComment. '
-                      + '           FILTER(LANGMATCHES(LANG(?propertyComment), "en")) }}' );
+	    query += encodeURIComponent('select distinct ?propertyRange ?propertyURI ?propertyDomain ?propertyAlias ?propertyComment where {\n {\n <'+
+      uri +
+      '> rdfs:subClassOf+ ?class.\n {\n ?propertyURI rdfs:range ?class . \n ?propertyURI rdfs:range ?propertyDomain .\n OPTIONAL { ?propertyURI rdfs:domain ?propertyRange . } .\n OPTIONAL {\n ?propertyURI rdfs:label ?propertyAlias.\n FILTER(LANGMATCHES(LANG(?propertyAlias), "en"))\n } . \n OPTIONAL {\n ?propertyURI rdfs:comment ?propertyComment.\n FILTER(LANGMATCHES(LANG(?propertyComment), "en"))\n }\n } \n } UNION {\n ?propertyURI rdfs:range <'+
+      uri+
+      '>.\n ?propertyURI rdfs:range ?propertyDomain . \n OPTIONAL { ?propertyURI rdfs:domain ?propertyRange . } .\n OPTIONAL {\n ?propertyURI rdfs:label ?propertyAlias.\n FILTER(LANGMATCHES(LANG(?propertyAlias), "en"))\n } . \n OPTIONAL {\n ?propertyURI rdfs:comment ?propertyComment.\n FILTER(LANGMATCHES(LANG(?propertyComment), "en"))\n }\n } \n}');
       query += globalConfig.testURLend;
       console.log(query);
+
 	    return query;
 	  };
 

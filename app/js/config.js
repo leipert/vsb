@@ -12,7 +12,7 @@ angular.module('GSB.config', [])
       ]
     },
     queryURL: 'http://dbpedia.org/sparql?format=text%2Fhtml&timeout=5000&debug=on&query=',
-	testURLstart: 'http://dbpedia.org/sparql?format=json&timeout=30000&debug=on&query=',
+	testURLstart: 'http://dbpedia-live.openlinksw.com/sparql/?default-graph-uri=http%3A%2F%2Fdbpedia.org&format=json&timeout=30000&debug=on&query=',
 	  testURLend: '',
     baseURL: 'http://' + (location.host + location.pathname).substring(0,(location.host + location.pathname).lastIndexOf('app/') + 4),
     propertyOperators : [
