@@ -140,7 +140,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
       }, function(error) {
         console.log(error)
       });
-    addSubject('http://dbpedia.org/ontology/Person', "Mensch", "Ein Individuum der Spezies Mensch.");
-    addSubject('mockup/Stadt.json', "Stadt", "Eine Siedlung, größer als ein Dorf.");
+    addSubject('http://dbpedia.org/ontology/Person', "Person", "Ein Individuum der Spezies Mensch.");
+    
 
   }]);

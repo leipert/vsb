@@ -19,7 +19,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     */
   factory.translateJSONToSPARQL = function (json) {
     
-    json = factory.changeURIs(json);
+    //json = factory.changeURIs(json);
 	
 	json = factory.replaceAliasSpaces(json);
 	  
@@ -309,12 +309,12 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 	
 	
 	
-/*  ----------------- START MOCKUP ONLY ----------------- */	
+/*  ----------------- START MOCKUP ONLY ----------------- 	
 	
   /**
    * Function to exchange mockup-URIs with dbpedia counterparts
    ** @param json
-   */
+   *
   factory.changeURIs = function (json) {
 
     for(var i = 0; i < json.SUBJECTS.length; i++) {
@@ -330,10 +330,10 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     return json;
   };	
 
-  
-  /**
+  *
+  **
    * Helper function for changeURIs to find specific URIs for given mockup URI (and label if necessary)
-   */
+   
   factory.findURI = function (oldURI, label) {
   
     if(oldURI === "mockup/Firma.json") return "http://dbpedia.org/ontology/Company";
