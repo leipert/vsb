@@ -2,7 +2,7 @@
 
 /**
  * PropertyCollectionCtrl
- * Controller which holds all the properties of a subject.
+ * Controller which holds all the properties and inverse properties of a subject.
  */
 
 angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.services.availableClasses'])
