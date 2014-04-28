@@ -129,16 +129,13 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
      * @param uri the uri identifiying the SPARQL-Class.
      */
     factory.getProperties = function (uri) {
-	
-	  
       $log.info('Lade die Properties von ' + uri);
+
       //Retrieve Properties from Server and add them to availableProperties
       return $http.get(factory.buildAllPropertyQuery(uri))
-
         .then(function(response) {
-		
-		
           factory.availableProperties = factory.mergeTwoObjects(createAvailablePropertyObject(response.data.results.bindings), factory.availableProperties);
+
           $log.info(' Properties loaded from: ' + uri, response);
           
 		  return factory.getParentClassProperties(uri)
@@ -153,7 +150,6 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
  
         }, function(response) { $log.error('Error loading properties from: ' + uri) }
 		)};
-
 	
 	
 	factory.getParentClassProperties = function (uri) {
@@ -222,7 +218,61 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
 	
 	  return obj1;
 	};
-	
+
+    /**
+     * Returns inverse properties of a SPARQL-Class given by the classes uri.
+     * 
+     * @param uri the uri identifiying the SPARQL-Class.
+     */    
+    factory.getInverseProperties = function (uri) {
+      $log.info('Lade die Properties von ' + uri);
+      
+	    
+      //Retrieve Properties from Server and add them to availableProperties
+      return $http.get(factory.buildAllInversePropertyQuery(uri))
+        .then(function(response) {
+		      
+		      
+          var availableProperties = createAvailablePropertyObject(response.data.results.bindings);
+          $log.info(' Properties loaded from: ' + uri, response);
+          
+          return availableProperties;
+
+        }, function(response) {
+          $log.error('Error loading properties from: ' + uri)
+        });
+      
+    };
+
+	  factory.buildAllInversePropertyQuery = function (uri) {
+	    var query = globalConfig.testURLstart;
+	    
+	    query += escape('select distinct ?propertyDomain ?propertyURI ?propertyRange ?propertyAlias where {{<');
+	    query += escape(uri);
+	    query += escape(  '> rdfs:subClassOf+ ?class.{?propertyURI rdfs:domain ?class . '
+                        + ' ?propertyURI rdfs:domain ?propertyDomain .'
+                        + 'OPTIONAL { ?propertyURI rdfs:range ?propertyRange . } .'
+                        + 'OPTIONAL {'
+                        + '  ?propertyURI rdfs:label ?propertyAlias.'
+                        + '   FILTER(LANGMATCHES(LANG(?propertyAlias), "en"))'
+                        + ' } . '
+                        + '   OPTIONAL {'
+                        + '  ?propertyURI rdfs:comment ?propertyComment.'
+                        + ' FILTER(LANGMATCHES(LANG(?propertyComment), "en"))'
+                        + '  }'
+                        + '  }'
+                        + '  } UNION {'
+                        + '  ?propertyURI rdfs:domain <');
+	    query += escape(uri);
+      query += escape(  '>. ?propertyURI rdfs:domain ?propertyDomain .'
+                        + ' OPTIONAL { ?propertyURI rdfs:range ?propertyRange . } .'
+                        + ' OPTIONAL { ?propertyURI rdfs:label ?propertyAlias.'
+                        + ' FILTER(LANGMATCHES(LANG(?propertyAlias), "en")) } . '
+                        + ' OPTIONAL { ?propertyURI rdfs:comment ?propertyComment.'
+                        + ' FILTER(LANGMATCHES(LANG(?propertyComment), "en")) } }}'  );	  
+	    query += globalConfig.testURLend;
+	    return query;
+	  };
 
     return factory;
 

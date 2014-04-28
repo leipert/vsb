@@ -2,7 +2,7 @@
 
 /**
  * PropertyCollectionCtrl
- * Controller which holds all the properties of a subject.
+ * Controller which holds all the properties and inverse properties of a subject.
  */
 
 angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.services.availableClasses'])
@@ -35,5 +35,33 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
     $scope.removeProperty = function(propertyInst) {
       selectedProperties.splice(selectedProperties.indexOf(propertyInst), 1);
     };
+
+    // inverse Properties
+    var selectedInverseProperties = $scope.subjectInst.selectedInverseProperties;
+    AvailablePropertiesService.getInverseProperties($scope.subjectInst.uri)
+      .then(function(data) {
+        $scope.subjectInst.availableInverseProperties = data;
+      }, function(error) {
+        log.error(error);
+      });
+    $scope.propertyOperators = globalConfig.propertyOperators;
+
+    /**
+     * Adds an inverse property selected from the availableInverseProperties of a
+     * subjectInst to the selectedInverseProperties of the same subjectInst
+     */
+    $scope.addInverseProperty = function(){
+      selectedInverseProperties.push(angular.copy($scope.inversePropertySelected));
+      $scope.inversePropertySelected = '';
+    };
+
+    /**
+     * Removes a given propertyInst from the selectedInverseProperties of the subjectInst
+     * @param propertyInst
+     */
+    $scope.removeInverseProperty = function(propertyInst) {
+      selectedInverseProperties.splice(selectedInverseProperties.indexOf(propertyInst), 1);
+    };
+
 
   }]);
