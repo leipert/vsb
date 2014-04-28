@@ -117,3 +117,28 @@ div.subjectCSS div.propertyCSS select {
 div.subjectCSS div.propertyCSS div.propertyHeadCSS i {
   color: #0000bb;
 }
+
+div.subjectCSS div.inversePropertyCSS {
+  background: #00E57C;
+  color:#000000;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px 0;
+}
+
+div.subjectCSS div.inversePropertyCSS b {
+  color: #0D5516;
+}
+
+div.subjectCSS div.inversePropertyCSS a {
+  color: #CC0000;
+}
+
+div.subjectCSS div.inversePropertyCSS select {
+  background: #D3F2B5;
+  color: #0D5516;
+}
+
+div.subjectCSS div.inversePropertyCSS div.inversePropertyHeadCSS i {
+  color: #0000bb;
+}

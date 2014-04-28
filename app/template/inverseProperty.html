@@ -1,8 +1,8 @@
-<div class="propertyCSS">
+<div class="inversePropertyCSS">
   <!-- Template for property directive -->
 
   <!-- Top of a property -->
-  <div class="propertyHeadCSS">
+  <div class="inversePropertyHeadCSS">
     <div class="pull-right" ng-show="subjectInst.showAdditionalFields">
       <!-- Button (Info-Sign) to show more Infos of propertyInst on hover -->
       <a href="#" ng-mouseenter="propertyInst.showInfos = true" ng-mouseleave="propertyInst.showInfos = false">
@@ -27,7 +27,7 @@
   </div>
 
   <!-- Description of a property TODO: Actually use one -->
-  <div class="propertyDescriptionCSS"
+  <div class="inversePropertyDescriptionCSS"
        ng-show="subjectInst.showAdditionalFields && (subjectInst.showInfos || propertyInst.showInfos)">
     <p><b>Description:</b></p>
 
@@ -37,7 +37,7 @@
   </div>
 
   <!-- Body of a property -->
-  <div class="propertyBodyCSS">
+  <div class="inversePropertyBodyCSS">
 
     <!--This select is for changing the property Operator-->
     <div class="pull-right" ng-show="subjectInst.showAdditionalFields">
