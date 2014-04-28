@@ -37,7 +37,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
 
     // inverse Properties
     var selectedInverseProperties = $scope.subjectInst.selectedInverseProperties;
-    AvailablePropertiesService.getProperties($scope.subjectInst.uri)
+    AvailablePropertiesService.getInverseProperties($scope.subjectInst.uri)
       .then(function(data) {
         $scope.subjectInst.availableInverseProperties = data;
       }, function(error) {
@@ -46,8 +46,8 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
     $scope.propertyOperators = globalConfig.propertyOperators;
 
     /**
-     * Adds a property selected from the availableProperties of a
-     * subjectInst to the selectedProperties of the same subjectInst
+     * Adds an inverse property selected from the availableInverseProperties of a
+     * subjectInst to the selectedInverseProperties of the same subjectInst
      */
     $scope.addInverseProperty = function(){
       selectedInverseProperties.push(angular.copy($scope.inversePropertySelected));
@@ -55,7 +55,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
     };
 
     /**
-     * Removes a given propertyInst from the selectedProperties of the subjectInst
+     * Removes a given propertyInst from the selectedInverseProperties of the subjectInst
      * @param propertyInst
      */
     $scope.removeInverseProperty = function(propertyInst) {
