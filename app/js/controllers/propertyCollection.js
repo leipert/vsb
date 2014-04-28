@@ -14,7 +14,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
       .then(function(data) {
         $scope.subjectInst.availableProperties = data;
       }, function(error) {
-        log.error(error);
+        $log.error(error);
       });
     $scope.propertyOperators = globalConfig.propertyOperators;
 

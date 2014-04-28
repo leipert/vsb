@@ -4,7 +4,7 @@ angular.module('GSB.config', [])
   .constant('globalConfig', {
     propertyTypeURIs : {
       'OBJECT_PROPERTY' : [
-        /mockup\//
+        /http:\/\/dbpedia.org\/ontology\//
       ],
       'NUMBER_PROPERTY' : [
         /http:\/\/www\.w3\.org\/2001\/XMLSchema#(integer|float|double)/,

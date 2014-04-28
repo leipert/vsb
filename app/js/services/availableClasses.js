@@ -56,13 +56,15 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
         if (data.hasOwnProperty(key)) {
           var property = data[key],
               propertyURI = property.propertyURI.value,
-              propertyType = getPropertyType(propertyRange),
               propertyRange = null;
 
           /* Check whether a propertyRange is given.*/
           if (property.hasOwnProperty("propertyRange")) {
             propertyRange = property.propertyRange.value;
+
           }
+          var propertyType = getPropertyType(propertyRange);
+
 
           /* If we already have a property with the same URI,
            then we just add the propertyRange to the corresponding URI. */
@@ -92,12 +94,14 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
      * @returns string
      */
     var getPropertyType = function (propertyRange) {
-      var conf = globalConfig['propertyTypeURIs'];
-      for (var key in conf) {
-        if (conf.hasOwnProperty(key)) {
-          for (var i = 0, j = conf[key].length; i < j; i++) {
-            if (propertyRange.search(conf[key][i]) > -1) {
-              return key;
+      if(propertyRange !== null) {
+        var conf = globalConfig['propertyTypeURIs'];
+        for (var key in conf) {
+          if (conf.hasOwnProperty(key)) {
+            for (var i = 0, j = conf[key].length; i < j; i++) {
+              if (propertyRange.search(conf[key][i]) > -1) {
+                return key;
+              }
             }
           }
         }
