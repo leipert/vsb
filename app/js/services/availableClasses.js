@@ -24,22 +24,22 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
         .then(function (response) {
 
           $log.info('Available Classes loaded from server.');
-          
+
           var availClasses = response.data.results.bindings;
 
-          for(var key in availClasses) {
+          for (var key in availClasses) {
             if (availClasses.hasOwnProperty(key)) {
               asc.push(
                 {
-                  alias: availClasses[key].class.value.substr(availClasses[key].class.value.lastIndexOf('/')+1, availClasses[key].class.value.length - (availClasses[key].class.value.lastIndexOf('/')+1)),
+                  alias: availClasses[key].class.value.substr(availClasses[key].class.value.lastIndexOf('/') + 1, availClasses[key].class.value.length - (availClasses[key].class.value.lastIndexOf('/') + 1)),
                   uri: availClasses[key].class.value,
                   comment: availClasses[key].comment ? availClasses[key].comment.value : 'No description available.'
                 }
               );
             }
           }
-          
-        }, function(error) {
+
+        }, function (error) {
           $log.error(error, 'Available Classes could not be loaded from server.');
         });
     };
@@ -50,79 +50,84 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
   .factory('AvailablePropertiesService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
     var factory = {};
 
+
 	
 	factory.availableProperties = '';
 	
 	
     var createAvailablePropertyObject = function(data) {
+
       var ret = {};
-      for(var key in data) {
-        if(data.hasOwnProperty(key)){
-		
-		  var property = data[key];
-		  
-		  var isObjectProperty = (isObjProp(property));
-          var propertyURI = property.propertyURI.value;
-		  if(property.hasOwnProperty("propertyRange"))
-             {var propertyRange = property.propertyRange.value;}
-		  else
-		     {var propertyRange = null;}
-          if(ret.hasOwnProperty(propertyURI)){
+      for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+          var property = data[key],
+              propertyURI = property.propertyURI.value,
+              propertyRange = null;
+
+          /* Check whether a propertyRange is given.*/
+          if (property.hasOwnProperty("propertyRange")) {
+            propertyRange = property.propertyRange.value;
+
+          }
+          var propertyType = getPropertyType(propertyRange);
+
+
+          /* If we already have a property with the same URI,
+           then we just add the propertyRange to the corresponding URI. */
+          if (ret.hasOwnProperty(propertyURI)) {
             ret[propertyURI].propertyRange.push(propertyRange);
           } else {
-		  
-		  ret[propertyURI] = {
+            ret[propertyURI] = {
               alias: property.propertyAlias.value,
               uri: propertyURI,
-              type: isObjectProperty ? 'OBJECT_PROPERTY' : 'DATATYPE_PROPERTY',
-              isObjectProperty: isObjectProperty,
+              type: propertyType,
               propertyRange: [propertyRange],
               view: true,
               operator: "MUST", //Vorprojekt okay
-              link : {direction: "TO", linkPartner: null}, //Vorprojekt okay
-              arithmetic : {} , //Vorprojekt leave empty
-              compare : {} //Vorprojekt leave empty
+              link: {direction: "TO", linkPartner: null}, //Vorprojekt okay
+              arithmetic: "x", //Vorprojekt leave empty
+              compare: null //Vorprojekt leave empty
             };
           }
         }
       }
       return ret;
-    }
+    };
 
     /**
-     * Returns whether an property is an objectProperty
+     * Returns the type of a Property
      * @param propertyRange
-     * @returns {boolean}
+     * @returns string
      */
-    var isObjProp = function (property) {
-
-      if(property.hasOwnProperty("propertyRange"))
-	     {    
-		  var propertyRange = property.propertyRange.value;
-          var dataTypeURIs = globalConfig['dataTypeURIs'];
-          for(var key in dataTypeURIs){
-               if(dataTypeURIs.hasOwnProperty(key) && propertyRange.startsWith(dataTypeURIs[key]))
-			       {return false;}
-           }
-         return true;
-	     }
-	  else  {return false;}
+    var getPropertyType = function (propertyRange) {
+      if(propertyRange !== null) {
+        var conf = globalConfig['propertyTypeURIs'];
+        for (var key in conf) {
+          if (conf.hasOwnProperty(key)) {
+            for (var i = 0, j = conf[key].length; i < j; i++) {
+              if (propertyRange.search(conf[key][i]) > -1) {
+                return key;
+              }
+            }
+          }
+        }
+      }
+      return 'STANDARD_PROPERTY';
     };
 
     /**
      * Returns properties of a SPARQL-Class given by the classes uri.
      * In other words: the properties have the given class as their 'propertyDomain'.
-     * 
+     *
      * @param uri the uri identifiying the SPARQL-Class.
-     */    
+     */
     factory.getProperties = function (uri) {
 	
 	  
       $log.info('Lade die Properties von ' + uri);
-      
-	  
       //Retrieve Properties from Server and add them to availableProperties
       return $http.get(factory.buildAllPropertyQuery(uri))
+
         .then(function(response) {
 		
 		
@@ -206,6 +211,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
 	  return obj1;
 	};
 	
+
     return factory;
 
   }]);

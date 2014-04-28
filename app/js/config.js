@@ -2,9 +2,15 @@
 
 angular.module('GSB.config', [])
   .constant('globalConfig', {
-    dataTypeURIs : [
-      'http://www.w3.org/2001/XMLSchema'
-    ],
+    propertyTypeURIs : {
+      'OBJECT_PROPERTY' : [
+        /http:\/\/dbpedia.org\/ontology\//
+      ],
+      'NUMBER_PROPERTY' : [
+        /http:\/\/www\.w3\.org\/2001\/XMLSchema#(integer|float|double)/,
+        'http://www.w3.org/2001/XMLSchema#decimal'
+      ]
+    },
     queryURL: 'http://dbpedia.org/sparql?format=text%2Fhtml&timeout=5000&debug=on&query=',
 	testURLstart: 'http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=',
 	testURLend: '&format=json&timeout=30000&debug=on',

@@ -111,7 +111,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         if(oneSubject.properties[i].type === "OBJECT_PROPERTY") {
           SPARQL += factory.translateObjectProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
         }
-        else if(oneSubject.properties[i].type === "DATATYPE_PROPERTY") {
+        else {
           SPARQL += factory.translateDatatypeProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
         }
       }
@@ -226,27 +226,28 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
   factory.translateDatatypeProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
 
     var SPARQL = "";
-
+    var x,y;
+    x = "?" + itsSubject.alias + "_" + eigenschaft.alias;
+    y = x;
     if(eigenschaft.operator === "MUST" || eigenschaft.operator === "CAN") {
 
       if(eigenschaft.operator === "CAN") {
         SPARQL += "OPTIONAL { \n";
       }
 
-
-      if(typeof eigenschaft.arithmetic.operator != "undefined") {
-
-        SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?" + itsSubject.alias + "_" + eigenschaft.alias + "_temp .\n";
-        SPARQL += "BIND (( ?"  + itsSubject.alias + "_" + eigenschaft.alias + "_temp " + eigenschaft.arithmetic.operator + " " + eigenschaft.arithmetic.amount + " ) as ?"  + itsSubject.alias + "_" + eigenschaft.alias + ") .\n";
+      if(eigenschaft.arithmetic !== null && eigenschaft.arithmetic != "x") {
+        x = y + "_temp";
+        SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.uri + "> " + x + ".\n";
+        SPARQL += "BIND ((" + eigenschaft.arithmetic.replace(/x/g,x) + ") as "  + y + ") .\n";
       }
       else {
-        SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?"  + itsSubject.alias + "_" + eigenschaft.alias + " .\n";
+        SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?"  + y + " .\n";
       }
 
 
-      if(typeof eigenschaft.compare.operator != "undefined") {
+      if(eigenschaft.compare !== null) {
 
-        SPARQL += "FILTER ( ?" + itsSubject.alias + "_" + eigenschaft.alias + " " + eigenschaft.compare.operator + " " + eigenschaft.compare.amount + " ) .\n";
+        SPARQL += "FILTER ( " + eigenschaft.compare.replace(/x/g,x).replace(/y/g,y) + " ) .\n";
       }
 
       if(eigenschaft.operator === "CAN") {
@@ -256,12 +257,12 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
 
     if(eigenschaft.operator === "MUST_NOT") {
-      SPARQL += "FILTER NOT EXIST { ?" +  itsSubject.alias + " <" + eigenschaft.uri + "> ?" +  itsSubject.alias + "_" + eigenschaft.alias + " } .\n";
+      SPARQL += "FILTER NOT EXIST { ?" +  itsSubject.alias + " <" + eigenschaft.uri + "> ?" +  y + " } .\n";
     }
 
 
     if(eigenschaft.view === true) {
-      shownValues[shownValues.length] =  itsSubject.alias + "_" + eigenschaft.alias;
+      shownValues[shownValues.length] =  y;
     }
 
     return SPARQL;
