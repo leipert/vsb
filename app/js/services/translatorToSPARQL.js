@@ -262,7 +262,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
 
     if(eigenschaft.view === true) {
-      shownValues[shownValues.length] =  y;
+      shownValues[shownValues.length] =  itsSubject.alias + "_" + eigenschaft.alias;
     }
 
     return SPARQL;
