@@ -49,20 +49,16 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
   }])
   .factory('AvailablePropertiesService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
     var factory = {};
-
-
-	
-	factory.availableProperties = '';
-	
-	
+	  
+	  factory.availableProperties = '';
+	  
     var createAvailablePropertyObject = function(data) {
-
       var ret = {};
       for (var key in data) {
         if (data.hasOwnProperty(key)) {
           var property = data[key],
-              propertyURI = property.propertyURI.value,
-              propertyRange = null;
+          propertyURI = property.propertyURI.value,
+          propertyRange = null;
 
           /* Check whether a propertyRange is given.*/
           if (property.hasOwnProperty("propertyRange")) {
@@ -71,16 +67,15 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
           }
           var propertyType = getPropertyType(propertyRange);
 
-		   /* Check whether the propertyAlias is undefined and if so, fill it with last part of the URI.*/
-		  if (!property.hasOwnProperty("propertyAlias")) {
-		  
+		      /* Check whether the propertyAlias is undefined and if so, fill it with last part of the URI.*/
+		      if (!property.hasOwnProperty("propertyAlias")) {
+		        
             property['propertyAlias'] = {'value' : {}};
-			property.propertyAlias.value = propertyURI.substr(propertyURI.lastIndexOf('/') + 1, propertyURI.length - (propertyURI.lastIndexOf('/') + 1));
+			      property.propertyAlias.value = propertyURI.substr(propertyURI.lastIndexOf('/') + 1, propertyURI.length - (propertyURI.lastIndexOf('/') + 1));
           }
-
-		  
+		      
           /* If we already have a property with the same URI,
-           then we just add the propertyRange to the corresponding URI. */
+             then we just add the propertyRange to the corresponding URI. */
           if (ret.hasOwnProperty(propertyURI)) {
             ret[propertyURI].propertyRange.push(propertyRange);
           } else {
@@ -138,86 +133,79 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
 
           $log.info(' Properties loaded from: ' + uri, response);
           
-		  return factory.getParentClassProperties(uri)
-		         .then( function() {
-         
-		             return factory.availableProperties; 
-				   })
-				  
-				 .then (function(availableProperties) {
-                   return availableProperties;
-                  });
- 
+		      return factory.getParentClassProperties(uri)
+		        .then( function() {              
+		          return factory.availableProperties; 
+				    })		  
+				    .then (function(availableProperties) {
+              return availableProperties;
+            });
         }, function(response) { $log.error('Error loading properties from: ' + uri) }
-		)};
-	
-	
-	factory.getParentClassProperties = function (uri) {
-	
-	  return $http
-	         .get(globalConfig.testURLstart + escape('select ?parent where { <' + uri + '> rdfs:subClassOf ?parent . }') + globalConfig.testURLend)
-             .then(function(response) {
-	
-	            if((typeof response.data.results.bindings[0] != 'undefined')) {
-				
-			        var parentClassURI = response.data.results.bindings[0].parent.value;
-			
-			        return factory.getProperties(parentClassURI);
+		         )};
+	  
+	  factory.getParentClassProperties = function (uri) {
+	    
+	    return $http
+	      .get(globalConfig.testURLstart + escape('select ?parent where { <' + uri + '> rdfs:subClassOf ?parent . }') + globalConfig.testURLend)
+        .then(function(response) {
+	        if((typeof response.data.results.bindings[0] != 'undefined')) {
+				    
+			      var parentClassURI = response.data.results.bindings[0].parent.value;
+			      
+			      return factory.getProperties(parentClassURI);
 			    }
-	          });
-	};
-	
-	
-	
-	/**
+	      });
+	  };
+	  
+	  /**
      * Function to build a SPARQL query to get all normal (not if-of) properties of a via URI specified class 
      * 
      * @param uri the URI of the class
-	 * @return query The SPARQL query as an encoded string
+	   * @return query The SPARQL query as an encoded string
      */ 
-	factory.buildAllPropertyQuery = function (uri) {
-	  var query = globalConfig.testURLstart;
-	
-	  query += escape('select distinct ?propertyDomain ?propertyURI ?propertyRange ?propertyAlias where {{<');
-	  query += escape(uri);
-	  query += escape(  '> rdfs:subClassOf+ ?class.{?propertyURI rdfs:domain ?class . '
-                      + ' ?propertyURI rdfs:domain ?propertyDomain .'
-                      + 'OPTIONAL { ?propertyURI rdfs:range ?propertyRange . } .'
-                      + 'OPTIONAL {'
-                      + '  ?propertyURI rdfs:label ?propertyAlias.'
-                      + '   FILTER(LANGMATCHES(LANG(?propertyAlias), "en"))'
-                      + ' } . '
-                      + '   OPTIONAL {'
-                      + '  ?propertyURI rdfs:comment ?propertyComment.'
-                      + ' FILTER(LANGMATCHES(LANG(?propertyComment), "en"))'
-                      + '  }'
-                      + '  }'
-                      + '  } UNION {'
-                      + '  ?propertyURI rdfs:domain <');
-	  query += escape(uri);
+	  factory.buildAllPropertyQuery = function (uri) {
+	    var query = globalConfig.testURLstart;
+	    
+	    query += escape('select distinct ?propertyDomain ?propertyURI ?propertyRange ?propertyAlias where {{<');
+	    query += escape(uri);
+	    query += escape(  '> rdfs:subClassOf+ ?class.{?propertyURI rdfs:domain ?class . '
+                        + ' ?propertyURI rdfs:domain ?propertyDomain .'
+                        + 'OPTIONAL { ?propertyURI rdfs:range ?propertyRange . } .'
+                        + 'OPTIONAL {'
+                        + '  ?propertyURI rdfs:label ?propertyAlias.'
+                        + '   FILTER(LANGMATCHES(LANG(?propertyAlias), "en"))'
+                        + ' } . '
+                        + '   OPTIONAL {'
+                        + '  ?propertyURI rdfs:comment ?propertyComment.'
+                        + ' FILTER(LANGMATCHES(LANG(?propertyComment), "en"))'
+                        + '  }'
+                        + '  }'
+                        + '  } UNION {'
+                        + '  ?propertyURI rdfs:domain <');
+	    query += escape(uri);
       query += escape(  '>. ?propertyURI rdfs:domain ?propertyDomain .'
-                      + ' OPTIONAL { ?propertyURI rdfs:range ?propertyRange . } .'
-                      + ' OPTIONAL { ?propertyURI rdfs:label ?propertyAlias.'
-                      + ' FILTER(LANGMATCHES(LANG(?propertyAlias), "en")) } . '
-                      + ' OPTIONAL { ?propertyURI rdfs:comment ?propertyComment.'
-                      + ' FILTER(LANGMATCHES(LANG(?propertyComment), "en")) } }}'  );	  
-	  query += globalConfig.testURLend;
-	  return query;
-	};
-	
-	/**
+                        + ' OPTIONAL { ?propertyURI rdfs:range ?propertyRange . } .'
+                        + ' OPTIONAL { ?propertyURI rdfs:label ?propertyAlias.'
+                        + ' FILTER(LANGMATCHES(LANG(?propertyAlias), "en")) } . '
+                        + ' OPTIONAL { ?propertyURI rdfs:comment ?propertyComment.'
+                        + ' FILTER(LANGMATCHES(LANG(?propertyComment), "en")) } }}'  );	  
+	    query += globalConfig.testURLend;
+	    return query;
+	  };
+	  
+	  /**
      * Helper function to merge two objects
      * 
      * @param obj1 the merged Object
      */ 
-	factory.mergeTwoObjects = function (obj1, obj2) {
-	   
-	   for (var key in obj2) {
-         obj1[key] = obj2[key];
-       }
-	
-	  return obj1;
-	};
+	  factory.mergeTwoObjects = function (obj1, obj2) {
+	    
+	    for (var key in obj2) {
+        obj1[key] = obj2[key];
+      }
+	    
+	    return obj1;
+	  };
 
     /**
      * Returns inverse properties of a SPARQL-Class given by the classes uri.
