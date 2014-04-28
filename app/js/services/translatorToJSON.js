@@ -44,7 +44,6 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
         allSubjects.map(function (currentSubject) {
           delete currentSubject["availableProperties"];
           currentSubject.properties = currentSubject["selectedProperties"].map(function (currentProperty) {
-            delete currentProperty["isObjectProperty"];
             delete currentProperty["propertyType"];
             if (currentProperty.link.linkPartner !== null && currentProperty.link.linkPartner.hasOwnProperty("alias")) {
               currentProperty.link.linkPartner = currentProperty.link.linkPartner.alias;

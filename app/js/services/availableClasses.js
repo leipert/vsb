@@ -24,10 +24,10 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
         .then(function (response) {
 
           $log.info('Available Classes loaded from server.');
-          
+
           var availClasses = response.data.results.bindings;
 
-          for(var key in availClasses) {
+          for (var key in availClasses) {
             if (availClasses.hasOwnProperty(key)) {
               asc.push(
                 {
@@ -38,8 +38,8 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
               );
             }
           }
-          
-        }, function(error) {
+
+        }, function (error) {
           $log.error(error, 'Available Classes could not be loaded from server.');
         });
     };
@@ -50,71 +50,74 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
   .factory('AvailablePropertiesService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
     var factory = {};
 
-    var createAvailablePropertyObject = function(data) {
+    var createAvailablePropertyObject = function (data) {
       var ret = {};
-      for(var key in data) {
-        if(data.hasOwnProperty(key)){
+      for (var key in data) {
+        if (data.hasOwnProperty(key)) {
           var property = data[key];
           var propertyURI = property.propertyURI.value,
-          propertyRange = property.propertyRange.value,
-          isObjectProperty = (isObjProp(propertyRange));
-          if(ret.hasOwnProperty(propertyURI)){
+            propertyRange = property.propertyRange.value,
+            propertyType = getPropertyType(propertyRange);
+          if (ret.hasOwnProperty(propertyURI)) {
             ret[propertyURI].propertyRange.push(propertyRange);
           } else {
             ret[propertyURI] = {
               alias: property.propertyAlias.value,
               uri: propertyURI,
-              type: isObjectProperty ? 'OBJECT_PROPERTY' : 'DATATYPE_PROPERTY',
-              isObjectProperty: isObjectProperty,
+              type: propertyType,
               propertyRange: [propertyRange],
               view: true,
               operator: "MUST", //Vorprojekt okay
-              link : {direction: "TO", linkPartner: null}, //Vorprojekt okay
-              arithmetic : {} , //Vorprojekt leave empty
-              compare : {} //Vorprojekt leave empty
+              link: {direction: "TO", linkPartner: null}, //Vorprojekt okay
+              arithmetic: "x", //Vorprojekt leave empty
+              compare: null //Vorprojekt leave empty
             };
           }
         }
       }
       return ret;
-    }
+    };
 
     /**
-     * Returns whether an property is an objectProperty
+     * Returns the type of a Property
      * @param propertyRange
-     * @returns {boolean}
+     * @returns string
      */
-    var isObjProp = function (propertyRange) {
-      var dataTypeURIs = globalConfig['dataTypeURIs'];
-      for(var key in dataTypeURIs){
-        if(dataTypeURIs.hasOwnProperty(key) && propertyRange.startsWith(dataTypeURIs[key])){
-          return false;
+    var getPropertyType = function (propertyRange) {
+      var conf = globalConfig['propertyTypeURIs'];
+      for (var key in conf) {
+        if (conf.hasOwnProperty(key)) {
+          for (var i = 0, j = conf[key].length; i < j; i++) {
+            if (propertyRange.search(conf[key][i]) > -1) {
+              return key;
+            }
+          }
         }
       }
-      return true;
+      return 'STANDARD_PROPERTY';
     };
 
     /**
      * Returns properties of a SPARQL-Class given by the classes uri.
      * In other words: the properties have the given class as their 'propertyDomain'.
-     * 
+     *
      * @param uri the uri identifiying the SPARQL-Class.
-     */    
+     */
     factory.getProperties = function (uri) {
       $log.info('Lade die Properties von ' + uri);
-      
+
       //Retrieve Properties from Server and add them to availableProperties
       return $http.get(globalConfig.baseURL + uri)
-        .then(function(response) {
+        .then(function (response) {
           var availableProperties = createAvailablePropertyObject(response.data.results.bindings);
           $log.info(' Properties loaded from: ' + uri, response);
-          
+
           return availableProperties;
 
-        }, function(response) {
+        }, function (response) {
           $log.error('Error loading properties from: ' + uri)
         });
-      
+
     };
 
     return factory;

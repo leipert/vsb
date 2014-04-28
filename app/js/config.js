@@ -2,9 +2,15 @@
 
 angular.module('GSB.config', [])
   .constant('globalConfig', {
-    dataTypeURIs : [
-      'http://www.w3.org/2001/XMLSchema'
-    ],
+    propertyTypeURIs : {
+      'OBJECT_PROPERTY' : [
+        /mockup\//
+      ],
+      'NUMBER_PROPERTY' : [
+        /http:\/\/www\.w3\.org\/2001\/XMLSchema#(integer|float|double)/,
+        'http://www.w3.org/2001/XMLSchema#decimal'
+      ]
+    },
     queryURL: 'http://dbpedia.org/sparql?format=text%2Fhtml&timeout=5000&debug=on&query=',
     baseURL: 'http://' + (location.host + location.pathname).substring(0,(location.host + location.pathname).lastIndexOf('app/') + 4),
     propertyOperators : [
