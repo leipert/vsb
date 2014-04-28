@@ -71,7 +71,14 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
           }
           var propertyType = getPropertyType(propertyRange);
 
+		   /* Check whether the propertyAlias is undefined and if so, fill it with last part of the URI.*/
+		  if (!property.hasOwnProperty("propertyAlias")) {
+		  
+            property['propertyAlias'] = {'value' : {}};
+			property.propertyAlias.value = propertyURI.substr(propertyURI.lastIndexOf('/') + 1, propertyURI.length - (propertyURI.lastIndexOf('/') + 1));
+          }
 
+		  
           /* If we already have a property with the same URI,
            then we just add the propertyRange to the corresponding URI. */
           if (ret.hasOwnProperty(propertyURI)) {
@@ -166,7 +173,12 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
 	
 	
 	
-	
+	/**
+     * Function to build a SPARQL query to get all normal (not if-of) properties of a via URI specified class 
+     * 
+     * @param uri the URI of the class
+	 * @return query The SPARQL query as an encoded string
+     */ 
 	factory.buildAllPropertyQuery = function (uri) {
 	  var query = globalConfig.testURLstart;
 	
