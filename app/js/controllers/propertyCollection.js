@@ -35,4 +35,32 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
       selectedProperties.splice(selectedProperties.indexOf(propertyInst), 1);
     };
 
+    // inverse Properties
+    var selectedInverseProperties = $scope.subjectInst.selectedInverseProperties;
+    AvailablePropertiesService.getProperties($scope.subjectInst.uri)
+      .then(function(data) {
+        $scope.subjectInst.availableInverseProperties = data;
+      }, function(error) {
+        log.error(error);
+      });
+    $scope.propertyOperators = globalConfig.propertyOperators;
+
+    /**
+     * Adds a property selected from the availableProperties of a
+     * subjectInst to the selectedProperties of the same subjectInst
+     */
+    $scope.addInverseProperty = function(){
+      selectedInverseProperties.push(angular.copy($scope.inversePropertySelected));
+      $scope.inversePropertySelected = '';
+    };
+
+    /**
+     * Removes a given propertyInst from the selectedProperties of the subjectInst
+     * @param propertyInst
+     */
+    $scope.removeInverseProperty = function(propertyInst) {
+      selectedInverseProperties.splice(selectedInverseProperties.indexOf(propertyInst), 1);
+    };
+
+
   }]);

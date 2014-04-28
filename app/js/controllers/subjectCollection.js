@@ -46,6 +46,8 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
           view: true,
           selectedProperties: [],
           availableProperties: {},
+          selectedInverseProperties: [],
+          availableInverseProperties: {},
           showAdditionalFields: false
         }
       );

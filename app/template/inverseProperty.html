@@ -1,0 +1,66 @@
+<div class="propertyCSS">
+  <!-- Template for property directive -->
+
+  <!-- Top of a property -->
+  <div class="propertyHeadCSS">
+    <div class="pull-right" ng-show="subjectInst.showAdditionalFields">
+      <!-- Button (Info-Sign) to show more Infos of propertyInst on hover -->
+      <a href="#" ng-mouseenter="propertyInst.showInfos = true" ng-mouseleave="propertyInst.showInfos = false">
+        <i class="glyphicon glyphicon-info-sign"></i>
+      </a>
+
+      <!-- Button (Eyes) to show whether a propertyInst will be visible in the result or not. -->
+      <a href="#" ng-show="propertyInst.view" ng-click="togglePropertyView(propertyInst)">
+        <i class="glyphicon glyphicon-eye-open"></i>
+      </a>
+      <a href="#" ng-show="!propertyInst.view" ng-click="togglePropertyView(propertyInst)">
+        <i class="glyphicon glyphicon-eye-close"></i>
+      </a>
+
+      <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/property.js -->
+      <a href="#" ng-click="removeInverseProperty(propertyInst)"><i class="glyphicon glyphicon-trash"></i></a>
+    </div>
+
+    <!-- Alias of propertyInst -->
+    <div><b>{{propertyInst.alias}}</b></div>
+
+  </div>
+
+  <!-- Description of a property TODO: Actually use one -->
+  <div class="propertyDescriptionCSS"
+       ng-show="subjectInst.showAdditionalFields && (subjectInst.showInfos || propertyInst.showInfos)">
+    <p><b>Description:</b></p>
+
+    <p>
+      Kurze Erklärung zur Eigenschaft
+    </p>
+  </div>
+
+  <!-- Body of a property -->
+  <div class="propertyBodyCSS">
+
+    <!--This select is for changing the property Operator-->
+    <div class="pull-right" ng-show="subjectInst.showAdditionalFields">
+      <select ng-model="propertyInst.operator" ng-options="x.value as x.label for x in propertyOperators"
+              title="Change Property Operator"></select>
+    </div>
+
+    <!--Depending on PropertyType the appropriate controls are inserted,
+    you can use ng-include for direct insertion templates or
+    a own directive with templates and controllers
+    This is the place if you want to add new property Types.-->
+    <div ng-switch on="propertyInst.type">
+
+      <div ng-switch-when="OBJECT_PROPERTY">
+        <div object-property-dir></div>
+      </div>
+
+      <div ng-switch-default></div>
+    </div>
+
+    <!-- CSS Trick, because pull-right does not make the container higher -->
+    <div class="clearfix"></div>
+
+  </div>
+
+</div>
