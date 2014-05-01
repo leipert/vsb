@@ -37,7 +37,18 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
                 }
               );
             }
+
           }
+
+              //Adding special class 'Thing' to the array of available classes
+              asc.push(
+                  {
+                      alias: 'Thing',
+                      uri: 'specialClasses/Thing',
+                      comment: 'The class Thing is an anonymous class for searching without knowing the subjects class.'
+                  }
+              );
+
 
         }, function (error) {
           $log.error(error, 'Available Classes could not be loaded from server.');
