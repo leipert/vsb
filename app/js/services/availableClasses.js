@@ -44,7 +44,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
               asc.push(
                   {
                       alias: 'Thing',
-                      uri: 'specialClasses/Thing',
+                      uri: 'http://www.w3.org/2002/07/owl#Thing',
                       comment: 'The class Thing is an anonymous class for searching without knowing the subjects class.'
                   }
               );
