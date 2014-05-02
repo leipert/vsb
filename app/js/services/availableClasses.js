@@ -103,6 +103,19 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
           }
         }
       }
+       //Add special Property
+        ret['test/specialProperty'] = {
+            alias: '???',
+            uri: 'test/specialProperty',
+            type: 'OBJECT_PROPERTY',
+            propertyRange: ['test/Thing'],
+            view: true,
+            operator: "MUST", //Vorprojekt okay
+            link: {direction: "TO", linkPartner: null}, //Vorprojekt okay
+            arithmetic: "x", //Vorprojekt leave empty
+            compare: null //Vorprojekt leave empty
+        };
+
       return ret;
     };
 
