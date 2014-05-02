@@ -44,7 +44,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
               asc.push(
                   {
                       alias: 'Thing',
-                      uri: 'http://www.w3.org/2002/07/owl#Thing',
+                      uri: 'test/Thing',
                       comment: 'The class Thing is an anonymous class for searching without knowing the subjects class.'
                   }
               );
@@ -200,6 +200,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
                         + ' OPTIONAL { ?propertyURI rdfs:comment ?propertyComment.'
                         + ' FILTER(LANGMATCHES(LANG(?propertyComment), "en")) } }}'  );	  
 	    query += globalConfig.testURLend;
+          if(uri === 'test/Thing'){query='http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select+distinct+%3FpropertyDomain+%3FpropertyURI+%3FpropertyRange+%3FpropertyAlias+where+{{%3FanonyClass+rdfs%3AsubClassOf%2B+%3Fclass.%0D%0A++++++++++++++++++++++++++++++++{%3FpropertyURI+rdfs%3Adomain+%3Fclass+.+%0D%0A%0D%0A+++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}+.+%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}%0D%0A++++++++++++++++++++++++++++++++}%0D%0A+++++++++++++++++++++++}+%0D%0A%0D%0A++++++++++++++++++++++UNION+{%0D%0A+++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FanonyClass.+%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29+}+.+%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29+}+}}&format=json&timeout=30000&debug=on';}
 	    return query;
 	  };
 	  
