@@ -95,6 +95,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
               type: propertyType,
               propertyRange: [propertyRange],
               view: true,
+			  optional: false,
               operator: "MUST", //Vorprojekt okay
               link: {direction: "TO", linkPartner: null}, //Vorprojekt okay
               arithmetic: "x", //Vorprojekt leave empty

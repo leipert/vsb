@@ -145,9 +145,9 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
     var SPARQL = "";
 
-    if(eigenschaft.operator === "MUST" || eigenschaft.operator === "CAN") {
+    if(eigenschaft.operator === "MUST") {
 
-      if(eigenschaft.operator === "CAN") {
+      if(eigenschaft.optional) {
         SPARQL += "OPTIONAL { \n";
       }
 
@@ -162,21 +162,23 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
         SPARQL +=  eigenschaft.link.linkPartner + " .\n";
 
-        if(eigenschaft.operator === "CAN") {
-          SPARQL += "}\n";
-        }
-
+        
         for(var i = 0; i < json.SUBJECTS.length; i++) {
 
           if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
             SPARQL +=  factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
           }
         }
+		
+		if(eigenschaft.optional) {
+          SPARQL += "}\n";
+        }
+		
       }
 
       else {
         SPARQL +=  eigenschaft.alias  + " .\n"; ;
-        if(eigenschaft.operator === "CAN") {
+        if(eigenschaft.optional) {
           SPARQL += "}\n";
         }
         shownValues[shownValues.length] =  + eigenschaft.alias;
@@ -247,9 +249,9 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     var x,y;
     x = "?" + itsSubject.alias + "_" + eigenschaft.alias;
     y = x;
-    if(eigenschaft.operator === "MUST" || eigenschaft.operator === "CAN") {
+    if(eigenschaft.operator === "MUST") {
 
-      if(eigenschaft.operator === "CAN") {
+      if(eigenschaft.optional) {
         SPARQL += "OPTIONAL { \n";
       }
 
@@ -284,7 +286,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         SPARQL += "FILTER ( " + eigenschaft.compare.replace(/x/g,x).replace(/y/g,y) + " ) .\n";
       }
 
-      if(eigenschaft.operator === "CAN") {
+      if(eigenschaft.optional) {
         SPARQL += "}\n";
       }
     }
