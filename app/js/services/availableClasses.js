@@ -103,12 +103,16 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
           }
         }
       }
-       //Add special Property
+
+        //TODO: Need to be filled with all Classes URI as comma-separated list
+        var allClassURIS = 'test/Thing';
+
+       //Add special Properties
         ret['test/specialObjectProperty'] = {
             alias: 'unknownConnection',
             uri: 'test/specialObjectProperty',
             type: 'OBJECT_PROPERTY',
-            propertyRange: ['test/Thing'],
+            propertyRange: [allClassURIS],
             view: true,
             operator: "MUST", //Vorprojekt okay
             link: {direction: "TO", linkPartner: null}, //Vorprojekt okay
