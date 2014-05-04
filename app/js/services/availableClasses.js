@@ -104,9 +104,9 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
         }
       }
        //Add special Property
-        ret['test/specialProperty'] = {
-            alias: '???',
-            uri: 'test/specialProperty',
+        ret['test/specialObjectProperty'] = {
+            alias: 'unknownConnection',
+            uri: 'test/specialObjectProperty',
             type: 'OBJECT_PROPERTY',
             propertyRange: ['test/Thing'],
             view: true,
@@ -115,6 +115,19 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
             arithmetic: "x", //Vorprojekt leave empty
             compare: null //Vorprojekt leave empty
         };
+
+        ret['test/specialDatatypeProperty'] = {
+            alias: 'unknownProperty',
+            uri: 'test/specialDatatypeProperty',
+            type: 'DATATYPE_PROPERTY',
+            propertyRange: [],
+            view: true,
+            operator: "MUST", //Vorprojekt okay
+            link: {direction: "TO", linkPartner: null}, //Vorprojekt okay
+            arithmetic: "x", //Vorprojekt leave empty
+            compare: null //Vorprojekt leave empty
+        };
+
 
       return ret;
     };
