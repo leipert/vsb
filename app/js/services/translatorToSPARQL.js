@@ -241,7 +241,19 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         SPARQL += "BIND ((" + eigenschaft.arithmetic.replace(/x/g,x) + ") as "  + y + ") .\n";
       }
       else {
-        SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.uri + "> "  + y + " .\n";
+
+          //Tailors the uri if the subject is thing.
+          // Necessary because Properties have URIs like: <http://dbpedia.org/ontology/Person/weight> but <http://dbpedia.org/ontology/weight> is needed
+          var tailoredURI = eigenschaft.uri;
+          if(itsSubject.uri == 'test/Thing')
+            {
+                var prop = tailoredURI.substr(tailoredURI.lastIndexOf('/'), tailoredURI.length-1)
+                tailoredURI = tailoredURI.substr(0, tailoredURI.lastIndexOf('/'));
+                tailoredURI = tailoredURI.substr(0, tailoredURI.lastIndexOf('/')) + prop;
+
+            }
+
+        SPARQL += "?" + itsSubject.alias + " <" + tailoredURI + "> "  + y + " .\n";
       }
 
 
