@@ -97,7 +97,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
   
     if(!factory.presentInArray(translated, oneSubject.alias)) {
-      SPARQL += "?" + oneSubject.alias + " a <" + oneSubject.uri + "> .\n";
+      if(oneSubject.uri != 'test/Thing')SPARQL += "?" + oneSubject.alias + " a <" + oneSubject.uri + "> .\n";
 
       if(oneSubject.view) {
         shownValues[shownValues.length] = oneSubject.alias;
@@ -241,7 +241,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         SPARQL += "BIND ((" + eigenschaft.arithmetic.replace(/x/g,x) + ") as "  + y + ") .\n";
       }
       else {
-        SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?"  + y + " .\n";
+        SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.uri + "> "  + y + " .\n";
       }
 
 
