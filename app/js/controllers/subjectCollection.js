@@ -118,10 +118,15 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
 	$scope.$on('translationEvent',function() {
 	
       TranslatorManager.translateGSBLToSPARQL($scope.mainSubjectSelected, $scope.subjects);
-    });  
-	 
-	 
-    $scope.$on('JSONUpdateEvent',function(event, newJSON) {
+    });
+
+    $scope.$on('saveJsonEvent',function() {
+
+      TranslatorManager.saveAsJSON($scope.mainSubjectSelected, $scope.subjects);
+    });
+
+
+        $scope.$on('JSONUpdateEvent',function(event, newJSON) {
 	
       $scope.$parent.translatedJSON = newJSON;
     });  
@@ -130,7 +135,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
 	$scope.$on('SPARQLUpdateEvent',function(event, newSPARQL) {
 	
       $scope.$parent.translatedSPARQL = newSPARQL;
-    });  
+    });
 	// 		 ----------------------------------------------------  
 
 	  

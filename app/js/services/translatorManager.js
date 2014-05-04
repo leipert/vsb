@@ -9,7 +9,18 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
   .factory('TranslatorManager', ['$log', 'globalConfig', '$rootScope', 'TranslatorToJSON', 'TranslatorToSPARQL', function ($log, globalConfig, $rootScope, TranslatorToJSON, TranslatorToSPARQL) {
     var factory = {};
 
-  
+
+   /**
+    *  Function initiates JSON-saving
+    */
+    factory.saveAsJSON = function (mainSubjectSelected, subjects) {
+
+        alert(TranslatorToJSON.translateGSBLToJSON(mainSubjectSelected, subjects));
+
+    }
+
+
+
 
    /**
      *  Function first calls the factory to translate GSBL to JSON, then the one to translate JSON to SPARQL

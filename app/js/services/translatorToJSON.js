@@ -59,9 +59,8 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
         });
 	  
       json.SUBJECTS = allSubjects;
-	  
-	  return JSON.stringify(json, null, 2);
-    
+
+       return JSON.stringify(json, null, 2);
     };
 	
 	
