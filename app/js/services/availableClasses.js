@@ -100,41 +100,77 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
               arithmetic: "x", //Vorprojekt leave empty
               compare: null //Vorprojekt leave empty
             };
+
           }
         }
       }
 
-        //TODO: Need to be filled with all Classes URI as comma-separated list
-        var allClassURIS = 'test/Thing';
-
-       //Add special Properties
-        ret['test/specialObjectProperty'] = {
-            alias: 'unknownConnection',
-            uri: 'test/specialObjectProperty',
-            type: 'OBJECT_PROPERTY',
-            propertyRange: [allClassURIS],
-            view: true,
-            operator: "MUST", //Vorprojekt okay
-            link: {direction: "TO", linkPartner: null}, //Vorprojekt okay
-            arithmetic: "x", //Vorprojekt leave empty
-            compare: null //Vorprojekt leave empty
-        };
-
-        ret['test/specialDatatypeProperty'] = {
-            alias: 'unknownProperty',
-            uri: 'test/specialDatatypeProperty',
-            type: 'DATATYPE_PROPERTY',
-            propertyRange: [],
-            view: true,
-            operator: "MUST", //Vorprojekt okay
-            link: {direction: "TO", linkPartner: null}, //Vorprojekt okay
-            arithmetic: "x", //Vorprojekt leave empty
-            compare: null //Vorprojekt leave empty
-        };
-
 
       return ret;
     };
+
+
+        /**
+         * Returns the classes URIs.
+         */
+        factory.createSpeciProps = function () {
+            $log.info('Start creating URI-list.');
+
+            //Retrieve Properties from Server and add them to availableProperties
+            return $http.get(globalConfig.testURLstart + escape('select ?class where {?class a owl:Class .}') + globalConfig.testURLend)
+                .then(function(response) {
+                    var pro = createAvailableURIs(response.data.results.bindings);
+                    $log.info('Done getting all classes.');
+
+                    return pro;
+
+                }, function(response) {
+                    $log.error('Error preparing URI-list')
+                });
+        };
+
+
+
+        var createAvailableURIs = function(data) {
+            var ret = {};
+
+            //Create array of all classesURI
+            var allClassURIS = new Array();
+            for (var key in data) {
+            allClassURIS[key] = data[key].class.value;
+            }
+
+
+            //Add both types of special Properties
+            ret['test/specialObjectProperty'] = {
+                alias: 'unknownConnection',
+                uri: 'test/specialObjectProperty',
+                type: 'OBJECT_PROPERTY',
+                propertyRange: allClassURIS,
+                view: true,
+                operator: "MUST", //Vorprojekt okay
+                link: {direction: "TO", linkPartner: null}, //Vorprojekt okay
+                arithmetic: "x", //Vorprojekt leave empty
+                compare: null //Vorprojekt leave empty
+            };
+
+            ret['test/specialDatatypeProperty'] = {
+                alias: 'unknownProperty',
+                uri: 'test/specialDatatypeProperty',
+                type: 'DATATYPE_PROPERTY',
+                propertyRange: [],
+                view: true,
+                operator: "MUST", //Vorprojekt okay
+                link: {direction: "TO", linkPartner: null}, //Vorprojekt okay
+                arithmetic: "x", //Vorprojekt leave empty
+                compare: null //Vorprojekt leave empty
+            };
+
+
+            return ret;
+        };
+
+
 
     /**
      * Returns the type of a Property
@@ -169,9 +205,11 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
       //Retrieve Properties from Server and add them to availableProperties
       return $http.get(factory.buildAllPropertyQuery(uri))
         .then(function(response) {
+
+          //factory.availableProperties = factory.mergeTwoObjects(factory.createSpeciProps(), factory.availableProperties);
           factory.availableProperties = factory.mergeTwoObjects(createAvailablePropertyObject(response.data.results.bindings), factory.availableProperties);
 
-          $log.info(' Properties loaded from: ' + uri, response);
+                  $log.info(' Properties loaded from: ' + uri, response);
           
 		      return factory.getParentClassProperties(uri)
 		        .then( function() {              
@@ -237,15 +275,18 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
 	  /**
      * Helper function to merge two objects
      * 
-     * @param obj1 the merged Object
+     * @param o1 the merged Object
      */ 
-	  factory.mergeTwoObjects = function (obj1, obj2) {
+	  factory.mergeTwoObjects = function (o1, o2) {
+
+          for (var key in o2){
+
+                  o1[key] = o2[key];
+          }
+          return o1;
+
 	    
-	    for (var key in obj2) {
-        obj1[key] = obj2[key];
-      }
-	    
-	    return obj1;
+	    return o1;
 	  };
 
     /**
