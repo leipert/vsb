@@ -79,6 +79,19 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       SPARQLStart += "?" + shownValues[i] + " ";
     }
 
+      var spePro = false;
+      //Search for specialProperty in the JSON
+      for(var i = 0; i < json.SUBJECTS.length; i++){
+
+          for(var j = 0; j < json.SUBJECTS[i].properties.length; j++){
+                if(json.SUBJECTS[i].properties[j].uri == 'test/specialProperty') {spePro = true;}}
+
+
+      }
+      //If specialProperty is part of the properties it's added to the shown values
+      if (spePro) {SPARQLStart += '?unknownConnection ';}
+
+
     return SPARQLStart;
   };
 
@@ -138,7 +151,12 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         SPARQL += "OPTIONAL { \n";
       }
 
-      SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?";
+        //Special-property has to be translated with ?alias instead of it's URI
+        var tailoredURI = eigenschaft.uri;
+        if(eigenschaft.uri == 'test/specialProperty') {tailoredURI = '?' + 'unknownConnection';}
+        else {tailoredURI = '<'+ tailoredURI + '>';}
+
+      SPARQL += "?" + itsSubject.alias + " " + tailoredURI + " ?";
 
       if(typeof eigenschaft.link.linkPartner != "undefined") {
 
@@ -245,7 +263,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
           //Tailors the uri if the subject is thing.
           // Necessary because Properties have URIs like: <http://dbpedia.org/ontology/Person/weight> but <http://dbpedia.org/ontology/weight> is needed
           var tailoredURI = eigenschaft.uri;
-          if(itsSubject.uri == 'test/Thing')
+          if(itsSubject.uri == 'test/Thing' && eigenschaft.uri!=='test/specialProperty')
             {
                 var prop = tailoredURI.substr(tailoredURI.lastIndexOf('/'), tailoredURI.length-1)
                 tailoredURI = tailoredURI.substr(0, tailoredURI.lastIndexOf('/'));
@@ -253,7 +271,11 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
             }
 
-        SPARQL += "?" + itsSubject.alias + " <" + tailoredURI + "> "  + y + " .\n";
+          //Special-property has to be translated with ?alias instead of it's URI
+          tailoredURI = '<' + tailoredURI + '>';
+          if(eigenschaft.uri == 'test/specialProperty') {tailoredURI = '?' + eigenschaft.alias;}
+
+        SPARQL += "?" + itsSubject.alias + " " + tailoredURI + " "  + y + " .\n";
       }
 
 
