@@ -16,11 +16,11 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
       },
       {
         label: "equals",
-        f : '?%after_arithmetic%="%input%"^^xsd:string'
+        f : '%after_arithmetic%^^xsd:string="%input%"^^xsd:string'
       },
       {
         label: "equals not",
-        f : '?%after_arithmetic%!="%input%"^^xsd:string'
+        f : '%after_arithmetic%^^xsd:string!="%input%"^^xsd:string'
       },
       {
         label: "starts with",
@@ -36,27 +36,40 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
       }
     ];
 
+
+    $scope.stringComparison = null;
+
     $scope.$watch('stringComparison',function (newValue){
       if(newValue === null || newValue === undefined || newValue === ''){
         $scope.propertyInst.compare = null;
         return;
       }
-      $scope.propertyInst.compare = newValue.f.replace(/%input%/,$scope.comparisonInput);
+      renderComparison(newValue.f,$scope.comparisonInput,$scope.comparisonRegexFlags);
     });
+
+    $scope.comparisonInput = "";
 
     $scope.$watch('comparisonInput',function (newValue){
       if(newValue === null || newValue === undefined || newValue === ''){
         $scope.propertyInst.compare = null;
         return;
       }
-      $scope.propertyInst.compare = $scope.stringComparison.f.replace(/%input%/,newValue);
+      renderComparison($scope.stringComparison.f,newValue,$scope.comparisonRegexFlags)
     });
+
+    $scope.comparisonRegexFlags = "";
+
     $scope.$watch('comparisonRegexFlags',function (newValue){
-      if(newValue === null || newValue === undefined || newValue === ''){
+      renderComparison($scope.stringComparison.f,$scope.comparisonInput,newValue)
+    });
+
+    function renderComparison(f,input,flags)
+    {
+      if(input === null || input=== undefined || input === '' ||f === undefined || f === null){
         $scope.propertyInst.compare = null;
         return;
       }
-      $scope.propertyInst.compare = $scope.stringComparison.f.replace(/%input%/,newValue);
-    });
+      $scope.propertyInst.compare = f.replace(/%input%/,input).replace(/%flags%/,flags)
+    }
 
   }]);
