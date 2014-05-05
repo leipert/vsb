@@ -9,6 +9,10 @@ angular.module('GSB.config', [])
       'NUMBER_PROPERTY' : [
         /http:\/\/www\.w3\.org\/2001\/XMLSchema#(integer|float|double)/,
         'http://www.w3.org/2001/XMLSchema#decimal'
+      ],
+      'STRING_PROPERTY' : [
+        'http://www.w3.org/2001/XMLSchema#string',
+        'http://www.w3.org/2001/XMLSchema#literal'
       ]
     },
     queryURL: 'http://dbpedia.org/sparql?format=text%2Fhtml&timeout=5000&debug=on&query=',

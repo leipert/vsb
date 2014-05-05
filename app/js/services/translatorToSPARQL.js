@@ -247,7 +247,11 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
       if(eigenschaft.compare !== null) {
 
-        SPARQL += "FILTER ( " + eigenschaft.compare.replace(/x/g,x).replace(/y/g,y) + " ) .\n";
+        SPARQL += "FILTER ( "
+        + eigenschaft.compare
+          .replace(/%before_arithmetic%/g,x)
+          .replace(/%after_arithmetic%/g,y)
+        + " ) .\n";
       }
 
       if(eigenschaft.operator === "CAN") {
