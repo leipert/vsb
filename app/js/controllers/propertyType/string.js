@@ -16,11 +16,11 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
       },
       {
         label: "equals",
-        f : '%after_arithmetic%^^xsd:string="%input%"^^xsd:string'
+        f : '(str(%after_arithmetic%)="%input%")'
       },
       {
         label: "equals not",
-        f : '%after_arithmetic%^^xsd:string!="%input%"^^xsd:string'
+        f : '(str(%after_arithmetic%)!="%input%")'
       },
       {
         label: "starts with",
@@ -41,29 +41,29 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
     $scope.stringComparison = null;
 
     $scope.$watch('stringComparison',function (newValue){
-      renderComparison(newValue.f,$scope.comparisonInput,$scope.comparisonRegexFlags);
+      renderComparison(newValue,$scope.comparisonInput,$scope.comparisonRegexFlags);
     });
 
     $scope.comparisonInput = "";
 
     $scope.$watch('comparisonInput',function (newValue){
-      renderComparison($scope.stringComparison.f,newValue,$scope.comparisonRegexFlags)
+      renderComparison($scope.stringComparison,newValue,$scope.comparisonRegexFlags)
     });
 
-    $scope.comparisonRegexFlags = "";
+    $scope.comparisonRegexFlags = "i";
 
     $scope.$watch('comparisonRegexFlags',function (newValue){
-      renderComparison($scope.stringComparison.f,$scope.comparisonInput,newValue)
+      renderComparison($scope.stringComparison,$scope.comparisonInput,newValue)
     });
 
-    function renderComparison(f,input,flags)
+    function renderComparison(method,input,flags)
     {
-      if(input === null || input=== undefined || input === '' ||f === undefined || f === null){
+      if(input === null || input=== undefined || input === '' ||method === undefined || method === null){
         $scope.compare = null
         renderLangCompare();
         return;
       }
-      $scope.compare = f.replace(/%input%/,input).replace(/%flags%/,flags);
+      $scope.compare = method.f.replace(/%input%/,input).replace(/%flags%/,flags);
       renderLangCompare();
     }
 
