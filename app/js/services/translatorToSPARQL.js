@@ -51,7 +51,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     }
 
 
-    return factory.translateStartpoint(json, shownValues) + "\nwhere {\n" + SPARQL + "\n}";
+    return factory.translateStartpoint(json, shownValues) + "\nwhere {\n" + SPARQL + "\n} LIMIT 200";
   };
 	
 	
@@ -241,7 +241,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         SPARQL += "BIND ((" + eigenschaft.arithmetic.replace(/x/g,x) + ") as "  + y + ") .\n";
       }
       else {
-        SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?"  + y + " .\n";
+        SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.uri + "> "  + y + " .\n";
       }
 
 
