@@ -43,10 +43,40 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         }
       }
 
-      return factory.translateStartpoint(json, shownValues) + "\nwhere {\n" + SPARQL + "\n}";
-    };
-	  
-	  
+    return factory.translateStartpoint(json, shownValues) + "\nwhere {\n" + SPARQL + "\n} LIMIT 200";
+  };
+	
+	
+	
+	
+	
+	
+  /**
+   * Function to translate the header of a SPARQL query, including the shown values
+   * @param json
+   * @param shownValues
+   */
+  factory.translateStartpoint = function (json, shownValues) {
+
+    var SPARQLStart = "";
+
+    if(json.START.type === "LIST_ALL")   {
+      SPARQLStart = "SELECT DISTINCT ";
+    }
+    else {
+      SPARQLStart = "SELECT ";
+    }
+
+    for(var i = 0; i < shownValues.length; i++) {
+      SPARQLStart += "?" + shownValues[i] + " ";
+    }
+
+    return SPARQLStart;
+  };
+
+
+	
+
     /**
      * Function to translate the header of a SPARQL query, including the shown values
      * @param json
@@ -68,7 +98,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
       var spePro = false;
       //Search for specialProperty in the JSON
-      for(var i = 0; i < json.SUBJECTS.length; i++){
+      for(i = 0; i < json.SUBJECTS.length; i++){
 
         for(var j = 0; j < json.SUBJECTS[i].properties.length; j++){
           if(json.SUBJECTS[i].properties[j].uri == 'test/specialObjectProperty' || json.SUBJECTS[i].properties[j].uri == 'test/specialDatatypeProperty') {spePro = true;}
@@ -144,13 +174,13 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         if(typeof eigenschaft.link.linkPartner != "undefined") {
           SPARQL +=  eigenschaft.link.linkPartner + " .\n";
           
-          for(var i = 0; i < json.SUBJECTS.length; i++) {
+          for(i = 0; i < json.SUBJECTS.length; i++) {
             if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
               SPARQL +=  factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
             }
           }
         } else {
-          SPARQL +=  eigenschaft.alias  + " .\n"; ;
+          SPARQL +=  eigenschaft.alias  + " .\n";
           if(eigenschaft.optional) {
             SPARQL += "}\n";
           }
@@ -160,7 +190,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
       if(eigenschaft.operator === "MUST_NOT") {
         if(typeof eigenschaft.link.linkPartner != "undefined") {
-          for(var i = 0; i < json.SUBJECTS.length; i++) {
+          for(i = 0; i < json.SUBJECTS.length; i++) {
             if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
               SPARQL +=  factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
             }
@@ -174,7 +204,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
       if(eigenschaft.operator === "IS_OF") {
         SPARQL +=  "?" + itsSubject.alias + " ^<" + eigenschaft.uri +  "> ?"  + eigenschaft.link.linkPartner + " .\n";
-        for(var i = 0; i < json.SUBJECTS.length; i++) {
+        for(i = 0; i < json.SUBJECTS.length; i++) {
           if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
             SPARQL +=  factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
           }
@@ -214,23 +244,22 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       y = x;
       if(eigenschaft.operator === "MUST") {
 
-        if(eigenschaft.optional) {
+        if (eigenschaft.optional) {
           SPARQL += "OPTIONAL { \n";
         }
 
-        if(eigenschaft.arithmetic !== null && eigenschaft.arithmetic != "x") {
+        if (eigenschaft.arithmetic !== null && eigenschaft.arithmetic != "x") {
           x = y + "_temp";
           SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.uri + "> " + x + ".\n";
-          SPARQL += "BIND ((" + eigenschaft.arithmetic.replace(/x/g,x) + ") as "  + y + ") .\n";
+          SPARQL += "BIND ((" + eigenschaft.arithmetic.replace(/x/g, x) + ") as " + y + ") .\n";
         }
         else {
 
           //Tailors the uri if the subject is thing.
           // Necessary because Properties have URIs like: <http://dbpedia.org/ontology/Person/weight> but <http://dbpedia.org/ontology/weight> is needed
           var tailoredURI = eigenschaft.uri;
-          if(itsSubject.uri == 'test/Thing' && eigenschaft.uri!=='test/specialDatatypeProperty')
-          {
-            var prop = tailoredURI.substr(tailoredURI.lastIndexOf('/'), tailoredURI.length-1)
+          if (itsSubject.uri == 'test/Thing' && eigenschaft.uri !== 'test/specialDatatypeProperty') {
+            var prop = tailoredURI.substr(tailoredURI.lastIndexOf('/'), tailoredURI.length - 1);
             tailoredURI = tailoredURI.substr(0, tailoredURI.lastIndexOf('/'));
             tailoredURI = tailoredURI.substr(0, tailoredURI.lastIndexOf('/')) + prop;
 
@@ -238,20 +267,28 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
           //Special-property has to be translated with ?alias instead of it's URI
           tailoredURI = '<' + tailoredURI + '>';
-          if(eigenschaft.uri == 'test/specialDatatypeProperty') {tailoredURI = '?' + eigenschaft.alias;}
+          if (eigenschaft.uri == 'test/specialDatatypeProperty') {
+            tailoredURI = '?' + eigenschaft.alias;
+          }
 
-          SPARQL += "?" + itsSubject.alias + " " + tailoredURI + " "  + y + " .\n";
+          SPARQL += "?" + itsSubject.alias + " " + tailoredURI + " " + y + " .\n";
         }
 
+        if (eigenschaft.compare !== null) {
 
-        if(eigenschaft.compare !== null) {
+          SPARQL += "FILTER ( "
+          + eigenschaft.compare
+            .replace(/%before_arithmetic%/g, x)
+            .replace(/%after_arithmetic%/g, y)
+          + " ) .\n";
 
-          SPARQL += "FILTER ( " + eigenschaft.compare.replace(/x/g,x).replace(/y/g,y) + " ) .\n";
+
         }
 
-        if(eigenschaft.optional) {
+        if (eigenschaft.optional) {
           SPARQL += "}\n";
         }
+
       }
 
 

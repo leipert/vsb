@@ -1,0 +1,15 @@
+<div >
+  <!-- if a property is selected, it will be linked with the subject -->
+  <select ng-model="selectedLanguage"
+          ng-options="x as x for x in allowedLanguages"
+          title="Select">
+    <option value="">LANG</option>
+  </select>
+  <select ng-model="stringComparison"
+          ng-options="x as x.label for x in allowedStringComparisons"
+          title="Compare this string">
+    <option value="">exists</option>
+  </select>
+  <input ng-show="stringComparison" ng-model="comparisonInput">
+  <input ng-show="stringComparison && stringComparison.label === 'REGEX'" ng-model="comparisonRegexFlags">
+</div>
