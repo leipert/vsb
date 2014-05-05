@@ -17,14 +17,20 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
       }, function(error) {
         $log.error(error);
       });
+
     $scope.propertyOperators = globalConfig.propertyOperators;
+    $scope.inversePropertyOperators = globalConfig.inversePropertyOperators;
 
     /**
      * Adds a property selected from the availableProperties of a
      * subjectInst to the selectedProperties of the same subjectInst
      */
     $scope.addProperty = function(){
-      selectedProperties.push(angular.copy($scope.propertySelected));
+      var temp = angular.copy($scope.propertySelected);
+      temp.operator = 'MUST';
+      temp.link.direction = 'TO';
+
+      selectedProperties.push(temp);
       $scope.propertySelected = '';
     };
 
@@ -44,15 +50,18 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
       }, function(error) {
         log.error(error);
       });
-    $scope.propertyOperators = globalConfig.propertyOperators;
 
     /**
      * Adds an inverse property selected from the availableInverseProperties of a
      * subjectInst to the selectedInverseProperties of the same subjectInst
      */
     $scope.addInverseProperty = function(){
-      selectedInverseProperties.push(angular.copy($scope.inversePropertySelected));
-      $scope.inversePropertySelected = '';
+      var temp = angular.copy($scope.inversePropertySelected);
+      temp.operator = 'IS_OF';
+      temp.link.direction = 'FROM';
+
+      selectedInverseProperties.push(temp);
+      $scope.propertySelected = '';
     };
 
     /**

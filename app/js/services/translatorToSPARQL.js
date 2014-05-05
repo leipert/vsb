@@ -198,18 +198,18 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
           }
         }
 
-        SPARQL += "FILTER NOT EXIST { ?"  + itsSubject.alias + " <" + eigenschaft.uri + "> ?" + eigenschaft.link.linkPartner + " } .\n";
+        SPARQL += "FILTER NOT EXISTS { ?"  + itsSubject.alias + " <" + eigenschaft.uri + "> ?" + eigenschaft.link.linkPartner + " } .\n";
       }
 
       else {
-        SPARQL += "FILTER NOT EXIST { ?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?"  + eigenschaft.alias + " } .\n";
+        SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?"  + eigenschaft.alias + " } .\n";
       }
     }
 
 
     if(eigenschaft.operator === "IS_OF") {
 
-      SPARQL +=  itsSubject.alias + " ^<" + eigenschaft.uri +  "> "  + eigenschaft.link.linkPartner + " .\n";
+      SPARQL +=  "?" + itsSubject.alias + " ^<" + eigenschaft.uri +  "> ?"  + eigenschaft.link.linkPartner + " .\n";
 
       for(var i = 0; i < json.SUBJECTS.length; i++) {
         if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
@@ -228,7 +228,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         }
       }
 
-      SPARQL += "FILTER NOT EXIST { " + itsSubject.alias + " ^<" + eigenschaft.uri +  "> " + eigenschaft.link.linkPartner + " } .\n";
+      SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " ^<" + eigenschaft.uri +  "> ?" + eigenschaft.link.linkPartner + " } .\n";
     }
 
     return SPARQL;
@@ -293,7 +293,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
 
     if(eigenschaft.operator === "MUST_NOT") {
-      SPARQL += "FILTER NOT EXIST { ?" +  itsSubject.alias + " <" + eigenschaft.uri + "> ?" +  y + " } .\n";
+      SPARQL += "FILTER NOT EXISTS { ?" +  itsSubject.alias + " <" + eigenschaft.uri + "> ?" +  y + " } .\n";
     }
 
 
