@@ -36,24 +36,17 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
       }
     ];
 
+    $scope.allowedLanguages = globalConfig['allowedLanguages'];
 
     $scope.stringComparison = null;
 
     $scope.$watch('stringComparison',function (newValue){
-      if(newValue === null || newValue === undefined || newValue === ''){
-        $scope.propertyInst.compare = null;
-        return;
-      }
       renderComparison(newValue.f,$scope.comparisonInput,$scope.comparisonRegexFlags);
     });
 
     $scope.comparisonInput = "";
 
     $scope.$watch('comparisonInput',function (newValue){
-      if(newValue === null || newValue === undefined || newValue === ''){
-        $scope.propertyInst.compare = null;
-        return;
-      }
       renderComparison($scope.stringComparison.f,newValue,$scope.comparisonRegexFlags)
     });
 
@@ -66,10 +59,28 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
     function renderComparison(f,input,flags)
     {
       if(input === null || input=== undefined || input === '' ||f === undefined || f === null){
-        $scope.propertyInst.compare = null;
+        $scope.compare = null
+        renderLangCompare();
         return;
       }
-      $scope.propertyInst.compare = f.replace(/%input%/,input).replace(/%flags%/,flags)
+      $scope.compare = f.replace(/%input%/,input).replace(/%flags%/,flags);
+      renderLangCompare();
+    }
+
+    $scope.selectedLanguage = null;
+
+    $scope.$watch('selectedLanguage',function (newValue){
+      renderLangCompare();
+    });
+
+    function renderLangCompare(){
+      if($scope.selectedLanguage === null || $scope.selectedLanguage === undefined ||$scope.selectedLanguage === ''){
+        $scope.propertyInst.compare = $scope.compare;
+      } else if($scope.compare===null){
+        $scope.propertyInst.compare = 'langMatches(lang(%after_arithmetic%), "'+$scope.selectedLanguage+'")'
+      } else {
+        $scope.propertyInst.compare = 'langMatches(lang(%after_arithmetic%), "' + $scope.selectedLanguage + '") && ' + $scope.compare;
+      }
     }
 
   }]);

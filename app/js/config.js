@@ -19,6 +19,7 @@ angular.module('GSB.config', [])
 	testURLstart: 'http://dbpedia-live.openlinksw.com/sparql/?default-graph-uri=http%3A%2F%2Fdbpedia.org&format=json&timeout=30000&debug=on&query=',
 	  testURLend: '',
     baseURL: 'http://' + (location.host + location.pathname).substring(0,(location.host + location.pathname).lastIndexOf('app/') + 4),
+    allowedLanguages : ['*','de','en','pl'],
     propertyOperators : [
       {
         label: 'must',
