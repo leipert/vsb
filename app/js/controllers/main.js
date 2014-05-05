@@ -75,7 +75,7 @@ angular.module('GSB.controllers.main', ['GSB.config'])
      * TODO-NICO: Use or delete it.
      */
     $scope.openInNewTab = function () {
-      var win = window.open(globalConfig.queryURL + encodeURIComponent($scope.translatedSPARQL), '_blank');
+      var win = window.open(globalConfig.resultURL + encodeURIComponent($scope.translatedSPARQL), '_blank');
       win.focus();
     };
 

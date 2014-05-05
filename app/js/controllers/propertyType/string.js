@@ -76,7 +76,7 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
     function renderLangCompare(){
       if($scope.selectedLanguage === null || $scope.selectedLanguage === undefined ||$scope.selectedLanguage === ''){
         $scope.propertyInst.compare = $scope.compare;
-      } else if($scope.compare===null){
+      } else if($scope.compare===null || $scope.compare === undefined){
         $scope.propertyInst.compare = 'langMatches(lang(%after_arithmetic%), "'+$scope.selectedLanguage+'")'
       } else {
         $scope.propertyInst.compare = 'langMatches(lang(%after_arithmetic%), "' + $scope.selectedLanguage + '") && ' + $scope.compare;

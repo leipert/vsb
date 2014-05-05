@@ -20,7 +20,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
 
       // Get Available Subject Classes from Server
 
-      return $http.get(globalConfig.testURLstart + escape('select ?class where {?class a owl:Class .}') + globalConfig.testURLend)
+      return $http.get(globalConfig.queryURL + escape('select ?class where {?class a owl:Class .}') )
         .then(function (response) {
 
           $log.info('Available Classes loaded from server.');
@@ -120,7 +120,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
             $log.info('Start creating URI-list.');
 
             //Retrieve Properties from Server and add them to availableProperties
-            return $http.get(globalConfig.testURLstart + escape('select ?class where {?class a owl:Class .}') + globalConfig.testURLend)
+            return $http.get(globalConfig.queryURL + escape('select ?class where {?class a owl:Class .}') )
                 .then(function(response) {
                     var pro = createAvailableURIs(response.data.results.bindings);
                     $log.info('Done getting all classes.');
@@ -227,7 +227,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
 	  factory.getParentClassProperties = function (uri) {
 	    
 	    return $http
-	      .get(globalConfig.testURLstart + escape('select ?parent where { <' + uri + '> rdfs:subClassOf ?parent . }') + globalConfig.testURLend)
+	      .get(globalConfig.queryURL + escape('select ?parent where { <' + uri + '> rdfs:subClassOf ?parent . }') )
         .then(function(response) {
 	        if((typeof response.data.results.bindings[0] != 'undefined')) {
 				    
@@ -245,7 +245,7 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
 	   * @return query The SPARQL query as an encoded string
      */ 
 	  factory.buildAllPropertyQuery = function (uri) {
-	    var query = globalConfig.testURLstart;
+	    var query = globalConfig.queryURL;
 	    
 	    query += escape('select distinct ?propertyDomain ?propertyURI ?propertyRange ?propertyAlias where {{<');
 	    query += escape(uri);
@@ -270,7 +270,6 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
                         + ' FILTER(LANGMATCHES(LANG(?propertyAlias), "en")) } . '
                         + ' OPTIONAL { ?propertyURI rdfs:comment ?propertyComment.'
                         + ' FILTER(LANGMATCHES(LANG(?propertyComment), "en")) } }}'  );	  
-	    query += globalConfig.testURLend;
           if(uri === 'test/Thing'){query='http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select+distinct+%3FpropertyDomain+%3FpropertyURI+%3FpropertyRange+%3FpropertyAlias+where+{{%3FanonyClass+rdfs%3AsubClassOf%2B+%3Fclass.%0D%0A++++++++++++++++++++++++++++++++{%3FpropertyURI+rdfs%3Adomain+%3Fclass+.+%0D%0A%0D%0A+++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}+.+%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}%0D%0A++++++++++++++++++++++++++++++++}%0D%0A+++++++++++++++++++++++}+%0D%0A%0D%0A++++++++++++++++++++++UNION+{%0D%0A+++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FanonyClass.+%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29+}+.+%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29+}+}}&format=json&timeout=30000&debug=on';}
 	    return query;
 	  };
@@ -315,13 +314,12 @@ angular.module('GSB.services.availableClasses', ['GSB.config'])
     };
 
 	  factory.buildAllInversePropertyQuery = function (uri) {
-	    var query = globalConfig.testURLstart;
+	    var query = globalConfig.queryURL;
 	    query += encodeURIComponent('select distinct ?propertyRange ?propertyURI ?propertyDomain ?propertyAlias ?propertyComment where {\n {\n <'+
       uri +
       '> rdfs:subClassOf+ ?class.\n {\n ?propertyURI rdfs:range ?class . \n ?propertyURI rdfs:range ?propertyDomain .\n OPTIONAL { ?propertyURI rdfs:domain ?propertyRange . } .\n OPTIONAL {\n ?propertyURI rdfs:label ?propertyAlias.\n FILTER(LANGMATCHES(LANG(?propertyAlias), "en"))\n } . \n OPTIONAL {\n ?propertyURI rdfs:comment ?propertyComment.\n FILTER(LANGMATCHES(LANG(?propertyComment), "en"))\n }\n } \n } UNION {\n ?propertyURI rdfs:range <'+
       uri+
       '>.\n ?propertyURI rdfs:range ?propertyDomain . \n OPTIONAL { ?propertyURI rdfs:domain ?propertyRange . } .\n OPTIONAL {\n ?propertyURI rdfs:label ?propertyAlias.\n FILTER(LANGMATCHES(LANG(?propertyAlias), "en"))\n } . \n OPTIONAL {\n ?propertyURI rdfs:comment ?propertyComment.\n FILTER(LANGMATCHES(LANG(?propertyComment), "en"))\n }\n } \n}');
-      query += globalConfig.testURLend;
       console.log(query);
 
 	    return query;
