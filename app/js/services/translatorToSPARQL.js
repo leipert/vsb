@@ -43,11 +43,26 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         }
       }
 
+	 SPARQL += factory.translateInverseSubjects(shownValues, translated, json);
+	  
     return factory.translateStartpoint(json, shownValues) + "\nwhere {\n" + SPARQL + "\n} LIMIT 200";
   };
 	
 	
+	factory.translateInverseSubjects = function (shownValues, translated, json) {
 	
+	  var SPARQL = "";
+	
+	  for(var i = 0; i < json.SUBJECTS.length; i++)
+        {
+          if(!factory.presentInArray(translated, json.SUBJECTS[i].alias))
+          {
+            SPARQL +=  factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+          }
+        }
+		
+		return SPARQL;
+	};
 	
 	
 	
