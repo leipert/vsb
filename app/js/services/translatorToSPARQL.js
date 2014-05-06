@@ -43,11 +43,26 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         }
       }
 
+	 SPARQL += factory.translateInverseSubjects(shownValues, translated, json);
+	  
     return factory.translateStartpoint(json, shownValues) + "\nwhere {\n" + SPARQL + "\n} LIMIT 200";
   };
 	
 	
+	factory.translateInverseSubjects = function (shownValues, translated, json) {
 	
+	  var SPARQL = "";
+	
+	  for(var i = 0; i < json.SUBJECTS.length; i++)
+        {
+          if(!factory.presentInArray(translated, json.SUBJECTS[i].alias))
+          {
+            SPARQL +=  factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+          }
+        }
+		
+		return SPARQL;
+	};
 	
 	
 	
@@ -158,10 +173,11 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       var SPARQL = "";
 
       if(eigenschaft.optional) {
+	    $log.info("OPTIONAL PROP  - " + eigenschaft.alias); 
         SPARQL += "OPTIONAL { \n";
       }
 
-      if(eigenschaft.operator === "MUST") {
+      if(eigenschaft.operator === globalConfig.propertyOperators[0].value) {
         //Special-property has to be translated with ?alias instead of it's URI
         var tailoredURI = eigenschaft.uri;
         if(eigenschaft.uri == 'test/specialObjectProperty') {
@@ -188,7 +204,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         }
       }
 
-      if(eigenschaft.operator === "MUST_NOT") {
+      if(eigenschaft.operator === globalConfig.propertyOperators[1].value) {
         if(typeof eigenschaft.link.linkPartner != "undefined") {
           for(i = 0; i < json.SUBJECTS.length; i++) {
             if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
@@ -202,7 +218,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         }
       }
 
-      if(eigenschaft.operator === "IS_OF") {
+      if(eigenschaft.operator === globalConfig.inversePropertyOperators[0].value) {
         SPARQL +=  "?" + itsSubject.alias + " ^<" + eigenschaft.uri +  "> ?"  + eigenschaft.link.linkPartner + " .\n";
         for(i = 0; i < json.SUBJECTS.length; i++) {
           if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
@@ -211,7 +227,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         }
       }
 
-      if(eigenschaft.operator === "IS_NOT_OF") {
+      if(eigenschaft.operator === globalConfig.inversePropertyOperators[1].value) {
         for(var i = 0; i < json.SUBJECTS.length; i++) {
           if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
             SPARQL +=  factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
@@ -242,11 +258,14 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       var x,y;
       x = "?" + itsSubject.alias + "_" + eigenschaft.alias;
       y = x;
-      if(eigenschaft.operator === "MUST") {
-
-        if (eigenschaft.optional) {
+	  
+	  
+	  if (eigenschaft.optional) {
           SPARQL += "OPTIONAL { \n";
         }
+	  
+      if(eigenschaft.operator === globalConfig.propertyOperators[0].value) {
+
 
         if (eigenschaft.arithmetic !== null && eigenschaft.arithmetic != "x") {
           x = y + "_temp";
@@ -284,15 +303,10 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
 
         }
-
-        if (eigenschaft.optional) {
-          SPARQL += "}\n";
-        }
-
       }
 
 
-      if(eigenschaft.operator === "MUST_NOT") {
+      if(eigenschaft.operator === globalConfig.propertyOperators[1].value) {
         SPARQL += "FILTER NOT EXISTS { ?" +  itsSubject.alias + " <" + eigenschaft.uri + "> ?" +  y + " } .\n";
       }
 
@@ -301,6 +315,11 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         shownValues[shownValues.length] =  itsSubject.alias + "_" + eigenschaft.alias;
       }
 
+	  
+	  if (eigenschaft.optional) {
+          SPARQL += "}\n";
+        }
+	
       return SPARQL;
     };
 	  
@@ -342,95 +361,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         if (arr[i] == obj) return true;
       }
       return false;
-    };
-	  
-	  
-	  
-    /*  ----------------- START MOCKUP ONLY ----------------- 	
-	      
-        /**
-        * Function to exchange mockup-URIs with dbpedia counterparts
-        ** @param json
-        *
-        factory.changeURIs = function (json) {
-
-        for(var i = 0; i < json.SUBJECTS.length; i++) {
-        
-        json.SUBJECTS[i].uri = factory.findURI(json.SUBJECTS[i].uri, json.SUBJECTS[i].label);
-        
-        for(var j = 0; j < json.SUBJECTS[i].properties.length; j++) {
-        
-        json.SUBJECTS[i].properties[j].uri = factory.findURI(json.SUBJECTS[i].properties[j].uri, json.SUBJECTS[i].label);
-        }
-        }
-
-        return json;
-        };	
-
-        *
-        **
-        * Helper function for changeURIs to find specific URIs for given mockup URI (and label if necessary)
-        
-        factory.findURI = function (oldURI, label) {
-        
-        if(oldURI === "mockup/Firma.json") return "http://dbpedia.org/ontology/Company";
-        
-        if(oldURI === "mockup/heisst.json") return "http://dbpedia.org/property/name";
-
-        if(oldURI === "mockup/beschaeftigtenZahl.json" && label === "Firma") return "http://dbpedia.org/ontology/numberOfEmployees";
-        
-        if(oldURI === "mockup/beschaeftigtenZahl.json" && label === "Uni") return "http://dbpedia.org/ontology/numberOfAcademicStaff";
-
-        if(oldURI === "mockup/Land.json") return "http://dbpedia.org/ontology/Country";
-        
-        if(oldURI === "mockup/einwohnerZahl.json") return "http://dbpedia.org/ontology/populationTotal";	// GEHT NICHT FUER LAND
-        
-        if(oldURI === "mockup/flaeche.json") return "http://dbpedia.org/ontology/areaTotal";
-        
-        if(oldURI === "mockup/Person.json") return "http://dbpedia.org/ontology/Person";
-        
-        if(oldURI === "mockup/alter.json") return "http://dbpedia.org/ontology/birthDate";
-        
-        if(oldURI === "mockup/gehalt.json") return "http://dbpedia.org/ontology/salary";
-        
-        if(oldURI === "mockup/fachsemester.json") return "mockup/fachsemester.json";				// FEHLT							
-        
-        if(oldURI === "mockup/studiert_an.json") return "http://dbpedia.org/ontology/university";
-        
-        if(oldURI === "mockup/arbeitet_bei.json") return "http://dbpedia.org/ontology/employer";
-        
-        if(oldURI === "mockup/lebt_in.json") return "http://dbpedia.org/ontology/residence";
-        
-        if(oldURI === "mockup/vorname.json") return "http://dbpedia.org/ontology/GivenName";		// GEHT NICHT
-        
-        if(oldURI === "mockup/nachname.json") return "http://dbpedia.org/ontology/Surname";		// GEHT NICHT
-        
-        if(oldURI === "mockup/Stadt.json") return "http://dbpedia.org/ontology/Settlement";
-        
-        if(oldURI === "mockup/matrikelnummer.json") return "mockup/matrikelnummer.json";			// FEHLT
-        
-        if(oldURI === "mockup/studiert.json") return "mockup/studiert.json";						// FEHLT
-        
-        if(oldURI === "mockup/gruendungsjahr.json" && label === "Stadt") return "http://dbpedia.org/ontology/foundingYear";
-        
-        if(oldURI === "mockup/gruendungsjahr.json" && label === "Uni") return "http://dbpedia.org/ontology/formationYear";
-        
-        if(oldURI === "mockup/liegt_in.json" && label === "Stadt") return "http://dbpedia.org/ontology/nation";     // GEHT NICHT
-        
-        if(oldURI === "mockup/liegt_in.json" && label === "Uni") return "http://dbpedia.org/ontology/locationCity"; // GEHT NICHT
-        
-        if(oldURI === "mockup/Studiengang.json") return "mockup/Studiengang.json";				// FEHLT
-        
-        if(oldURI === "mockup/Universitaet.json") return "http://dbpedia.org/ontology/University";
-        
-        if(oldURI === "mockup/bietet_an.json") return "mockup/bietet_an.json";					// FEHLT
-        
-        return "";
-        };
-	      
-	      
-	      
-        /*  ----------------- END MOCKUP ONLY ----------------- */		
+    };	
 	  
     return factory;
 
