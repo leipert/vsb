@@ -38,5 +38,19 @@ angular.module('GSB.config', [])
         label: 'is not of',
         value: 'IS_NOT_OF'
       }
+    ],
+	aggregateOperators : [
+      {
+        label: 'cnt',
+        value: 'COUNT(%alias%)'
+      },
+      {
+        label: 'max',
+        value: 'MAX(%alias%)'
+      },
+      {
+        label: 'min',
+        value: 'MIN(%alias%)'
+      }
     ]
   });

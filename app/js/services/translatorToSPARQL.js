@@ -35,6 +35,9 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       var translated = [];
       var SPARQL = "";
 
+	  // Array of aggregate Objects which need to be applied to header in the end
+	  var aggregateValues = [];
+	  
       for(var i = 0; i < json.SUBJECTS.length; i++)
       {
         if(json.SUBJECTS[i].alias === json['START'].link.linkPartner)
@@ -45,7 +48,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
 	 SPARQL += factory.translateInverseSubjects(shownValues, translated, json);
 	  
-    return factory.translateStartpoint(json, shownValues) + "\nwhere {\n" + SPARQL + "\n} LIMIT 200";
+    return factory.translateStartpoint(json, shownValues, aggregateValues) + "\nwhere {\n" + SPARQL + "\n} LIMIT 200";
   };
 	
 	
@@ -70,7 +73,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
    * Function to translate the header of a SPARQL query, including the shown values
    * @param json
    * @param shownValues
-   */
+   *
   factory.translateStartpoint = function (json, shownValues) {
 
     var SPARQLStart = "";
@@ -88,7 +91,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
     return SPARQLStart;
   };
-
+  */
 
 	
 
@@ -97,7 +100,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
      * @param json
      * @param shownValues
      */
-    factory.translateStartpoint = function (json, shownValues) {
+    factory.translateStartpoint = function (json, shownValues, aggregateValues) {
 
       var SPARQLStart = "";
 
@@ -107,8 +110,18 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         SPARQLStart = "SELECT ";
       }
 
-      for(var i = 0; i < shownValues.length; i++) {
-        SPARQLStart += "?" + shownValues[i] + " ";
+	  // remove all aggregated alias from shown values
+	  for(var i = 0; i < aggregateValues.length; i++) {
+	    for(var k = 0; k < shownValues.length; k++) {
+          if(aggregateValues[i].aliasToDelete = shownValues[k]) {
+		      shownValues.splice(k, k);
+		  }
+        }
+      }
+	  
+	  
+      for(var j = 0; j < shownValues.length; j++) {
+        SPARQLStart += "?" + shownValues[j] + " ";
       }
 
       var spePro = false;
@@ -152,7 +165,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
             SPARQL += factory.translateObjectProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
           }
 		  else if(oneSubject.properties[i].type === "AGGREGATE_PROPERTY") {
-		    SPARQL += factory.translateAggregateProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
+		    aggregateValues = factory.translateAggregateProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json, aggregateValues);
 		  }
           else {
             SPARQL += factory.translateDatatypeProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
@@ -335,13 +348,29 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
      * @param translated
      * @param json
      */  
-    factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
+    factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json, aggregateValues) {
 
-      var SPARQL = "";
+	  var index = aggregateValue.length;
+	  aggregateValue[index] = {aggregateString : '', aliasToDelete : ''};
 	
-	  return SPARQL;
+      
+	  if(eigenschaft.operator === globalConfig.aggregateOperators[0].value) {
+	  
+	  }
+	  else if(eigenschaft.operator === globalConfig.aggregateOperators[1].value) {
+	  
+	  }
+	  else if(eigenschaft.operator === globalConfig.aggregateOperators[2].value) {
+	  
+	  }
+	  
+	  aggregateValue[index].aliasToDelete = eigenschaft.operator.substr(eigenschaft.operator.indexOf('%') + 1, eigenschaft.operator.lastIndexOf('%') );
+	
+	  return aggregateValues;
 	}
 
+	
+	
     /**
      * little helper function to replace spaces in aliases with an underscore
      * @param json
