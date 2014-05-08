@@ -10,6 +10,11 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     
     var factory = {};
 
+	
+	// Array of aggregate Objects which need to be applied to header in the end
+	  factory.aggregateValues = [];
+	
+	
     /**
      * Function to start translation process, with call to changeURIs for the mockup data
 	   * and replaceAliasSpaces to replace spaces with underscores
@@ -35,6 +40,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       var translated = [];
       var SPARQL = "";
 
+	  
       for(var i = 0; i < json.SUBJECTS.length; i++)
       {
         if(json.SUBJECTS[i].alias === json['START'].link.linkPartner)
@@ -70,7 +76,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
    * Function to translate the header of a SPARQL query, including the shown values
    * @param json
    * @param shownValues
-   */
+   *
   factory.translateStartpoint = function (json, shownValues) {
 
     var SPARQLStart = "";
@@ -88,7 +94,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
     return SPARQLStart;
   };
-
+  */
 
 	
 
@@ -107,10 +113,26 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         SPARQLStart = "SELECT ";
       }
 
-      for(var i = 0; i < shownValues.length; i++) {
-        SPARQLStart += "?" + shownValues[i] + " ";
+	  // remove all aggregated alias from shown values
+	  for(var i = 0; i < factory.aggregateValues.length; i++) {
+	    for(var k = 0; k < shownValues.length; k++) {
+          if(factory.aggregateValues[i].aliasToDelete = shownValues[k]) {
+		      shownValues.splice(k, k);
+		  }
+        }
+      }
+	  
+      for(var j = 0; j < shownValues.length; j++) {
+        SPARQLStart += "?" + shownValues[j] + " ";
       }
 
+	  
+	  for(var l = 0; l < factory.aggregateValues.length; l++) {
+	    SPARQLStart += factory.aggregateValues[l].aggregateString;
+	  }
+	  
+	  
+	  
       var spePro = false;
       //Search for specialProperty in the JSON
       for(i = 0; i < json.SUBJECTS.length; i++){
@@ -151,6 +173,9 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
           if(oneSubject.properties[i].type === "OBJECT_PROPERTY") {
             SPARQL += factory.translateObjectProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
           }
+		  else if(oneSubject.properties[i].type === "AGGREGATE_PROPERTY") {
+		    factory.aggregateValues = factory.translateAggregateProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json);
+		  }
           else {
             SPARQL += factory.translateDatatypeProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
           }
@@ -324,10 +349,32 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     };
 	  
 	  
-	  
+	/**
+     * function to translate Aggregate properties. Checks for operator of property
+     * @param itsSubject
+     * @param eigenschaft
+     * @param shownValues
+     * @param translated
+     * @param json
+     */  
+    factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
 
+	  if(eigenschaft.link.linkPartner != 'null') {
+	
+	    var index = aggregateValue.length;
+  	    aggregateValue[index] = {aggregateString : '', aliasToDelete : ''};
+	
+        aggregateValue[index].aggregateString = "(" + eigenschaft.operator.replace('%alias%', eigenschaft.link.linkPartner) 
+	                                                + " AS " + eigenschaft.link.linkPartner + "_" + eigenschaft.alias + ")";
+	  	  
+	    aggregateValue[index].aliasToDelete = eigenschaft.operator.substr(eigenschaft.operator.indexOf('%') + 1, eigenschaft.operator.lastIndexOf('%') );
+	  }
 	  
+	  return;
+	}
 
+	
+	
     /**
      * little helper function to replace spaces in aliases with an underscore
      * @param json
