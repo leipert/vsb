@@ -362,10 +362,12 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
 
 	  if(eigenschaft.link.linkPartner != 'null') {
+	  
+	  var aggAlias = factory.replaceAliasSpacesInString("?" + itsSubject.alias + "_" + eigenschaft.link.linkPartner);
 
       aggregateValues.push ( {
-        aggregateString : "(" + eigenschaft.operator.replace('%alias%', eigenschaft.link.linkPartner)
-        + " AS " + eigenschaft.link.linkPartner + "_" + eigenschaft.alias + ")"
+        aggregateString : "(" + eigenschaft.operator.replace('%alias%', aggAlias)
+        + " AS " + aggAlias + "_" + eigenschaft.alias + ")"
         , aliasToDelete : eigenschaft.operator.substr(eigenschaft.operator.indexOf('%') + 1, eigenschaft.operator.lastIndexOf('%') )
       });
 	  }
@@ -400,9 +402,9 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
      * little helper function to replace spaces in aliases with an underscore
      * @param json
      */
-    factory.replaceAliasSpaces2 = function (string) {
+    factory.replaceAliasSpacesInString = function (string) {
 
-      var patt = new RegExp("[^A-Za-z0-9_]","g");
+      var patt = new RegExp("[^A-Za-z0-9_?]","g");
 
       return string.replace(patt,'_').replace(/_+/,'_');
     };
