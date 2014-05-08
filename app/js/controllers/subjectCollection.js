@@ -48,7 +48,8 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
           availableProperties: {},
           selectedInverseProperties: [],
           availableInverseProperties: {},
-          showAdditionalFields: false
+          selectedAggregates: [],
+          showAdditionalFields: true
         }
       );
       //If there is only one subject, it will be the one selected by the startPoint (automatically).

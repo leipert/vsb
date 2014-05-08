@@ -40,7 +40,6 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
           SUBJECTS: []
         },
         allSubjects = angular.copy(subjects);
-		    console.log(allSubjects)
         allSubjects.map(function (currentSubject) {
           delete currentSubject["availableProperties"];
           delete currentSubject["availableInverseProperties"];
@@ -53,7 +52,13 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
             }
             return currentProperty;
           });
+          currentSubject.selectedAggregates = currentSubject.selectedAggregates.map(function (currentAggregate){
+            delete currentAggregate.available;
+            return currentAggregate;
+          });
+          currentSubject.properties = currentSubject.properties.concat(currentSubject.selectedAggregates);
           delete currentSubject["selectedProperties"];
+          delete currentSubject["selectedAggregates"];
           delete currentSubject["selectedInverseProperties"];
           return currentSubject;
         });

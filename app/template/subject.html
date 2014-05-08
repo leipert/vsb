@@ -54,6 +54,10 @@
     <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
     <property-dir ng-repeat="propertyInst in subjectInst.selectedProperties"></property-dir>
 
+    <inverse-property-dir ng-repeat="propertyInst in subjectInst.selectedInverseProperties"></inverse-property-dir>
+
+    <aggregate-property-dir ng-repeat="propertyInst in subjectInst.selectedAggregates"></aggregate-property-dir>
+
     <div ng-show="subjectInst.showAdditionalFields">
       <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js -->
       <form ng-submit="addProperty()">
@@ -67,14 +71,7 @@
       </form>
     </div>
 
-  </div>
-
-  <!-- Here there will be the inverse properties of the subjectInst, see @js/controller/property.js -->
-  <div class="subjectBodyCSS" ng-controller="PropertyCollectionCtrl">
-    <div class="clearfix"></div>
-
     <!-- Inserts all inverse Properties of an Subject, See @js/directives/property.js -->
-    <inverse-property-dir ng-repeat="propertyInst in subjectInst.selectedInverseProperties"></inverse-property-dir>
 
     <div ng-show="subjectInst.showAdditionalFields">
       <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js -->
@@ -88,6 +85,9 @@
         <input type="submit" value="add">
       </form>
     </div>
+
+    <button ng-click="addAggregate()">Add Aggregate Function</button>
+
 
   </div>
 
