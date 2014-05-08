@@ -151,6 +151,9 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
           if(oneSubject.properties[i].type === "OBJECT_PROPERTY") {
             SPARQL += factory.translateObjectProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
           }
+		  else if(oneSubject.properties[i].type === "AGGREGATE_PROPERTY") {
+		    SPARQL += factory.translateAggregateProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
+		  }
           else {
             SPARQL += factory.translateDatatypeProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
           }
@@ -324,9 +327,20 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     };
 	  
 	  
-	  
+	/**
+     * function to translate Aggregate properties. Checks for operator of property
+     * @param itsSubject
+     * @param eigenschaft
+     * @param shownValues
+     * @param translated
+     * @param json
+     */  
+    factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
 
-	  
+      var SPARQL = "";
+	
+	  return SPARQL;
+	}
 
     /**
      * little helper function to replace spaces in aliases with an underscore
