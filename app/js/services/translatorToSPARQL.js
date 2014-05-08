@@ -12,7 +12,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
 	
 	// Array of aggregate Objects which need to be applied to header in the end
-	  factory.aggregateValues = [];
+	  var aggregateValues = [];
 	
 	
     /**
@@ -39,6 +39,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       var shownValues = [];
       var translated = [];
       var SPARQL = "";
+      aggregateValues = [];
 
 	  
       for(var i = 0; i < json.SUBJECTS.length; i++)
@@ -113,10 +114,11 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         SPARQLStart = "SELECT ";
       }
 
+      console.log(aggregateValues);
 	  // remove all aggregated alias from shown values
-	  for(var i = 0; i < factory.aggregateValues.length; i++) {
+	  for(var i = 0; i < aggregateValues.length; i++) {
 	    for(var k = 0; k < shownValues.length; k++) {
-          if(factory.aggregateValues[i].aliasToDelete = shownValues[k]) {
+          if(aggregateValues[i].aliasToDelete = shownValues[k]) {
 		      shownValues.splice(k, k);
 		  }
         }
@@ -127,8 +129,8 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       }
 
 	  
-	  for(var l = 0; l < factory.aggregateValues.length; l++) {
-	    SPARQLStart += factory.aggregateValues[l].aggregateString;
+	  for(var l = 0; l < aggregateValues.length; l++) {
+	    SPARQLStart += aggregateValues[l].aggregateString;
 	  }
 	  
 	  
@@ -174,7 +176,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
             SPARQL += factory.translateObjectProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
           }
 		  else if(oneSubject.properties[i].type === "AGGREGATE_PROPERTY") {
-		    factory.aggregateValues = factory.translateAggregateProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json);
+		    factory.translateAggregateProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json);
 		  }
           else {
             SPARQL += factory.translateDatatypeProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
@@ -360,14 +362,12 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
 
 	  if(eigenschaft.link.linkPartner != 'null') {
-	
-	    var index = aggregateValue.length;
-  	    aggregateValue[index] = {aggregateString : '', aliasToDelete : ''};
-	
-        aggregateValue[index].aggregateString = "(" + eigenschaft.operator.replace('%alias%', eigenschaft.link.linkPartner) 
-	                                                + " AS " + eigenschaft.link.linkPartner + "_" + eigenschaft.alias + ")";
-	  	  
-	    aggregateValue[index].aliasToDelete = eigenschaft.operator.substr(eigenschaft.operator.indexOf('%') + 1, eigenschaft.operator.lastIndexOf('%') );
+
+      aggregateValues.push ( {
+        aggregateString : "(" + eigenschaft.operator.replace('%alias%', eigenschaft.link.linkPartner)
+        + " AS " + eigenschaft.link.linkPartner + "_" + eigenschaft.alias + ")"
+        , aliasToDelete : eigenschaft.operator.substr(eigenschaft.operator.indexOf('%') + 1, eigenschaft.operator.lastIndexOf('%') )
+      });
 	  }
 	  
 	  return;
@@ -394,6 +394,17 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         }
       }
       return json;
+    };
+
+    /**
+     * little helper function to replace spaces in aliases with an underscore
+     * @param json
+     */
+    factory.replaceAliasSpaces2 = function (string) {
+
+      var patt = new RegExp("[^A-Za-z0-9_]","g");
+
+      return string.replace(patt,'_').replace(/_+/,'_');
     };
 
 	  
