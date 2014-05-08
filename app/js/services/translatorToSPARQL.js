@@ -10,6 +10,11 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     
     var factory = {};
 
+	
+	// Array of aggregate Objects which need to be applied to header in the end
+	  factory.aggregateValues = [];
+	
+	
     /**
      * Function to start translation process, with call to changeURIs for the mockup data
 	   * and replaceAliasSpaces to replace spaces with underscores
@@ -35,8 +40,6 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       var translated = [];
       var SPARQL = "";
 
-	  // Array of aggregate Objects which need to be applied to header in the end
-	  var aggregateValues = [];
 	  
       for(var i = 0; i < json.SUBJECTS.length; i++)
       {
@@ -48,7 +51,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
 	 SPARQL += factory.translateInverseSubjects(shownValues, translated, json);
 	  
-    return factory.translateStartpoint(json, shownValues, aggregateValues) + "\nwhere {\n" + SPARQL + "\n} LIMIT 200";
+    return factory.translateStartpoint(json, shownValues) + "\nwhere {\n" + SPARQL + "\n} LIMIT 200";
   };
 	
 	
@@ -100,7 +103,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
      * @param json
      * @param shownValues
      */
-    factory.translateStartpoint = function (json, shownValues, aggregateValues) {
+    factory.translateStartpoint = function (json, shownValues) {
 
       var SPARQLStart = "";
 
@@ -111,19 +114,25 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       }
 
 	  // remove all aggregated alias from shown values
-	  for(var i = 0; i < aggregateValues.length; i++) {
+	  for(var i = 0; i < factory.aggregateValues.length; i++) {
 	    for(var k = 0; k < shownValues.length; k++) {
-          if(aggregateValues[i].aliasToDelete = shownValues[k]) {
+          if(factory.aggregateValues[i].aliasToDelete = shownValues[k]) {
 		      shownValues.splice(k, k);
 		  }
         }
       }
 	  
-	  
       for(var j = 0; j < shownValues.length; j++) {
         SPARQLStart += "?" + shownValues[j] + " ";
       }
 
+	  
+	  for(var l = 0; l < factory.aggregateValues.length; l++) {
+	    SPARQLStart += factory.aggregateValues[l].aggregateString;
+	  }
+	  
+	  
+	  
       var spePro = false;
       //Search for specialProperty in the JSON
       for(i = 0; i < json.SUBJECTS.length; i++){
@@ -165,7 +174,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
             SPARQL += factory.translateObjectProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
           }
 		  else if(oneSubject.properties[i].type === "AGGREGATE_PROPERTY") {
-		    aggregateValues = factory.translateAggregateProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json, aggregateValues);
+		    factory.aggregateValues = factory.translateAggregateProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json);
 		  }
           else {
             SPARQL += factory.translateDatatypeProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
@@ -348,25 +357,20 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
      * @param translated
      * @param json
      */  
-    factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json, aggregateValues) {
+    factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
 
-	  var index = aggregateValue.length;
-	  aggregateValue[index] = {aggregateString : '', aliasToDelete : ''};
+	  if(eigenschaft.link.linkPartner != 'null') {
 	
-      
-	  if(eigenschaft.operator === globalConfig.aggregateOperators[0].value) {
-	  
-	  }
-	  else if(eigenschaft.operator === globalConfig.aggregateOperators[1].value) {
-	  
-	  }
-	  else if(eigenschaft.operator === globalConfig.aggregateOperators[2].value) {
-	  
-	  }
-	  
-	  aggregateValue[index].aliasToDelete = eigenschaft.operator.substr(eigenschaft.operator.indexOf('%') + 1, eigenschaft.operator.lastIndexOf('%') );
+	    var index = aggregateValue.length;
+  	    aggregateValue[index] = {aggregateString : '', aliasToDelete : ''};
 	
-	  return aggregateValues;
+        aggregateValue[index].aggregateString = "(" + eigenschaft.operator.replace('%alias%', eigenschaft.link.linkPartner) 
+	                                                + " AS " + eigenschaft.link.linkPartner + "_" + eigenschaft.alias + ")";
+	  	  
+	    aggregateValue[index].aliasToDelete = eigenschaft.operator.substr(eigenschaft.operator.indexOf('%') + 1, eigenschaft.operator.lastIndexOf('%') );
+	  }
+	  
+	  return;
 	}
 
 	
