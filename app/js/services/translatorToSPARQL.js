@@ -176,7 +176,14 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
             SPARQL += factory.translateObjectProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
           }
 		  else if(oneSubject.properties[i].type === "AGGREGATE_PROPERTY") {
-		    factory.translateAggregateProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json);
+		  
+		    var mainProp;
+		    for(var j in oneSubject.properties) {
+		      if(factory.replaceAliasSpacesInString(oneSubject.properties[j].alias) === factory.replaceAliasSpacesInString(oneSubject.properties[i].link.linkPartner)) {
+			    mainProp = oneSubject.properties[j];
+     			}
+			}
+			factory.translateAggregateProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json, mainProp);
 		  }
           else {
             SPARQL += factory.translateDatatypeProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
@@ -359,17 +366,26 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
      * @param translated
      * @param json
      */  
-    factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
+    factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json, mainProp) {
 
-	  if(eigenschaft.link.linkPartner != 'null') {
+	  if(eigenschaft.link.linkPartner != 'null' && mainProp != "undefined") {
 	  
-	  var aggAlias = factory.replaceAliasSpacesInString("?" + itsSubject.alias + "_" + eigenschaft.link.linkPartner);
+	    var aggAlias;
+	  
+	   
+	    if(mainProp.type === "OBJECT_PROPERTY") {
+	      aggAlias = factory.replaceAliasSpacesInString("?" + mainProp.link.linkPartner);
+	    }
+	    else {
+	      aggAlias = factory.replaceAliasSpacesInString("?" + itsSubject.alias + "_" + eigenschaft.link.linkPartner);
+	    }
+	  
 
-      aggregateValues.push ( {
-        aggregateString : "(" + eigenschaft.operator.replace('%alias%', aggAlias)
-        + " AS " + aggAlias + "_" + eigenschaft.alias + ")"
-        , aliasToDelete : eigenschaft.operator.substr(eigenschaft.operator.indexOf('%') + 1, eigenschaft.operator.lastIndexOf('%') )
-      });
+        aggregateValues.push ( {
+          aggregateString : "(" + eigenschaft.operator.replace('%alias%', aggAlias)
+          + " AS " + aggAlias + "_" + eigenschaft.alias + ")"
+          , aliasToDelete : eigenschaft.operator.substr(eigenschaft.operator.indexOf('%') + 1, eigenschaft.operator.lastIndexOf('%') )
+        });
 	  }
 	  
 	  return;
