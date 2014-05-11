@@ -1,36 +1,36 @@
 'use strict';
 /**
- * JSON Translator Factory 
+ * JSON Translator Factory
  * A factory to handle translation of JSON -> SPARQL
  *
  */
 
 angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
   .factory('TranslatorToSPARQL', ['globalConfig', '$log', function (globalConfig, $log) {
-    
+
     var factory = {};
 
-	
-	// Array of aggregate Objects which need to be applied to header in the end
-	  var aggregateValues = [];
-	
-	
+
+    // Array of aggregate Objects which need to be applied to header in the end
+    var aggregateValues = [];
+
+
     /**
      * Function to start translation process, with call to changeURIs for the mockup data
-	   * and replaceAliasSpaces to replace spaces with underscores
-	   * @param json
+     * and replaceAliasSpaces to replace spaces with underscores
+     * @param json
      */
     factory.translateJSONToSPARQL = function (json) {
-      
+
       //json = factory.changeURIs(json);
-	    
-	    json = replaceAliasSpaces(json);
-	    
-	    return factory.translateAll(json);
+
+      json = replaceAliasSpaces(json);
+
+      return factory.translateAll(json);
     };
-	  
+
     /**
-     *  Initial translation function that takes a JSON-object, looks for the main class and starts translation there, 
+     *  Initial translation function that takes a JSON-object, looks for the main class and starts translation there,
      *  and in the end of the process adds shown values and SPARQL-'header' (e.g. SELECT DISTINCT..)
      * @param json
      */
@@ -41,44 +41,24 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       var SPARQL = "";
       aggregateValues = [];
 
-	  
-      for(var i = 0; i < json.SUBJECTS.length; i++)
-      {
-        if(json.SUBJECTS[i].alias === json['START'].link.linkPartner)
-        {
-          SPARQL +=  factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+
+      for (var i = 0; i < json.SUBJECTS.length; i++) {
+        if (json.SUBJECTS[i].alias === json['START'].link.linkPartner) {
+          SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
         }
       }
 
-	 SPARQL += factory.translateInverseSubjects(shownValues, translated, json);
-	  
-    return factory.translateStartpoint(json, shownValues) + "\nwhere {\n" + SPARQL + "\n} LIMIT 200";
-  };
-	
-	
-	factory.translateInverseSubjects = function (shownValues, translated, json) {
-	
-	  var SPARQL = "";
-	
-	  for(var i = 0; i < json.SUBJECTS.length; i++)
-        {
-          if(!factory.presentInArray(translated, json.SUBJECTS[i].alias))
-          {
-            SPARQL +=  factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
-          }
-        }
-		
-		return SPARQL;
-	};
-	
-	
-	
-  /**
-   * Function to translate the header of a SPARQL query, including the shown values
-   * @param json
-   * @param shownValues
-   *
-  factory.translateStartpoint = function (json, shownValues) {
+      return factory.translateStartpoint(json, shownValues) + "\nwhere {\n" + SPARQL + "\n} LIMIT 200";
+    };
+
+
+
+    /**
+     * Function to translate the header of a SPARQL query, including the shown values
+     * @param json
+     * @param shownValues
+     *
+     factory.translateStartpoint = function (json, shownValues) {
 
     var SPARQLStart = "";
 
@@ -95,9 +75,8 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
     return SPARQLStart;
   };
-  */
+     */
 
-	
 
     /**
      * Function to translate the header of a SPARQL query, including the shown values
@@ -108,43 +87,45 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
       var SPARQLStart = "";
 
-      if(json.START.type === "LIST_ALL")   {
+      if (json.START.type === "LIST_ALL") {
         SPARQLStart = "SELECT DISTINCT ";
       } else {
         SPARQLStart = "SELECT ";
       }
 
-      console.log(aggregateValues);
-	  // remove all aggregated alias from shown values
-	  for(var i = 0; i < aggregateValues.length; i++) {
-	    for(var k = 0; k < shownValues.length; k++) {
-          if(aggregateValues[i].aliasToDelete = shownValues[k]) {
-		      shownValues.splice(k, k);
-		  }
+      // remove all aggregated alias from shown values
+      for (var i = 0; i < aggregateValues.length; i++) {
+        for (var k = 0; k < shownValues.length; k++) {
+          if (aggregateValues[i].aliasToDelete = shownValues[k]) {
+            shownValues.splice(k, k);
+          }
         }
       }
-	  
-      for(var j = 0; j < shownValues.length; j++) {
+
+      for (var j = 0; j < shownValues.length; j++) {
         SPARQLStart += "?" + shownValues[j] + " ";
       }
 
-	  
-	  for(var l = 0; l < aggregateValues.length; l++) {
-	    SPARQLStart += aggregateValues[l].aggregateString;
-	  }
-	  
-	  
-	  
+
+      for (var l = 0; l < aggregateValues.length; l++) {
+        SPARQLStart += aggregateValues[l].aggregateString;
+      }
+
+
       var spePro = false;
       //Search for specialProperty in the JSON
-      for(i = 0; i < json.SUBJECTS.length; i++){
+      for (i = 0; i < json.SUBJECTS.length; i++) {
 
-        for(var j = 0; j < json.SUBJECTS[i].properties.length; j++){
-          if(json.SUBJECTS[i].properties[j].uri == 'test/specialObjectProperty' || json.SUBJECTS[i].properties[j].uri == 'test/specialDatatypeProperty') {spePro = true;}
+        for (var j = 0; j < json.SUBJECTS[i].properties.length; j++) {
+          if (json.SUBJECTS[i].properties[j].uri == 'test/specialObjectProperty' || json.SUBJECTS[i].properties[j].uri == 'test/specialDatatypeProperty') {
+            spePro = true;
+          }
         }
       }
       //If specialProperty is part of the properties it's added to the shown values
-      if (spePro) {SPARQLStart += '?unknownConnection ';}
+      if (spePro) {
+        SPARQLStart += '?unknownConnection ';
+      }
 
       return SPARQLStart;
     };
@@ -159,32 +140,34 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     factory.translateSubject = function (oneSubject, shownValues, translated, json) {
 
       var SPARQL = "";
-      
-      if(!factory.presentInArray(translated, oneSubject.alias)) {
-        if(oneSubject.uri != 'test/Thing')SPARQL += "?" + oneSubject.alias + " a <" + oneSubject.uri + "> .\n";
 
-        if(oneSubject.view) {
+      if (!factory.presentInArray(translated, oneSubject.alias)) {
+        if (oneSubject.uri != 'test/Thing')SPARQL += "?" + oneSubject.alias + " a <" + oneSubject.uri + "> .\n";
+
+        if (oneSubject.view) {
           shownValues[shownValues.length] = oneSubject.alias;
         }
 
         translated[translated.length] = oneSubject.alias;
 
 
-        for(var i in oneSubject.properties) {
+        for (var i in oneSubject.properties) {
 
-          if(oneSubject.properties[i].type === "OBJECT_PROPERTY") {
+          if (oneSubject.properties[i].type === "OBJECT_PROPERTY" ) {
             SPARQL += factory.translateObjectProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
+          }  else        if (oneSubject.properties[i].type === "INVERSE_PROPERTY") {
+            SPARQL += factory.translateInverseProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
           }
-		  else if(oneSubject.properties[i].type === "AGGREGATE_PROPERTY") {
-		  
-		    var mainProp;
-		    for(var j in oneSubject.properties) {
-		      if(replaceAliasSpacesInString(oneSubject.properties[j].alias) === replaceAliasSpacesInString(oneSubject.properties[i].link.linkPartner)) {
-			    mainProp = oneSubject.properties[j];
-     			}
-			}
-			factory.translateAggregateProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json, mainProp);
-		  }
+          else if (oneSubject.properties[i].type === "AGGREGATE_PROPERTY") {
+
+            var mainProp;
+            for (var j in oneSubject.properties) {
+              if (replaceAliasSpacesInString(oneSubject.properties[j].alias) === replaceAliasSpacesInString(oneSubject.properties[i].link.linkPartner)) {
+                mainProp = oneSubject.properties[j];
+              }
+            }
+            factory.translateAggregateProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json, mainProp);
+          }
           else {
             SPARQL += factory.translateDatatypeProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
           }
@@ -192,7 +175,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       }
 
       return SPARQL;
-    };	
+    };
 
     /**
      * function to translate Object properties. Checks for operator of property, calls translateSubject when necessary
@@ -202,82 +185,100 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
      * @param translated
      * @param json
      */
+    factory.translateInverseProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
+
+      var SPARQL = "";
+
+      if (eigenschaft.optional) {
+        $log.info("OPTIONAL PROP  - " + eigenschaft.alias);
+        SPARQL += "OPTIONAL { \n";
+      }
+
+      if (eigenschaft.operator === globalConfig.inversePropertyOperators[0].value) {
+        SPARQL += "?" + itsSubject.alias + " ^<" + eigenschaft.uri + "> ?" + eigenschaft.link.linkPartner + " .\n";
+        for (i = 0; i < json.SUBJECTS.length; i++) {
+          if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
+            SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+          }
+        }
+      }
+
+      if (eigenschaft.operator === globalConfig.inversePropertyOperators[1].value) {
+        for (var i = 0; i < json.SUBJECTS.length; i++) {
+          if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
+            SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+          }
+        }
+        SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " ^<" + eigenschaft.uri + "> ?" + eigenschaft.link.linkPartner + " } .\n";
+      }
+
+      if (eigenschaft.optional) {
+        SPARQL += "}\n";
+      }
+
+      return SPARQL;
+    };
+
     factory.translateObjectProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
 
       var SPARQL = "";
 
-      if(eigenschaft.optional) {
-	    $log.info("OPTIONAL PROP  - " + eigenschaft.alias); 
+      if (eigenschaft.optional) {
+        $log.info("OPTIONAL PROP  - " + eigenschaft.alias);
         SPARQL += "OPTIONAL { \n";
       }
 
-      if(eigenschaft.operator === globalConfig.propertyOperators[0].value) {
+
+      if (eigenschaft.operator === globalConfig.propertyOperators[0].value) {
         //Special-property has to be translated with ?alias instead of it's URI
         var tailoredURI = eigenschaft.uri;
-        if(eigenschaft.uri == 'test/specialObjectProperty') {
+        if (eigenschaft.uri == 'test/specialObjectProperty') {
           tailoredURI = '?' + 'unknownConnection';
         } else {
-          tailoredURI = '<'+ tailoredURI + '>';
+          tailoredURI = '<' + tailoredURI + '>';
         }
         SPARQL += "?" + itsSubject.alias + " " + tailoredURI + " ?";
 
-        if(typeof eigenschaft.link.linkPartner != "undefined") {
-          SPARQL +=  eigenschaft.link.linkPartner + " .\n";
-          
-          for(i = 0; i < json.SUBJECTS.length; i++) {
-            if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
-              SPARQL +=  factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+        if (typeof eigenschaft.link.linkPartner != "undefined") {
+          SPARQL += eigenschaft.link.linkPartner + " .\n";
+
+          for (var i = 0; i < json.SUBJECTS.length; i++) {
+            if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
+              SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
             }
           }
         } else {
-          SPARQL +=  eigenschaft.alias  + " .\n";
-          if(eigenschaft.optional) {
+          SPARQL += eigenschaft.alias + " .\n";
+          if (eigenschaft.optional) {
             SPARQL += "}\n";
           }
-          shownValues[shownValues.length] =  + eigenschaft.alias;
+          shownValues[shownValues.length] = +eigenschaft.alias;
         }
       }
 
-      if(eigenschaft.operator === globalConfig.propertyOperators[1].value) {
-        if(typeof eigenschaft.link.linkPartner != "undefined") {
-          for(i = 0; i < json.SUBJECTS.length; i++) {
-            if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
-              SPARQL +=  factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+      if (eigenschaft.operator === globalConfig.propertyOperators[1].value) {
+        if (typeof eigenschaft.link.linkPartner != "undefined") {
+          for (var i = 0; i < json.SUBJECTS.length; i++) {
+            if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
+              SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
             }
           }
 
-          SPARQL += "FILTER NOT EXISTS { ?"  + itsSubject.alias + " <" + eigenschaft.uri + "> ?" + eigenschaft.link.linkPartner + " } .\n";
+          SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?" + eigenschaft.link.linkPartner + " } .\n";
         } else {
-          SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?"  + eigenschaft.alias + " } .\n";
+          SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?" + eigenschaft.alias + " } .\n";
         }
       }
 
-      if(eigenschaft.operator === globalConfig.inversePropertyOperators[0].value) {
-        SPARQL +=  "?" + itsSubject.alias + " ^<" + eigenschaft.uri +  "> ?"  + eigenschaft.link.linkPartner + " .\n";
-        for(i = 0; i < json.SUBJECTS.length; i++) {
-          if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
-            SPARQL +=  factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
-          }
-        }
-      }
 
-      if(eigenschaft.operator === globalConfig.inversePropertyOperators[1].value) {
-        for(var i = 0; i < json.SUBJECTS.length; i++) {
-          if(json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
-            SPARQL +=  factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
-          }
-        }
-        SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " ^<" + eigenschaft.uri +  "> ?" + eigenschaft.link.linkPartner + " } .\n";
-      }
-
-		  if(eigenschaft.optional) {
+      if (eigenschaft.optional) {
         SPARQL += "}\n";
       }
-		  
+
       return SPARQL;
     };
 
-	  
+
     /**
      * function to translate Datatype properties. Checks for operator of property
      * @param itsSubject
@@ -289,16 +290,16 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     factory.translateDatatypeProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
 
       var SPARQL = "";
-      var x,y;
+      var x, y;
       x = "?" + itsSubject.alias + "_" + eigenschaft.alias;
       y = x;
-	  
-	  
-	  if (eigenschaft.optional) {
-          SPARQL += "OPTIONAL { \n";
-        }
-	  
-      if(eigenschaft.operator === globalConfig.propertyOperators[0].value) {
+
+
+      if (eigenschaft.optional) {
+        SPARQL += "OPTIONAL { \n";
+      }
+
+      if (eigenschaft.operator === globalConfig.propertyOperators[0].value) {
 
 
         if (eigenschaft.arithmetic !== null && eigenschaft.arithmetic != "x") {
@@ -340,71 +341,69 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       }
 
 
-      if(eigenschaft.operator === globalConfig.propertyOperators[1].value) {
-        SPARQL += "FILTER NOT EXISTS { ?" +  itsSubject.alias + " <" + eigenschaft.uri + "> ?" +  y + " } .\n";
+      if (eigenschaft.operator === globalConfig.propertyOperators[1].value) {
+        SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?" + y + " } .\n";
       }
 
 
-      if(eigenschaft.view === true) {
-        shownValues[shownValues.length] =  itsSubject.alias + "_" + eigenschaft.alias;
+      if (eigenschaft.view === true) {
+        shownValues[shownValues.length] = itsSubject.alias + "_" + eigenschaft.alias;
       }
 
-	  
-	  if (eigenschaft.optional) {
-          SPARQL += "}\n";
-        }
-	
+
+      if (eigenschaft.optional) {
+        SPARQL += "}\n";
+      }
+
       return SPARQL;
     };
-	  
-	  
-	/**
+
+
+    /**
      * function to translate Aggregate properties. Checks for operator of property
      * @param itsSubject
      * @param eigenschaft
      * @param shownValues
      * @param translated
      * @param json
-     */  
+     */
     factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json, mainProp) {
 
-	  if(eigenschaft.link.linkPartner != 'null' && mainProp != "undefined") {
-	  
-	    var aggAlias;
-	  
-	   
-	    if(mainProp.type === "OBJECT_PROPERTY") {
-	      aggAlias = replaceAliasSpacesInString("?" + mainProp.link.linkPartner);
-	    }
-	    else {
-	      aggAlias = replaceAliasSpacesInString("?" + itsSubject.alias + "_" + eigenschaft.link.linkPartner);
-	    }
-	  
+      if (eigenschaft.link.linkPartner != 'null' && mainProp != "undefined") {
 
-        aggregateValues.push ( {
-          aggregateString : "(" + eigenschaft.operator.replace('%alias%', aggAlias)
-          + " AS " + aggAlias + "_" + eigenschaft.alias + ")"
-          , aliasToDelete : eigenschaft.operator.substr(eigenschaft.operator.indexOf('%') + 1, eigenschaft.operator.lastIndexOf('%') )
+        var aggAlias;
+
+
+        if (mainProp.type === "OBJECT_PROPERTY") {
+          aggAlias = replaceAliasSpacesInString("?" + mainProp.link.linkPartner);
+        }
+        else {
+          aggAlias = replaceAliasSpacesInString("?" + itsSubject.alias + "_" + eigenschaft.link.linkPartner);
+        }
+
+
+        aggregateValues.push({
+          aggregateString: "(" + eigenschaft.operator.replace('%alias%', aggAlias)
+          + " AS " + aggAlias + "_" + eigenschaft.alias + ")", aliasToDelete: eigenschaft.operator.substr(eigenschaft.operator.indexOf('%') + 1, eigenschaft.operator.lastIndexOf('%'))
         });
-	  }
-	  
-	  return;
-	}
+      }
 
-	
-	
+      return;
+    }
+
+
     /**
      * little helper function to replace spaces in aliases with an underscore
      * @param json
      */
-     function replaceAliasSpaces(json) {
+    function replaceAliasSpaces(json) {
 
-      for(var i = 0; i < json.SUBJECTS.length; i++) {
-        
+      for (var i = 0; i < json.SUBJECTS.length; i++) {
+
         json.SUBJECTS[i].alias = replaceAliasSpacesInString(json.SUBJECTS[i].alias);
-        
-        for(var j = 0; j < json.SUBJECTS[i].properties.length; j++) {
-          
+
+        for (var j = 0; j < json.SUBJECTS[i].properties.length; j++) {
+
           json.SUBJECTS[i].properties[j].alias = replaceAliasSpacesInString(json.SUBJECTS[i].properties[j].alias);
         }
       }
@@ -415,14 +414,14 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
      * little helper function to replace spaces in aliases with an underscore
      * @param json
      */
-     function replaceAliasSpacesInString(string) {
+    function replaceAliasSpacesInString(string) {
 
-      var pattern = new RegExp("[^A-Za-z0-9_?]","g");
+      var pattern = new RegExp("[^A-Za-z0-9_?]", "g");
 
-      return string.replace(pattern,'_').replace(/_+/,'_').replace(/^_|_$/,'');
+      return string.replace(pattern, '_').replace(/_+/, '_').replace(/^_|_$/, '');
     };
 
-	  
+
     /**
      * little helper function to check, if an object obj is present in an array arr
      * @param arr
@@ -430,12 +429,12 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
      */
     factory.presentInArray = function (arr, obj) {
 
-      for(var i=0; i<arr.length; i++) {
+      for (var i = 0; i < arr.length; i++) {
         if (arr[i] == obj) return true;
       }
       return false;
-    };	
-	  
+    };
+
     return factory;
 
   }]);

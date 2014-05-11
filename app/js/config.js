@@ -31,12 +31,12 @@ angular.module('GSB.config', [])
     ],
     inversePropertyOperators : [
       {
-        label: 'is of',
-        value: 'IS_OF'
+        label: 'is_of',
+        value: 'MUST'
       },
       {
         label: 'is not of',
-        value: 'IS_NOT_OF'
+        value: 'MUST_NOT'
       }
     ],
     aggregateFunctions : [
@@ -70,5 +70,30 @@ angular.module('GSB.config', [])
         operator:'GROUP_CONCAT(%alias%,",")',
         restrictTo:"STRING_PROPERTY"
       }
-    ]
+    ],
+    getPropertiesSPARQLQuery:
+      'SELECT DISTINCT ?u ?i (STR(?ct) AS ?c) ?r (STR(?at) AS ?a)' +
+      'WHERE {' +
+      '  {' +
+      '    <%uri%> rdfs:subClassOf* ?class.' +
+      '    {' +
+      '      ?u rdfs:domain ?class . ' +
+      '      BIND("D" as ?i)' +
+      '      OPTIONAL { ?u rdfs:range ?r}' +
+      '    } UNION {' +
+      '      ?u rdfs:range ?class .' +
+      '      BIND("I" as ?i)' +
+      '      OPTIONAL { ?u rdfs:domain ?r}' +
+      '    }' +
+      '  }' +
+      '  OPTIONAL {' +
+      '    ?u rdfs:comment ?ct .' +
+      '    FILTER(LANGMATCHES(LANG(?ct), "%lang%"))' +
+      '  }' +
+      '  OPTIONAL {' +
+      '    ?u rdfs:label ?at .' +
+      '    FILTER(LANGMATCHES(LANG(?at), "%lang%"))' +
+      '  }' +
+      '}',
+    standardLang: "en"
   });
