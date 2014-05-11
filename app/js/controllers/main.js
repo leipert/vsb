@@ -45,7 +45,9 @@ angular.module('GSB.controllers.main', ['GSB.config'])
 	
     };
 
-
+        /**
+         * Saves JSON...
+         */
         $scope.saveJSON = function () {
 
             $scope.$broadcast('saveJsonEvent');

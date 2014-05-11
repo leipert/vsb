@@ -142,3 +142,26 @@ div.subjectCSS div.inversePropertyCSS select {
 div.subjectCSS div.inversePropertyCSS div.inversePropertyHeadCSS i {
   color: #0000bb;
 }
+
+
+#saveLink a:hover
+    {
+    color: #000000;
+    text-underline: none;
+    text-decoration: none;
+    }
+#saveLink a:link
+{
+    color: #ffffff;
+    text-underline: none;
+}
+#saveLink a:active
+{
+    color: #ffffff;
+    text-underline: none;
+}
+#saveLink a:visited
+{
+    color: #ffffff;
+    text-underline: none;
+}

@@ -13,9 +13,27 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
    /**
     *  Function initiates JSON-saving
     */
-    factory.saveAsJSON = function (mainSubjectSelected, subjects) {
+    factory.prepareSaveLink = function (mainSubjectSelected, subjects) {
 
-        alert(TranslatorToJSON.translateGSBLToJSON(mainSubjectSelected, subjects));
+
+        //document.getElementById("saveLink").removeChild(document.getElementById("saveLink").firstChild);
+        //document.getElementById('saveLink').appendChild('<>');
+
+        var json = TranslatorToJSON.translateGSBLToJSON(mainSubjectSelected, subjects);
+
+        var blob = new Blob([json], {type: "application/json"});
+        var url  = URL.createObjectURL(blob);
+
+        var a = document.createElement('a');
+        a.download    = "query.json";
+        a.href        = url;
+        a.textContent = "Download query.json";
+
+        if(document.getElementById("saveLink").firstChild == null)
+                {document.getElementById('saveLink').appendChild(a);}
+        else
+        {document.getElementById('saveLink').replaceChild(a, document.getElementById("saveLink").firstChild);}
+
 
     }
 
