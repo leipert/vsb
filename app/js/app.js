@@ -24,7 +24,9 @@ angular.module('GSB', [
   'GSB.services.translatorManager',
   'GSB.services.translatorToJSON',
   'GSB.services.translatorToSPARQL'
-]);
+]).config(function(uiSelectConfig) {
+  uiSelectConfig.theme = 'bootstrap';
+});;
 
 //Global functions
 
