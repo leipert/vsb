@@ -86,6 +86,10 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
             available: angular.copy(globalConfig['aggregateFunctions'])
           }
         ));
-    }
+    };
+
+    $scope.removeAggregate = function(aggregateInst){
+      $scope.subjectInst.selectedAggregates.splice($scope.subjectInst.selectedAggregates.indexOf(aggregateInst),1);
+    };
 
   }]);
