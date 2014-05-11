@@ -18,7 +18,7 @@ angular.module('GSB', [
   'GSB.directives.propertyType.object',
   'GSB.directives.propertyType.number',
   'GSB.directives.propertyType.string',
-  'GSB.services.availableClasses',
+  'GSB.services.endPoint',
   'GSB.services.translatorManager',
   'GSB.services.translatorToJSON',
   'GSB.services.translatorToSPARQL'

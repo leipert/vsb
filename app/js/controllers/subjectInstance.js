@@ -6,7 +6,7 @@
  */
 
 angular.module('GSB.controllers.subjectInstance', ['GSB.config'])
-  //Inject $scope, $log, AvailableClassesService and globalConfig (see @ js/config.js, @js/services/availableClasses.js) into controller
+  //Inject $scope, $log, EndPointService and globalConfig (see @ js/config.js, @js/services/endPoint.js) into controller
   .controller('SubjectInstanceCtrl', ['$scope', '$log', 'globalConfig', function ($scope, $log, globalConfig) {
 
 

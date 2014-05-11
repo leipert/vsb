@@ -1,20 +1,20 @@
 'use strict';
 /**
- * AvailableClassesService
+ * EndPointService
  * A Service, which gets the available SPARQL classes from the Server.
  *
  * @namespace data.results.bindings
  *
  */
 
-angular.module('GSB.services.availableClasses', ['GSB.config'])
-  .factory('AvailableClassesService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
+angular.module('GSB.services.endPoint', ['GSB.config'])
+  .factory('EndPointService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
     var factory = {};
 
     /**
      * Writes available SPARQL-Classes into a given array.
      *
-     * @param asc the array into which the availableClasses will be written
+     * @param asc the array into which the endPoint will be written
      */
     factory.getAvailableClasses = function (asc) {
 

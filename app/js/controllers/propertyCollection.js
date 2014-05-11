@@ -5,8 +5,8 @@
  * Controller which holds all the properties and inverse properties of a subject.
  */
 
-angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.services.availableClasses'])
-//Inject $scope, $http, $log and globalConfig (see @js/config.js, @js/services/availableClasses.js) into controller
+angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.services.endPoint'])
+//Inject $scope, $http, $log and globalConfig (see @js/config.js, @js/services/endPoint.js) into controller
   .controller('PropertyCollectionCtrl', ['$scope', '$http', '$q', '$log', 'globalConfig', 'AvailablePropertiesService', function($scope, $http, $q, $log, globalConfig, AvailablePropertiesService) {
 
     var selectedProperties = $scope.subjectInst.selectedProperties;

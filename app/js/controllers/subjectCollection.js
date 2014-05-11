@@ -4,9 +4,9 @@
  * Controller for all subjects.
  */
 
-angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','GSB.config', 'GSB.services.availableClasses'])
-  //Inject $scope, $log, AvailableClassesService and globalConfig (see @ js/config.js, @js/services/availableClasses.js) into controller
-  .controller('SubjectCollectionCtrl', ['$scope', '$q', '$log','AvailableClassesService', 'globalConfig', 'TranslatorManager', function ($scope, $q, $log, AvailableClassesService, globalConfig, TranslatorManager) {
+angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','GSB.config', 'GSB.services.endPoint'])
+  //Inject $scope, $log, EndPointService and globalConfig (see @ js/config.js, @js/services/endPoint.js) into controller
+  .controller('SubjectCollectionCtrl', ['$scope', '$q', '$log','EndPointService', 'globalConfig', 'TranslatorManager', function ($scope, $q, $log, EndPointService, globalConfig, TranslatorManager) {
 
     $scope.highlightedSubject = null; //
     $scope.mainSubjectSelected = null; //The subject connected with the start point
@@ -147,7 +147,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
 	  
     $scope.availableSubjectClasses = [];
     $scope.subjects = [];
-    AvailableClassesService.getAvailableClasses($scope.availableSubjectClasses)
+    EndPointService.getAvailableClasses($scope.availableSubjectClasses)
       .then(function() {
         console.log('Available classes loaded', $scope.availableSubjectClasses)
       }, function(error) {
