@@ -126,6 +126,11 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
             TranslatorManager.saveAsJSON($scope.mainSubjectSelected, $scope.subjects);
         });
 
+    $scope.$on('loadJsonEvent',function() {
+
+            TranslatorManager.loadJSON($scope.mainSubjectSelected, $scope.subjects);
+        });
+
 
         $scope.$on('JSONUpdateEvent',function(event, newJSON) {
 	
