@@ -72,5 +72,24 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
       selectedInverseProperties.splice(selectedInverseProperties.indexOf(propertyInst), 1);
     };
 
+    $scope.addAggregate = function(){
+      console.log("test");
+      $scope.subjectInst.selectedAggregates.push(
+        angular.copy(
+          {
+            alias:"cnt",
+            operator:"COUNT",
+            type:"AGGREGATE_PROPERTY",
+            link: {
+              linkPartner:null
+            },
+            available: angular.copy(globalConfig['aggregateFunctions'])
+          }
+        ));
+    };
+
+    $scope.removeAggregate = function(aggregateInst){
+      $scope.subjectInst.selectedAggregates.splice($scope.subjectInst.selectedAggregates.indexOf(aggregateInst),1);
+    };
 
   }]);

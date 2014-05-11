@@ -38,5 +38,37 @@ angular.module('GSB.config', [])
         label: 'is not of',
         value: 'IS_NOT_OF'
       }
+    ],
+    aggregateFunctions : [
+      {
+        alias:"cnt",
+        operator:"COUNT(%alias%)",
+        restrictTo:null
+      },
+      {
+        alias:"sum",
+        operator:"SUM(%alias%)",
+        restrictTo:"NUMBER_PROPERTY"
+      },
+      {
+        alias:"min",
+        operator:"MIN(%alias%)",
+        restrictTo:"NUMBER_PROPERTY"
+      },
+      {
+        alias:"max",
+        operator:"MAX(%alias%)",
+        restrictTo:"NUMBER_PROPERTY"
+      },
+      {
+        alias:"avg",
+        operator:"AVG(%alias%)",
+        restrictTo:"NUMBER_PROPERTY"
+      },
+      {
+        alias:"gct",
+        operator:'GROUP_CONCAT(%alias%,",")',
+        restrictTo:"STRING_PROPERTY"
+      }
     ]
   });
