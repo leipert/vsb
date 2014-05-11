@@ -18,7 +18,6 @@ angular.module('GSB.controllers.propertyType.aggregate', ['GSB.config'])
           }
         }
       }
-        console.log($scope.propertyInst);
     });
     $scope.$watch('link',function(nv,ov){
       if(nv !== undefined && nv !== null) {

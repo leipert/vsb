@@ -42,7 +42,6 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
     };
 
     $scope.addAggregate = function(){
-      console.log("test");
       $scope.subjectInst.selectedAggregates.push(
         angular.copy(
           {

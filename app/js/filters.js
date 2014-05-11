@@ -23,7 +23,6 @@ angular.module('GSB.filters', [])
       }
       return arrayOfObjects.filter(
         function(currentObject){
-          console.log(currentObject,this);
           return currentObject.type == this.restrictTo;
         },
         filter

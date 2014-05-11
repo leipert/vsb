@@ -148,9 +148,9 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
     $scope.subjects = [];
     EndPointService.getAvailableClasses($scope.availableSubjectClasses)
       .then(function() {
-        console.log('Available classes loaded', $scope.availableSubjectClasses)
+        $log.info('Available classes loaded', $scope.availableSubjectClasses)
       }, function(error) {
-        console.log(error)
+        $log.error('Error loading Classes.')
       });
     addSubject('http://dbpedia.org/ontology/Person', "Person", "Ein Individuum der Spezies Mensch.");
     
