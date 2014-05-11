@@ -1,4 +1,16 @@
-<div ng-show="subjectInst.showAdditionalFields">
-  Arithmetics: <input ng-model="propertyInst.arithmetic" limit-input="[^\-\*\/\.\+()\d xe]"><br>
-  Comparison: <input ng-model="propertyInst.compare" limit-input="[^\-\*\/\.\+()><=!\d xye]">
+<div ng-show="subjectInst.showAdditionalFields" class="col-xs-10">
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-xs-4 control-label">Arithmetics:</label>
+      <div class="col-xs-8">
+      <input class="form-control" ng-model="propertyInst.arithmetic" limit-input="[^\-\*\/\.\+()\d xe]">
+    </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-4 control-label">Comparison:</label>
+      <div class="col-xs-8">
+      <input class="form-control" ng-model="propertyInst.compare" limit-input="[^\-\*\/\.\+()><=!\d xye]">
+    </div>
+    </div>
+  </form>
 </div>
