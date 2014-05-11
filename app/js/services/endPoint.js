@@ -20,7 +20,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
 
       // Get Available Subject Classes from Server
 
-      return $http.get(globalConfig.queryURL + escape('select ?class where {?class a owl:Class .}') )
+      return $http.get(globalConfig.queryURL + encodeURIComponent('select ?class where {?class a owl:Class .}') )
         .then(function (response) {
 
           $log.info('Available Classes loaded from server.');
@@ -120,7 +120,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             $log.info('Start creating URI-list.');
 
             //Retrieve Properties from Server and add them to availableProperties
-            return $http.get(globalConfig.queryURL + escape('select ?class where {?class a owl:Class .}') )
+            return $http.get(globalConfig.queryURL + encodeURIComponent('select ?class where {?class a owl:Class .}') )
                 .then(function(response) {
                     var pro = createAvailableURIs(response.data.results.bindings);
                     $log.info('Done getting all classes.');
@@ -227,7 +227,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
 	  factory.getParentClassProperties = function (uri) {
 	    
 	    return $http
-	      .get(globalConfig.queryURL + escape('select ?parent where { <' + uri + '> rdfs:subClassOf ?parent . }') )
+	      .get(globalConfig.queryURL + encodeURIComponent('select ?parent where { <' + uri + '> rdfs:subClassOf ?parent . }') )
         .then(function(response) {
 	        if((typeof response.data.results.bindings[0] != 'undefined')) {
 				    
@@ -247,9 +247,9 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
 	  factory.buildAllPropertyQuery = function (uri) {
 	    var query = globalConfig.queryURL;
 	    
-	    query += escape('select distinct ?propertyDomain ?propertyURI ?propertyRange ?propertyAlias where {{<');
-	    query += escape(uri);
-	    query += escape(  '> rdfs:subClassOf+ ?class.{?propertyURI rdfs:domain ?class . '
+	    query += encodeURIComponent('select distinct ?propertyDomain ?propertyURI ?propertyRange ?propertyAlias where {{<');
+	    query += encodeURIComponent(uri);
+	    query += encodeURIComponent(  '> rdfs:subClassOf+ ?class.{?propertyURI rdfs:domain ?class . '
                         + ' ?propertyURI rdfs:domain ?propertyDomain .'
                         + 'OPTIONAL { ?propertyURI rdfs:range ?propertyRange . } .'
                         + 'OPTIONAL {'
@@ -263,8 +263,8 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                         + '  }'
                         + '  } UNION {'
                         + '  ?propertyURI rdfs:domain <');
-	    query += escape(uri);
-      query += escape(  '>. ?propertyURI rdfs:domain ?propertyDomain .'
+	    query += encodeURIComponent(uri);
+      query += encodeURIComponent(  '>. ?propertyURI rdfs:domain ?propertyDomain .'
                         + ' OPTIONAL { ?propertyURI rdfs:range ?propertyRange . } .'
                         + ' OPTIONAL { ?propertyURI rdfs:label ?propertyAlias.'
                         + ' FILTER(LANGMATCHES(LANG(?propertyAlias), "en")) } . '
