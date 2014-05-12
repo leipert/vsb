@@ -165,3 +165,14 @@ div.subjectCSS div.inversePropertyCSS div.inversePropertyHeadCSS i {
     color: #ffffff;
     text-underline: none;
 }
+
+.ui-select-bootstrap > .ui-select-choices {
+  width:400px;
+  max-height: 600px;
+}
+
+.dropdown-menu {
+  width: 400px;
+  right:0;
+  left:auto;
+}

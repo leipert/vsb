@@ -36,10 +36,9 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
      */
     var addSubject = function (uri, alias, comment) {
       $log.info('Subject added');
-      alias = createUniqueAlias(alias, uri);
       $scope.subjects.push(
         {
-          alias: alias,
+          alias: createUniqueAlias(alias, uri),
           label: alias,
           uri: uri,
           comment: comment,
@@ -83,11 +82,11 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
             if ($scope.subjects[key].alias === newAlias) {
               aliasUnique = false;
               newAlias = alias + "_" + c;
+              c += 1;
               break;
             }
             aliasUnique = true;
           }
-          c += 1;
         }
       } while (!aliasUnique);
       return newAlias;

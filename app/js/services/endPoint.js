@@ -47,11 +47,25 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
       var ret = [];
       for (var key in availClasses) {
         if (availClasses.hasOwnProperty(key)) {
+          var tClass = availClasses[key], alias,
+            comment = 'No description available.',
+            uri = tClass.uri.value;
+          
+          if(tClass.hasOwnProperty("alias")){
+            alias = tClass.alias.value;
+          } else{
+            alias = uri.substr(uri.lastIndexOf('/') + 1)
+          }
+
+          if(tClass.hasOwnProperty("comment")){
+            comment = tClass.comment.value;
+          }
+          
           ret.push(
             {
-              alias: availClasses[key].class.value.substr(availClasses[key].class.value.lastIndexOf('/') + 1),
-              uri: availClasses[key].class.value,
-              comment: availClasses[key].comment ? availClasses[key].comment.value : 'No description available.'
+              alias: alias ,
+              uri: uri,
+              comment: comment
             }
           );
         }
@@ -74,29 +88,29 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
       for (var key in data) {
         if (data.hasOwnProperty(key)) {
           var property = data[key],
-            propertyURI = property.u.value,
+            propertyURI = property.uri.value,
             propertyRange,
             propertyType = "STANDARD_PROPERTY",
             propertyComment = "",
             propertyAlias = "";
 
           /* Check whether the propertyAlias is undefined and if so, fill it with last part of the URI.*/
-          if (property.hasOwnProperty("a")) {
-            propertyAlias = property.a.value;
+          if (property.hasOwnProperty("alias")) {
+            propertyAlias = property.alias.value;
           } else {
-            propertyAlias = propertyURI.substr(propertyURI.lastIndexOf('/') + 1, propertyURI.length - (propertyURI.lastIndexOf('/') + 1));
+            propertyAlias = propertyURI.substr(propertyURI.lastIndexOf('/') + 1);
           }
 
-          if (property.hasOwnProperty("c")) {
-            propertyComment = property.c.value;
+          if (property.hasOwnProperty("comment")) {
+            propertyComment = property.comment.value;
           }
 
-          if (property.hasOwnProperty("r")) {
-            propertyRange = property.r.value;
+          if (property.hasOwnProperty("range")) {
+            propertyRange = property.range.value;
           }
 
           /* Check whether a propertyRange is given.*/
-          if (property.i.value === "I") {
+          if (property.inverse.value === "I") {
             propertyType = "INVERSE_PROPERTY";
             propertyAlias = "is " + propertyAlias + " of"
           } else {
