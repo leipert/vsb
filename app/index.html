@@ -27,7 +27,11 @@
             <a href="#" class="btn btn-warning" ng-click="showArea = 'query'; translate()">Run Query</a>
             <a href="#" class="btn btn-danger" ng-click="initializeWorkspace()">Reset Workspace</a>
             <a href="#" class="btn btn-info" ng-click="expertView = !expertView"><i class="glyphicon glyphicon-tower"></i></a>
-            <a href="#" class="btn btn-success" ng-click="loadJSON()"><i class="glyphicon glyphicon-open"></i> Open JSON-Query</a>
+            <form class="form-inline">
+                <input class ="form-control" type="file" id="uploadJSON"/>    
+                <label class="btn btn-success" ng-click="loadJSON()"><i class="glyphicon glyphicon-open"></i>Open JSON-Query</label>
+            </form>
+            <!--<a href="#" class="btn btn-success" ng-click="loadJSON()"><i class="glyphicon glyphicon-open"></i> Open JSON-Query</a>-->
           </span>
           <span ng-show="showArea == 'query'">
             <a href="#" class="btn btn-warning" ng-click="showArea = 'workspace'">Back to Workspace</a>
@@ -140,6 +144,7 @@
 <script src="js/services/endPoint.js"></script>
 <script src="js/services/translatorManager.js"></script>
 <script src="js/services/translatorToJSON.js"></script>
+<script src="js/services/translatorToGSBL.js"></script>
 <script src="js/services/translatorToSPARQL.js"></script>
 <script src="js/controllers/main.js"></script>
 <script src="js/controllers/subjectCollection.js"></script>
