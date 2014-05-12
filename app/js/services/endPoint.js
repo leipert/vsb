@@ -130,26 +130,6 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
     };
 
 
-    /**
-     * Returns the classes URIs.
-     */
-    factory.createSpeciProps = function () {
-      $log.info('Start creating URI-list.');
-
-      //Retrieve Properties from Server and add them to availableProperties
-      return $http.get(globalConfig.queryURL + encodeURIComponent('select ?class where {?class a owl:Class .}'))
-        .then(function (response) {
-          var pro = createAvailableURIs(response.data.results.bindings);
-          $log.info('Done getting all classes.');
-
-          return pro;
-
-        }, function (response) {
-          $log.error('Error preparing URI-list')
-        });
-    };
-
-
     var createAvailableURIs = function (data) {
       var ret = {};
 
@@ -226,7 +206,6 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
 
           $log.info(' Properties loaded from: ' + uri, response);
 
-          //factory.availableProperties = factory.mergeTwoObjects(factory.createSpeciProps(), factory.availableProperties);
           return createAvailablePropertyObject(response.data.results.bindings);
 
         }, function (response) {
@@ -256,23 +235,6 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         query = 'http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select+distinct+%3FpropertyDomain+%3FpropertyURI+%3FpropertyRange+%3FpropertyAlias+where+{{%3FanonyClass+rdfs%3AsubClassOf%2B+%3Fclass.%0D%0A++++++++++++++++++++++++++++++++{%3FpropertyURI+rdfs%3Adomain+%3Fclass+.+%0D%0A%0D%0A+++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}+.+%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}%0D%0A++++++++++++++++++++++++++++++++}%0D%0A+++++++++++++++++++++++}+%0D%0A%0D%0A++++++++++++++++++++++UNION+{%0D%0A+++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FanonyClass.+%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29+}+.+%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29+}+}}&format=json&timeout=30000&debug=on';
       }
       return query;
-    };
-	  
-    /**
-     * Helper function to merge two objects
-     *
-     * @param o1 the merged Object
-     */
-    factory.mergeTwoObjects = function (o1, o2) {
-
-      for (var key in o2) {
-
-        o1[key] = o2[key];
-      }
-      return o1;
-
-
-      return o1;
     };
 
     return factory;
