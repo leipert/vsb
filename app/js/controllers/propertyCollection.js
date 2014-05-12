@@ -7,11 +7,11 @@
 
 angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.services.endPoint'])
 //Inject $scope, $http, $log and globalConfig (see @js/config.js, @js/services/endPoint.js) into controller
-  .controller('PropertyCollectionCtrl', ['$scope', '$http', '$q', '$log', 'globalConfig', 'AvailablePropertiesService', function($scope, $http, $q, $log, globalConfig, AvailablePropertiesService) {
+  .controller('PropertyCollectionCtrl', ['$scope', '$http', '$q', '$log', 'globalConfig', 'EndPointService', function($scope, $http, $q, $log, globalConfig, EndPointService) {
 
     var selectedProperties = $scope.subjectInst.selectedProperties;
-	AvailablePropertiesService.availableProperties = '';
-    AvailablePropertiesService.getProperties($scope.subjectInst.uri)
+	EndPointService.availableProperties = '';
+    EndPointService.getProperties($scope.subjectInst.uri)
       .then(function(data) {
         $scope.subjectInst.availableProperties = data;
       }, function(error) {

@@ -59,12 +59,6 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         });
     };
 
-    return factory;
-
-  }])
-  .factory('AvailablePropertiesService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
-    var factory = {};
-
     factory.availableProperties = '';
 
     var createAvailablePropertyObject = function (data) {
