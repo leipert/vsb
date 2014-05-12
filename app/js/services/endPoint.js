@@ -20,7 +20,11 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
 
       // Get Available Subject Classes from Server
 
-      return $http.get(globalConfig.queryURL + encodeURIComponent('select ?class where {?class a owl:Class .}'))
+      return $http.get(
+        globalConfig.queryURL + encodeURIComponent(
+          globalConfig.getClassesSPARQLQuery.replace(/%lang%/g,globalConfig.standardLang)
+        )
+      )
         .then(function (response) {
 
           $log.info('Available Classes loaded from server.');
@@ -31,7 +35,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             if (availClasses.hasOwnProperty(key)) {
               asc.push(
                 {
-                  alias: availClasses[key].class.value.substr(availClasses[key].class.value.lastIndexOf('/') + 1, availClasses[key].class.value.length - (availClasses[key].class.value.lastIndexOf('/') + 1)),
+                  alias: availClasses[key].class.value.substr(availClasses[key].class.value.lastIndexOf('/') + 1),
                   uri: availClasses[key].class.value,
                   comment: availClasses[key].comment ? availClasses[key].comment.value : 'No description available.'
                 }

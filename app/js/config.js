@@ -95,5 +95,18 @@ angular.module('GSB.config', [])
       '    FILTER(LANGMATCHES(LANG(?at), "%lang%"))' +
       '  }' +
       '}',
-    standardLang: "en"
+    standardLang: "en",
+    getClassesSPARQLQuery:
+      'SELECT DISTINCT ?class (STR(?comment_temp) as ?comment) (STR(?alias_temp) AS ?alias)' +
+      'WHERE {' +
+      '  ?class a owl:Class .' +
+      '  OPTIONAL {' +
+      '    ?class rdfs:comment ?comment_temp .' +
+      '    FILTER(LANGMATCHES(LANG(?comment_temp), "%lang%"))' +
+      '  }' +
+      '  OPTIONAL {' +
+      '    ?class rdfs:label ?alias_temp .' +
+      '    FILTER(LANGMATCHES(LANG(?alias_temp), "%lang%"))' +
+      '  }' +
+      '}'
   });
