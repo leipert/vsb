@@ -33,14 +33,37 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
     }
 
 
-        /**
-         *  Function will load JSON-file as query
-         */
-        factory.loadJSON = function (mainSubjectSelected, subjects) {
-
-           alert("Soon you'll be able to open a local JSON file representing a query with this button.");
-
-        }
+    /**
+     *  Function will load JSON-file as query
+     */
+    factory.loadJSON = function (mainSubjectSelected, subjects) {
+        var selected_file = document.getElementById('uploadJSON').files[0];
+        // Only process JSON-files.
+//        if (!selected_file.type.match('json')) {
+//            alert("Please choose a JSON File.");
+//            return;
+//        }
+        
+        var json;
+        var reader = new FileReader();
+        var bfile;
+        reader.onloadend = function(e){
+            bfile = e.target.result;
+            bfile.trim();
+            json = JSON.parse(bfile);
+            alert(JSON.stringify(json));
+        };
+        reader.readAsBinaryString(selected_file);
+        
+       //Load JSON data into the scope
+       //
+       //Save JSON data
+//        if (newJSON == null) {
+//            $log.error("JSON is not valid / empty");
+//            return;
+//        }
+//        $rootScope.$broadcast('JSONUpdateEvent', newJSON);
+    };
 
 
 
