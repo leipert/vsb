@@ -1,0 +1,12 @@
+<div >
+    <!-- if a property is selected, it will be linked with the subject -->
+
+
+    <select ng-model="dateComparison"
+            ng-options="x as x.label for x in allowedDateComparisons"
+            title="Compare this Date">
+        <option value=""></option>
+    </select>
+    <input ng-show="dateComparison" ng-model="comparisonInput">
+    <input ng-show="dateComparison && dateComparison.label === 'REGEX'" ng-model="comparisonRegexFlags">
+</div>

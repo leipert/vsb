@@ -13,7 +13,10 @@ angular.module('GSB.config', [])
       'STRING_PROPERTY' : [
         'http://www.w3.org/2001/XMLSchema#string',
         'http://www.w3.org/2001/XMLSchema#literal'
-      ]
+      ],
+        'DATE_PROPERTY' : [
+         'http://www.w3.org/2001/XMLSchema#date'
+        ]
     },
     resultURL: 'http://dbpedia-live.openlinksw.com/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&format=text%2Fhtml&timeout=5000&debug=on&query=',
 	  queryURL: 'http://dbpedia-live.openlinksw.com/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&format=json&timeout=5000&debug=on&query=',
