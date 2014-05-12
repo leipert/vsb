@@ -45,13 +45,27 @@ angular.module('GSB.controllers.main', ['GSB.config'])
 	
     };
 
-
+        /**
+         * Saves JSON...
+         */
         $scope.saveJSON = function () {
 
             $scope.$broadcast('saveJsonEvent');
 
         };
-	
+
+
+        /**
+         * Load JSON...
+         */
+        $scope.loadJSON = function () {
+
+            $scope.$broadcast('loadJsonEvent');
+
+        };
+
+
+
     /**
      * Initializes the Workspace
      */

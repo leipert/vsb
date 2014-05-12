@@ -52,7 +52,7 @@ div.startPointCSS > select {
 div.subjectCSS {
   background-color: #ffff99;
   border-color: #A4A019;
-  width: 350px;
+  width: 400px;
 }
 
 div.highlight-subject {
@@ -141,4 +141,38 @@ div.subjectCSS div.inversePropertyCSS select {
 
 div.subjectCSS div.inversePropertyCSS div.inversePropertyHeadCSS i {
   color: #0000bb;
+}
+
+
+#saveLink a:hover
+    {
+    color: #000000;
+    text-underline: none;
+    text-decoration: none;
+    }
+#saveLink a:link
+{
+    color: #ffffff;
+    text-underline: none;
+}
+#saveLink a:active
+{
+    color: #ffffff;
+    text-underline: none;
+}
+#saveLink a:visited
+{
+    color: #ffffff;
+    text-underline: none;
+}
+
+.ui-select-bootstrap > .ui-select-choices {
+  width:400px;
+  max-height: 600px;
+}
+
+.dropdown-menu {
+  width: 400px;
+  right:0;
+  left:auto;
 }

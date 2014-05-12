@@ -10,6 +10,7 @@ angular.module('GSB', [
   'GSB.controllers.propertyCollection',
   'GSB.controllers.propertyInstance',
   'GSB.controllers.propertyType.object',
+  'GSB.controllers.propertyType.aggregate',
   'GSB.controllers.propertyType.number',
   'GSB.controllers.propertyType.string',
   'GSB.directives.subject',
@@ -18,11 +19,14 @@ angular.module('GSB', [
   'GSB.directives.propertyType.object',
   'GSB.directives.propertyType.number',
   'GSB.directives.propertyType.string',
-  'GSB.services.availableClasses',
+  'GSB.directives.propertyType.aggregate',
+  'GSB.services.endPoint',
   'GSB.services.translatorManager',
   'GSB.services.translatorToJSON',
   'GSB.services.translatorToSPARQL'
-]);
+]).config(function(uiSelectConfig) {
+  uiSelectConfig.theme = 'bootstrap';
+});;
 
 //Global functions
 

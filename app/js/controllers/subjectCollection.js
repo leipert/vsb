@@ -4,9 +4,9 @@
  * Controller for all subjects.
  */
 
-angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','GSB.config', 'GSB.services.availableClasses'])
-  //Inject $scope, $log, AvailableClassesService and globalConfig (see @ js/config.js, @js/services/availableClasses.js) into controller
-  .controller('SubjectCollectionCtrl', ['$scope', '$q', '$log','AvailableClassesService', 'globalConfig', 'TranslatorManager', function ($scope, $q, $log, AvailableClassesService, globalConfig, TranslatorManager) {
+angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','GSB.config', 'GSB.services.endPoint'])
+  //Inject $scope, $log, EndPointService and globalConfig (see @ js/config.js, @js/services/endPoint.js) into controller
+  .controller('SubjectCollectionCtrl', ['$scope', '$q', '$log','EndPointService', 'globalConfig', 'TranslatorManager', function ($scope, $q, $log, EndPointService, globalConfig, TranslatorManager) {
 
     $scope.highlightedSubject = null; //
     $scope.mainSubjectSelected = null; //The subject connected with the start point
@@ -36,19 +36,17 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
      */
     var addSubject = function (uri, alias, comment) {
       $log.info('Subject added');
-      alias = createUniqueAlias(alias, uri);
       $scope.subjects.push(
         {
-          alias: alias,
+          alias: createUniqueAlias(alias, uri),
           label: alias,
           uri: uri,
           comment: comment,
           view: true,
           selectedProperties: [],
           availableProperties: {},
-          selectedInverseProperties: [],
-          availableInverseProperties: {},
-          showAdditionalFields: false
+          selectedAggregates: [],
+          showAdditionalFields: true
         }
       );
       //If there is only one subject, it will be the one selected by the startPoint (automatically).
@@ -84,11 +82,11 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
             if ($scope.subjects[key].alias === newAlias) {
               aliasUnique = false;
               newAlias = alias + "_" + c;
+              c += 1;
               break;
             }
             aliasUnique = true;
           }
-          c += 1;
         }
       } while (!aliasUnique);
       return newAlias;
@@ -118,12 +116,18 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
 	$scope.$on('translationEvent',function() {
 	
       TranslatorManager.translateGSBLToSPARQL($scope.mainSubjectSelected, $scope.subjects);
+      TranslatorManager.prepareSaveLink($scope.mainSubjectSelected, $scope.subjects);
     });
 
     $scope.$on('saveJsonEvent',function() {
 
-      TranslatorManager.saveAsJSON($scope.mainSubjectSelected, $scope.subjects);
-    });
+            TranslatorManager.saveAsJSON($scope.mainSubjectSelected, $scope.subjects);
+        });
+
+    $scope.$on('loadJsonEvent',function() {
+
+            TranslatorManager.loadJSON($scope.mainSubjectSelected, $scope.subjects);
+        });
 
 
         $scope.$on('JSONUpdateEvent',function(event, newJSON) {
@@ -141,12 +145,13 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
 	  
     $scope.availableSubjectClasses = [];
     $scope.subjects = [];
-    AvailableClassesService.getAvailableClasses($scope.availableSubjectClasses)
-      .then(function() {
-        console.log('Available classes loaded', $scope.availableSubjectClasses)
+    EndPointService.getAvailableClasses()
+      .then(function(data) {
+        $scope.availableSubjectClasses = data;
       }, function(error) {
-        console.log(error)
+        $log.error(error);
       });
+
     addSubject('http://dbpedia.org/ontology/Person', "Person", "Ein Individuum der Spezies Mensch.");
     
 

@@ -78,7 +78,7 @@ angular.module('GSB.directives.subject', [])
 
         //Hide additional fields on mouseEnter
         element.on("mouseleave",function(){
-          scope.subjectInst.showAdditionalFields = false;
+          scope.subjectInst.showAdditionalFields = true;
           scope.$apply();
         });
       }

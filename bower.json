@@ -1,0 +1,14 @@
+{
+  "name": "index-portensis",
+  "version": "0.0.1",
+  "devDependencies": {
+    "jquery": "~2.1",
+    "angular": "1.2.14",
+    "bootstrap": "~3.1",
+    "angular-bootstrap": "~0.10.0",
+    "angular-sanitize": "1.2.14",
+    "angular-ui-select": "~0.2",
+    "fontawesome": "~4.0.3"
+  },
+  "dependencies": {}
+}
