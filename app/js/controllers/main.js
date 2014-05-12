@@ -60,6 +60,7 @@ angular.module('GSB.controllers.main', ['GSB.config'])
          */
         $scope.loadJSON = function () {
 
+            $scope.initializeWorkspace();
             $scope.$broadcast('loadJsonEvent');
 
         };
