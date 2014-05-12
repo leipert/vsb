@@ -195,21 +195,38 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       }
 
       if (eigenschaft.operator === globalConfig.inversePropertyOperators[0].value) {
-        SPARQL += "?" + itsSubject.alias + " ^<" + eigenschaft.uri + "> ?" + eigenschaft.link.linkPartner + " .\n";
-        for (i = 0; i < json.SUBJECTS.length; i++) {
-          if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
-            SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+	  
+	    SPARQL += "?" + itsSubject.alias + " ^<" + eigenschaft.uri + "> ?";
+	  
+	    if (typeof eigenschaft.link.linkPartner != "undefined") {
+	  
+          SPARQL += eigenschaft.link.linkPartner + " .\n";
+          for (i = 0; i < json.SUBJECTS.length; i++) {
+            if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
+              SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+            }
           }
-        }
+		}
+		else {
+          SPARQL += eigenschaft.alias + " .\n";
+		  shownValues[shownValues.length] = eigenschaft.alias;
+		}
       }
 
       if (eigenschaft.operator === globalConfig.inversePropertyOperators[1].value) {
-        for (var i = 0; i < json.SUBJECTS.length; i++) {
-          if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
-            SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+	  
+	    if (typeof eigenschaft.link.linkPartner != "undefined") {
+	  
+          for (var i = 0; i < json.SUBJECTS.length; i++) {
+            if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
+              SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+            }
           }
-        }
-        SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " ^<" + eigenschaft.uri + "> ?" + eigenschaft.link.linkPartner + " } .\n";
+          SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " ^<" + eigenschaft.uri + "> ?" + eigenschaft.link.linkPartner + " } .\n";
+		}
+		else {
+		  SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " ^<" + eigenschaft.uri + "> ?" + eigenschaft.alias + " } .\n";
+		}
       }
 
       if (eigenschaft.optional) {
@@ -252,7 +269,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
           if (eigenschaft.optional) {
             SPARQL += "}\n";
           }
-          shownValues[shownValues.length] = +eigenschaft.alias;
+          shownValues[shownValues.length] = eigenschaft.alias;
         }
       }
 
