@@ -390,9 +390,13 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
         var aggAlias;
 
-
         if (mainProp.type === "OBJECT_PROPERTY") {
-          aggAlias = replaceAliasSpacesInString("?" + mainProp.link.linkPartner);
+		  if(mainProp.link.linkPartner != undefined) {
+            aggAlias = replaceAliasSpacesInString("?" + mainProp.link.linkPartner);
+		  }
+		  else {
+		    aggAlias = replaceAliasSpacesInString("?" + eigenschaft.link.linkPartner);
+		  }
         }
         else {
           aggAlias = replaceAliasSpacesInString("?" + itsSubject.alias + "_" + eigenschaft.link.linkPartner);
