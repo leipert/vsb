@@ -36,10 +36,9 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
      */
     var addSubject = function (uri, alias, comment) {
       $log.info('Subject added');
-      alias = createUniqueAlias(alias, uri);
       $scope.subjects.push(
         {
-          alias: alias,
+          alias: createUniqueAlias(alias, uri),
           label: alias,
           uri: uri,
           comment: comment,
@@ -83,11 +82,11 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
             if ($scope.subjects[key].alias === newAlias) {
               aliasUnique = false;
               newAlias = alias + "_" + c;
+              c += 1;
               break;
             }
             aliasUnique = true;
           }
-          c += 1;
         }
       } while (!aliasUnique);
       return newAlias;
@@ -146,12 +145,13 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
 	  
     $scope.availableSubjectClasses = [];
     $scope.subjects = [];
-    EndPointService.getAvailableClasses($scope.availableSubjectClasses)
-      .then(function() {
-        $log.info('Available classes loaded', $scope.availableSubjectClasses)
+    EndPointService.getAvailableClasses()
+      .then(function(data) {
+        $scope.availableSubjectClasses = data;
       }, function(error) {
-        $log.error('Error loading Classes.')
+        $log.error(error);
       });
+
     addSubject('http://dbpedia.org/ontology/Person', "Person", "Ein Individuum der Spezies Mensch.");
     
 

@@ -8,7 +8,7 @@
  */
 
 angular.module('GSB.services.endPoint', ['GSB.config'])
-  .factory('EndPointService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
+  .factory('EndPointService', ['$http', '$q', '$log', 'globalConfig', function ($http, $q, $log, globalConfig) {
     var factory = {};
 
     /**
@@ -16,81 +16,101 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
      *
      * @param asc the array into which the endPoint will be written
      */
-    factory.getAvailableClasses = function (asc) {
+    factory.getAvailableClasses = function () {
 
       // Get Available Subject Classes from Server
 
-      return $http.get(globalConfig.queryURL + encodeURIComponent('select ?class where {?class a owl:Class .}'))
+      return $http.get(
+        globalConfig.queryURL + encodeURIComponent(
+          globalConfig.getClassesSPARQLQuery.replace(/%lang%/g,globalConfig.standardLang)
+        )
+      )
         .then(function (response) {
 
-          $log.info('Available Classes loaded from server.');
-
-          var availClasses = response.data.results.bindings;
-
-          for (var key in availClasses) {
-            if (availClasses.hasOwnProperty(key)) {
-              asc.push(
-                {
-                  alias: availClasses[key].class.value.substr(availClasses[key].class.value.lastIndexOf('/') + 1, availClasses[key].class.value.length - (availClasses[key].class.value.lastIndexOf('/') + 1)),
-                  uri: availClasses[key].class.value,
-                  comment: availClasses[key].comment ? availClasses[key].comment.value : 'No description available.'
-                }
-              );
-            }
-
+          if(typeof response.data === 'object') {
+            $log.info(' Available Classes loaded from server');
+            return createAvailableClassesObject(response.data.results.bindings);
+          }else{
+            return $q.reject(response)
           }
 
-          //Adding special class 'Thing' to the array of available classes
-          asc.push(
-            {
-              alias: 'Thing',
-              uri: 'test/Thing',
-              comment: 'The class Thing is an anonymous class for searching without knowing the subjects class.'
-            }
-          );
 
-
-        }, function (error) {
-          $log.error(error, 'Available Classes could not be loaded from server.');
+        }, function (response) {
+          $log.error( 'Available Classes could not be loaded from server.');
+          return $q.reject(response)
         });
     };
 
-    return factory;
-
-  }])
-  .factory('AvailablePropertiesService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
-    var factory = {};
-
     factory.availableProperties = '';
+
+    var createAvailableClassesObject = function(availClasses){
+      var ret = [];
+      for (var key in availClasses) {
+        if (availClasses.hasOwnProperty(key)) {
+          var tClass = availClasses[key], alias,
+            comment = 'No description available.',
+            uri = tClass.uri.value;
+          
+          if(tClass.hasOwnProperty("alias")){
+            alias = tClass.alias.value;
+          } else{
+            alias = uri.substr(uri.lastIndexOf('/') + 1)
+          }
+
+          if(tClass.hasOwnProperty("comment")){
+            comment = tClass.comment.value;
+          }
+          
+          ret.push(
+            {
+              alias: alias ,
+              uri: uri,
+              comment: comment
+            }
+          );
+        }
+
+      }
+
+      //Adding special class 'Thing' to the array of available classes
+      ret.push(
+        {
+          alias: 'Thing',
+          uri: 'test/Thing',
+          comment: 'The class Thing is an anonymous class for searching without knowing the subjects class.'
+        }
+      );
+      return ret;
+    };
 
     var createAvailablePropertyObject = function (data) {
       var ret = {};
       for (var key in data) {
         if (data.hasOwnProperty(key)) {
           var property = data[key],
-            propertyURI = property.u.value,
+            propertyURI = property.uri.value,
             propertyRange,
             propertyType = "STANDARD_PROPERTY",
             propertyComment = "",
             propertyAlias = "";
 
           /* Check whether the propertyAlias is undefined and if so, fill it with last part of the URI.*/
-          if (property.hasOwnProperty("a")) {
-            propertyAlias = property.a.value;
+          if (property.hasOwnProperty("alias")) {
+            propertyAlias = property.alias.value;
           } else {
-            propertyAlias = propertyURI.substr(propertyURI.lastIndexOf('/') + 1, propertyURI.length - (propertyURI.lastIndexOf('/') + 1));
+            propertyAlias = propertyURI.substr(propertyURI.lastIndexOf('/') + 1);
           }
 
-          if (property.hasOwnProperty("c")) {
-            propertyComment = property.c.value;
+          if (property.hasOwnProperty("comment")) {
+            propertyComment = property.comment.value;
           }
 
-          if (property.hasOwnProperty("r")) {
-            propertyRange = property.r.value;
+          if (property.hasOwnProperty("range")) {
+            propertyRange = property.range.value;
           }
 
           /* Check whether a propertyRange is given.*/
-          if (property.i.value === "I") {
+          if (property.inverse.value === "I") {
             propertyType = "INVERSE_PROPERTY";
             propertyAlias = "is " + propertyAlias + " of"
           } else {
@@ -113,8 +133,8 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
               optional: false,
               operator: null,
               link: {direction: null, linkPartner: null},
-              arithmetic: "x", //Vorprojekt leave empty
-              compare: null //Vorprojekt leave empty
+              arithmetic: "x",
+              compare: null
             };
 
           }
@@ -122,30 +142,12 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
       }
 
 
+
       return ret;
     };
 
 
-    /**
-     * Returns the classes URIs.
-     */
-    factory.createSpeciProps = function () {
-      $log.info('Start creating URI-list.');
-
-      //Retrieve Properties from Server and add them to availableProperties
-      return $http.get(globalConfig.queryURL + encodeURIComponent('select ?class where {?class a owl:Class .}'))
-        .then(function (response) {
-          var pro = createAvailableURIs(response.data.results.bindings);
-          $log.info('Done getting all classes.');
-
-          return pro;
-
-        }, function (response) {
-          $log.error('Error preparing URI-list')
-        });
-    };
-
-
+    //TODO: get it to woek again.
     var createAvailableURIs = function (data) {
       var ret = {};
 
@@ -220,13 +222,16 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
       return $http.get(factory.buildAllPropertyQuery(uri))
         .then(function (response) {
 
-          $log.info(' Properties loaded from: ' + uri, response);
-
-          //factory.availableProperties = factory.mergeTwoObjects(factory.createSpeciProps(), factory.availableProperties);
-          return createAvailablePropertyObject(response.data.results.bindings);
-
+          if(typeof response.data === 'object') {
+            $log.info(' Properties loaded from: ' + uri, response);
+            return createAvailablePropertyObject(response.data.results.bindings);
+          }else{
+            return $q.reject(response)
+          }
         }, function (response) {
           $log.error('Error loading properties from: ' + uri)
+          return $q.reject(response)
+
         }
       )
     };
@@ -252,23 +257,6 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         query = 'http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select+distinct+%3FpropertyDomain+%3FpropertyURI+%3FpropertyRange+%3FpropertyAlias+where+{{%3FanonyClass+rdfs%3AsubClassOf%2B+%3Fclass.%0D%0A++++++++++++++++++++++++++++++++{%3FpropertyURI+rdfs%3Adomain+%3Fclass+.+%0D%0A%0D%0A+++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}+.+%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}%0D%0A++++++++++++++++++++++++++++++++}%0D%0A+++++++++++++++++++++++}+%0D%0A%0D%0A++++++++++++++++++++++UNION+{%0D%0A+++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FanonyClass.+%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29+}+.+%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29+}+}}&format=json&timeout=30000&debug=on';
       }
       return query;
-    };
-	  
-    /**
-     * Helper function to merge two objects
-     *
-     * @param o1 the merged Object
-     */
-    factory.mergeTwoObjects = function (o1, o2) {
-
-      for (var key in o2) {
-
-        o1[key] = o2[key];
-      }
-      return o1;
-
-
-      return o1;
     };
 
     return factory;

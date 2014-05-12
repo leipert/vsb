@@ -17,7 +17,6 @@ angular.module('GSB.config', [])
     },
     resultURL: 'http://dbpedia-live.openlinksw.com/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&format=text%2Fhtml&timeout=5000&debug=on&query=',
 	  queryURL: 'http://dbpedia-live.openlinksw.com/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&format=json&timeout=5000&debug=on&query=',
-    baseURL: 'http://' + (location.host + location.pathname).substring(0,(location.host + location.pathname).lastIndexOf('app/') + 4),
     allowedLanguages : ['*','de','en','pl'],
     propertyOperators : [
       {
@@ -72,28 +71,41 @@ angular.module('GSB.config', [])
       }
     ],
     getPropertiesSPARQLQuery:
-      'SELECT DISTINCT ?u ?i (STR(?ct) AS ?c) ?r (STR(?at) AS ?a)' +
+      'SELECT DISTINCT ?uri ?inverse (STR(?comment_temp) AS ?comment) ?range (STR(?alias_temp) AS ?alias)' +
       'WHERE {' +
       '  {' +
       '    <%uri%> rdfs:subClassOf* ?class.' +
       '    {' +
-      '      ?u rdfs:domain ?class . ' +
-      '      BIND("D" as ?i)' +
-      '      OPTIONAL { ?u rdfs:range ?r}' +
+      '      ?uri rdfs:domain ?class . ' +
+      '      BIND("D" as ?inverse)' +
+      '      OPTIONAL { ?uri rdfs:range ?range}' +
       '    } UNION {' +
-      '      ?u rdfs:range ?class .' +
-      '      BIND("I" as ?i)' +
-      '      OPTIONAL { ?u rdfs:domain ?r}' +
+      '      ?uri rdfs:range ?class .' +
+      '      BIND("I" as ?inverse)' +
+      '      OPTIONAL { ?uri rdfs:domain ?range}' +
       '    }' +
       '  }' +
       '  OPTIONAL {' +
-      '    ?u rdfs:comment ?ct .' +
-      '    FILTER(LANGMATCHES(LANG(?ct), "%lang%"))' +
+      '    ?uri rdfs:comment ?comment_temp .' +
+      '    FILTER(LANGMATCHES(LANG(?comment_temp), "%lang%"))' +
       '  }' +
       '  OPTIONAL {' +
-      '    ?u rdfs:label ?at .' +
-      '    FILTER(LANGMATCHES(LANG(?at), "%lang%"))' +
+      '    ?uri rdfs:label ?alias_temp .' +
+      '    FILTER(LANGMATCHES(LANG(?alias_temp), "%lang%"))' +
       '  }' +
       '}',
-    standardLang: "en"
+    standardLang: "en",
+    getClassesSPARQLQuery:
+      'SELECT DISTINCT ?uri (STR(?comment_temp) as ?comment) (STR(?alias_temp) AS ?alias)' +
+      'WHERE {' +
+      '  ?uri a owl:Class .' +
+      '  OPTIONAL {' +
+      '    ?uri rdfs:comment ?comment_temp .' +
+      '    FILTER(LANG(?comment_temp) = "" || LANGMATCHES(LANG(?comment_temp), "%lang%"))' +
+      '  }' +
+      '  OPTIONAL {' +
+      '    ?uri rdfs:label ?alias_temp .' +
+      '    FILTER(LANGMATCHES(LANG(?alias_temp), "%lang%"))' +
+      '  }' +
+      '}'
   });

@@ -59,8 +59,13 @@
         <!-- IMPORTANT: it has to be item in 'repeat="item in...',
              as ui-select defines it internally.	Anything else wont work!	-->
         <choices repeat="item in availableSubjectClasses | filter: $select.search | limitTo: 10">
-          <div ng-bind-html="item.alias | highlight: $select.search"></div>
-          <small ng-bind-html="item.uri | highlight: $select.search"></small>
+          <p>
+          <span class="h4" ng-bind-html="item.alias | highlight: $select.search"></span>
+            <small ng-bind-html="item.uri | highlight: $select.search"></small>
+          </p>
+          <p style="white-space:normal;">
+          <small ng-bind-html="item.comment | highlight: $select.search"></small>
+          </p>
         </choices>
       </ui-select>
 	      <span class="input-group-btn">
