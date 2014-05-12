@@ -10,7 +10,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
   .controller('PropertyCollectionCtrl', ['$scope', '$http', '$q', '$log', 'globalConfig', 'EndPointService', function($scope, $http, $q, $log, globalConfig, EndPointService) {
 
     var selectedProperties = $scope.subjectInst.selectedProperties;
-	EndPointService.availableProperties = '';
+	EndPointService.availableProperties = [];
     EndPointService.getProperties($scope.subjectInst.uri)
       .then(function(data) {
         $scope.subjectInst.availableProperties = data;

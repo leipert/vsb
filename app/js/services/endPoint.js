@@ -8,7 +8,7 @@
  */
 
 angular.module('GSB.services.endPoint', ['GSB.config'])
-  .factory('EndPointService', ['$http', '$log', 'globalConfig', function ($http, $log, globalConfig) {
+  .factory('EndPointService', ['$http', '$q', '$log', 'globalConfig', function ($http, $q, $log, globalConfig) {
     var factory = {};
 
     /**
@@ -16,7 +16,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
      *
      * @param asc the array into which the endPoint will be written
      */
-    factory.getAvailableClasses = function (asc) {
+    factory.getAvailableClasses = function () {
 
       // Get Available Subject Classes from Server
 
@@ -27,39 +27,47 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
       )
         .then(function (response) {
 
-          $log.info('Available Classes loaded from server.');
-
-          var availClasses = response.data.results.bindings;
-
-          for (var key in availClasses) {
-            if (availClasses.hasOwnProperty(key)) {
-              asc.push(
-                {
-                  alias: availClasses[key].class.value.substr(availClasses[key].class.value.lastIndexOf('/') + 1),
-                  uri: availClasses[key].class.value,
-                  comment: availClasses[key].comment ? availClasses[key].comment.value : 'No description available.'
-                }
-              );
-            }
-
+          if(typeof response.data === 'object') {
+            $log.info(' Available Classes loaded from server');
+            return createAvailableClassesObject(response.data.results.bindings);
+          }else{
+            return $q.reject(response)
           }
 
-          //Adding special class 'Thing' to the array of available classes
-          asc.push(
-            {
-              alias: 'Thing',
-              uri: 'test/Thing',
-              comment: 'The class Thing is an anonymous class for searching without knowing the subjects class.'
-            }
-          );
 
-
-        }, function (error) {
-          $log.error(error, 'Available Classes could not be loaded from server.');
+        }, function (response) {
+          $log.error( 'Available Classes could not be loaded from server.');
+          return $q.reject(response)
         });
     };
 
     factory.availableProperties = '';
+
+    var createAvailableClassesObject = function(availClasses){
+      var ret = [];
+      for (var key in availClasses) {
+        if (availClasses.hasOwnProperty(key)) {
+          ret.push(
+            {
+              alias: availClasses[key].class.value.substr(availClasses[key].class.value.lastIndexOf('/') + 1),
+              uri: availClasses[key].class.value,
+              comment: availClasses[key].comment ? availClasses[key].comment.value : 'No description available.'
+            }
+          );
+        }
+
+      }
+
+      //Adding special class 'Thing' to the array of available classes
+      ret.push(
+        {
+          alias: 'Thing',
+          uri: 'test/Thing',
+          comment: 'The class Thing is an anonymous class for searching without knowing the subjects class.'
+        }
+      );
+      return ret;
+    };
 
     var createAvailablePropertyObject = function (data) {
       var ret = {};
@@ -111,8 +119,8 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
               optional: false,
               operator: null,
               link: {direction: null, linkPartner: null},
-              arithmetic: "x", //Vorprojekt leave empty
-              compare: null //Vorprojekt leave empty
+              arithmetic: "x",
+              compare: null
             };
 
           }
@@ -120,10 +128,12 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
       }
 
 
+
       return ret;
     };
 
 
+    //TODO: get it to woek again.
     var createAvailableURIs = function (data) {
       var ret = {};
 
@@ -198,12 +208,16 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
       return $http.get(factory.buildAllPropertyQuery(uri))
         .then(function (response) {
 
-          $log.info(' Properties loaded from: ' + uri, response);
-
-          return createAvailablePropertyObject(response.data.results.bindings);
-
+          if(typeof response.data === 'object') {
+            $log.info(' Properties loaded from: ' + uri, response);
+            return createAvailablePropertyObject(response.data.results.bindings);
+          }else{
+            return $q.reject(response)
+          }
         }, function (response) {
           $log.error('Error loading properties from: ' + uri)
+          return $q.reject(response)
+
         }
       )
     };
