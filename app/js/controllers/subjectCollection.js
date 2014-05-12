@@ -141,6 +141,10 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
 	
       $scope.$parent.translatedSPARQL = newSPARQL;
     });
+    
+    $scope.$on('WorkspaceUpdateFromJSONEvent', function(newWorkspaceContent){
+        //@TODO: get all the parsed JSON stuff into the scope
+    });
 	// 		 ----------------------------------------------------  
 
 	  

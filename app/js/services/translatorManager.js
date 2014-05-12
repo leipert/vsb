@@ -6,7 +6,7 @@
  */
 
 angular.module('GSB.services.translatorManager', ['GSB.config'])
-  .factory('TranslatorManager', ['$log', 'globalConfig', '$rootScope', 'TranslatorToJSON', 'TranslatorToSPARQL', function ($log, globalConfig, $rootScope, TranslatorToJSON, TranslatorToSPARQL) {
+  .factory('TranslatorManager', ['$log', 'globalConfig', '$rootScope', 'TranslatorToJSON', 'TranslatorToGSBL', 'TranslatorToSPARQL', function ($log, globalConfig, $rootScope, TranslatorToJSON, TranslatorToGSBL, TranslatorToSPARQL) {
     var factory = {};
 
 
@@ -37,9 +37,10 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
      *  Function will load JSON-file as query
      */
     factory.loadJSON = function (mainSubjectSelected, subjects) {
+        
         var selected_file = document.getElementById('uploadJSON').files[0];
         // Only process JSON-files.
-//        if (!selected_file.type.match('json')) {
+//        if (!selected_file.type.match('json.*')) {
 //            alert("Please choose a JSON File.");
 //            return;
 //        }
@@ -51,18 +52,18 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
             bfile = e.target.result;
             bfile.trim();
             json = JSON.parse(bfile);
-            alert(JSON.stringify(json));
+// Test output
+//            alert(JSON.stringify(json));
+            if (json !== null) {
+                $rootScope.$broadcast('JSONUpdateEvent', json);
+            }else{
+                $log.error("JSON is not valid / empty");
+                return;
+            }
+            var newWorkspaceContent = TranslatorToGSBL.translateJSONToGSBL(json);
+            $rootScope.$broadcast('WorkspaceUpdateFromJSONEvent', newWorkspaceContent);
         };
-        reader.readAsBinaryString(selected_file);
-        
-       //Load JSON data into the scope
-       //
-       //Save JSON data
-//        if (newJSON == null) {
-//            $log.error("JSON is not valid / empty");
-//            return;
-//        }
-//        $rootScope.$broadcast('JSONUpdateEvent', newJSON);
+        reader.readAsBinaryString(selected_file);       
     };
 
 
