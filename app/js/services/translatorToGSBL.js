@@ -23,9 +23,33 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
         $log.error("Empty JSON File");
         return null;
       }
-      
-      var workspaceContent = new Array();
-      
+
+        /* Test output
+        for (var i = 0; i < json.SUBJECTS.length; i++) {
+            alert(json.SUBJECTS[i].alias);
+        }*/
+
+      var allTheSubjects =[];
+      var workspaceContent = [];
+
+        //Create subject object
+        for (var i = 0; i < json.SUBJECTS.length; i++) {
+                allTheSubjects.push(
+                    {
+                     alias: json.SUBJECTS[i].alias,
+                     label: json.SUBJECTS[i].label,
+                     uri: json.SUBJECTS[i].uri,
+                     comment: json.SUBJECTS[i].comment,
+                     view: json.SUBJECTS[i].view,
+                     selectedProperties: [],
+                     availableProperties: {},
+                     selectedAggregates: [],
+                     showAdditionalFields: json.SUBJECTS[i].showAdditionalFields
+                    }
+                );
+
+        }
+
 
 // Here is where the magic should happen
 // reverse all the things
@@ -66,6 +90,9 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
       json.SUBJECTS = allSubjects;
 
        return JSON.stringify(json, null, 2);*/
+
+        workspaceContent.push(allTheSubjects);
+
         return workspaceContent;
     };	
     return factory;

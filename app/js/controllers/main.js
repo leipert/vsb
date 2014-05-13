@@ -12,6 +12,7 @@ angular.module('GSB.controllers.main', ['GSB.config'])
     //** FUNCTIONS START **//
 
     $scope.showArea = 'workspace';
+    $scope.initialisedSubjects = false;
     $scope.offsetX = 0;
     $scope.offsetY = 0;
     $scope.mouseDownAct = false;
@@ -54,13 +55,19 @@ angular.module('GSB.controllers.main', ['GSB.config'])
 
         };
 
+        /**
+         * Reset WS...
+         */
+        $scope.resetWorkspace = function () {
+            $scope.clearWorkspace();
 
+        };
         /**
          * Load JSON...
          */
         $scope.loadJSON = function () {
 
-            $scope.initializeWorkspace();
+            $scope.resetWorkspace();
             $scope.$broadcast('loadJsonEvent');
 
         };
@@ -68,14 +75,26 @@ angular.module('GSB.controllers.main', ['GSB.config'])
 
 
     /**
-     * Initializes the Workspace
-     */
-    $scope.initializeWorkspace = function () {
-      $log.info('Initialize Workspace');
-      $scope.translatedJSON = "In the near future the translated JSON will be here.";
-      $scope.translatedSPARQL = "In the near future the translated SPARQL will be here.";
-      $scope.expertView = false;
-    };
+         * Initializes the Workspace
+         */
+        $scope.initializeWorkspace = function () {
+            $log.info('Initialized Workspace');
+            $scope.translatedJSON = "In the near future the translated JSON will be here.";
+            $scope.translatedSPARQL = "In the near future the translated SPARQL will be here.";
+            $scope.expertView = false;
+        };
+
+
+        /**
+         * Clears the Workspace
+         */
+        $scope.clearWorkspace = function () {
+            $log.info('Cleared Workspace');
+            $scope.$broadcast('removeAllSubjectsEvent');
+            $scope.translatedJSON = "In the near future the translated JSON will be here.";
+            $scope.translatedSPARQL = "In the near future the translated SPARQL will be here.";
+            $scope.expertView = false;
+        };
 
     //** FUNCTIONS END **//
 

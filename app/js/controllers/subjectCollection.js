@@ -36,6 +36,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
      */
     var addSubject = function (uri, alias, comment) {
       $log.info('Subject added');
+      $scope.initialisedSubjects = true;
       $scope.subjects.push(
         {
           alias: createUniqueAlias(alias, uri),
@@ -55,6 +56,18 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
         $scope.mainSubjectSelected = $scope.subjects[0];
       }
     };
+
+        /**
+         * a function which adds a new subject given as a subjectObject
+         */
+        var addSubjectObject = function (subjectObject) {
+            $log.info('Subject added');
+            $scope.subjects.push(subjectObject);
+            //If there is only one subject, it will be the one selected by the startPoint (automatically).
+            if ($scope.subjects.length === 1) {
+                $scope.mainSubjectSelected = $scope.subjects[0];
+            }
+        };
 
     /**
      * returns a unique alias for a given alias
@@ -105,6 +118,24 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
       }
     };
 
+
+        /**
+         * Removes all subjects from the Workspace
+         */
+        $scope.removeAllSubjects = function () {
+            {$scope.subjects.splice(0, $scope.subjects.length);}
+        };
+
+        /**
+         * Adds all loaded subjects to the Workspace
+         */
+        $scope.fillScoSub = function(newWorkspaceContent){
+          //Iterate over subjects
+            for(var i = 0; i < newWorkspaceContent[0].length; i++) {
+            addSubjectObject(newWorkspaceContent[0][i]);
+            }
+
+        };
 	
 	/*
      * 		------  EVENT HANDLING  -----------------------------
@@ -129,6 +160,11 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
             TranslatorManager.loadJSON($scope.mainSubjectSelected, $scope.subjects);
         });
 
+     $scope.$on('removeAllSubjectsEvent',function() {
+
+            $scope.removeAllSubjects();
+        });
+
 
         $scope.$on('JSONUpdateEvent',function(event, newJSON) {
 	
@@ -141,8 +177,8 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
       $scope.$parent.translatedSPARQL = newSPARQL;
     });
     
-    $scope.$on('WorkspaceUpdateFromJSONEvent', function(newWorkspaceContent){
-        //@TODO: get all the parsed JSON stuff into the scope
+    $scope.$on('WorkspaceUpdateFromJSONEvent', function(scope, newWorkspaceContent){
+        $scope.fillScoSub(newWorkspaceContent);
     });
 	// 		 ----------------------------------------------------  
 

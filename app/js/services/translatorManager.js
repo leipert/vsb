@@ -6,7 +6,7 @@
  */
 
 angular.module('GSB.services.translatorManager', ['GSB.config'])
-  .factory('TranslatorManager', ['$log', 'globalConfig', '$rootScope', 'TranslatorToJSON', 'TranslatorToGSBL', 'TranslatorToSPARQL', function ($log, globalConfig, $rootScope, TranslatorToJSON, TranslatorToGSBL, TranslatorToSPARQL) {
+  .factory('TranslatorManager', ['$log', 'globalConfig', '$rootScope', 'TranslatorToJSON', 'TranslatorToGSBL', 'TranslatorToSPARQL', function ($log, globalConfig, $rootScope, TranslatorToJSON, TranslatorToGSBL, TranslatorToSPARQL, subjectCollection) {
     var factory = {};
 
 
@@ -52,8 +52,8 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
             bfile = e.target.result;
             bfile.trim();
             json = JSON.parse(bfile);
-// Test output
-//            alert(JSON.stringify(json));
+
+
             if (json !== null) {
                 $rootScope.$broadcast('JSONUpdateEvent', json);
             }else{
@@ -61,6 +61,7 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
                 return;
             }
             var newWorkspaceContent = TranslatorToGSBL.translateJSONToGSBL(json);
+
             $rootScope.$broadcast('WorkspaceUpdateFromJSONEvent', newWorkspaceContent);
         };
         reader.readAsBinaryString(selected_file);       
