@@ -44,11 +44,15 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
           delete currentSubject["availableProperties"];
           currentSubject.properties = currentSubject["selectedProperties"].map(function (currentProperty) {
             delete currentProperty["propertyType"];
+if(currentProperty.type !== 'STANDARD_PROPERTY')
+{
+
             if (currentProperty.link.linkPartner !== null && currentProperty.link.linkPartner.hasOwnProperty("alias")) {
               currentProperty.link.linkPartner = currentProperty.link.linkPartner.alias;
             } else {
               currentProperty.link = {};
-            }
+            }}
+              else{currentProperty.link = {};}
             return currentProperty;
           });
           currentSubject.selectedAggregates = currentSubject.selectedAggregates.map(function (currentAggregate){

@@ -34,6 +34,25 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
 
         //Create subject object
         for (var i = 0; i < json.SUBJECTS.length; i++) {
+            var subjectsProperties = []
+                            for (var p=0; p < json.SUBJECTS[i].properties.length;p++)        {
+                                    subjectsProperties.push(
+                                    {
+                                    "alias": json.SUBJECTS[i].properties[p].alias,
+                                    "comment": json.SUBJECTS[i].properties[p].comment,
+                                    "uri": json.SUBJECTS[i].properties[p].uri,
+                                    "type": json.SUBJECTS[i].properties[p].type,
+                                    "propertyRange": json.SUBJECTS[i].properties[p].propertyRange,
+                                    "view": json.SUBJECTS[i].properties[p].view,
+                                    "optional": json.SUBJECTS[i].properties[p].optional,
+                                    "operator": json.SUBJECTS[i].properties[p].operator,
+                                    "link": {},//json.SUBJECTS[i].properties[p].link,
+                                    "arithmetic": json.SUBJECTS[i].properties[p].arithmetic,
+                                    "compare": json.SUBJECTS[i].properties[p].compare
+                                    });
+                            }
+
+
                 allTheSubjects.push(
                     {
                      alias: json.SUBJECTS[i].alias,
@@ -41,7 +60,7 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
                      uri: json.SUBJECTS[i].uri,
                      comment: json.SUBJECTS[i].comment,
                      view: json.SUBJECTS[i].view,
-                     selectedProperties: [],
+                     selectedProperties: subjectsProperties,
                      availableProperties: {},
                      selectedAggregates: [],
                      showAdditionalFields: json.SUBJECTS[i].showAdditionalFields
