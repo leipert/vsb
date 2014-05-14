@@ -59,6 +59,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
 
         /**
          * a function which adds a new subject given as a subjectObject
+         * @param {object} subjectObject a JSON/scope correctly formatted subject
          */
         var addSubjectObject = function (subjectObject) {
             $log.info('Subject added');
@@ -85,7 +86,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
         c = 1;
 
       //Handling for empty alias, try an extract of uri
-      if (newAlias.length == 0) {
+      if (newAlias.length === 0) {
         newAlias = uri;
       }
 
@@ -148,50 +149,42 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
             //Add the connection from startpoint to selected subject
             $scope.mainSubjectSelected = newWorkspaceContent[1];
 
-        };
+    };
 	
-	/*
+    /*
      * 		------  EVENT HANDLING  -----------------------------
      */
     $scope.$on('setHighLightTo',function(event,data) {
-        $scope.highlightedSubject = data;
-      });
+      $scope.highlightedSubject = data;
+    });
 	  
-	$scope.$on('translationEvent',function() {
-	
-      TranslatorManager.translateGSBLToSPARQL($scope.mainSubjectSelected, $scope.subjects);
+    $scope.$on('translationEvent',function() {
+	    TranslatorManager.translateGSBLToSPARQL($scope.mainSubjectSelected, $scope.subjects);
       TranslatorManager.prepareSaveLink($scope.mainSubjectSelected, $scope.subjects);
     });
 
     $scope.$on('saveJsonEvent',function() {
-
-            TranslatorManager.saveAsJSON($scope.mainSubjectSelected, $scope.subjects);
-        });
+      TranslatorManager.saveAsJSON($scope.mainSubjectSelected, $scope.subjects);
+    });
 
     $scope.$on('loadJsonEvent',function() {
+      TranslatorManager.loadJSON($scope.mainSubjectSelected, $scope.subjects);
+    });
 
-            TranslatorManager.loadJSON($scope.mainSubjectSelected, $scope.subjects);
-        });
+    $scope.$on('removeAllSubjectsEvent',function() {
+      $scope.removeAllSubjects();
+    });
 
-     $scope.$on('removeAllSubjectsEvent',function() {
-
-            $scope.removeAllSubjects();
-        });
-
-
-        $scope.$on('JSONUpdateEvent',function(event, newJSON) {
-	
+    $scope.$on('JSONUpdateEvent',function(event, newJSON) {
       $scope.$parent.translatedJSON = newJSON;
     });  
-	  
-	  
-	$scope.$on('SPARQLUpdateEvent',function(event, newSPARQL) {
-	
-      $scope.$parent.translatedSPARQL = newSPARQL;
+	  	  
+    $scope.$on('SPARQLUpdateEvent',function(event, newSPARQL) {
+	    $scope.$parent.translatedSPARQL = newSPARQL;
     });
     
     $scope.$on('WorkspaceUpdateFromJSONEvent', function(scope, newWorkspaceContent){
-        $scope.fillScoSub(newWorkspaceContent);
+      $scope.fillScopeWithSubjects(newWorkspaceContent);
     });
 	// 		 ----------------------------------------------------  
 
@@ -206,6 +199,5 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
       });
 
     addSubject('http://dbpedia.org/ontology/Person', "Person", "Ein Individuum der Spezies Mensch.");
-    
-
+   
   }]);
