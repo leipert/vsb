@@ -60,6 +60,11 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
                 $log.error("JSON is not valid / empty");
                 return;
             }
+
+            /* newWorkspaceContent[0]  all subject-objects
+            *  newWorkspaceContent[1]  from startpoint selected subject
+            *
+            * */
             var newWorkspaceContent = TranslatorToGSBL.translateJSONToGSBL(json);
 
             $rootScope.$broadcast('WorkspaceUpdateFromJSONEvent', newWorkspaceContent);

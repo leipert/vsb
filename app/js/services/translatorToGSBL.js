@@ -32,10 +32,20 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
       var allTheSubjects =[];
       var workspaceContent = [];
 
-        //Create subject object
+        //Create object of all subjects
         for (var i = 0; i < json.SUBJECTS.length; i++) {
             var subjectsProperties = []
                             for (var p=0; p < json.SUBJECTS[i].properties.length;p++)        {
+                                    var linkArray;
+                                    if(json.SUBJECTS[i].properties[p].type !== 'OBJECT_PROPERTY')
+                                    {linkArray = {};}
+                                    else{
+
+                                        linkArray = {'direction':json.SUBJECTS[i].properties[p].link['direction'],
+                                                     'linkPartner':json.SUBJECTS[i].properties[p].link['linkPartner']
+                                                    };
+                                    }
+
                                     subjectsProperties.push(
                                     {
                                     "alias": json.SUBJECTS[i].properties[p].alias,
@@ -46,10 +56,12 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
                                     "view": json.SUBJECTS[i].properties[p].view,
                                     "optional": json.SUBJECTS[i].properties[p].optional,
                                     "operator": json.SUBJECTS[i].properties[p].operator,
-                                    "link": {},//json.SUBJECTS[i].properties[p].link,
+                                    "link": linkArray,//json.SUBJECTS[i].properties[p].link,
                                     "arithmetic": json.SUBJECTS[i].properties[p].arithmetic,
                                     "compare": json.SUBJECTS[i].properties[p].compare
                                     });
+
+                                //alert('Länge: ' + json.SUBJECTS[i].properties[p].link['direction']);
                             }
 
 
@@ -69,48 +81,13 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
 
         }
 
-
-// Here is where the magic should happen
-// reverse all the things
-/*
-      var json = {
-          START: {
-            type: "LIST_ALL",
-            "link": {
-              "direction": "TO",
-              "linkPartner": mainSubjectSelected.alias
-            }
-          },
-          SUBJECTS: []
-        },
-                
-        allSubjects = angular.copy(subjects);
-        allSubjects.map(function (currentSubject) {
-          delete currentSubject["availableProperties"];
-          currentSubject.properties = currentSubject["selectedProperties"].map(function (currentProperty) {
-            delete currentProperty["propertyType"];
-            if (currentProperty.link.linkPartner !== null && currentProperty.link.linkPartner.hasOwnProperty("alias")) {
-              currentProperty.link.linkPartner = currentProperty.link.linkPartner.alias;
-            } else {
-              currentProperty.link = {};
-            }
-            return currentProperty;
-          });
-          currentSubject.selectedAggregates = currentSubject.selectedAggregates.map(function (currentAggregate){
-            delete currentAggregate.available;
-            return currentAggregate;
-          });
-          currentSubject.properties = currentSubject.properties.concat(currentSubject.selectedAggregates);
-          delete currentSubject["selectedProperties"];
-          delete currentSubject["selectedAggregates"];
-          return currentSubject;
-        });
-	  
-      json.SUBJECTS = allSubjects;
-
-       return JSON.stringify(json, null, 2);*/
+        //Find the subject connected to the startpoint
+        var startSubject = allTheSubjects[0];
+        for (var i = 0; i < allTheSubjects.length; i++)
+            {if(json.START.link.linkPartner == allTheSubjects[i].alias) startSubject = allTheSubjects[i];}
 
         workspaceContent.push(allTheSubjects);
+        workspaceContent.push(startSubject);
 
         return workspaceContent;
     };	

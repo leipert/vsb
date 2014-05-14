@@ -134,6 +134,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
             for(var i = 0; i < newWorkspaceContent[0].length; i++) {
             addSubjectObject(newWorkspaceContent[0][i]);
             }
+            $scope.mainSubjectSelected = newWorkspaceContent[1];
 
         };
 	
