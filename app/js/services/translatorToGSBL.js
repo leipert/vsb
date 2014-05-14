@@ -81,11 +81,17 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
 
         }
 
+
+
+
         //Find the subject connected to the startpoint
         var startSubject = allTheSubjects[0];
         for (var i = 0; i < allTheSubjects.length; i++)
             {if(json.START.link.linkPartner == allTheSubjects[i].alias) startSubject = allTheSubjects[i];}
 
+
+        //workspaceContent[0] all the subjects (as an object)
+        //worcspaceContent[1] with startpoint linked subject
         workspaceContent.push(allTheSubjects);
         workspaceContent.push(startSubject);
 

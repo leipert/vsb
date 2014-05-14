@@ -130,10 +130,22 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
          * Adds all loaded subjects to the Workspace
          */
         $scope.fillScoSub = function(newWorkspaceContent){
+
           //Iterate over subjects
             for(var i = 0; i < newWorkspaceContent[0].length; i++) {
-            addSubjectObject(newWorkspaceContent[0][i]);
-            }
+                //Add subjects to workspace
+                addSubjectObject(newWorkspaceContent[0][i]);
+
+                //Iterate over properties
+                for(var j = 0; j < newWorkspaceContent[0][i].selectedProperties.length; j++){
+
+                    //TODO: Choose linkPartner for subjects with ObjectProperties in the workspace
+                    //The values are available. Example: alert(newWorkspaceContent[0][i].selectedProperties[j].alias + " wert: " + newWorkspaceContent[0][i].selectedProperties[j].link['linkPartner']);
+
+                    }
+
+                }
+            //Add the connection from startpoint to selected subject
             $scope.mainSubjectSelected = newWorkspaceContent[1];
 
         };
