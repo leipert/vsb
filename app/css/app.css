@@ -176,3 +176,8 @@ div.subjectCSS div.inversePropertyCSS div.inversePropertyHeadCSS i {
   right:0;
   left:auto;
 }
+
+#top-controls td
+{
+  padding:2px;
+}
