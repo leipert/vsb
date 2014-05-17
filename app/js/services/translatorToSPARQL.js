@@ -140,7 +140,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     factory.translateSubject = function (oneSubject, shownValues, translated, json) {
 
       var SPARQL = "";
-
+	  
       if (!factory.presentInArray(translated, oneSubject.alias)) {
         if (oneSubject.uri != 'test/Thing')SPARQL += "?" + oneSubject.alias + " a <" + oneSubject.uri + "> .\n";
 
@@ -421,13 +421,16 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
       for (var i = 0; i < json.SUBJECTS.length; i++) {
 
-        json.SUBJECTS[i].alias = replaceAliasSpacesInString(json.SUBJECTS[i].alias);
+        json.SUBJECTS[i].alias = replaceAliasSpacesInString(json.SUBJECTS[i].alias);		
 
         for (var j = 0; j < json.SUBJECTS[i].properties.length; j++) {
 
           json.SUBJECTS[i].properties[j].alias = replaceAliasSpacesInString(json.SUBJECTS[i].properties[j].alias);
         }
       }
+	  
+	  json.START.link.linkPartner = replaceAliasSpacesInString(json.START.link.linkPartner);
+	  
       return json;
     };
 
