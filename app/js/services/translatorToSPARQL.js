@@ -348,7 +348,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
         if (eigenschaft.compare !== null) {
 
-          SPARQL += "FILTER ( "
+          SPARQL += "FILTER ( " + y + " "
           + eigenschaft.compare
             .replace(/%before_arithmetic%/g, x)
             .replace(/%after_arithmetic%/g, y)
