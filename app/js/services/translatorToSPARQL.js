@@ -25,6 +25,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       //json = factory.changeURIs(json);
 
       json = replaceAliasSpaces(json);
+	  json = replaceDuplicatePropertyAliases(json);
 
       return factory.translateAll(json);
     };
@@ -411,6 +412,36 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       return;
     }
 
+	
+	
+	/**
+     * Helper function to replace duplicate property aliases with alternatives
+     * @param json
+     */
+    function replaceDuplicatePropertyAliases(json) {
+	
+	  var counter = 1;
+	  
+	  for (var i = 0; i < json.SUBJECTS.length; i++) {
+        for (var j = 0; j < json.SUBJECTS[i].properties.length; j++) {
+		
+		 for (var k = 0; k < json.SUBJECTS.length; k++) {
+		
+		   for (var l = 0; l < json.SUBJECTS[k].properties.length; l++) {
+
+		     if (json.SUBJECTS[i].properties[j].alias == json.SUBJECTS[k].properties[l].alias && !((i == k) && (j == l))) {
+			   json.SUBJECTS[k].properties[l].alias = json.SUBJECTS[k].properties[l].alias + "_" + counter;
+			   counter++;				
+             }
+		    }
+		  }
+        }
+      }
+	
+	  return json;
+	}
+	
+	
 
     /**
      * little helper function to replace spaces in aliases with an underscore
