@@ -96,15 +96,6 @@ angular.module('GSB.controllers.main', ['GSB.config'])
       $scope.expertView = false;
     };
 
-
-    /**
-     * Show the Help
-     */
-    $scope.showHelp = function () {
-      $log.info('Show help');
-      
-    }
-
     //** FUNCTIONS END **//
 
     //Initialize Workspace
