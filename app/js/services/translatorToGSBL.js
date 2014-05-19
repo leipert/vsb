@@ -38,12 +38,20 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
           
           for (var p=0; p < json.SUBJECTS[i].properties.length;p++) {
             var linkArray;
-            if(json.SUBJECTS[i].properties[p].type !== 'OBJECT_PROPERTY') {
-              linkArray = {};
-            }else{
-              linkArray = {'direction':json.SUBJECTS[i].properties[p].link['direction'],
-                           'linkPartner':json.SUBJECTS[i].properties[p].link['linkPartner']
-                          };
+            switch(json.SUBJECTS[i].properties[p].type){
+              case 'OBJECT_PROPERTY':
+                linkArray = {'direction':json.SUBJECTS[i].properties[p].link['direction'],
+                            'linkPartner':json.SUBJECTS[i].properties[p].link['linkPartner']
+                            };
+                break;
+              case 'INVERSE_PROPERTY':
+                linkArray = {'direction':json.SUBJECTS[i].properties[p].link['direction'],
+                             'linkPartner':json.SUBJECTS[i].properties[p].link['linkPartner']
+                            };
+                break;
+              default:
+                linkArray = {};
+                break;
             }
 
             subjectsProperties.push(

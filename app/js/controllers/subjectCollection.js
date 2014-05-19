@@ -120,34 +120,29 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
     };
 
 
-        /**
-         * Removes all subjects from the Workspace
-         */
-        $scope.removeAllSubjects = function () {
-            {$scope.subjects.splice(0, $scope.subjects.length);}
-        };
+    /**
+     * Removes all subjects from the Workspace
+     */
+    $scope.removeAllSubjects = function () {
+        {$scope.subjects.splice(0, $scope.subjects.length);}
+    };
 
-        /**
-         * Adds all loaded subjects to the Workspace
-         */
-        $scope.fillScoSub = function(newWorkspaceContent){
-
-          //Iterate over subjects
-            for(var i = 0; i < newWorkspaceContent[0].length; i++) {
-                //Add subjects to workspace
-                addSubjectObject(newWorkspaceContent[0][i]);
-
-                //Iterate over properties
-                for(var j = 0; j < newWorkspaceContent[0][i].selectedProperties.length; j++){
-
-                    //TODO: Choose linkPartner for subjects with ObjectProperties in the workspace
-                    //The values are available. Example: alert(newWorkspaceContent[0][i].selectedProperties[j].alias + " wert: " + newWorkspaceContent[0][i].selectedProperties[j].link['linkPartner']);
-
-                    }
-
-                }
-            //Add the connection from startpoint to selected subject
-            $scope.mainSubjectSelected = newWorkspaceContent[1];
+    /**
+     * Adds all loaded subjects to the Workspace
+     * 
+     * ### TESTFILES: app/test/data/query_test_loadJSON.json
+     *                app/test/data/query_test_loadJSON.png
+     * 
+     * @param newWorkspaceContent
+     */
+    $scope.fillScopeWithSubjects = function(newWorkspaceContent){
+      //Iterate over subjects
+      for(var i = 0; i < newWorkspaceContent[0].length; i++) {
+        addSubjectObject(newWorkspaceContent[0][i]);
+      }
+      
+      //Add the connection from startpoint to selected subject
+      $scope.mainSubjectSelected = newWorkspaceContent[1];
 
     };
 	

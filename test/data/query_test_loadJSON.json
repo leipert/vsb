@@ -1,0 +1,169 @@
+{
+  "START": {
+    "type": "LIST_ALL",
+    "link": {
+      "direction": "TO",
+      "linkPartner": "Person"
+    }
+  },
+  "SUBJECTS": [
+    {
+      "alias": "Person",
+      "label": "Person",
+      "uri": "http://dbpedia.org/ontology/Person",
+      "comment": "Ein Individuum der Spezies Mensch.",
+      "view": true,
+      "showAdditionalFields": true,
+      "showInfos": false,
+      "properties": [
+        {
+          "alias": "birth year",
+          "comment": "",
+          "uri": "http://dbpedia.org/ontology/birthYear",
+          "type": "STANDARD_PROPERTY",
+          "propertyRange": [
+            "http://www.w3.org/2001/XMLSchema#gYear"
+          ],
+          "view": true,
+          "optional": false,
+          "operator": "MUST",
+          "link": {},
+          "arithmetic": "x",
+          "compare": null,
+          "showInfos": false
+        },
+        {
+          "alias": "birth date",
+          "comment": "",
+          "uri": "http://dbpedia.org/ontology/birthDate",
+          "type": "DATE_PROPERTY",
+          "propertyRange": [
+            "http://www.w3.org/2001/XMLSchema#date"
+          ],
+          "view": true,
+          "optional": false,
+          "operator": "MUST",
+          "link": {},
+          "arithmetic": "x",
+          "compare": null,
+          "showInfos": false
+        },
+        {
+          "alias": "birth name",
+          "comment": "",
+          "uri": "http://dbpedia.org/ontology/birthName",
+          "type": "STRING_PROPERTY",
+          "propertyRange": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "view": true,
+          "optional": false,
+          "operator": "MUST",
+          "link": {},
+          "arithmetic": "x",
+          "compare": "langMatches(lang(%after_arithmetic%), \"de\") && regex(%after_arithmetic%, \"Schultz\", \"i\")"
+        },
+        {
+          "alias": "salary ($)",
+          "comment": "",
+          "uri": "http://dbpedia.org/ontology/salary",
+          "type": "NUMBER_PROPERTY",
+          "propertyRange": [
+            "http://www.w3.org/2001/XMLSchema#double"
+          ],
+          "view": true,
+          "optional": false,
+          "operator": "MUST",
+          "link": {},
+          "arithmetic": "x/1000",
+          "compare": ">100"
+        },
+        {
+          "alias": "birth place",
+          "comment": "where the person was born",
+          "uri": "http://dbpedia.org/ontology/birthPlace",
+          "type": "OBJECT_PROPERTY",
+          "propertyRange": [
+            "http://dbpedia.org/ontology/Place"
+          ],
+          "view": true,
+          "optional": false,
+          "operator": "MUST",
+          "link": {
+            "direction": "TO",
+            "linkPartner": "place"
+          },
+          "arithmetic": "x",
+          "compare": null
+        },
+        {
+          "alias": "cnt",
+          "operator": "COUNT(%alias%)",
+          "type": "AGGREGATE_PROPERTY",
+          "link": {
+            "linkPartner": "birth year"
+          }
+        }
+      ]
+    },
+    {
+      "alias": "university",
+      "label": "university",
+      "uri": "http://dbpedia.org/ontology/University",
+      "comment": "No description available.",
+      "view": true,
+      "showAdditionalFields": true,
+      "showInfos": false,
+      "properties": [
+        {
+          "alias": "alumni",
+          "comment": "",
+          "uri": "http://dbpedia.org/ontology/alumni",
+          "type": "OBJECT_PROPERTY",
+          "propertyRange": [
+            "http://dbpedia.org/ontology/Person"
+          ],
+          "view": true,
+          "optional": false,
+          "operator": "MUST",
+          "link": {
+            "direction": "TO",
+            "linkPartner": "Person"
+          },
+          "arithmetic": "x",
+          "compare": null,
+          "showInfos": false
+        },
+        {
+          "alias": "is university of",
+          "comment": "university a person goes or went to",
+          "uri": "http://dbpedia.org/ontology/university",
+          "type": "INVERSE_PROPERTY",
+          "propertyRange": [
+            "http://dbpedia.org/ontology/Person"
+          ],
+          "view": true,
+          "optional": false,
+          "operator": "MUST",
+          "link": {
+            "direction": "TO",
+            "linkPartner": "Person"
+          },
+          "arithmetic": "x",
+          "compare": null,
+          "showInfos": false
+        }
+      ]
+    },
+    {
+      "alias": "place",
+      "label": "place",
+      "uri": "http://dbpedia.org/ontology/Place",
+      "comment": "Immobile things or locations.",
+      "view": false,
+      "showAdditionalFields": true,
+      "showInfos": false,
+      "properties": []
+    }
+  ]
+}
