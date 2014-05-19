@@ -62,7 +62,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
     
     /**
      * Removes a given aggregateInst from the selectedAggregates of the subjectInst
-     * @param aggregateInst
+     * @param aggregateInst 
      */
     $scope.removeAggregate = function(aggregateInst){
       $scope.subjectInst.selectedAggregates.splice($scope.subjectInst.selectedAggregates.indexOf(aggregateInst),1);
