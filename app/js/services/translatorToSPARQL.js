@@ -210,7 +210,9 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 		}
 		else {
           SPARQL += eigenschaft.alias + " .\n";
-		  shownValues[shownValues.length] = eigenschaft.alias;
+		  if (eigenschaft.view) {
+		    shownValues[shownValues.length] = eigenschaft.alias;
+		  }
 		}
       }
 
@@ -272,7 +274,9 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
           if (eigenschaft.optional) {
             SPARQL += "}\n";
           }
-          shownValues[shownValues.length] = eigenschaft.alias;
+		  if (eigenschaft.view) {
+            shownValues[shownValues.length] = eigenschaft.alias;
+		  }
         }
       }
 
