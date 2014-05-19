@@ -41,6 +41,10 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
       selectedProperties.splice(selectedProperties.indexOf(propertyInst), 1);
     };
 
+    /**
+     * Adds an aggregate selected from the availableAggregates of a
+     * subjectInst to the selectedAggregates of the same subjectInst
+     */
     $scope.addAggregate = function(){
       $scope.subjectInst.selectedAggregates.push(
         angular.copy(
@@ -55,7 +59,11 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
           }
         ));
     };
-
+    
+    /**
+     * Removes a given aggregateInst from the selectedAggregates of the subjectInst
+     * @param aggregateInst
+     */
     $scope.removeAggregate = function(aggregateInst){
       $scope.subjectInst.selectedAggregates.splice($scope.subjectInst.selectedAggregates.indexOf(aggregateInst),1);
     };
