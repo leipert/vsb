@@ -246,7 +246,6 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       var SPARQL = "";
 
       if (eigenschaft.optional) {
-        $log.info("OPTIONAL PROP  - " + eigenschaft.alias);
         SPARQL += "OPTIONAL { \n";
       }
 
@@ -271,9 +270,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
           }
         } else {
           SPARQL += eigenschaft.alias + " .\n";
-          if (eigenschaft.optional) {
-            SPARQL += "}\n";
-          }
+          
 		  if (eigenschaft.view) {
             shownValues[shownValues.length] = eigenschaft.alias;
 		  }
