@@ -15,7 +15,7 @@ angular.module('GSB.controllers.propertyType.date', ['GSB.config','ui.bootstrap'
       $scope.opened = true;
     };
 
-
+    //Rules for date comparisons
     $scope.allowedDateComparisons = [
             {
                 label: "equals",
@@ -37,7 +37,7 @@ angular.module('GSB.controllers.propertyType.date', ['GSB.config','ui.bootstrap'
             }
         ];
 
-
+        //Observers for date comparison
         $scope.dateComparison = null;
 
         $scope.$watch('dateComparison',function (newValue){
@@ -49,7 +49,10 @@ angular.module('GSB.controllers.propertyType.date', ['GSB.config','ui.bootstrap'
         $scope.$watch('comparisonInput',function (newValue){
           renderDate();
         });
-
+        
+        /*
+         * Updates comparison for date properties
+         */
         function renderDate(){
           if($scope.dateComparison === null || $scope.dateComparison === undefined ){
             $scope.propertyInst.compare = null;

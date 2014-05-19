@@ -9,7 +9,7 @@ angular.module('GSB.controllers.propertyType.number', ['GSB.config'])
   //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
   .controller('NumberPropertyCtrl', ['$scope', '$http', '$log', 'globalConfig', function($scope, $http, $log, globalConfig) {
     $scope.numberArithmetic = "";
-
+    //Observes and updates the values of the choosen number arithmetics
     $scope.$watch('numberArithmetic',function (newValue){
       if(newValue === "" || newValue === null || newValue === undefined){
         newValue = "x";

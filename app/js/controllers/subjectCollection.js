@@ -183,7 +183,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
     });
 	// 		 ----------------------------------------------------  
 
-	  
+	  //Set workspace to initial state
     $scope.availableSubjectClasses = [];
     $scope.subjects = [];
     EndPointService.getAvailableClasses()

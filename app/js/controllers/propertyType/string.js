@@ -9,6 +9,7 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
   //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
   .controller('StringPropertyCtrl', ['$scope', '$http', '$log', 'globalConfig', function($scope, $http, $log, globalConfig) {
 
+    //Rules for String comparisons
     $scope.allowedStringComparisons = [
       {
         label: "contains",
@@ -39,7 +40,8 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
     $scope.allowedLanguages = globalConfig['allowedLanguages'];
 
     $scope.stringComparison = null;
-
+    
+    //Observers for String comparisons
     $scope.$watch('stringComparison',function (newValue){
       renderComparison(newValue,$scope.comparisonInput,$scope.comparisonRegexFlags);
     });
@@ -56,6 +58,9 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
       renderComparison($scope.stringComparison,$scope.comparisonInput,newValue)
     });
 
+    /*
+     * Handles updates comparison for String properties
+     */
     function renderComparison(method,input,flags)
     {
       if(input === null || input=== undefined || input === '' ||method === undefined || method === null){
@@ -73,6 +78,9 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
       renderLangCompare();
     });
 
+    /*
+     * Updates comparison for String properties
+     */
     function renderLangCompare(){
       if($scope.selectedLanguage === null || $scope.selectedLanguage === undefined ||$scope.selectedLanguage === ''){
         $scope.propertyInst.compare = $scope.compare;

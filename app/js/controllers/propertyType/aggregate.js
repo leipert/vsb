@@ -8,6 +8,7 @@
 angular.module('GSB.controllers.propertyType.aggregate', ['GSB.config'])
   //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
   .controller('AggregatePropertyCtrl', ['$scope', '$http', '$log', 'globalConfig', function($scope, $http, $log, globalConfig) {
+    //Observes and updates the values of the choosen aggregate properties
     $scope.$watch('selected',function(nv,ov){
       if(nv !== undefined && nv !== null) {
         $scope.propertyInst.alias = nv.alias;

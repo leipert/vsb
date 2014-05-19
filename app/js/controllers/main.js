@@ -9,8 +9,7 @@ angular.module('GSB.controllers.main', ['GSB.config'])
 //Inject $scope, $log and globalConfig (see @ js/config.js) into controller
   .controller('MainCtrl', ['$scope', '$log', 'globalConfig', function ($scope, $log, globalConfig) {
 
-    //** FUNCTIONS START **//
-
+    //Some drag and drop variables
     $scope.showArea = 'workspace';
     $scope.initialisedSubjects = false;
     $scope.offsetX = 0;
@@ -38,7 +37,7 @@ angular.module('GSB.controllers.main', ['GSB.config'])
     };
 
     /**
-     * TODO: Call translate function...
+     * Triggers translation event
      */
     $scope.translate = function () {
 	    
@@ -47,7 +46,7 @@ angular.module('GSB.controllers.main', ['GSB.config'])
     };
 
     /**
-     * Saves JSON...
+     * Triggers save JSON event
      */
     $scope.saveJSON = function () {
 
@@ -56,14 +55,14 @@ angular.module('GSB.controllers.main', ['GSB.config'])
     };
 
     /**
-     * Reset WS...
+     * Calls the function for resetting workspace
      */
     $scope.resetWorkspace = function () {
       $scope.clearWorkspace();
 
     };
     /**
-     * Load JSON...
+     * Triggers load JSON event
      */
     $scope.loadJSON = function () {
 
@@ -95,8 +94,6 @@ angular.module('GSB.controllers.main', ['GSB.config'])
       $scope.translatedSPARQL = "In the near future the translated SPARQL will be here.";
       $scope.expertView = false;
     };
-
-    //** FUNCTIONS END **//
 
     //Initialize Workspace
     $scope.initializeWorkspace();
