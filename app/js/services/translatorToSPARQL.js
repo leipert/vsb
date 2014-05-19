@@ -360,11 +360,11 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
 
       if (eigenschaft.operator === globalConfig.propertyOperators[1].value) {
-        SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?" + y + " } .\n";
+        SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " <" + eigenschaft.uri + "> " + y + " } .\n";
       }
 
 
-      if (eigenschaft.view === true) {
+      if ((eigenschaft.view === true) && (eigenschaft.operator !== globalConfig.propertyOperators[1].value)) {
         shownValues[shownValues.length] = itsSubject.alias + "_" + eigenschaft.alias;
       }
 
