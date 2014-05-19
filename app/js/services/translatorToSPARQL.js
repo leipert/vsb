@@ -220,10 +220,12 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 	  
           for (var i = 0; i < json.SUBJECTS.length; i++) {
             if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
+			  json.SUBJECTS[i].view = false;
               SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
             }
           }
           SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " ^<" + eigenschaft.uri + "> ?" + eigenschaft.link.linkPartner + " } .\n";
+		  
 		}
 		else {
 		  SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " ^<" + eigenschaft.uri + "> ?" + eigenschaft.alias + " } .\n";
@@ -278,6 +280,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         if (typeof eigenschaft.link.linkPartner != "undefined") {
           for (var i = 0; i < json.SUBJECTS.length; i++) {
             if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
+			  json.SUBJECTS[i].view = false;
               SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
             }
           }
