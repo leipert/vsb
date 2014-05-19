@@ -19,7 +19,8 @@
       <option value="">Select an aggregate function</option>
     </select>
 
-    <select ng-model="link" ng-options="x as x.alias for x in subjectInst.selectedProperties | aggregatePropertyFilter:selected">
+    <select ng-model="link"
+            ng-options="x as x.alias for x in subjectInst.selectedProperties | aggregatePropertyFilter:selected">
       <option value="">Choose a Property</option>
     </select>
 

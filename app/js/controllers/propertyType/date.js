@@ -5,14 +5,13 @@
  * Controller for a single property.
  */
 
-angular.module('GSB.controllers.propertyType.date', ['GSB.config','angular-momentjs'])
+angular.module('GSB.controllers.propertyType.date', ['GSB.config','ui.bootstrap'])
     //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
     .controller('DatePropertyCtrl', ['$scope', '$http', '$log', 'globalConfig', function($scope, $http, $log, globalConfig) {
 
     $scope.open = function($event) {
       $event.preventDefault();
       $event.stopPropagation();
-
       $scope.opened = true;
     };
 
@@ -52,8 +51,9 @@ angular.module('GSB.controllers.propertyType.date', ['GSB.config','angular-momen
         });
 
         function renderDate(){
-          if($scope.dateComparison == null ){
+          if($scope.dateComparison === null || $scope.dateComparison === undefined ){
             $scope.propertyInst.compare = null;
+            return;
           }
           $scope.propertyInst.compare =
             $scope.dateComparison.f

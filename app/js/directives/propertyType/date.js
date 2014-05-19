@@ -6,7 +6,7 @@
  * which will be replaced with the contents of template/date.html
  */
 
-angular.module('GSB.directives.propertyType.date', [])
+angular.module('GSB.directives.propertyType.date', ['ui.bootstrap'])
     .directive('datePropertyDir', function () {
         return {
             restrict: "A",

@@ -1,17 +1,19 @@
-<div >
-    <!-- if a property is selected, it will be linked with the subject -->
+<div>
+  <!-- if a property is selected, it will be linked with the subject -->
 
 
-    <select ng-model="dateComparison"
-            ng-options="x as x.label for x in allowedDateComparisons"
-            title="Compare this Date">
-        <option value=""></option>
-    </select>
-  <p class="input-group" ng-show="dateComparison" >
+  <select ng-model="dateComparison"
+          ng-options="x as x.label for x in allowedDateComparisons"
+          title="Compare this Date">
+    <option value=""></option>
+  </select>
+
+  <p class="input-group" ng-show="dateComparison">
     <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="comparisonInput" is-open="opened"
-           datepicker-options="{    formatYear: 'yy',     startingDay: 1   }" ng-required="true" close-text="Close" />
+           datepicker-options="{ formatYear: 'yy', startingDay: 1}" ng-required="true" close-text="Close"/>
               <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i
+                    class="glyphicon glyphicon-calendar"></i></button>
               </span>
   </p>
 

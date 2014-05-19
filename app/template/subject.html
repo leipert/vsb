@@ -1,4 +1,5 @@
-<div class="subjectCSS box" ng-class="{true: 'highlight-subject'}[highlightedSubject.alias == subjectInst.alias]" style="position:relative;">
+<div class="subjectCSS box" ng-class="{true: 'highlight-subject'}[highlightedSubject.alias == subjectInst.alias]"
+     style="position:relative;">
   <!-- Template for subject directive -->
 
   <!--Head of a subject includes the label, the alias and some controls -->
@@ -10,7 +11,7 @@
         <i class="glyphicon glyphicon-info-sign"></i>
       </a>
 
-      <mover><i class="glyphicon glyphicon-move"></i> </mover>
+      <mover><i class="glyphicon glyphicon-move"></i></mover>
 
       <!-- Button (Eyes) to show whether a subjectInst will be visible in the result or not. -->
       <a ng-show="subjectInst.view" ng-click="toggleSubjectView()">
@@ -61,28 +62,27 @@
     <div ng-show="subjectInst.showAdditionalFields">
       <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js -->
       <div class="row">
-      <form ng-submit="addProperty()">
-        <div class="input-group">
-        <!-- Dropdown with all available Properties of a subjectInst -->
-        <select ng-model="propertySelected" ng-required="true"
-                ng-options="v.alias group by v.type for (k,v) in subjectInst.availableProperties"
-                class="form-control" style="background: #ffffff;color: black">
-          <option style="display:none" value="">has the property ...</option>
-        </select>
-        <!--Add button, 2do: Bootstrap compability for class="btn btn-primary pull-right"-->
+        <form ng-submit="addProperty()">
+          <div class="input-group">
+            <!-- Dropdown with all available Properties of a subjectInst -->
+            <select ng-model="propertySelected" ng-required="true"
+                    ng-options="v.alias group by v.type for (k,v) in subjectInst.availableProperties"
+                    class="form-control" style="background: #ffffff;color: black">
+              <option style="display:none" value="">has the property ...</option>
+            </select>
+            <!--Add button, 2do: Bootstrap compability for class="btn btn-primary pull-right"-->
 	      <span class="input-group-btn">
         <button type="submit" class="btn btn-success" value="add">
           <span class="glyphicon glyphicon-plus"></span>
         </button>
           </span>
-        </div>
-      </form>
+          </div>
+        </form>
       </div>
       <div class="row">
-      <button ng-click="addAggregate()" class="btn btn-success">Add Aggregate Function</button>
+        <button ng-click="addAggregate()" class="btn btn-success">Add Aggregate Function</button>
       </div>
     </div>
-
 
 
   </div>

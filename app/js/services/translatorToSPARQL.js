@@ -320,10 +320,10 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       if (eigenschaft.operator === globalConfig.propertyOperators[0].value) {
 
 
-        if (eigenschaft.arithmetic !== null && eigenschaft.arithmetic != "x") {
+        if (eigenschaft.arithmetic !== null && eigenschaft.arithmetic != "%before_arithmetic%") {
           x = y + "_temp";
           SPARQL += "?" + itsSubject.alias + " <" + eigenschaft.uri + "> " + x + ".\n";
-          SPARQL += "BIND ((" + eigenschaft.arithmetic.replace(/x/g, x) + ") as " + y + ") .\n";
+          SPARQL += "BIND ((" + eigenschaft.arithmetic.replace(/%before_arithmetic%/g, x) + ") as " + y + ") .\n";
         }
         else {
 
@@ -348,7 +348,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
         if (eigenschaft.compare !== null) {
 
-          SPARQL += "FILTER ( " + y + " "
+          SPARQL += "FILTER ( "
           + eigenschaft.compare
             .replace(/%before_arithmetic%/g, x)
             .replace(/%after_arithmetic%/g, y)
@@ -472,7 +472,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
       var pattern = new RegExp("[^A-Za-z0-9_?]", "g");
 
-      return string.replace(pattern, '_').replace(/_+/, '_').replace(/^_|_$/, '');
+      return string.replace(pattern, '_').replace(/_+/g, '_').replace(/^_|_$/, '');
     };
 
 

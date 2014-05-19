@@ -28,7 +28,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
       var temp = angular.copy($scope.propertySelected);
       temp.operator = 'MUST';
       temp.link.direction = 'TO';
-
+      temp.arithmetic = null;
       selectedProperties.push(temp);
       $scope.propertySelected = '';
     };

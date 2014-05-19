@@ -17,17 +17,16 @@
         <i class="glyphicon glyphicon-eye-close"></i>
       </a>
 
-	  
-	  <!-- Button (question mark and exclamation mark) to toggle OPTIONAL  -->
+
+      <!-- Button (question mark and exclamation mark) to toggle OPTIONAL  -->
       <a href="#" ng-show="!propertyInst.optional" ng-click="togglePropertyOptional(propertyInst)">
         <i class="glyphicon glyphicon-exclamation-sign"></i>
       </a>
       <a href="#" ng-show="propertyInst.optional" ng-click="togglePropertyOptional(propertyInst)">
         <i class="glyphicon glyphicon-question-sign"></i>
       </a>
-	  
-	  
-	  
+
+
       <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/property.js -->
       <a href="#" ng-click="removeProperty(propertyInst)"><i class="glyphicon glyphicon-trash"></i></a>
     </div>
@@ -74,9 +73,9 @@
       <div ng-switch-when="INVERSE_PROPERTY">
         <div object-property-dir></div>
       </div>
-        <div ng-switch-when="DATE_PROPERTY">
-            <div date-property-dir></div>
-        </div>
+      <div ng-switch-when="DATE_PROPERTY">
+        <div date-property-dir></div>
+      </div>
 
       <div ng-switch-default></div>
     </div>

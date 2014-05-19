@@ -59,7 +59,7 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
     function renderComparison(method,input,flags)
     {
       if(input === null || input=== undefined || input === '' ||method === undefined || method === null){
-        $scope.compare = null
+        $scope.compare = null;
         renderLangCompare();
         return;
       }
@@ -69,7 +69,7 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
 
     $scope.selectedLanguage = null;
 
-    $scope.$watch('selectedLanguage',function (newValue){
+    $scope.$watch('selectedLanguage',function (){
       renderLangCompare();
     });
 
