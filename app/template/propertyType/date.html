@@ -7,6 +7,12 @@
             title="Compare this Date">
         <option value=""></option>
     </select>
-    <input ng-show="dateComparison" ng-model="comparisonInput">
-    <input ng-show="dateComparison && dateComparison.label === 'REGEX'" ng-model="comparisonRegexFlags">
+  <p class="input-group" ng-show="dateComparison" >
+    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="comparisonInput" is-open="opened"
+           datepicker-options="{    formatYear: 'yy',     startingDay: 1   }" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+  </p>
+
 </div>
