@@ -30,5 +30,5 @@ angular.module('GSB.directives.startPoint', [])
           scope.$apply();
         });
       }
-    }
+    };
   });

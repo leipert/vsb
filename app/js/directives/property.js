@@ -34,5 +34,5 @@ angular.module('GSB.directives.property', [])
           scope.$apply();
         });
       }
-    }
+    };
   });

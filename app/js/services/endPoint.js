@@ -13,8 +13,6 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
 
     /**
      * Writes available SPARQL-Classes into a given array.
-     *
-     * @param asc the array into which the endPoint will be written
      */
     factory.getAvailableClasses = function () {
 
@@ -31,18 +29,19 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             $log.info(' Available Classes loaded from server');
             return createAvailableClassesObject(response.data.results.bindings);
           }else{
-            return $q.reject(response)
+            return $q.reject(response);
           }
 
 
         }, function (response) {
           $log.error( 'Available Classes could not be loaded from server.');
-          return $q.reject(response)
+          return $q.reject(response);
         });
     };
 
     factory.availableProperties = '';
 
+    //Includes the available classes of an endpoint
     var createAvailableClassesObject = function(availClasses){
       var ret = [];
       for (var key in availClasses) {
@@ -54,7 +53,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
           if(tClass.hasOwnProperty("alias")){
             alias = tClass.alias.value;
           } else{
-            alias = uri.substr(uri.lastIndexOf('/') + 1)
+            alias = uri.substr(uri.lastIndexOf('/') + 1);
           }
 
           if(tClass.hasOwnProperty("comment")){
@@ -83,6 +82,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
       return ret;
     };
 
+    //Includes available properties of a subject
     var createAvailablePropertyObject = function (data) {
       var ret = {};
       for (var key in data) {
@@ -112,7 +112,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
           /* Check whether a propertyRange is given.*/
           if (property.inverse.value === "I") {
             propertyType = "INVERSE_PROPERTY";
-            propertyAlias = "is " + propertyAlias + " of"
+            propertyAlias = "is " + propertyAlias + " of";
           } else {
             propertyType = getPropertyType(propertyRange);
           }
@@ -226,14 +226,13 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             $log.info(' Properties loaded from: ' + uri, response);
             return createAvailablePropertyObject(response.data.results.bindings);
           }else{
-            return $q.reject(response)
+            return $q.reject(response);
           }
         }, function (response) {
-          $log.error('Error loading properties from: ' + uri)
-          return $q.reject(response)
-
+          $log.error('Error loading properties from: ' + uri);
+          return $q.reject(response);
         }
-      )
+      );
     };
 
 

@@ -12,6 +12,8 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
 
    /**
     *  Function initiates JSON-saving
+    *  @param mainSubjectSelected
+    *  @param subjects
     */
     factory.prepareSaveLink = function (mainSubjectSelected, subjects) {
 
@@ -25,16 +27,18 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
         a.href        = url;
         a.textContent = "Download query.json";
 
-        if(document.getElementById("saveLink").firstChild == null)
+        if(document.getElementById("saveLink").firstChild === null)
                 {document.getElementById('saveLink').appendChild(a);}
         else
         {document.getElementById('saveLink').replaceChild(a, document.getElementById("saveLink").firstChild);}
 
-    }
+    };
 
 
     /**
      *  Function will load JSON-file as query
+     *  @param mainSubjectSelected
+     *  @param subjects
      */
     factory.loadJSON = function (mainSubjectSelected, subjects) {
         
@@ -76,6 +80,8 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
 
      /**
      *  Function first calls the factory to translate GSBL to JSON, then the one to translate JSON to SPARQL
+     *  @param mainSubjectSelected
+     *  @param subjects
      */
     factory.translateGSBLToSPARQL = function (mainSubjectSelected, subjects) {
     
@@ -85,20 +91,15 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
 	  $rootScope.$broadcast('JSONUpdateEvent', newJSON);
 	  
 	
-      if (newJSON == null) {
+      if (newJSON === null) {
         $log.error("JSON is not valid / empty");
         return;
       }
 	  
 	  
 	  var newSPARQL = TranslatorToSPARQL.translateJSONToSPARQL(JSON.parse(newJSON));
-	   $rootScope.$broadcast('SPARQLUpdateEvent', newSPARQL);
-	   
-   
-    };
-	
-
-	
+	   $rootScope.$broadcast('SPARQLUpdateEvent', newSPARQL);  
+    };	
+    
     return factory;
-
   }]);

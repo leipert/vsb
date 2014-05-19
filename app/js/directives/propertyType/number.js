@@ -15,6 +15,7 @@ angular.module('GSB.directives.propertyType.number', [])
       templateUrl: 'template/propertyType/number.html'
     }
   })
+  //limitates the input characters on a number input field
   .directive('limitInput', function(){
     return {
       require: 'ngModel',

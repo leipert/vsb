@@ -26,6 +26,6 @@ angular.module('GSB.filters', [])
           return currentObject.type == this.restrictTo;
         },
         filter
-      )
-    }
+      );
+    };
   });
