@@ -457,8 +457,12 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         json.SUBJECTS[i].alias = replaceAliasSpacesInString(json.SUBJECTS[i].alias);		
 
         for (var j = 0; j < json.SUBJECTS[i].properties.length; j++) {
-
+		
           json.SUBJECTS[i].properties[j].alias = replaceAliasSpacesInString(json.SUBJECTS[i].properties[j].alias);
+		  
+		  if (typeof json.SUBJECTS[i].properties[j].link.linkPartner != "undefined") {
+		    json.SUBJECTS[i].properties[j].link.linkPartner = replaceAliasSpacesInString(json.SUBJECTS[i].properties[j].link.linkPartner);
+		  }
         }
       }
 	  
