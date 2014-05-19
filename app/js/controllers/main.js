@@ -6,7 +6,7 @@
  */
 
 angular.module('GSB.controllers.main', ['GSB.config'])
-  //Inject $scope, $log and globalConfig (see @ js/config.js) into controller
+//Inject $scope, $log and globalConfig (see @ js/config.js) into controller
   .controller('MainCtrl', ['$scope', '$log', 'globalConfig', function ($scope, $log, globalConfig) {
 
     //** FUNCTIONS START **//
@@ -40,61 +40,70 @@ angular.module('GSB.controllers.main', ['GSB.config'])
     /**
      * TODO: Call translate function...
      */
-  $scope.translate = function () {
-	
-	  $scope.$broadcast('translationEvent');
-	
+    $scope.translate = function () {
+	    
+	    $scope.$broadcast('translationEvent');
+	    
     };
 
-        /**
-         * Saves JSON...
-         */
-        $scope.saveJSON = function () {
+    /**
+     * Saves JSON...
+     */
+    $scope.saveJSON = function () {
 
-            $scope.$broadcast('saveJsonEvent');
+      $scope.$broadcast('saveJsonEvent');
 
-        };
+    };
 
-        /**
-         * Reset WS...
-         */
-        $scope.resetWorkspace = function () {
-            $scope.clearWorkspace();
+    /**
+     * Reset WS...
+     */
+    $scope.resetWorkspace = function () {
+      $scope.clearWorkspace();
 
-        };
-        /**
-         * Load JSON...
-         */
-        $scope.loadJSON = function () {
+    };
+    /**
+     * Load JSON...
+     */
+    $scope.loadJSON = function () {
 
-            $scope.resetWorkspace();
-            $scope.$broadcast('loadJsonEvent');
+      $scope.resetWorkspace();
+      $scope.$broadcast('loadJsonEvent');
 
-        };
+    };
 
 
 
     /**
-         * Initializes the Workspace
-         */
-        $scope.initializeWorkspace = function () {
-            $log.info('Initialized Workspace');
-            $scope.translatedJSON = "In the near future the translated JSON will be here.";
-            $scope.translatedSPARQL = "In the near future the translated SPARQL will be here.";
-            $scope.expertView = false;
-        };
+     * Initializes the Workspace
+     */
+    $scope.initializeWorkspace = function () {
+      $log.info('Initialized Workspace');
+      $scope.translatedJSON = "In the near future the translated JSON will be here.";
+      $scope.translatedSPARQL = "In the near future the translated SPARQL will be here.";
+      $scope.expertView = false;
+    };
 
 
-        /**
-         * Clears the Workspace
-         */
-        $scope.clearWorkspace = function () {
-            $log.info('Cleared Workspace');
-            $scope.$broadcast('removeAllSubjectsEvent');
-            $scope.translatedJSON = "In the near future the translated JSON will be here.";
-            $scope.translatedSPARQL = "In the near future the translated SPARQL will be here.";
-            $scope.expertView = false;
-        };
+    /**
+     * Clears the Workspace
+     */
+    $scope.clearWorkspace = function () {
+      $log.info('Cleared Workspace');
+      $scope.$broadcast('removeAllSubjectsEvent');
+      $scope.translatedJSON = "In the near future the translated JSON will be here.";
+      $scope.translatedSPARQL = "In the near future the translated SPARQL will be here.";
+      $scope.expertView = false;
+    };
+
+
+    /**
+     * Show the Help
+     */
+    $scope.showHelp = function () {
+      $log.info('Show help');
+      
+    }
 
     //** FUNCTIONS END **//
 

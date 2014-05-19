@@ -21,7 +21,7 @@
     <div style="z-index: 10;position: fixed;background: #808080;top:0;left:0;width:100%;">
       <!-- Row containing top controls -->
       <div class="row">
-        <div id="top-controls" class="col-sm-6">
+        <div id="top-controls" class="col-sm-12">
           <h1>Graphical SPARQL Builder</h1>
             <table ng-show="showArea == 'workspace'">
                 <tr>
@@ -40,6 +40,9 @@
                     <td>
                         <a class="btn btn-success" ng-click="loadJSON()"><i class="glyphicon glyphicon-open"></i>Open JSON-Query</a>
                     </td>
+                    <td>
+                        <a class="btn btn-info" ng-click="showHelp()"><b>?</b></a>
+                    </td>
                 </tr>
             </table>
           <span ng-show="showArea == 'query'">
@@ -47,22 +50,22 @@
             <a href="#" class="btn btn-success" ng-click=""><div id="saveLink"><i class="glyphicon glyphicon-save"></i></div></a>
           </span>
         </div>
-        <div class="col-sm-6 pull-right">
-          <span ng-show="showArea == 'workspace'">
-            Run Query: Die erstellte Anfrage nach SPARQL übersetzen.<br>
-            Reset Workspace: Reset der Arbeitsfläche um von Vorn zu
-            beginnen<br>
-            <i class="glyphicon glyphicon-tower"></i>: URIs der Subjekte
-            anzeigen<br>
-            Open JSON-Query: bereits erstellte Anfragen hochladen<br>
-          </span>
-          <span ng-show="showArea == 'query'">
-            Back to Workspace: zur Anfrageerstellung
-            zurückwechseln<br>
-            Download query.json: Herunterladen der erstellten Anfrage
-            als JSON
-          </span>
-        </div>
+        <!-- <div class="col-sm-6 pull-right"> -->
+        <!--   <span ng-show="showArea == 'workspace'"> -->
+        <!--     Run Query: Die erstellte Anfrage nach SPARQL übersetzen.<br> -->
+        <!--     Reset Workspace: Reset der Arbeitsfläche um von Vorn zu -->
+        <!--     beginnen<br> -->
+        <!--     <i class="glyphicon glyphicon-tower"></i>: URIs der Subjekte -->
+        <!--     anzeigen<br> -->
+        <!--     Open JSON-Query: bereits erstellte Anfragen hochladen<br> -->
+        <!--   </span> -->
+        <!--   <span ng-show="showArea == 'query'"> -->
+        <!--     Back to Workspace: zur Anfrageerstellung -->
+        <!--     zurückwechseln<br> -->
+        <!--     Download query.json: Herunterladen der erstellten Anfrage -->
+        <!--     als JSON -->
+        <!--   </span> -->
+        <!-- </div> -->
       </div>
     </div>
 
