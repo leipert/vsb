@@ -181,3 +181,7 @@ div.subjectCSS div.inversePropertyCSS div.inversePropertyHeadCSS i {
 {
   padding:2px;
 }
+
+#legend td {
+  padding-right: 5em;
+}
