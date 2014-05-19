@@ -390,7 +390,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
      */
     factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json, mainProp) {
 
-      if (eigenschaft.link.linkPartner != 'null' && mainProp != "undefined") {
+      if (eigenschaft.link.linkPartner != 'null' && mainProp != "undefined"  && mainProp.operator != globalConfig.propertyOperators[1].value) {
 
         var aggAlias;
 
