@@ -53,15 +53,19 @@ angular.module('GSB.controllers.propertyType.date', ['GSB.config','ui.bootstrap'
         /*
          * Updates comparison for date properties
          */
+
         function renderDate(){
-          if($scope.dateComparison === null || $scope.dateComparison === undefined ){
+          if($scope.dateComparison != null && $scope.comparisonInput != null && $scope.comparisonInput != ''){
+
+            var date = $scope.comparisonInput.toDateString() + " UTC";
+            $scope.propertyInst.compare =
+              $scope.dateComparison.f
+                .replace(/%input_start_of_day%/g, moment.utc(date).hour(0).minute(0).second(0).format())
+                .replace(/%input_end_of_day%/g, moment.utc(date).hour(23).minute(59).second(59).format())
+
+          } else {
             $scope.propertyInst.compare = null;
-            return;
           }
-          $scope.propertyInst.compare =
-            $scope.dateComparison.f
-              .replace(/%input_start_of_day%/g,moment($scope.comparisonInput).utc().hour(0).minute(0).second(0).format())
-              .replace(/%input_end_of_day%/g,moment($scope.comparisonInput).utc().hour(23).minute(59).second(59).format())
         }
 
     }]);
