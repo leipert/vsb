@@ -35,7 +35,7 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
         },
         SUBJECTS: []
       },
-      allSubjects = angular.copy(subjects);
+      allSubjects = _.cloneDeep(subjects);
       allSubjects.map(function (currentSubject) {
         delete currentSubject["availableProperties"];
         currentSubject.properties = currentSubject["selectedProperties"].map(function (currentProperty) {

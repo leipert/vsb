@@ -10,6 +10,7 @@
     "angular-sanitize": "1.2.14",
     "angular-ui-select": "~0.2",
     "fontawesome": "~4.0.3",
-    "momentjs": "~2.6.0"
+    "momentjs": "~2.6.0",
+    "lodash": "~2.4"
   }
 }
