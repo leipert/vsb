@@ -6,3 +6,4 @@ tmp
 .idea
 /nbproject
 app/lib/
+app/js/config.js
