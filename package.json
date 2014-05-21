@@ -1,7 +1,8 @@
 {
-  "name": "angularjs-seed",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/angular/angular-seed",
+  "name": "gsb",
+  "version": "1.0.0",
+  "description": "A graphical SPARQL Builder. Create SPARQL Queries without any SPARQL knowledge!",
+  "repository": "https://github.com/swp14-gsb/gsb",
   "devDependencies": {
     "phantomjs" : "~1.9",
     "karma" : "~0.10",
