@@ -22,6 +22,8 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
      */
     factory.translateJSONToSPARQL = function (json) {
 
+	  $log.info('Translate JSON to SPARQL');	
+	
       //json = factory.changeURIs(json);
 
       json = replaceAliasSpaces(json);

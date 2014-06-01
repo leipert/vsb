@@ -17,10 +17,9 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
 	 * @return JSON object as String
      */
     factory.translateGSBLToJSON = function (mainSubjectSelected, subjects) {
-    
-    $log.info('Translate JSON to SPARQL');	  
-	
+      
 	  $log.info('Translate GSBL to JSON');
+	  
       if (mainSubjectSelected == null) {
         $log.error("Main Subject not connected");
         return null;
