@@ -8,7 +8,10 @@ angular.module('GSB.filters', [])
      * @param allowedKeyValues
      */
     return function(arrayOfObjects, filterKey, allowedKeyValues) {
-      return arrayOfObjects.filter(
+      if(allowedKeyValues.length == 0){
+        return arrayOfObjects;
+      }
+        return arrayOfObjects.filter(
         function(currentObject){
           return this.allowedKeyValues.indexOf(currentObject[this.filterKey]) != -1;
         },

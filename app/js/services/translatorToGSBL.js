@@ -66,7 +66,8 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
               "operator": json.SUBJECTS[i].properties[p].operator,
               "link": linkArray,//json.SUBJECTS[i].properties[p].link,
               "arithmetic": json.SUBJECTS[i].properties[p].arithmetic,
-              "compare": json.SUBJECTS[i].properties[p].compare
+              "compare": json.SUBJECTS[i].properties[p].compare,
+              "compareRaw": json.SUBJECTS[i].properties[p].compareRaw
             });
 
             //alert('Länge: ' + json.SUBJECTS[i].properties[p].link['direction']);

@@ -89,7 +89,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         if (data.hasOwnProperty(key)) {
           var property = data[key],
             propertyURI = property.uri.value,
-            propertyRange,
+            propertyRange = null,
             propertyType = "STANDARD_PROPERTY",
             propertyComment = "",
             propertyAlias = "";
@@ -120,15 +120,13 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
 
           /* If we already have a property with the same URI,
            then we just add the propertyRange to the corresponding URI. */
-          if (ret.hasOwnProperty(propertyURI)) {
-            ret[propertyURI].propertyRange.push(propertyRange);
-          } else {
+          if (!ret.hasOwnProperty(propertyURI)) {
             ret[propertyURI] = {
               alias: propertyAlias,
               comment: propertyComment,
               uri: propertyURI,
               type: propertyType,
-              propertyRange: [propertyRange],
+              propertyRange: [],
               view: true,
               optional: false,
               operator: null,
@@ -138,6 +136,11 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             };
 
           }
+
+          if (propertyRange != null) {
+            ret[propertyURI].propertyRange.push(propertyRange);
+          }
+
         }
       }
 

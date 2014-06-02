@@ -42,7 +42,9 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
           if(currentProperty.type !== 'STANDARD_PROPERTY')
           {
 
-          if (currentProperty.link.linkPartner !== null && currentProperty.link.linkPartner.hasOwnProperty("alias")) {
+          if (currentProperty.link.hasOwnProperty("linkPartner")
+            && currentProperty.link.linkPartner !== null
+            && currentProperty.link.linkPartner.hasOwnProperty("alias")) {
             currentProperty.link.linkPartner = currentProperty.link.linkPartner.alias;
           } else {
             currentProperty.link = {};

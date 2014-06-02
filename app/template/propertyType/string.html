@@ -6,10 +6,10 @@
     <option value="">LANG</option>
   </select>
   <select ng-model="stringComparison"
-          ng-options="x as x.label for x in allowedStringComparisons"
+          ng-options="idx as x.label for (idx, x) in allowedStringComparisons"
           title="Compare this string">
     <option value="">exists</option>
   </select>
-  <input ng-show="stringComparison" ng-model="comparisonInput">
-  <input ng-show="stringComparison && stringComparison.label === 'REGEX'" ng-model="comparisonRegexFlags">
+  <input ng-show="stringComparison != null" ng-model="comparisonInput">
+  <input ng-show="stringComparison != null && showFlags" ng-model="comparisonRegexFlags">
 </div>

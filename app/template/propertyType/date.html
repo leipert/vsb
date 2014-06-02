@@ -3,12 +3,12 @@
 
 
   <select ng-model="dateComparison"
-          ng-options="x as x.label for x in allowedDateComparisons"
+          ng-options="idx as x.label for (idx,x) in allowedDateComparisons"
           title="Compare this Date">
     <option value=""></option>
   </select>
 
-  <p class="input-group" ng-show="dateComparison">
+  <p class="input-group" ng-show="dateComparison != null">
     <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="comparisonInput" is-open="opened"
            datepicker-options="{ formatYear: 'yy', startingDay: 1}" ng-required="true" close-text="Close"/>
               <span class="input-group-btn">
