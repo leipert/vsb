@@ -62,22 +62,33 @@
     <div ng-show="subjectInst.showAdditionalFields">
       <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js -->
       <div class="row">
-        <form ng-submit="addProperty()">
-          <div class="input-group">
-            <!-- Dropdown with all available Properties of a subjectInst -->
-            <select ng-model="propertySelected" ng-required="true"
-                    ng-options="v.alias group by v.type for (k,v) in subjectInst.availableProperties"
-                    class="form-control" style="background: #ffffff;color: black">
-              <option style="display:none" value="">has the property ...</option>
-            </select>
-            <!--Add button, 2do: Bootstrap compability for class="btn btn-primary pull-right"-->
-	      <span class="input-group-btn">
-        <button type="submit" class="btn btn-success" value="add">
-          <span class="glyphicon glyphicon-plus"></span>
-        </button>
+        <div class="input-group">
+          <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
+          <ui-select ng-model="$parent.propertySelected">
+            <match placeholder="Please choose a subject.">
+              {{$select.selected.alias}}
+            </match>
+            <!-- IMPORTANT: it has to be item in 'repeat="item in...',
+            as ui-select defines it internally.	Anything else wont work!	-->
+            <choices
+                repeat="item group by type in subjectInst.availableProperties |
+                        orderBy:'alias' | orderBy:'type' |
+                        filter: $select.search | limitTo: 10">
+              <p>
+                <strong ng-bind-html="item.alias | highlight: $select.search"></strong>
+              </p>
+              <p style="white-space:normal;">
+                <small ng-bind-html="item.comment | highlight: $select.search"></small>
+              </p>
+            </choices>
+          </ui-select>
+	        <span class="input-group-btn">
+		        <button ng-click="addProperty()" class="btn btn-success">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
           </span>
-          </div>
-        </form>
+
+        </div>
       </div>
       <div class="row">
         <button ng-click="addAggregate()" class="btn btn-success">Add Aggregate Function</button>

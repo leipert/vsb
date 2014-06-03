@@ -8,7 +8,7 @@
     "bootstrap": "~3.1",
     "angular-bootstrap": "~0.10.0",
     "angular-sanitize": "1.2.14",
-    "angular-ui-select": "~0.2",
+    "angular-ui-select": "just-boris/ui-select#bower",
     "fontawesome": "~4.0.3",
     "momentjs": "~2.6.0",
     "lodash": "~2.4"

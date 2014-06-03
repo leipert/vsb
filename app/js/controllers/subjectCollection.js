@@ -45,7 +45,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
           comment: comment,
           view: true,
           selectedProperties: [],
-          availableProperties: {},
+          availableProperties: [],
           selectedAggregates: [],
           showAdditionalFields: true
         }

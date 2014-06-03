@@ -65,7 +65,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
               alias: alias ,
               uri: uri,
               comment: comment
-            }
+        }
           );
         }
 
@@ -84,7 +84,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
 
     //Includes available properties of a subject
     var createAvailablePropertyObject = function (data) {
-      var ret = {};
+      var ret = [],retMap = {};
       for (var key in data) {
         if (data.hasOwnProperty(key)) {
           var property = data[key],
@@ -121,7 +121,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
           /* If we already have a property with the same URI,
            then we just add the propertyRange to the corresponding URI. */
           if (!ret.hasOwnProperty(propertyURI)) {
-            ret[propertyURI] = {
+            ret.push({
               alias: propertyAlias,
               comment: propertyComment,
               uri: propertyURI,
@@ -133,12 +133,12 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
               link: {direction: null, linkPartner: null},
               arithmetic: "x",
               compare: null
-            };
-
+            });
+            retMap[propertyURI] = ret.length - 1;
           }
 
           if (propertyRange != null) {
-            ret[propertyURI].propertyRange.push(propertyRange);
+            ret[retMap[propertyURI]].propertyRange.push(propertyRange);
           }
 
         }

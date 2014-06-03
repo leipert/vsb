@@ -73,13 +73,13 @@
         <div class="input-group">
           <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
           <ui-select ng-model="$parent.selectedSubjectClass">
-            <ui-select-match placeholder="Please choose a subject.">
+            <match placeholder="Please choose a subject.">
 
               {{$select.selected.alias}}
-            </ui-select-match>
+            </match>
             <!-- IMPORTANT: it has to be item in 'repeat="item in...',
             as ui-select defines it internally.	Anything else wont work!	-->
-            <ui-select-choices repeat="item in availableSubjectClasses | filter: $select.search | limitTo: 10">
+            <choices repeat="item in availableSubjectClasses | filter: $select.search | limitTo: 10">
               <p>
                 <span class="h4" ng-bind-html="item.alias | highlight: $select.search"></span>
                 <small ng-bind-html="item.uri | highlight: $select.search"></small>
@@ -87,7 +87,7 @@
               <p style="white-space:normal;">
                 <small ng-bind-html="item.comment | highlight: $select.search"></small>
               </p>
-            </ui-select-choices>
+            </choices>
           </ui-select>
 	        <span class="input-group-btn">
 		        <button ng-click="uiAddSubject()" class="btn btn-success">
