@@ -27,7 +27,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
     $scope.addProperty = function(){
       var temp = angular.copy($scope.propertySelected);
       temp.operator = 'MUST';
-      temp.link.direction = 'TO';
+      //temp.linkTo = null; //NEEDED?
       temp.arithmetic = null;
       temp.compareRaw = {};
       selectedProperties.push(temp);
@@ -53,9 +53,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
             alias:"cnt",
             operator:"COUNT",
             type:"AGGREGATE_PROPERTY",
-            link: {
-              linkPartner:null
-            },
+            link: null,
             available: angular.copy(globalConfig['aggregateFunctions'])
           }
         ));

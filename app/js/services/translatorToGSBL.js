@@ -37,22 +37,6 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
           var subjectsProperties = [];
           
           for (var p=0; p < json.SUBJECTS[i].properties.length;p++) {
-            var linkArray;
-            switch(json.SUBJECTS[i].properties[p].type){
-              case 'OBJECT_PROPERTY':
-                linkArray = {'direction':json.SUBJECTS[i].properties[p].link['direction'],
-                            'linkPartner':json.SUBJECTS[i].properties[p].link['linkPartner']
-                            };
-                break;
-              case 'INVERSE_PROPERTY':
-                linkArray = {'direction':json.SUBJECTS[i].properties[p].link['direction'],
-                             'linkPartner':json.SUBJECTS[i].properties[p].link['linkPartner']
-                            };
-                break;
-              default:
-                linkArray = {};
-                break;
-            }
 
             subjectsProperties.push(
             {
@@ -64,13 +48,12 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
               "view": json.SUBJECTS[i].properties[p].view,
               "optional": json.SUBJECTS[i].properties[p].optional,
               "operator": json.SUBJECTS[i].properties[p].operator,
-              "link": linkArray,//json.SUBJECTS[i].properties[p].link,
+              "linkTo": json.SUBJECTS[i].properties[p].linkTo,
               "arithmetic": json.SUBJECTS[i].properties[p].arithmetic,
               "compare": json.SUBJECTS[i].properties[p].compare,
               "compareRaw": json.SUBJECTS[i].properties[p].compareRaw
             });
 
-            //alert('Länge: ' + json.SUBJECTS[i].properties[p].link['direction']);
           }
           
           allTheSubjects.push(
@@ -81,7 +64,7 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
               comment: json.SUBJECTS[i].comment,
               view: json.SUBJECTS[i].view,
               selectedProperties: subjectsProperties,
-              availableProperties: {},
+              availableProperties: [],
               selectedAggregates: [],
               showAdditionalFields: json.SUBJECTS[i].showAdditionalFields
             }
@@ -91,7 +74,7 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
         //Find the subject connected to the startpoint
         var startSubject = allTheSubjects[0];
         for (var i = 0; i < allTheSubjects.length; i++) {
-          if(json.START.link.linkPartner == allTheSubjects[i].alias) startSubject = allTheSubjects[i];
+          if(json.START.linkTo == allTheSubjects[i].alias) startSubject = allTheSubjects[i];
         }
 
         //workspaceContent[0] all the subjects (as an object)

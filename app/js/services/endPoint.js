@@ -130,7 +130,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
               view: true,
               optional: false,
               operator: null,
-              link: {direction: null, linkPartner: null},
+              link: null,
               arithmetic: "x",
               compare: null
             });
@@ -169,7 +169,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         propertyRange: allClassURIS,
         view: true,
         operator: "MUST", //Vorprojekt okay
-        link: {direction: "TO", linkPartner: null}, //Vorprojekt okay
+        link: null, //Vorprojekt okay
         arithmetic: "x", //Vorprojekt leave empty
         compare: null //Vorprojekt leave empty
       };
@@ -181,7 +181,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         propertyRange: [],
         view: true,
         operator: "MUST", //Vorprojekt okay
-        link: {direction: "TO", linkPartner: null}, //Vorprojekt okay
+        link: null, //Vorprojekt okay
         arithmetic: "x", //Vorprojekt leave empty
         compare: null //Vorprojekt leave empty
       };

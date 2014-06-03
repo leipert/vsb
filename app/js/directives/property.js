@@ -24,7 +24,7 @@ angular.module('GSB.directives.property', [])
 
         // On mouseEnter, set highlightedSubject to linked Subject of Property
         element.on('mouseenter',function(){
-          scope.$emit('setHighLightTo',scope.propertyInst.link.linkPartner);
+          scope.$emit('setHighLightTo',scope.propertyInst.linkTo);
           scope.$apply();
         });
 

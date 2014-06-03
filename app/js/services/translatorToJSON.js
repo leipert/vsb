@@ -27,11 +27,9 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
       var json = {
         START: {
           type: "LIST_ALL",
-          "link": {
-            "direction": "TO",
-            "linkPartner": mainSubjectSelected.alias
-          }
-        },
+          "linkTo": mainSubjectSelected.alias
+
+          },
         SUBJECTS: []
       },
       allSubjects = _.cloneDeep(subjects);
@@ -41,15 +39,14 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
           delete currentProperty["propertyType"];
           if(currentProperty.type !== 'STANDARD_PROPERTY')
           {
-
-          if (currentProperty.link.hasOwnProperty("linkPartner")
-            && currentProperty.link.linkPartner !== null
-            && currentProperty.link.linkPartner.hasOwnProperty("alias")) {
-            currentProperty.link.linkPartner = currentProperty.link.linkPartner.alias;
+          $log.warn(currentProperty.linkTo)
+          if (currentProperty.linkTo !== null
+            && currentProperty.linkTo.hasOwnProperty("alias")) {
+            currentProperty.linkTo = currentProperty.linkTo.alias;
           } else {
-            currentProperty.link = {};
+            currentProperty.linkTo = null;
           }
-          } else{currentProperty.link = {};}
+          } else{currentProperty.linkTo = null;}
           return currentProperty;
         });
         currentSubject.selectedAggregates = currentSubject.selectedAggregates.map(function (currentAggregate){

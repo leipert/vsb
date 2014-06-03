@@ -1,7 +1,7 @@
 <div>
   <!-- if a property is selected, it will be linked with the subject -->
-  <select ng-show="subjectInst.showAdditionalFields || propertyInst.link.linkPartner != null"
-          ng-model="propertyInst.link.linkPartner"
+  <select ng-show="subjectInst.showAdditionalFields || propertyInst.linkTo != null"
+          ng-model="propertyInst.linkTo"
           ng-options="x as x.alias for x in subjects | filter : { uri: propertyInst.propertyRange}"
           title="Link with a subject">
     <option value="">Link with a subject</option>

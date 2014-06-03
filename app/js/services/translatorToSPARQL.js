@@ -46,7 +46,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
 
       for (var i = 0; i < json.SUBJECTS.length; i++) {
-        if (json.SUBJECTS[i].alias === json['START'].link.linkPartner) {
+        if (json.SUBJECTS[i].alias === json['START'].linkTo) {
           SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
         }
       }
@@ -165,7 +165,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
             var mainProp;
             for (var j in oneSubject.properties) {
-              if (replaceAliasSpacesInString(oneSubject.properties[j].alias) === replaceAliasSpacesInString(oneSubject.properties[i].link.linkPartner)) {
+              if (replaceAliasSpacesInString(oneSubject.properties[j].alias) === replaceAliasSpacesInString(oneSubject.properties[i].linkTo)) {
                 mainProp = oneSubject.properties[j];
               }
             }
@@ -201,11 +201,11 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 	  
 	    SPARQL += "?" + itsSubject.alias + " ^<" + eigenschaft.uri + "> ?";
 	  
-	    if (typeof eigenschaft.link.linkPartner != "undefined") {
+	    if (typeof eigenschaft.linkTo != "undefined") {
 	  
-          SPARQL += eigenschaft.link.linkPartner + " .\n";
+          SPARQL += eigenschaft.linkTo + " .\n";
           for (i = 0; i < json.SUBJECTS.length; i++) {
-            if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
+            if (json.SUBJECTS[i].alias === eigenschaft.linkTo) {
               SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
             }
           }
@@ -220,15 +220,15 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
       if (eigenschaft.operator === globalConfig.inversePropertyOperators[1].value) {
 	  
-	    if (typeof eigenschaft.link.linkPartner != "undefined") {
+	    if (typeof eigenschaft.linkTo != "undefined") {
 	  
           for (var i = 0; i < json.SUBJECTS.length; i++) {
-            if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
+            if (json.SUBJECTS[i].alias === eigenschaft.linkTo) {
 			  json.SUBJECTS[i].view = false;
               SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
             }
           }
-          SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " ^<" + eigenschaft.uri + "> ?" + eigenschaft.link.linkPartner + " } .\n";
+          SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " ^<" + eigenschaft.uri + "> ?" + eigenschaft.linkTo + " } .\n";
 		  
 		}
 		else {
@@ -262,11 +262,11 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         }
         SPARQL += "?" + itsSubject.alias + " " + tailoredURI + " ?";
 
-        if (typeof eigenschaft.link.linkPartner != "undefined") {
-          SPARQL += eigenschaft.link.linkPartner + " .\n";
+        if (typeof eigenschaft.linkTo != "undefined") {
+          SPARQL += eigenschaft.linkTo + " .\n";
 
           for (var i = 0; i < json.SUBJECTS.length; i++) {
-            if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
+            if (json.SUBJECTS[i].alias === eigenschaft.linkTo) {
               SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
             }
           }
@@ -280,15 +280,15 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
       }
 
       if (eigenschaft.operator === globalConfig.propertyOperators[1].value) {
-        if (typeof eigenschaft.link.linkPartner != "undefined") {
+        if (typeof eigenschaft.linkTo != "undefined") {
           for (var i = 0; i < json.SUBJECTS.length; i++) {
-            if (json.SUBJECTS[i].alias === eigenschaft.link.linkPartner) {
+            if (json.SUBJECTS[i].alias === eigenschaft.linkTo) {
 			  json.SUBJECTS[i].view = false;
               SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
             }
           }
 
-          SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?" + eigenschaft.link.linkPartner + " } .\n";
+          SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?" + eigenschaft.linkTo + " } .\n";
         } else {
           SPARQL += "FILTER NOT EXISTS { ?" + itsSubject.alias + " <" + eigenschaft.uri + "> ?" + eigenschaft.alias + " } .\n";
         }
@@ -393,20 +393,20 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
      */
     factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json, mainProp) {
 
-      if (eigenschaft.link.linkPartner != 'null' && mainProp != "undefined"  && mainProp.operator != globalConfig.propertyOperators[1].value) {
+      if (eigenschaft.linkTo != 'null' && mainProp != "undefined"  && mainProp.operator != globalConfig.propertyOperators[1].value) {
 
         var aggAlias;
 
         if (mainProp.type === "OBJECT_PROPERTY") {
-		  if(mainProp.link.linkPartner != undefined) {
-            aggAlias = "?" + replaceAliasSpacesInString(mainProp.link.linkPartner);
+		  if(mainProp.linkTo != undefined) {
+            aggAlias = "?" + replaceAliasSpacesInString(mainProp.linkTo);
 		  }
 		  else {
-		    aggAlias = "?" + replaceAliasSpacesInString(eigenschaft.link.linkPartner);
+		    aggAlias = "?" + replaceAliasSpacesInString(eigenschaft.linkTo);
 		  }
         }
         else {
-          aggAlias = "?" + itsSubject.alias + "_" + replaceAliasSpacesInString(eigenschaft.link.linkPartner);
+          aggAlias = "?" + itsSubject.alias + "_" + replaceAliasSpacesInString(eigenschaft.linkTo);
         }
 
         aggregateValues.push({
@@ -463,13 +463,13 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 		
           json.SUBJECTS[i].properties[j].alias = replaceAliasSpacesInString(json.SUBJECTS[i].properties[j].alias);
 		  
-		  if (typeof json.SUBJECTS[i].properties[j].link.linkPartner != "undefined") {
-		    json.SUBJECTS[i].properties[j].link.linkPartner = replaceAliasSpacesInString(json.SUBJECTS[i].properties[j].link.linkPartner);
+		  if (typeof json.SUBJECTS[i].properties[j].linkTo != "undefined") {
+		    json.SUBJECTS[i].properties[j].linkTo = replaceAliasSpacesInString(json.SUBJECTS[i].properties[j].linkTo);
 		  }
         }
       }
 	  
-	  json.START.link.linkPartner = replaceAliasSpacesInString(json.START.link.linkPartner);
+	  json.START.linkTo = replaceAliasSpacesInString(json.START.linkTo);
 	  
       return json;
     };
