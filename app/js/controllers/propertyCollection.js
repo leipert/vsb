@@ -31,7 +31,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
       temp.arithmetic = null;
       temp.compareRaw = {};
       selectedProperties.push(temp);
-      $scope.propertySelected = '';
+      $scope.propertySelected = undefined;
     };
 
     /**

@@ -70,8 +70,7 @@ angular.module('GSB.controllers.propertyType.date', ['GSB.config','ui.bootstrap'
          */
 
         function renderDate(){
-          if($scope.dateComparison != null && !_.isEmpty($scope.comparisonInput)){
-            $log.error($scope.comparisonInput)
+          if($scope.dateComparison != null && $scope.comparisonInput instanceof Date){
             var date = $scope.comparisonInput.toDateString() + " UTC";
             $scope.propertyInst.compare =
               $scope.allowedDateComparisons[$scope.dateComparison].f
