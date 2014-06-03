@@ -50,13 +50,13 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             comment = 'No description available.',
             uri = tClass.uri.value;
           
-          if(tClass.hasOwnProperty("alias")){
+          if(tClass.hasOwnProperty('alias')){
             alias = tClass.alias.value;
           } else{
             alias = uri.substr(uri.lastIndexOf('/') + 1);
           }
 
-          if(tClass.hasOwnProperty("comment")){
+          if(tClass.hasOwnProperty('comment')){
             comment = tClass.comment.value;
           }
           
@@ -90,29 +90,29 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
           var property = data[key],
             propertyURI = property.uri.value,
             propertyRange = null,
-            propertyType = "STANDARD_PROPERTY",
-            propertyComment = "",
-            propertyAlias = "";
+            propertyType = 'STANDARD_PROPERTY',
+            propertyComment = '',
+            propertyAlias = '';
 
           /* Check whether the propertyAlias is undefined and if so, fill it with last part of the URI.*/
-          if (property.hasOwnProperty("alias")) {
+          if (property.hasOwnProperty('alias')) {
             propertyAlias = property.alias.value;
           } else {
             propertyAlias = propertyURI.substr(propertyURI.lastIndexOf('/') + 1);
           }
 
-          if (property.hasOwnProperty("comment")) {
+          if (property.hasOwnProperty('comment')) {
             propertyComment = property.comment.value;
           }
 
-          if (property.hasOwnProperty("range")) {
+          if (property.hasOwnProperty('range')) {
             propertyRange = property.range.value;
           }
 
           /* Check whether a propertyRange is given.*/
-          if (property.inverse.value === "I") {
-            propertyType = "INVERSE_PROPERTY";
-            propertyAlias = "is " + propertyAlias + " of";
+          if (property.inverse.value === 'I') {
+            propertyType = 'INVERSE_PROPERTY';
+            propertyAlias = 'is ' + propertyAlias + ' of';
           } else {
             propertyType = getPropertyType(propertyRange);
           }
@@ -131,13 +131,13 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
               optional: false,
               operator: null,
               link: null,
-              arithmetic: "x",
+              arithmetic: 'x',
               compare: null
             });
             retMap[propertyURI] = ret.length - 1;
           }
 
-          if (propertyRange != null) {
+          if (propertyRange !== null) {
             ret[retMap[propertyURI]].propertyRange.push(propertyRange);
           }
 
@@ -155,9 +155,11 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
       var ret = {};
 
       //Create array of all classesURI
-      var allClassURIS = new Array();
+      var allClassURIS = [];
       for (var key in data) {
-        allClassURIS[key] = data[key].class.value;
+        if(data.hasOwnProperty(key)) {
+          allClassURIS[key] = data[key].class.value;
+        }
       }
 
 
@@ -168,9 +170,9 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         type: 'OBJECT_PROPERTY',
         propertyRange: allClassURIS,
         view: true,
-        operator: "MUST", //Vorprojekt okay
+        operator: 'MUST', //Vorprojekt okay
         link: null, //Vorprojekt okay
-        arithmetic: "x", //Vorprojekt leave empty
+        arithmetic: 'x', //Vorprojekt leave empty
         compare: null //Vorprojekt leave empty
       };
 
@@ -180,9 +182,9 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         type: 'DATATYPE_PROPERTY',
         propertyRange: [],
         view: true,
-        operator: "MUST", //Vorprojekt okay
+        operator: 'MUST', //Vorprojekt okay
         link: null, //Vorprojekt okay
-        arithmetic: "x", //Vorprojekt leave empty
+        arithmetic: 'x', //Vorprojekt leave empty
         compare: null //Vorprojekt leave empty
       };
 
@@ -198,7 +200,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
      */
     var getPropertyType = function (propertyRange) {
       if (propertyRange !== null) {
-        var conf = globalConfig['propertyTypeURIs'];
+        var conf = globalConfig.propertyTypeURIs;
         for (var key in conf) {
           if (conf.hasOwnProperty(key)) {
             for (var i = 0, j = conf[key].length; i < j; i++) {

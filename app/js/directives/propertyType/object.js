@@ -9,9 +9,9 @@
 angular.module('GSB.directives.propertyType.object', [])
   .directive('objectPropertyDir', function () {
     return {
-      restrict: "A",
+      restrict: 'A',
       replace: true,
       controller: 'ObjectPropertyCtrl',
       templateUrl: 'template/propertyType/object.html'
-    }
+    };
   });

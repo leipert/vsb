@@ -19,18 +19,18 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
 
         var json = TranslatorToJSON.translateGSBLToJSON(mainSubjectSelected, subjects);
 
-        var blob = new Blob([json], {type: "application/json"});
+        var blob = new Blob([json], {type: 'application/json'});
         var url  = URL.createObjectURL(blob);
 
         var a = document.createElement('a');
-        a.download    = "query.json";
+        a.download    = 'query.json';
         a.href        = url;
-        a.textContent = "Download query.json";
+        a.textContent = 'Download query.json';
 
-        if(document.getElementById("saveLink").firstChild === null)
+        if(document.getElementById('saveLink').firstChild === null)
                 {document.getElementById('saveLink').appendChild(a);}
         else
-        {document.getElementById('saveLink').replaceChild(a, document.getElementById("saveLink").firstChild);}
+        {document.getElementById('saveLink').replaceChild(a, document.getElementById('saveLink').firstChild);}
 
     };
 
@@ -42,10 +42,10 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
      */
     factory.loadJSON = function (mainSubjectSelected, subjects) {
         
-        var selected_file = document.getElementById('uploadJSON').files[0];
+        var selectedFile = document.getElementById('uploadJSON').files[0];
         // Only process JSON-files.
-//        if (!selected_file.type.match('json.*')) {
-//            alert("Please choose a JSON File.");
+//        if (!selectedFile.type.match('json.*')) {
+//            alert('Please choose a JSON File.');
 //            return;
 //        }
         
@@ -61,7 +61,7 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
             if (json !== null) {
                 $rootScope.$broadcast('JSONUpdateEvent', json);
             }else{
-                $log.error("JSON is not valid / empty");
+                $log.error('JSON is not valid / empty');
                 return;
             }
 
@@ -73,7 +73,7 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
 
             $rootScope.$broadcast('WorkspaceUpdateFromJSONEvent', newWorkspaceContent);
         };
-        reader.readAsBinaryString(selected_file);       
+        reader.readAsBinaryString(selectedFile);
     };
 
 
@@ -92,7 +92,7 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
 	  
 	
       if (newJSON === null) {
-        $log.error("JSON is not valid / empty");
+        $log.error('JSON is not valid / empty');
         return;
       }
 	  

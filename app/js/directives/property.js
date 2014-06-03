@@ -9,7 +9,7 @@
 angular.module('GSB.directives.property', [])
   .directive('propertyDir', function () {
     return {
-      restrict: "E",
+      restrict: 'E',
       replace: true,
       controller: 'PropertyInstanceCtrl',
       templateUrl: 'template/property.html',

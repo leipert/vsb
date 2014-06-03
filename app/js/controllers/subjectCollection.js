@@ -95,7 +95,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
           if ($scope.subjects.hasOwnProperty(key)) {
             if ($scope.subjects[key].alias === newAlias) {
               aliasUnique = false;
-              newAlias = alias + "_" + c;
+              newAlias = alias + '_' + c;
               c += 1;
               break;
             }
@@ -193,6 +193,4 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
         $log.error(error);
       });
 
-    addSubject('http://dbpedia.org/ontology/Person', "Person", "Ein Individuum der Spezies Mensch.");
-   
   }]);

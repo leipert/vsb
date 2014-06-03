@@ -12,7 +12,6 @@ angular.module('GSB.controllers.subjectInstance', ['GSB.config'])
 
     /**
      * Change the View of the given Subject
-     * @param subjectInst
      */
     $scope.toggleSubjectView = function () {
       $scope.subjectInst.view = !$scope.subjectInst.view;

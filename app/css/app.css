@@ -29,9 +29,9 @@ div.box {
 }
 
 div.addSubjectBox {
-  border-radius: 0px;
-  border:0px solid black;
-  padding: 0px;
+  border-radius: 0;
+  border:0 solid black;
+  padding: 0;
   margin: 5px 0;
   width: 250px;
 }
@@ -147,23 +147,22 @@ div.subjectCSS div.inversePropertyCSS div.inversePropertyHeadCSS i {
 #saveLink a:hover
     {
     color: #000000;
-    text-underline: none;
     text-decoration: none;
     }
 #saveLink a:link
 {
     color: #ffffff;
-    text-underline: none;
+  text-decoration: none;
 }
 #saveLink a:active
 {
     color: #ffffff;
-    text-underline: none;
+    text-decoration: none;
 }
 #saveLink a:visited
 {
     color: #ffffff;
-    text-underline: none;
+    text-decoration: none;
 }
 
 .ui-select-bootstrap > .ui-select-choices {

@@ -9,9 +9,9 @@
 angular.module('GSB.directives.propertyType.aggregate', [])
   .directive('aggregatePropertyDir', function () {
     return {
-      restrict: "E",
+      restrict: 'E',
       replace: true,
       controller: 'AggregatePropertyCtrl',
       templateUrl: 'template/propertyType/aggregate.html'
-    }
+    };
   });

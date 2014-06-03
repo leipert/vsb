@@ -8,7 +8,7 @@
 angular.module('GSB.directives.startPoint', [])
   .directive('startPointDir', function () {
     return {
-      restrict: "A",
+      restrict: 'A',
       /**
        * The link function is the function where you can interact with the DOM
        *

@@ -20,7 +20,7 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
       $log.info('Translate JSON to GSBL');
 
       if (json === null) {
-        $log.error("Empty JSON File");
+        $log.error('Empty JSON File');
         return null;
       }
 
@@ -40,18 +40,18 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
 
             subjectsProperties.push(
             {
-              "alias": json.SUBJECTS[i].properties[p].alias,
-              "comment": json.SUBJECTS[i].properties[p].comment,
-              "uri": json.SUBJECTS[i].properties[p].uri,
-              "type": json.SUBJECTS[i].properties[p].type,
-              "propertyRange": json.SUBJECTS[i].properties[p].propertyRange,
-              "view": json.SUBJECTS[i].properties[p].view,
-              "optional": json.SUBJECTS[i].properties[p].optional,
-              "operator": json.SUBJECTS[i].properties[p].operator,
-              "linkTo": json.SUBJECTS[i].properties[p].linkTo,
-              "arithmetic": json.SUBJECTS[i].properties[p].arithmetic,
-              "compare": json.SUBJECTS[i].properties[p].compare,
-              "compareRaw": json.SUBJECTS[i].properties[p].compareRaw
+              'alias': json.SUBJECTS[i].properties[p].alias,
+              'comment': json.SUBJECTS[i].properties[p].comment,
+              'uri': json.SUBJECTS[i].properties[p].uri,
+              'type': json.SUBJECTS[i].properties[p].type,
+              'propertyRange': json.SUBJECTS[i].properties[p].propertyRange,
+              'view': json.SUBJECTS[i].properties[p].view,
+              'optional': json.SUBJECTS[i].properties[p].optional,
+              'operator': json.SUBJECTS[i].properties[p].operator,
+              'linkTo': json.SUBJECTS[i].properties[p].linkTo,
+              'arithmetic': json.SUBJECTS[i].properties[p].arithmetic,
+              'compare': json.SUBJECTS[i].properties[p].compare,
+              'compareRaw': json.SUBJECTS[i].properties[p].compareRaw
             });
 
           }
@@ -73,8 +73,10 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
 
         //Find the subject connected to the startpoint
         var startSubject = allTheSubjects[0];
-        for (var i = 0; i < allTheSubjects.length; i++) {
-          if(json.START.linkTo == allTheSubjects[i].alias) startSubject = allTheSubjects[i];
+        for (i = 0; i < allTheSubjects.length; i++) {
+          if(json.START.linkTo === allTheSubjects[i].alias){
+            startSubject = allTheSubjects[i];
+          }
         }
 
         //workspaceContent[0] all the subjects (as an object)

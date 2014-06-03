@@ -9,9 +9,9 @@
 angular.module('GSB.directives.propertyType.date', ['ui.bootstrap'])
     .directive('datePropertyDir', function () {
         return {
-            restrict: "A",
+            restrict: 'A',
             replace: true,
             controller: 'DatePropertyCtrl',
             templateUrl: 'template/propertyType/date.html'
-        }
+        };
     });

@@ -20,28 +20,28 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
       
 	  $log.info('Translate GSBL to JSON');
 	  
-      if (mainSubjectSelected == null) {
-        $log.error("Main Subject not connected");
+      if (mainSubjectSelected === null) {
+        $log.error('Main Subject not connected');
         return null;
       }	  
       var json = {
         START: {
-          type: "LIST_ALL",
-          "linkTo": mainSubjectSelected.alias
+          type: 'LIST_ALL',
+          'linkTo': mainSubjectSelected.alias
 
           },
         SUBJECTS: []
       },
       allSubjects = _.cloneDeep(subjects);
       allSubjects.map(function (currentSubject) {
-        delete currentSubject["availableProperties"];
-        currentSubject.properties = currentSubject["selectedProperties"].map(function (currentProperty) {
-          delete currentProperty["propertyType"];
+        delete currentSubject.availableProperties;
+        currentSubject.properties = currentSubject.selectedProperties.map(function (currentProperty) {
+          delete currentProperty.propertyType;
           if(currentProperty.type !== 'STANDARD_PROPERTY')
           {
-          $log.warn(currentProperty.linkTo)
-          if (currentProperty.linkTo !== null
-            && currentProperty.linkTo.hasOwnProperty("alias")) {
+          $log.warn(currentProperty.linkTo);
+          if (currentProperty.hasOwnProperty('linkTo') &&
+            currentProperty.linkTo !== null && currentProperty.linkTo.hasOwnProperty('alias')) {
             currentProperty.linkTo = currentProperty.linkTo.alias;
           } else {
             currentProperty.linkTo = null;
@@ -54,8 +54,8 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
           return currentAggregate;
         });
         currentSubject.properties = currentSubject.properties.concat(currentSubject.selectedAggregates);
-        delete currentSubject["selectedProperties"];
-        delete currentSubject["selectedAggregates"];
+        delete currentSubject.selectedProperties;
+        delete currentSubject.selectedAggregates;
         return currentSubject;
       });
 	  

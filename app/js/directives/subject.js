@@ -13,7 +13,7 @@ angular.module('GSB.directives.subject', [])
 
   .directive('subjectDir', ['$document',function ($document) {
     return {
-      restrict: "E",
+      restrict: 'E',
       replace: true,
       controller: 'SubjectInstanceCtrl',
       templateUrl: 'template/subject.html',
@@ -47,7 +47,7 @@ angular.module('GSB.directives.subject', [])
         }
 
 
-        element.find("mover").on('mousedown', function(event) {
+        element.find('mover').on('mousedown', function(event) {
           // Prevent default dragging of selected content
           event.preventDefault();
           startX = event.pageX - x;
@@ -71,13 +71,13 @@ angular.module('GSB.directives.subject', [])
         }
 
         //Show additional fields on mouseEnter
-        element.on("mouseenter",function(){
+        element.on('mouseenter',function(){
           scope.subjectInst.showAdditionalFields = true;
           scope.$apply();
         });
 
         //Hide additional fields on mouseEnter
-        element.on("mouseleave",function(){
+        element.on('mouseleave',function(){
           scope.subjectInst.showAdditionalFields = true;
           scope.$apply();
         });

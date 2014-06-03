@@ -11,7 +11,6 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
 
     /**
      * Changes visibility of a given propertyInst
-     * @param propertyInst
      */
     $scope.togglePropertyView = function () {
       $scope.propertyInst.view = !$scope.propertyInst.view;
@@ -20,7 +19,6 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
 	
 	/**
      * Changes optionality of a given propertyInst
-     * @param propertyInst
      */
 	$scope.togglePropertyOptional = function () {
       $scope.propertyInst.optional = !$scope.propertyInst.optional;

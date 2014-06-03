@@ -43,34 +43,34 @@ angular.module('GSB.config', [])
     ],
     aggregateFunctions: [
       {
-        alias: "cnt",
-        operator: "COUNT(%alias%)",
+        alias: 'cnt',
+        operator: 'COUNT(%alias%)',
         restrictTo: null
       },
       {
-        alias: "sum",
-        operator: "SUM(%alias%)",
-        restrictTo: "NUMBER_PROPERTY"
+        alias: 'sum',
+        operator: 'SUM(%alias%)',
+        restrictTo: 'NUMBER_PROPERTY'
       },
       {
-        alias: "min",
-        operator: "MIN(%alias%)",
-        restrictTo: "NUMBER_PROPERTY"
+        alias: 'min',
+        operator: 'MIN(%alias%)',
+        restrictTo: 'NUMBER_PROPERTY'
       },
       {
-        alias: "max",
-        operator: "MAX(%alias%)",
-        restrictTo: "NUMBER_PROPERTY"
+        alias: 'max',
+        operator: 'MAX(%alias%)',
+        restrictTo: 'NUMBER_PROPERTY'
       },
       {
-        alias: "avg",
-        operator: "AVG(%alias%)",
-        restrictTo: "NUMBER_PROPERTY"
+        alias: 'avg',
+        operator: 'AVG(%alias%)',
+        restrictTo: 'NUMBER_PROPERTY'
       },
       {
-        alias: "gct",
+        alias: 'gct',
         operator: 'GROUP_CONCAT(%alias%,",")',
-        restrictTo: "STRING_PROPERTY"
+        restrictTo: 'STRING_PROPERTY'
       }
     ],
     getPropertiesSPARQLQuery: 'SELECT DISTINCT ?uri ?inverse (STR(?comment_temp) AS ?comment) ?range (STR(?alias_temp) AS ?alias)' +
@@ -96,7 +96,7 @@ angular.module('GSB.config', [])
     '    FILTER(LANGMATCHES(LANG(?alias_temp), "%lang%"))' +
     '  }' +
     '}',
-    standardLang: "en",
+    standardLang: 'en',
     getClassesSPARQLQuery: 'SELECT DISTINCT ?uri (STR(?comment_temp) as ?comment) (STR(?alias_temp) AS ?alias)' +
     'WHERE {' +
     '  ?uri a owl:Class .' +

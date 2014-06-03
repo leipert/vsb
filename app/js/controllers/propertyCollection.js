@@ -50,11 +50,11 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
       $scope.subjectInst.selectedAggregates.push(
         angular.copy(
           {
-            alias:"cnt",
-            operator:"COUNT",
-            type:"AGGREGATE_PROPERTY",
+            alias:'cnt',
+            operator:'COUNT',
+            type:'AGGREGATE_PROPERTY',
             link: null,
-            available: angular.copy(globalConfig['aggregateFunctions'])
+            available: angular.copy(globalConfig.aggregateFunctions)
           }
         ));
     };

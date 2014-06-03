@@ -14,43 +14,43 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
     //Rules for String comparisons
     $scope.allowedStringComparisons = [
       {
-        label: "contains",
+        label: 'contains',
         f : 'regex(%after_arithmetic%, "%input%", "i")',
         showFlags : false
       },
       {
-        label: "equals",
+        label: 'equals',
         f : '(str(%after_arithmetic%)="%input%")',
         showFlags : false
       },
       {
-        label: "equals not",
+        label: 'equals not',
         f : '(str(%after_arithmetic%)!="%input%")',
         showFlags : false
       },
       {
-        label: "starts with",
+        label: 'starts with',
         f : 'regex(%after_arithmetic%, "^%input%", "i")',
         showFlags : false
       },
       {
-        label: "ends with",
+        label: 'ends with',
         f : 'regex(%after_arithmetic%, "%input%$", "i")',
         showFlags : false
 
       },
       {
-        label: "REGEX",
+        label: 'REGEX',
         f : 'regex(%after_arithmetic%, "%input%", "%flags%")',
         showFlags : true
       }
     ];
 
-    $scope.allowedLanguages = globalConfig['allowedLanguages'];
+    $scope.allowedLanguages = globalConfig.allowedLanguages;
 
     $scope.stringComparison = null;
-    $scope.comparisonInput = "";
-    $scope.comparisonRegexFlags = "i";
+    $scope.comparisonInput = '';
+    $scope.comparisonRegexFlags = 'i';
 
 
     if(start !== null && start !== undefined){
@@ -60,10 +60,10 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
       if(start.stringComparison !== null && start.stringComparison !== undefined) {
         $scope.stringComparison = start.stringComparison;
       }
-      if(start.comparisonInput != null && start.comparisonInput !== undefined) {
+      if(start.comparisonInput !== null && start.comparisonInput !== undefined) {
         $scope.comparisonInput = start.comparisonInput;
       }
-      if(start.comparisonRegexFlags != null && start.comparisonRegexFlags !== undefined) {
+      if(start.comparisonRegexFlags !== null && start.comparisonRegexFlags !== undefined) {
         $scope.comparisonRegexFlags = start.comparisonRegexFlags;
       }
     }
@@ -72,7 +72,7 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
     $scope.$watch('stringComparison',function (newValue){
       renderComparison(newValue,$scope.comparisonInput,$scope.comparisonRegexFlags);
       $scope.propertyInst.compareRaw.stringComparison = newValue;
-      if(newValue != null) {
+      if(newValue !== null) {
         $scope.showFlags = $scope.allowedStringComparisons[newValue].showFlags;
       }
     });
@@ -80,13 +80,13 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
 
     $scope.$watch('comparisonInput',function (newValue){
       $scope.propertyInst.compareRaw.comparisonInput = newValue;
-      renderComparison($scope.stringComparison,newValue,$scope.comparisonRegexFlags)
+      renderComparison($scope.stringComparison,newValue,$scope.comparisonRegexFlags);
     });
 
 
     $scope.$watch('comparisonRegexFlags',function (newValue){
       $scope.propertyInst.compareRaw.comparisonRegexFlags = newValue;
-      renderComparison($scope.stringComparison,$scope.comparisonInput,newValue)
+      renderComparison($scope.stringComparison,$scope.comparisonInput,newValue);
     });
 
     /*
@@ -117,7 +117,7 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
       if($scope.selectedLanguage === null || $scope.selectedLanguage === undefined ||$scope.selectedLanguage === ''){
         $scope.propertyInst.compare = $scope.compare;
       } else if($scope.compare===null || $scope.compare === undefined){
-        $scope.propertyInst.compare = 'langMatches(lang(%after_arithmetic%), "'+$scope.selectedLanguage+'")'
+        $scope.propertyInst.compare = 'langMatches(lang(%after_arithmetic%), "'+$scope.selectedLanguage+'")';
       } else {
         $scope.propertyInst.compare = 'langMatches(lang(%after_arithmetic%), "' + $scope.selectedLanguage + '") && ' + $scope.compare;
       }
