@@ -39,7 +39,6 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
           delete currentProperty.propertyType;
           if(currentProperty.type !== 'STANDARD_PROPERTY')
           {
-          $log.warn(currentProperty.linkTo);
           if (currentProperty.hasOwnProperty('linkTo') &&
             currentProperty.linkTo !== null && currentProperty.linkTo.hasOwnProperty('alias')) {
             currentProperty.linkTo = currentProperty.linkTo.alias;

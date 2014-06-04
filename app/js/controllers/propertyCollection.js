@@ -67,23 +67,4 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
       $scope.subjectInst.selectedAggregates.splice($scope.subjectInst.selectedAggregates.indexOf(aggregateInst),1);
     };
     
-    $scope.$parent.$parent.$on('WorkspaceUpdateFromJSONEvent', function(scope, newWorkspaceContent){
-      $scope.fillScopeWithProperties(newWorkspaceContent);
-    });
-    
-    $scope.addPropertyObject = function(propertyObject){
-      $log.info('Property added');
-      selectedProperties.push(propertyObject);      
-    };
-    
-    $scope.fillScopeWithProperties = function(newWorkspaceContent){
-      for(var i = 0; i < newWorkspaceContent[0].length; i++) {
-          for(var j = 0; j < newWorkspaceContent[0][i].selectedProperties.length; j++){
-            $scope.addPropertyObject(newWorkspaceContent[0][i].selectedProperties[j]);
-//            alert(JSON.stringify($scope.subjectInst.selectedProperties[j]));
-//            alert(JSON.stringify(newWorkspaceContent[0][i].selectedProperties[j]));
-        }      
-      }
-    };
-
   }]);

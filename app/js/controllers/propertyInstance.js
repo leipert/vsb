@@ -23,6 +23,18 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
 	$scope.togglePropertyOptional = function () {
       $scope.propertyInst.optional = !$scope.propertyInst.optional;
     };
-	
+
+    $scope.$watch('propertyInst.linkTo',function(nv){
+      if(typeof nv === 'string'){
+        var subjects = $scope.subjects;
+        for (var i = 0, j = subjects.length; i < j; i++) {
+          if(subjects[i].hasOwnProperty('alias') && subjects[i].alias === nv){
+            $scope.propertyInst.linkTo = subjects[i];
+            return;
+          }
+        }
+      }
+    });
+
 	
   }]);

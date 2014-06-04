@@ -13,7 +13,7 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
      * Function that takes an uploaded JSON and creates a GSBL query for the representation in GSB
      *
      * @param json
-     * @return workspaceContent Array of all the workspace Content
+     * @return Array of all the workspace Content
      */
     factory.translateJSONToGSBL = function (json) {
     
