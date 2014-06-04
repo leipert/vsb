@@ -108,5 +108,16 @@ angular.module('GSB.config', [])
     '    ?uri rdfs:label ?alias_temp .' +
     '    FILTER(LANGMATCHES(LANG(?alias_temp), "%lang%"))' +
     '  }' +
+    '}',
+    getAllURIs:
+    'SELECT DISTINCT ?uri ' +
+    'WHERE {' +
+    '  {' +
+    '    {' +
+    '      <%uri%> rdfs:subClassOf* ?uri.' +
+    '    } UNION {' +
+    '      <%uri%> owl:equivalentClass ?uri.' +
+    '    }' +
+    '  }' +
     '}'
   });

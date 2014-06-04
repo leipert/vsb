@@ -43,6 +43,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize','ui.select','G
           label: alias,
           uri: uri,
           comment: comment,
+          classURIs: [uri],
           view: true,
           selectedProperties: [],
           availableProperties: [],

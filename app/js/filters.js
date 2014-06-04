@@ -12,4 +12,22 @@ angular.module('GSB.filters', [])
         filter
       );
     };
+  })  .filter('objectPropertyFilter',function(){
+    return function(arrayOfObjects, key, filter){
+      if(key === null || key === undefined || typeof filter !== 'object' ){
+        return arrayOfObjects;
+      }
+      return arrayOfObjects.filter(function(currentObject){
+          if(currentObject[this.key] === undefined){
+            return true;
+          }
+          for(var i = 0, j = this.filter.length;i<j;i++){
+            if(currentObject[this.key].indexOf(this.filter[i]) !== -1){
+              return true;
+            }
+          }
+            return false;
+        },{key: key, filter: filter}
+        );
+    };
   });

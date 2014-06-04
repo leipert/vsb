@@ -39,8 +39,6 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         });
     };
 
-    factory.availableProperties = '';
-
     //Includes the available classes of an endpoint
     var createAvailableClassesObject = function(availClasses){
       var ret = [];
@@ -215,6 +213,28 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
     };
 
     /**
+     * Function to build a SPARQL query to get all normal (not if-of) properties of a via URI specified class
+     *
+     * @param uri the URI of the class
+     * @return String query The SPARQL query as an encoded string
+     */
+    function buildAllPropertyQuery (uri) {
+      var query = globalConfig.queryURL,
+
+        param = globalConfig.getPropertiesSPARQLQuery
+          .replace(/%uri%/g, uri)
+          .replace(/%lang%/g, globalConfig.standardLang)
+          .replace(/\s+/, ' ');
+
+      query += encodeURIComponent(param);
+      //TODO SPECIAL PROPERTIES!
+      if (uri === 'test/Thing') {
+        query = 'http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select+distinct+%3FpropertyDomain+%3FpropertyURI+%3FpropertyRange+%3FpropertyAlias+where+{{%3FanonyClass+rdfs%3AsubClassOf%2B+%3Fclass.%0D%0A++++++++++++++++++++++++++++++++{%3FpropertyURI+rdfs%3Adomain+%3Fclass+.+%0D%0A%0D%0A+++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}+.+%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}%0D%0A++++++++++++++++++++++++++++++++}%0D%0A+++++++++++++++++++++++}+%0D%0A%0D%0A++++++++++++++++++++++UNION+{%0D%0A+++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FanonyClass.+%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29+}+.+%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29+}+}}&format=json&timeout=30000&debug=on';
+      }
+      return query;
+    }
+
+    /**
      * Returns properties of a SPARQL-Class given by the classes uri.
      * In other words: the properties have the given class as their 'propertyDomain'.
      *
@@ -224,7 +244,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
       $log.info('Lade die Properties von ' + uri);
 
       //Retrieve Properties from Server and add them to availableProperties
-      return $http.get(factory.buildAllPropertyQuery(uri))
+      return $http.get(buildAllPropertyQuery(uri))
         .then(function (response) {
 
           if(typeof response.data === 'object') {
@@ -240,28 +260,57 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
       );
     };
 
-
-    /**
-     * Function to build a SPARQL query to get all normal (not if-of) properties of a via URI specified class
-     *
-     * @param uri the URI of the class
-     * @return query The SPARQL query as an encoded string
-     */
-    factory.buildAllPropertyQuery = function (uri) {
+    function buildAllURIsQuery (uri) {
       var query = globalConfig.queryURL,
 
-        param = globalConfig.getPropertiesSPARQLQuery
+        param = globalConfig.getAllURIs
           .replace(/%uri%/g, uri)
           .replace(/%lang%/g, globalConfig.standardLang)
           .replace(/\s+/, ' ');
 
       query += encodeURIComponent(param);
-      //TODO SPECIAL PROPERTIES!
-      if (uri === 'test/Thing') {
-        query = 'http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select+distinct+%3FpropertyDomain+%3FpropertyURI+%3FpropertyRange+%3FpropertyAlias+where+{{%3FanonyClass+rdfs%3AsubClassOf%2B+%3Fclass.%0D%0A++++++++++++++++++++++++++++++++{%3FpropertyURI+rdfs%3Adomain+%3Fclass+.+%0D%0A%0D%0A+++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}+.+%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}%0D%0A++++++++++++++++++++++++++++++++}%0D%0A+++++++++++++++++++++++}+%0D%0A%0D%0A++++++++++++++++++++++UNION+{%0D%0A+++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FanonyClass.+%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29+}+.+%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29+}+}}&format=json&timeout=30000&debug=on';
-      }
       return query;
+    }
+
+    var getAllAlternativeURIs = function (data) {
+      var ret = [],retMap = {};
+      for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+          if(typeof data[key].uri === 'object') {
+            if (data[key].uri.hasOwnProperty('value')) {
+              ret.push(data[key].uri.value);
+            }
+          }
+        }
+      }
+      return ret;
     };
+
+
+    /**
+     * Returns all other classes of a SPARQL-Class given by the classes uri.
+     *
+     * @param uri the uri identifiying the SPARQL-Class.
+     */
+    factory.getAllURIs = function (uri) {
+      $log.info('Lade die Properties von ' + uri);
+
+      //Retrieve Properties from Server and add them to availableProperties
+      return $http.get(buildAllURIsQuery(uri))
+        .then(function (response) {
+          if(typeof response.data === 'object') {
+            $log.info(' Other URIs loaded from: ' + uri, response);
+            return getAllAlternativeURIs(response.data.results.bindings);
+          }else{
+            return $q.reject(response);
+          }
+        }, function (response) {
+          $log.error('Error loading properties from: ' + uri);
+          return $q.reject(response);
+        }
+      );
+    };
+
 
     return factory;
 
