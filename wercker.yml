@@ -1,11 +1,11 @@
-box: wercker/nodejs
+box: olger/box-yeoman
 # Build definition
 build:
   # The steps that will be executed on build
   steps:
     # A step that executes `npm install` command
     - npm-install
-    - plasticine/bower-install@0.0.4
+    - olger/yeoman-bower-install
     # A custom script step, name value is used in the UI
     # and the code value contains the command that get executed
     - script:
