@@ -13,6 +13,9 @@ build:
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
+    - script:
+        name: Copying config.inc.js
+        code: cp app/js/config.inc.js app/js/config.js
 
 deploy:
   steps:
