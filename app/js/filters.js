@@ -14,7 +14,6 @@ angular.module('GSB.filters', [])
     };
   })  .filter('objectPropertyFilter',function(){
     return function(arrayOfObjects, key, filter){
-      console.log(filter);
       if(key === null || key === undefined || typeof filter !== 'object' || filter.length === 0 ){
         return arrayOfObjects;
       }
