@@ -8,7 +8,9 @@ angular.module('GSB.config', [])
       ],
       'NUMBER_PROPERTY': [
         /http:\/\/www\.w3\.org\/2001\/XMLSchema#(integer|float|double)/,
-        'http://www.w3.org/2001/XMLSchema#decimal'
+        'http://www.w3.org/2001/XMLSchema#decimal',
+        'http://www.w3.org/2001/XMLSchema#positiveInteger',
+        'http://www.w3.org/2001/XMLSchema#nonNegativeInteger'
       ],
       'STRING_PROPERTY': [
         'http://www.w3.org/2001/XMLSchema#string',

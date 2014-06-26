@@ -6,19 +6,15 @@ build:
     # A step that executes `npm install` command
     - npm-install
     - olger/yeoman-bower-install
-    # A custom script step, name value is used in the UI
-    # and the code value contains the command that get executed
-    - script:
-        name: echo nodejs information
-        code: |
-          echo "node version $(node -v) running"
-          echo "npm version $(npm -v) running"
     - script:
         name: Copying config.inc.js
-        code: cp app/js/config.inc.js app/js/config.js
+        code: cp $CONFIG_FILE app/js/config.js
+    - script:
+        name: Run grunt build
+        code: grunt build
 
 deploy:
   steps:
     - lukevivier/gh-pages:
         token: $GIT_TOKEN
-        basedir: app
+        basedir: dist
