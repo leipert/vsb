@@ -5,5 +5,7 @@ tmp
 .DS_Store
 .idea
 /nbproject
-app/lib/
+app/bower_components/
 app/js/config.js
+dist/
+.tmp/

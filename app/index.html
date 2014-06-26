@@ -3,12 +3,17 @@
   <head>
     <meta charset="utf-8">
     <title>GSB: Prototyp</title>
-    <!-- Import bootstrap CSS Framework for Styles, see http://getbootstrap.com -->
-    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
-    <!-- Import ui-select files -->
-    <link rel="stylesheet" href="lib/angular-ui-select/dist/select.css">
-    <!-- Import our own styles -->
-    <link rel="stylesheet" href="css/app.css"/>
+    <!-- build:css styles/vendor.css -->
+        <!-- bower:css -->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+        <!-- endbower -->
+        <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
+    <!-- endbuild -->
+
+    <!-- build:css styles/main.css -->
+        <link rel="stylesheet" href="styles/app.css">
+    <!-- endbuild -->
+
 
   </head>
 
@@ -211,45 +216,48 @@
     </div>
 
 </div>
-<!-- Always import JQuery before angular, so angular uses the FULL power of it -->
-<script src="lib/jquery/dist/jquery.js"></script>
-<script src="lib/lodash/dist/lodash.min.js"></script>
-<!-- Import Angular JS Framework, see http://angularjs.org -->
-<script src="lib/angular/angular.js"></script>
-<!-- Import angular-sanitize for ui-select -->
-<script src="lib/angular-sanitize/angular-sanitize.js"></script>
-<!-- Import Angular-UI bootstrap for Bootstrap JS, see https://github.com/angular-ui/bootstrap/ -->
-<script src="lib/angular-bootstrap/ui-bootstrap.min.js"></script>
-<script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-<!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
-<script src="lib/angular-ui-select/dist/select.js"></script>
-<script src="lib/momentjs/moment.js"></script>
-<!-- Import our app and controllers and directives -->
-<script src="js/app.js"></script>
-<script src="js/config.js"></script>
-<script src="js/filters.js"></script>
-<script src="js/services/endPoint.js"></script>
-<script src="js/services/translatorManager.js"></script>
-<script src="js/services/translatorToJSON.js"></script>
-<script src="js/services/translatorToGSBL.js"></script>
-<script src="js/services/translatorToSPARQL.js"></script>
-<script src="js/controllers/main.js"></script>
-<script src="js/controllers/subjectCollection.js"></script>
-<script src="js/controllers/subjectInstance.js"></script>
-<script src="js/controllers/propertyCollection.js"></script>
-<script src="js/controllers/propertyInstance.js"></script>
-<script src="js/controllers/propertyType/object.js"></script>
-<script src="js/controllers/propertyType/number.js"></script>
-<script src="js/controllers/propertyType/aggregate.js"></script>
-<script src="js/controllers/propertyType/string.js"></script>
-<script src="js/controllers/propertyType/date.js"></script>
-<script src="js/directives/subject.js"></script>
-<script src="js/directives/property.js"></script>
-<script src="js/directives/propertyType/object.js"></script>
-<script src="js/directives/propertyType/number.js"></script>
-<script src="js/directives/propertyType/aggregate.js"></script>
-<script src="js/directives/propertyType/string.js"></script>
-<script src="js/directives/propertyType/date.js"></script>
-<script src="js/directives/startPoint.js"></script>
+<!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-ui-select/dist/select.js"></script>
+    <script src="bower_components/momentjs/moment.js"></script>
+    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+    <!-- endbower -->
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<!-- endbuild -->
+
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/config.inc.js"></script>
+    <script src="scripts/config.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/propertyCollection.js"></script>
+    <script src="scripts/controllers/propertyInstance.js"></script>
+    <script src="scripts/controllers/propertyType/aggregate.js"></script>
+    <script src="scripts/controllers/propertyType/date.js"></script>
+    <script src="scripts/controllers/propertyType/number.js"></script>
+    <script src="scripts/controllers/propertyType/object.js"></script>
+    <script src="scripts/controllers/propertyType/string.js"></script>
+    <script src="scripts/controllers/subjectCollection.js"></script>
+    <script src="scripts/controllers/subjectInstance.js"></script>
+    <script src="scripts/directives/property.js"></script>
+    <script src="scripts/directives/propertyType/aggregate.js"></script>
+    <script src="scripts/directives/propertyType/date.js"></script>
+    <script src="scripts/directives/propertyType/number.js"></script>
+    <script src="scripts/directives/propertyType/object.js"></script>
+    <script src="scripts/directives/propertyType/string.js"></script>
+    <script src="scripts/directives/startPoint.js"></script>
+    <script src="scripts/directives/subject.js"></script>
+    <script src="scripts/filters.js"></script>
+    <script src="scripts/services/endPoint.js"></script>
+    <script src="scripts/services/translatorManager.js"></script>
+    <script src="scripts/services/translatorToGSBL.js"></script>
+    <script src="scripts/services/translatorToJSON.js"></script>
+    <script src="scripts/services/translatorToSPARQL.js"></script>
+<!-- endbuild -->
+
 </body>
 </html>
