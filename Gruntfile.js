@@ -69,7 +69,7 @@ module.exports = function (grunt) {
       },
       js: {
         files: [
-          '<%= appRoot %>/scripts/**/*.js'
+          '<%= appRoot %>/js/**/*.js'
         ],
         tasks: ['newer:jshint:all'],
         options: {
@@ -81,9 +81,9 @@ module.exports = function (grunt) {
 //        files: ['test/spec/{,*/}*.js'],
 //        tasks: ['newer:jshint:test', 'karma']
 //      },
-      styles: {
-        files: ['<%= appRoot %>/styles/**/*.css'],
-        tasks: ['newer:copy:styles', 'autoprefixer']
+      css: {
+        files: ['<%= appRoot %>/css/**/*.css'],
+        tasks: ['newer:copy:css', 'autoprefixer']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -94,7 +94,7 @@ module.exports = function (grunt) {
         },
         files: [
           '<%= appRoot %>/**/*.html',
-          '.tmp/styles/**/*.css',
+          '.tmp/css/**/*.css',
           '<%= appRoot %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
@@ -161,7 +161,7 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= appRoot %>/scripts/**/*.js'
+        '<%= appRoot %>/js/**/*.js'
       ],
       test: {
         options: {
@@ -197,9 +197,9 @@ module.exports = function (grunt) {
         files: [
           {
             expand: true,
-            cwd: '.tmp/styles/',
+            cwd: '.tmp/css/',
             src: '**/*.css',
-            dest: '.tmp/styles/'
+            dest: '.tmp/css/'
           }
         ]
       }
@@ -223,8 +223,8 @@ module.exports = function (grunt) {
       dist: {
         files: {
           src: [
-            '<%= distRoot %>/scripts/**/*.js',
-            '<%= distRoot %>/styles/**/*.css'
+            '<%= distRoot %>/js/**/*.js',
+            '<%= distRoot %>/css/**/*.css'
           ]
         }
       }
@@ -252,7 +252,7 @@ module.exports = function (grunt) {
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
       html: ['<%= distRoot %>/{,*/}*.html'],
-      css: ['<%= distRoot %>/styles/{,*/}*.css'],
+      css: ['<%= distRoot %>/css/{,*/}*.css'],
       options: {
         assetsDirs: ['<%= distRoot %>']
       }
@@ -271,6 +271,7 @@ module.exports = function (grunt) {
           collapseWhitespace: true,
           collapseBooleanAttributes: true,
           removeCommentsFromCDATA: true,
+          removeComments: true,
           removeOptionalTags: true
         },
         files: [
@@ -292,9 +293,9 @@ module.exports = function (grunt) {
         files: [
           {
             expand: true,
-            cwd: '.tmp/concat/scripts',
+            cwd: '.tmp/concat/js',
             src: '*.js',
-            dest: '.tmp/concat/scripts'
+            dest: '.tmp/concat/js'
           }
         ]
       }
@@ -341,10 +342,10 @@ module.exports = function (grunt) {
           }
         ]
       },
-      styles: {
+      css: {
         expand: true,
-        cwd: '<%= appRoot %>/styles',
-        dest: '.tmp/styles/',
+        cwd: '<%= appRoot %>/css',
+        dest: '.tmp/css/',
         src: '**/*.css'
       }
     },
@@ -352,11 +353,11 @@ module.exports = function (grunt) {
     injector: {
         options: {
           ignorePath: '<%= appRoot %>/',
-        addRootSlash: false
+          addRootSlash: false
         },
         local_dependencies: {
           files: {
-            'app/index.html': ['<%= appRoot %>/scripts/**/*.js', '<%= appRoot %>/styles/**/*.css']
+            'app/index.html': ['<%= appRoot %>/js/**/*.js', '<%= appRoot %>/css/**/*.css']
           }
         }
     },
@@ -381,7 +382,7 @@ module.exports = function (grunt) {
       'clean:server',
       'injector',
       'wiredep',
-      'copy:styles',
+      'copy:css',
       'autoprefixer',
       //'configureProxies:server',
       'connect:livereload',
@@ -394,7 +395,7 @@ module.exports = function (grunt) {
     // 'writefile:configFile', // At the moment we have a fixed config file
     // 'markdown:changeLog', // At the moment we have no Changelog
     // 'clean:server',
-    // 'copy:styles',
+    // 'copy:css',
     // 'autoprefixer',
     // 'configureProxies:server',
     // 'connect:test',
@@ -414,7 +415,7 @@ module.exports = function (grunt) {
     'wiredep',        // Automatically at dependencies from bower path (bower.json)
     'useminPrepare',  // Prepare minification
     'copy:images',    // Copy images to Dist
-    'copy:styles',    // Copy stylesheets to Dist
+    'copy:css',    // Copy stylesheets to Dist
     'autoprefixer',   // Adds prefixes to css properties (ie -webkit-property, -moz-property)
     'concat',         // Concat styles and scripts into one file
     'ngmin',          // preminify Angular files (i.e. function ($scope) -> ['$scope', function($scope)])

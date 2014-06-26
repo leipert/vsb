@@ -35,6 +35,7 @@
     "grunt-writefile": "~0.1.1",
     "jshint-stylish": "~0.2.0",
     "load-grunt-tasks": "~0.6.0",
-    "time-grunt": "~0.3.2"
+    "time-grunt": "~0.3.2",
+    "grunt-injector": "git://github.com/robpc/grunt-injector.git"
   }
 }
