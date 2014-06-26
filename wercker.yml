@@ -5,7 +5,7 @@ build:
   steps:
     # A step that executes `npm install` command
     - npm-install
-    - olger/yeoman-bower-install
+    - leipert/yeoman-bower-install
     - script:
         name: Copying config.inc.js
         code: cp $CONFIG_FILE app/js/config.js
