@@ -1,5 +1,5 @@
 {
-  "directory": "app/lib",
+  "directory": "app/bower_components",
   "json": "bower.json"
 }
 

@@ -1,18 +1,19 @@
 {
-  "curly": true,
-  "camelcase": true,
-  "eqeqeq": true,
-  "undef": true,
-  "latedef": true,
-  "nonbsp":true,
-  "quotmark":"single",
-  "unused":"true",
-  "browser":true,
-  "globalstrict": true,
-  "globals": {
-    "_":true,
-    "moment":true,
-    "jQuery": true,
-    "angular": true
-  }
+    "node": true,
+    "curly": true,
+    "camelcase": true,
+    "eqeqeq": true,
+    "undef": true,
+    "latedef": true,
+    "nonbsp": true,
+    "quotmark": "single",
+    "unused": "true",
+    "browser": true,
+    "globalstrict": true,
+    "globals": {
+        "_": true,
+        "moment": true,
+        "jQuery": true,
+        "angular": true
+    }
 }
