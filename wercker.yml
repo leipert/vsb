@@ -9,12 +9,11 @@ build:
     - script:
         name: Copying config.inc.js
         code: cp $CONFIG_FILE app/js/config.js
-    - script:
-        name: Run grunt build
-        code: grunt build
-
+#    - script:
+#        name: Run grunt build
+#        code: grunt build
 deploy:
   steps:
     - lukevivier/gh-pages:
         token: $GIT_TOKEN
-        basedir: dist
+        basedir: app
