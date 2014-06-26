@@ -4,7 +4,11 @@ angular.module('GSB.config', [])
   .constant('globalConfig', {
     propertyTypeURIs: {
       'OBJECT_PROPERTY': [
-        /http:\/\/dbpedia.org\/ontology\//
+        'http://purl.org/ontology/mo/',
+        'http://purl.org/NET/c4dm/keys.owl#Key',
+        'http://purl.org/dc/terms/MediaType',
+        'http://web.resource.org/cc/License',
+        'http://xmlns.com/foaf/0.1/'
       ],
       'NUMBER_PROPERTY': [
         /http:\/\/www\.w3\.org\/2001\/XMLSchema#(integer|float|double)/,
