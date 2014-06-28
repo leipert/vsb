@@ -7,11 +7,11 @@
  */
 
 angular.module('GSB.directives.propertyType.string', [])
-  .directive('stringPropertyDir', function () {
-    return {
-      restrict: 'A',
-      replace: true,
-      controller: 'StringPropertyCtrl',
-      templateUrl: 'template/propertyType/string.html'
-    };
-  });
+    .directive('stringPropertyDir', function () {
+        return {
+            restrict: 'A',
+            replace: true,
+            controller: 'StringPropertyCtrl',
+            templateUrl: 'template/propertyType/string.html'
+        };
+    });
