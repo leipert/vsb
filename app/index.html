@@ -120,7 +120,7 @@
         </div>
         <div class="col-sm-6">
           <p>SPARQL:&nbsp;<a href="#" ng-click="openInNewTab()">Starte dbpedia-query!</a></p>
-          <pre id="sparql-query">{{translatedSPARQL}}</pre>
+          <pre id="sparql-query">{{translatedSPARQL | beautifySPARQL}}</pre>
         </div>
       </div>
       <div class="col-sm-12 text-center">
