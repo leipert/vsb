@@ -157,7 +157,6 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
           docs.forEach(function(doc){
             ret.push(doc.id);
           });
-          console.log(ret);
           return ret;
         })
         .fail(function (err) {

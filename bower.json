@@ -10,7 +10,6 @@
     "angular-sanitize": "1.2.15",
     "angular-ui-select": "just-boris/ui-select#bower",
     "momentjs": "~2.7.0",
-    "lodash": "~2.4.1",
     "jassa": "~0.0.4-SNAPSHOT"
   },
   "resolutions": {
