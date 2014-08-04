@@ -9,3 +9,4 @@ app/bower_components/
 app/js/config.js
 dist/
 .tmp/
+app/vendor/lodash.build.js

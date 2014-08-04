@@ -10,7 +10,7 @@
     "angular-sanitize": "1.2.15",
     "angular-ui-select": "just-boris/ui-select#bower",
     "momentjs": "~2.7.0",
-    "jassa": "~0.0.4-SNAPSHOT"
+    "jassa": "leipert/Jassa-Bower#0.0.5"
   },
   "resolutions": {
     "jquery": "~2.1.1"

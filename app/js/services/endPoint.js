@@ -113,7 +113,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                             comment: '?c'
                         }
                     ],
-                    from: '?s a owl:Class .' +
+                    from: '?s a rdfs:Class .' +
                     'OPTIONAL { ?s rdfs:label ?l } .' +
                     'OPTIONAL { ?s rdfs:comment ?c} '
                 });

@@ -32,7 +32,12 @@
     </div>
 
     <!-- Alias of propertyInst -->
-    <div><b>{{propertyInst.alias}}</b></div>
+    <div>
+        <div class="pull-left" ng-show="subjectInst.showAdditionalFields">
+            <select ng-model="propertyInst.operator" ng-options="x.value as x.label for x in propertyOperators"
+                    title="Change Property Operator"></select>
+        </div>&nbsp;{{propertyInst.alias}}
+    </div>
 
   </div>
 
@@ -48,12 +53,6 @@
 
   <!-- Body of a property -->
   <div class="propertyBodyCSS">
-
-    <!--This select is for changing the property Operator-->
-    <div class="pull-right" ng-show="subjectInst.showAdditionalFields">
-      <select ng-model="propertyInst.operator" ng-options="x.value as x.label for x in propertyOperators"
-              title="Change Property Operator"></select>
-    </div>
 
     <!--Depending on PropertyType the appropriate controls are inserted,
     you can use ng-include for direct insertion templates or

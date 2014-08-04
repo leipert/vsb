@@ -58,7 +58,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
                 if (property.arithmetic !== null) {
                     $log.warn('BIND AS NOT IMPLEMENTED IN JASSA!');
                     s = rdf.NodeFactory.createVar(sanitizeAlias(subjectAlias + ' ' + 'temp'));
-                    //triples.addTriples([new sparql.ElementBindAs(property.arithmetic,s)]);
+                    triples.addTriples([new sparql.ElementBind(s,property.arithmetic)]);
                 }
                 triples.addTriples([new rdf.Triple(s, p, o)]);
 
@@ -73,7 +73,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
             } else {
                 $log.warn('FILTER NOT EXISTS NOT IMPLEMENTED IN JASSA!');
-                //triples.addTriples([new sparql.ElementFilterNotExists(new rdf.Triple(s, p, o))]);
+                triples.addTriples([new sparql.ElementFilter(new sparql.E_NotExists(new rdf.Triple(s, p, o)))]);
             }
 
             if (property.optional) {
