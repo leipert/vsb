@@ -79,18 +79,17 @@
           <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
           <ui-select ng-model="$parent.selectedSubjectClass">
             <match placeholder="Please choose a subject.">
-
-              {{$select.selected.alias}}
+              {{$select.selected}}
             </match>
             <!-- IMPORTANT: it has to be item in 'repeat="item in...',
             as ui-select defines it internally.	Anything else wont work!	-->
             <choices repeat="item in availableSubjectClasses | filter: $select.search | limitTo: 10">
               <p>
-                <span class="h4" ng-bind-html="item.alias | highlight: $select.search"></span>
+                <span class="h4" ng-bind-html="item.$label | highlight: $select.search"></span>
                 <small ng-bind-html="item.uri | highlight: $select.search"></small>
               </p>
               <p style="white-space:normal;">
-                <small ng-bind-html="item.comment | highlight: $select.search"></small>
+                <small ng-bind-html="item.$comment | highlight: $select.search"></small>
               </p>
             </choices>
           </ui-select>
@@ -116,11 +115,11 @@
         <h3>Queries</h3>
         <div class="col-sm-6">
           <p>JSON:</p>
-          <pre id="json-query">{{translatedJSON}}</pre>
+          <pre id="json-query">{{translatedJSON | replaceURIsWithPrefixes}}</pre>
         </div>
         <div class="col-sm-6">
           <p>SPARQL:&nbsp;<a href="#" ng-click="openInNewTab()">Starte dbpedia-query!</a></p>
-          <pre id="sparql-query">{{translatedSPARQL}}</pre>
+          <pre id="sparql-query">{{translatedSPARQL | beautifySPARQL | replaceURIsWithPrefixes}}</pre>
         </div>
       </div>
       <div class="col-sm-12 text-center">
@@ -223,15 +222,17 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-ui-select/dist/select.js"></script>
     <script src="bower_components/momentjs/moment.js"></script>
-    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
     <!-- endbower -->
     <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-<!-- endbuild -->
+    <script src="vendor/lodash.build.js"></script>
+    <script src="bower_components/underscore.string/dist/underscore.string.min.js"></script>
+    <script src="bower_components/jscache/cache.js"></script>
+    <script src="bower_components/jassa/jassa.js"></script>
+    <!-- endbuild -->
 
 <!-- build:js({.tmp,app}) js/main.js -->
 <script src="js/app.js"></script>
-<script src="js/config.inc.js"></script>
 <script src="js/config.js"></script>
 <script src="js/controllers/main.js"></script>
 <script src="js/controllers/propertyCollection.js"></script>

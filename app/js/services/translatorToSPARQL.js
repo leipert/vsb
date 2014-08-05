@@ -4,503 +4,124 @@
  * A factory to handle translation of JSON -> SPARQL
  *
  */
+/* global jassa */
+
 
 angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
-  .factory('TranslatorToSPARQL', ['globalConfig', '$log', function (globalConfig, $log) {
+    .factory('TranslatorToSPARQL', ['globalConfig', '$log', function (globalConfig, $log) {
 
-    var factory = {};
+        var factory = {};
 
+        var sparql = jassa.sparql;
+        var rdf = jassa.rdf;
+        var vocab = jassa.vocab;
+        var shownVariables;
 
-    // Array of aggregate Objects which need to be applied to header in the end
-    var aggregateValues = [];
+        function sanitizeAlias(string) {
 
+            var pattern = new RegExp('[^A-Za-z0-9_?]', 'g');
 
-    /**
-     * Function to start translation process, with call to changeURIs for the mockup data
-     * and replaceAliasSpaces to replace spaces with underscores
-     * @param json
-     */
-    factory.translateJSONToSPARQL = function (json) {
-
-      $log.info('Translate JSON to SPARQL');
-
-      //json = factory.changeURIs(json);
-
-      json = replaceAliasSpaces(json);
-      json = replaceDuplicatePropertyAliases(json);
-
-      return factory.translateAll(json);
-    };
-
-    /**
-     *  Initial translation function that takes a JSON-object, looks for the main class and starts translation there,
-     *  and in the end of the process adds shown values and SPARQL-'header' (e.g. SELECT DISTINCT..)
-     * @param json
-     */
-    factory.translateAll = function (json) {
-
-      var shownValues = [];
-      var translated = [];
-      var SPARQL = '';
-      aggregateValues = [];
-
-
-      for (var i = 0; i < json.SUBJECTS.length; i++) {
-        if (json.SUBJECTS[i].alias === json.START.linkTo) {
-          SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
-        }
-      }
-
-      return factory.translateStartpoint(json, shownValues) + '\nwhere {\n' + SPARQL + '\n} LIMIT 200';
-    };
-
-
-    /**
-     * Function to translate the header of a SPARQL query, including the shown values
-     * @param json
-     * @param shownValues
-     *
-     factory.translateStartpoint = function (json, shownValues) {
-
-    var SPARQLStart = '';
-
-    if(json.START.type === 'LIST_ALL')   {
-      SPARQLStart = 'SELECT DISTINCT ';
-    }
-    else {
-      SPARQLStart = 'SELECT ';
-    }
-
-    for(var i = 0; i < shownValues.length; i++) {
-      SPARQLStart += '?' + shownValues[i] + ' ';
-    }
-
-    return SPARQLStart;
-  };
-     */
-
-
-    /**
-     * Function to translate the header of a SPARQL query, including the shown values
-     * @param json
-     * @param shownValues
-     */
-    factory.translateStartpoint = function (json, shownValues) {
-
-      var SPARQLStart = '';
-
-      if (json.START.type === 'LIST_ALL') {
-        SPARQLStart = 'SELECT DISTINCT ';
-      } else {
-        SPARQLStart = 'SELECT ';
-      }
-
-      // remove all aggregated alias from shown values
-      for (var i = 0; i < aggregateValues.length; i++) {
-        for (var k = 0; k < shownValues.length; k++) {
-          if (aggregateValues[i].aliasToDelete === shownValues[k]) {
-            shownValues.splice(k, k);
-          }
-        }
-      }
-
-      for (var j = 0; j < shownValues.length; j++) {
-        SPARQLStart += '?' + shownValues[j] + ' ';
-      }
-
-
-      for (var l = 0; l < aggregateValues.length; l++) {
-        SPARQLStart += aggregateValues[l].aggregateString;
-      }
-
-
-      var spePro = false;
-      //Search for specialProperty in the JSON
-      for (i = 0; i < json.SUBJECTS.length; i++) {
-
-        for (j = 0; j < json.SUBJECTS[i].properties.length; j++) {
-          if (json.SUBJECTS[i].properties[j].uri === 'test/specialObjectProperty' || json.SUBJECTS[i].properties[j].uri === 'test/specialDatatypeProperty') {
-            spePro = true;
-          }
-        }
-      }
-      //If specialProperty is part of the properties it's added to the shown values
-      if (spePro) {
-        SPARQLStart += '?unknownConnection ';
-      }
-
-      return SPARQLStart;
-    };
-
-    /**
-     * Function to translate a subject. Calls all translate-property functions for all the subjects properties
-     * @param oneSubject
-     * @param shownValues
-     * @param translated
-     * @param json
-     */
-    factory.translateSubject = function (oneSubject, shownValues, translated, json) {
-
-      var SPARQL = '';
-
-      if (!factory.presentInArray(translated, oneSubject.alias)) {
-        if (oneSubject.uri !== 'test/Thing') {
-          SPARQL += '?' + oneSubject.alias + ' a <' + oneSubject.uri + '> .\n';
+            return string.replace(pattern, '_').replace(/_+/g, '_').replace(/^_|_$/, '');
         }
 
-        if (oneSubject.view) {
-          shownValues[shownValues.length] = oneSubject.alias;
-        }
-
-        translated[translated.length] = oneSubject.alias;
-
-
-        for (var i in oneSubject.properties) {
-
-          if (oneSubject.properties[i].type === 'OBJECT_PROPERTY') {
-            SPARQL += factory.translateObjectProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
-          } else if (oneSubject.properties[i].type === 'INVERSE_PROPERTY') {
-            SPARQL += factory.translateInverseProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
-          }
-          else if (oneSubject.properties[i].type === 'AGGREGATE_PROPERTY') {
-
-            var mainProp;
-            for (var j in oneSubject.properties) {
-              if (replaceAliasSpacesInString(oneSubject.properties[j].alias) === replaceAliasSpacesInString(oneSubject.properties[i].linkTo)) {
-                mainProp = oneSubject.properties[j];
-              }
+        function translateObjectProperty(s, p, o, linkTo, view) {
+            if (linkTo !== null) {
+                o = rdf.NodeFactory.createVar(sanitizeAlias(linkTo));
+                view = false;
             }
-            factory.translateAggregateProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json, mainProp);
-          }
-          else {
-            SPARQL += factory.translateDatatypeProperty(oneSubject, oneSubject.properties[i], shownValues, translated, json) + '\n';
-          }
+            return {s: s, p: p, o: o, view: view};
         }
-      }
 
-      return SPARQL;
-    };
-
-    /**
-     * function to translate Object properties. Checks for operator of property, calls translateSubject when necessary
-     * @param itsSubject
-     * @param eigenschaft
-     * @param shownValues
-     * @param translated
-     * @param json
-     */
-    factory.translateInverseProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
-
-      var SPARQL = '', i;
-
-      if (eigenschaft.optional) {
-        $log.info('OPTIONAL PROP  - ' + eigenschaft.alias);
-        SPARQL += 'OPTIONAL { \n';
-      }
-
-      if (eigenschaft.operator === globalConfig.inversePropertyOperators[0].value) {
-
-        SPARQL += '?' + itsSubject.alias + ' ^<' + eigenschaft.uri + '> ?';
-
-        if (typeof eigenschaft.linkTo !== 'undefined') {
-
-          SPARQL += eigenschaft.linkTo + ' .\n';
-          for (i = 0; i < json.SUBJECTS.length; i++) {
-            if (json.SUBJECTS[i].alias === eigenschaft.linkTo) {
-              SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+        function translateProperty(property, subjectAlias, subjectView) {
+            var alias = sanitizeAlias(subjectAlias + ' ' + property.alias),
+                uri = property.uri,
+                type = property.type,
+                triples = new sparql.ElementTriplesBlock(),
+                r;
+            var s = rdf.NodeFactory.createVar(subjectAlias);
+            var b = s;
+            var p = rdf.NodeFactory.createUri(uri);
+            var o = rdf.NodeFactory.createVar(alias);
+            var view = subjectView && property.view;
+            if (type === 'INVERSE_PROPERTY') {
+                r = translateObjectProperty(s, p, o, property.linkTo, view);
+                s = r.o;
+                o = r.s;
+                view = r.view;
+            } else if (type === 'OBJECT_PROPERTY') {
+                r = translateObjectProperty(s, p, o, property.linkTo, view);
+                o = r.o;
+                view = r.view;
             }
-          }
-        }
-        else {
-          SPARQL += eigenschaft.alias + ' .\n';
-          if (eigenschaft.view) {
-            shownValues[shownValues.length] = eigenschaft.alias;
-          }
-        }
-      }
 
-      if (eigenschaft.operator === globalConfig.inversePropertyOperators[1].value) {
+            if (!property.filterNotExists) {
+                if (property.arithmetic !== null) {
+                    s = rdf.NodeFactory.createVar(sanitizeAlias(subjectAlias + ' ' + 'temp'));
+                    triples.addTriples([new sparql.ElementBind(s,property.arithmetic)]);
+                }
+                triples.addTriples([new rdf.Triple(s, p, o)]);
 
-        if (typeof eigenschaft.linkTo !== 'undefined') {
+                if (property.compare !== null) {
+                    property.compare = property.compare.replace(/%before_arithmetic%/g, b).replace(/%after_arithmetic%/g, s);
+                    triples.addTriples([new sparql.ElementFilter(property.compare)]);
+                }
 
-          for (i = 0; i < json.SUBJECTS.length; i++) {
-            if (json.SUBJECTS[i].alias === eigenschaft.linkTo) {
-              json.SUBJECTS[i].view = false;
-              SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+                if (view && !shownVariables.contains(rdf.NodeFactory.createVar(alias))) {
+                    shownVariables.add(rdf.NodeFactory.createVar(alias));
+                }
+
+            } else {
+                triples.addTriples([new sparql.ElementFilter(new sparql.E_NotExists(new rdf.Triple(s, p, o)))]);
             }
-          }
-          SPARQL += 'FILTER NOT EXISTS { ?' + itsSubject.alias + ' ^<' + eigenschaft.uri + '> ?' + eigenschaft.linkTo + ' } .\n';
 
-        }
-        else {
-          SPARQL += 'FILTER NOT EXISTS { ?' + itsSubject.alias + ' ^<' + eigenschaft.uri + '> ?' + eigenschaft.alias + ' } .\n';
-        }
-      }
-
-      if (eigenschaft.optional) {
-        SPARQL += '}\n';
-      }
-
-      return SPARQL;
-    };
-
-    factory.translateObjectProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
-
-      var SPARQL = '', i;
-
-      if (eigenschaft.optional) {
-        SPARQL += 'OPTIONAL { \n';
-      }
-
-
-      if (eigenschaft.operator === globalConfig.propertyOperators[0].value) {
-        //Special-property has to be translated with ?alias instead of it's URI
-        var tailoredURI = eigenschaft.uri;
-        if (eigenschaft.uri === 'test/specialObjectProperty') {
-          tailoredURI = '?' + 'unknownConnection';
-        } else {
-          tailoredURI = '<' + tailoredURI + '>';
-        }
-        SPARQL += '?' + itsSubject.alias + ' ' + tailoredURI + ' ?';
-
-        if (typeof eigenschaft.linkTo !== 'undefined') {
-          SPARQL += eigenschaft.linkTo + ' .\n';
-
-          for (i = 0; i < json.SUBJECTS.length; i++) {
-            if (json.SUBJECTS[i].alias === eigenschaft.linkTo) {
-              SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+            if (property.optional) {
+                return new sparql.ElementOptional(triples);
             }
-          }
-        } else {
-          SPARQL += eigenschaft.alias + ' .\n';
 
-          if (eigenschaft.view) {
-            shownValues[shownValues.length] = eigenschaft.alias;
-          }
+            return triples;
         }
-      }
 
-      if (eigenschaft.operator === globalConfig.propertyOperators[1].value) {
-        if (typeof eigenschaft.linkTo !== 'undefined') {
-          for (i = 0; i < json.SUBJECTS.length; i++) {
-            if (json.SUBJECTS[i].alias === eigenschaft.linkTo) {
-              json.SUBJECTS[i].view = false;
-              SPARQL += factory.translateSubject(json.SUBJECTS[i], shownValues, translated, json);
+        function translateSubject(subject) {
+
+            var alias = sanitizeAlias(subject.alias),
+                s = rdf.NodeFactory.createVar(sanitizeAlias(alias)),
+                o = rdf.NodeFactory.createUri(subject.uri),
+                triples = [new rdf.Triple(s, vocab.rdf.type, o)];
+
+            if (subject.view && !shownVariables.contains(s)) {
+                shownVariables.add(s);
             }
-          }
 
-          SPARQL += 'FILTER NOT EXISTS { ?' + itsSubject.alias + ' <' + eigenschaft.uri + '> ?' + eigenschaft.linkTo + ' } .\n';
-        } else {
-          SPARQL += 'FILTER NOT EXISTS { ?' + itsSubject.alias + ' <' + eigenschaft.uri + '> ?' + eigenschaft.alias + ' } .\n';
-        }
-      }
-
-
-      if (eigenschaft.optional) {
-        SPARQL += '}\n';
-      }
-
-      return SPARQL;
-    };
-
-
-    /**
-     * function to translate Datatype properties. Checks for operator of property
-     * @param itsSubject
-     * @param eigenschaft
-     * @param shownValues
-     * @param translated
-     * @param json
-     */
-    factory.translateDatatypeProperty = function (itsSubject, eigenschaft, shownValues, translated, json) {
-
-      var SPARQL = '';
-      var x, y;
-      x = '?' + itsSubject.alias + '_' + eigenschaft.alias;
-      y = angular.copy(x);
-
-
-      if (eigenschaft.optional) {
-        SPARQL += 'OPTIONAL { \n';
-      }
-
-      if (eigenschaft.operator === globalConfig.propertyOperators[0].value) {
-
-
-        if (eigenschaft.arithmetic !== null && eigenschaft.arithmetic !== '%before_arithmetic%') {
-          x = y + '_temp';
-          SPARQL += '?' + itsSubject.alias + ' <' + eigenschaft.uri + '> ' + x + '.\n';
-          SPARQL += 'BIND ((' + eigenschaft.arithmetic.replace(/%before_arithmetic%/g, x) + ') as ' + y + ') .\n';
-        }
-        else {
-
-          //Tailors the uri if the subject is thing.
-          // Necessary because Properties have URIs like: <http://dbpedia.org/ontology/Person/weight> but <http://dbpedia.org/ontology/weight> is needed
-          var tailoredURI = eigenschaft.uri;
-          if (itsSubject.uri === 'test/Thing' && eigenschaft.uri !== 'test/specialDatatypeProperty') {
-            var prop = tailoredURI.substr(tailoredURI.lastIndexOf('/'), tailoredURI.length - 1);
-            tailoredURI = tailoredURI.substr(0, tailoredURI.lastIndexOf('/'));
-            tailoredURI = tailoredURI.substr(0, tailoredURI.lastIndexOf('/')) + prop;
-
-          }
-
-          //Special-property has to be translated with ?alias instead of it's URI
-          tailoredURI = '<' + tailoredURI + '>';
-          if (eigenschaft.uri === 'test/specialDatatypeProperty') {
-            tailoredURI = '?' + eigenschaft.alias;
-          }
-
-          SPARQL += '?' + itsSubject.alias + ' ' + tailoredURI + ' ' + y + ' .\n';
-        }
-
-        if ((eigenschaft.compare !== '%after_arithmetic%') && (eigenschaft.compare !== null)) {
-
-          SPARQL += 'FILTER ( ' +
-          eigenschaft.compare
-            .replace(/%before_arithmetic%/g, x)
-            .replace(/%after_arithmetic%/g, y) +
-          ' ) .\n';
-
-
-        }
-      }
-
-
-      if (eigenschaft.operator === globalConfig.propertyOperators[1].value) {
-        SPARQL += 'FILTER NOT EXISTS { ?' + itsSubject.alias + ' <' + eigenschaft.uri + '> ' + y + ' } .\n';
-      }
-
-
-      if ((eigenschaft.view === true) && (eigenschaft.operator !== globalConfig.propertyOperators[1].value)) {
-        shownValues[shownValues.length] = itsSubject.alias + '_' + eigenschaft.alias;
-      }
-
-
-      if (eigenschaft.optional) {
-        SPARQL += '}\n';
-      }
-
-      return SPARQL;
-    };
-
-
-    /**
-     * function to translate Aggregate properties. Checks for operator of property
-     * @param itsSubject
-     * @param eigenschaft
-     * @param shownValues
-     * @param translated
-     * @param json
-     * @param mainProp
-     */
-    factory.translateAggregateProperty = function (itsSubject, eigenschaft, shownValues, translated, json, mainProp) {
-
-      if (eigenschaft.linkTo !== null && mainProp !== undefined && mainProp.operator !== globalConfig.propertyOperators[1].value) {
-
-        var aggAlias;
-
-        if (mainProp.type === 'OBJECT_PROPERTY') {
-          if (mainProp.linkTo !== undefined) {
-            aggAlias = '?' + replaceAliasSpacesInString(mainProp.linkTo);
-          }
-          else {
-            aggAlias = '?' + replaceAliasSpacesInString(eigenschaft.linkTo);
-          }
-        }
-        else {
-          aggAlias = '?' + itsSubject.alias + '_' + replaceAliasSpacesInString(eigenschaft.linkTo);
-        }
-
-        aggregateValues.push({
-          aggregateString: '(' + eigenschaft.operator.replace('%alias%', aggAlias) +
-          ' AS ' + aggAlias + '_' + eigenschaft.alias + ')',
-          aliasToDelete: eigenschaft.operator.substr(eigenschaft.operator.indexOf('%') + 1, eigenschaft.operator.lastIndexOf('%'))
-        });
-      }
-
-    };
-
-
-    /**
-     * Helper function to replace duplicate property aliases with alternatives
-     * @param json
-     */
-    function replaceDuplicatePropertyAliases(json) {
-
-      var counter = 1;
-
-      for (var i = 0; i < json.SUBJECTS.length; i++) {
-        for (var j = 0; j < json.SUBJECTS[i].properties.length; j++) {
-
-          for (var k = 0; k < json.SUBJECTS.length; k++) {
-
-            for (var l = 0; l < json.SUBJECTS[k].properties.length; l++) {
-
-              if (json.SUBJECTS[i].properties[j].alias === json.SUBJECTS[k].properties[l].alias && !((i === k) && (j === l))) {
-                json.SUBJECTS[k].properties[l].alias = json.SUBJECTS[k].properties[l].alias + '_' + counter;
-                counter++;
-              }
+            if (subject.hasOwnProperty('properties')) {
+                subject.properties.forEach(function (property) {
+                    triples = triples.concat(translateProperty(property, alias, subject.view));
+                });
             }
-          }
+            return triples;
         }
-      }
-
-      return json;
-    }
 
 
-    /**
-     * little helper function to replace spaces in aliases with an underscore
-     * @param json
-     */
-    function replaceAliasSpaces(json) {
+        /**
+         * Function to start translation process, with call to changeURIs for the mockup data
+         * and replaceAliasSpaces to replace spaces with underscores
+         * @param json
+         */
+        factory.translateJSONToSPARQL = function (json) {
+            shownVariables = new sparql.VarExprList();
+            var query = new sparql.Query(),
+                ElementTriplesBlock = new sparql.ElementTriplesBlock();
+            if (json.hasOwnProperty('SUBJECTS')) {
+                json.SUBJECTS.forEach(function (subject) {
+                    ElementTriplesBlock.addTriples(translateSubject(subject));
+                });
+            }
+            query.setQueryPattern(ElementTriplesBlock);
+            query.setProjectVars(shownVariables);
+            query.setDistinct(true);
+            query.setLimit(100);
+            return query.toString();
+        };
 
-      for (var i = 0; i < json.SUBJECTS.length; i++) {
+        return factory;
 
-        json.SUBJECTS[i].alias = replaceAliasSpacesInString(json.SUBJECTS[i].alias);
-
-        for (var j = 0; j < json.SUBJECTS[i].properties.length; j++) {
-
-          json.SUBJECTS[i].properties[j].alias = replaceAliasSpacesInString(json.SUBJECTS[i].properties[j].alias);
-
-          if (json.SUBJECTS[i].properties[j].linkTo !== undefined && json.SUBJECTS[i].properties[j].linkTo !== null) {
-            json.SUBJECTS[i].properties[j].linkTo = replaceAliasSpacesInString(json.SUBJECTS[i].properties[j].linkTo);
-          }
-        }
-      }
-
-      json.START.linkTo = replaceAliasSpacesInString(json.START.linkTo);
-
-      return json;
-    }
-
-    /**
-     * little helper function to replace spaces in aliases with an underscore
-     * @param string
-     */
-    function replaceAliasSpacesInString(string) {
-
-      var pattern = new RegExp('[^A-Za-z0-9_?]', 'g');
-
-      return string.replace(pattern, '_').replace(/_+/g, '_').replace(/^_|_$/, '');
-    }
-
-
-    /**
-     * little helper function to check, if an object obj is present in an array arr
-     * @param arr
-     * @param obj
-     */
-    factory.presentInArray = function (arr, obj) {
-
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i] === obj) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    return factory;
-
-  }]);
+    }]);

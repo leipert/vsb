@@ -8,310 +8,244 @@
  */
 
 angular.module('GSB.services.endPoint', ['GSB.config'])
-  .factory('EndPointService', ['$http', '$q', '$log', 'globalConfig', function ($http, $q, $log, globalConfig) {
-    var factory = {};
+    .factory('EndPointService', ['$http', '$q', '$log', 'globalConfig', function ($http, $q, $log, globalConfig) {
+        _.mixin(_.str.exports());
+        var factory = {};
 
-    /**
-     * Writes available SPARQL-Classes into a given array.
-     */
-    factory.getAvailableClasses = function () {
+        var service = Jassa.service;
+        var sponate = Jassa.sponate;
 
-      // Get Available Subject Classes from Server
+        var sparqlService = new service.SparqlServiceHttp(globalConfig.baseURL, globalConfig.defaultGraphURIs);
+        sparqlService = new service.SparqlServiceCache(sparqlService);
+        var store = new sponate.StoreFacade(sparqlService, globalConfig.prefixes);
 
-      return $http.get(
-        globalConfig.queryURL + encodeURIComponent(
-          globalConfig.getClassesSPARQLQuery.replace(/%lang%/g,globalConfig.standardLang)
-        )
-      )
-        .then(function (response) {
-
-          if(typeof response.data === 'object') {
-            $log.info(' Available Classes loaded from server');
-            return createAvailableClassesObject(response.data.results.bindings);
-          }else{
-            return $q.reject(response);
-          }
-
-
-        }, function (response) {
-          $log.error( 'Available Classes could not be loaded from server.');
-          return $q.reject(response);
-        });
-    };
-
-    //Includes the available classes of an endpoint
-    var createAvailableClassesObject = function(availClasses){
-      var ret = [];
-      for (var key in availClasses) {
-        if (availClasses.hasOwnProperty(key)) {
-          var tClass = availClasses[key], alias,
-            comment = 'No description available.',
-            uri = tClass.uri.value;
-          
-          if(tClass.hasOwnProperty('alias')){
-            alias = tClass.alias.value;
-          } else{
-            alias = uri.substr(uri.lastIndexOf('/') + 1);
-          }
-
-          if(tClass.hasOwnProperty('comment')){
-            comment = tClass.comment.value;
-          }
-          
-          ret.push(
-            {
-              alias: alias ,
-              uri: uri,
-              comment: comment
-        }
-          );
-        }
-
-      }
-
-      //Adding special class 'Thing' to the array of available classes
-      ret.push(
-        {
-          alias: 'Thing',
-          uri: 'test/Thing',
-          comment: 'The class Thing is an anonymous class for searching without knowing the subjects class.'
-        }
-      );
-      return ret;
-    };
-
-    //Includes available properties of a subject
-    var createAvailablePropertyObject = function (data) {
-      var ret = [],retMap = {};
-      for (var key in data) {
-        if (data.hasOwnProperty(key)) {
-          var property = data[key],
-            propertyURI = property.uri.value,
-            propertyRange = null,
-            propertyType = 'STANDARD_PROPERTY',
-            propertyComment = '',
-            propertyAlias = '';
-
-          /* Check whether the propertyAlias is undefined and if so, fill it with last part of the URI.*/
-          if (property.hasOwnProperty('alias')) {
-            propertyAlias = property.alias.value;
-          } else {
-            propertyAlias = propertyURI.substr(propertyURI.lastIndexOf('/') + 1);
-          }
-
-          if (property.hasOwnProperty('comment')) {
-            propertyComment = property.comment.value;
-          }
-
-          if (property.hasOwnProperty('range')) {
-            propertyRange = property.range.value;
-          }
-
-          /* Check whether a propertyRange is given.*/
-          if (property.inverse.value === 'I') {
-            propertyType = 'INVERSE_PROPERTY';
-            propertyAlias = 'is ' + propertyAlias + ' of';
-          } else {
-            propertyType = getPropertyType(propertyRange);
-          }
-
-
-          /* If we already have a property with the same URI,
-           then we just add the propertyRange to the corresponding URI. */
-          if (!ret.hasOwnProperty(propertyURI)) {
-            ret.push({
-              alias: propertyAlias,
-              comment: propertyComment,
-              uri: propertyURI,
-              type: propertyType,
-              propertyRange: [],
-              view: true,
-              optional: false,
-              operator: null,
-              link: null,
-              arithmetic: 'x',
-              compare: null
-            });
-            retMap[propertyURI] = ret.length - 1;
-          }
-
-          if (propertyRange !== null) {
-            ret[retMap[propertyURI]].propertyRange.push(propertyRange);
-          }
-
-        }
-      }
-
-
-
-      return ret;
-    };
-
-
-    //TODO: get it to woek again.
-    var createAvailableURIs = function (data) {
-      var ret = {};
-
-      //Create array of all classesURI
-      var allClassURIS = [];
-      for (var key in data) {
-        if(data.hasOwnProperty(key)) {
-          allClassURIS[key] = data[key].class.value;
-        }
-      }
-
-
-      //Add both types of special Properties
-      ret['test/specialObjectProperty'] = {
-        alias: 'unknownConnection',
-        uri: 'test/specialObjectProperty',
-        type: 'OBJECT_PROPERTY',
-        propertyRange: allClassURIS,
-        view: true,
-        operator: 'MUST', //Vorprojekt okay
-        link: null, //Vorprojekt okay
-        arithmetic: 'x', //Vorprojekt leave empty
-        compare: null //Vorprojekt leave empty
-      };
-
-      ret['test/specialDatatypeProperty'] = {
-        alias: 'unknownProperty',
-        uri: 'test/specialDatatypeProperty',
-        type: 'DATATYPE_PROPERTY',
-        propertyRange: [],
-        view: true,
-        operator: 'MUST', //Vorprojekt okay
-        link: null, //Vorprojekt okay
-        arithmetic: 'x', //Vorprojekt leave empty
-        compare: null //Vorprojekt leave empty
-      };
-
-
-      return ret;
-    };
-
-
-    /**
-     * Returns the type of a Property
-     * @param propertyRange
-     * @returns string
-     */
-    var getPropertyType = function (propertyRange) {
-      if (propertyRange !== null) {
-        var conf = globalConfig.propertyTypeURIs;
-        for (var key in conf) {
-          if (conf.hasOwnProperty(key)) {
-            for (var i = 0, j = conf[key].length; i < j; i++) {
-              if (propertyRange.search(conf[key][i]) > -1) {
-                return key;
-              }
+        var cleanURI = function (str) {
+            if (str === null) {
+                return null;
             }
-          }
-        }
-      }
-      return 'STANDARD_PROPERTY';
-    };
+            return str.replace(/^</, '').replace(/>$/, '');
+        };
 
-    /**
-     * Function to build a SPARQL query to get all normal (not if-of) properties of a via URI specified class
-     *
-     * @param uri the URI of the class
-     * @return String query The SPARQL query as an encoded string
-     */
-    function buildAllPropertyQuery (uri) {
-      var query = globalConfig.queryURL,
-
-        param = globalConfig.getPropertiesSPARQLQuery
-          .replace(/%uri%/g, uri)
-          .replace(/%lang%/g, globalConfig.standardLang)
-          .replace(/\s+/, ' ');
-
-      query += encodeURIComponent(param);
-      //TODO SPECIAL PROPERTIES!
-      if (uri === 'test/Thing') {
-        query = 'http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select+distinct+%3FpropertyDomain+%3FpropertyURI+%3FpropertyRange+%3FpropertyAlias+where+{{%3FanonyClass+rdfs%3AsubClassOf%2B+%3Fclass.%0D%0A++++++++++++++++++++++++++++++++{%3FpropertyURI+rdfs%3Adomain+%3Fclass+.+%0D%0A%0D%0A+++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}+.+%0D%0A+++++++++++++++++++++++++++++++++OPTIONAL+{%0D%0A++++++++++++++++++++++++++++++++++++++++++++%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A++++++++++++++++++++++++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29%0D%0A++++++++++++++++++++++++++++++++++++++++++}%0D%0A++++++++++++++++++++++++++++++++}%0D%0A+++++++++++++++++++++++}+%0D%0A%0D%0A++++++++++++++++++++++UNION+{%0D%0A+++++++++++++++++++++++%3FpropertyURI+rdfs%3Adomain+%3FanonyClass.+%3FpropertyURI+rdfs%3Adomain+%3FpropertyDomain+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Arange+%3FpropertyRange+.+}+.%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Alabel+%3FpropertyAlias.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyAlias%29%2C+%22en%22%29%29+}+.+%0D%0A+++++++++++++++++++++++OPTIONAL+{+%3FpropertyURI+rdfs%3Acomment+%3FpropertyComment.%0D%0A+++++++++++++++++++++++FILTER%28LANGMATCHES%28LANG%28%3FpropertyComment%29%2C+%22en%22%29%29+}+}}&format=json&timeout=30000&debug=on';
-      }
-      return query;
-    }
-
-    /**
-     * Returns properties of a SPARQL-Class given by the classes uri.
-     * In other words: the properties have the given class as their 'propertyDomain'.
-     *
-     * @param uri the uri identifiying the SPARQL-Class.
-     */
-    factory.getProperties = function (uri) {
-      $log.info('Lade die Properties von ' + uri);
-
-      //Retrieve Properties from Server and add them to availableProperties
-      return $http.get(buildAllPropertyQuery(uri))
-        .then(function (response) {
-
-          if(typeof response.data === 'object') {
-            $log.info(' Properties loaded from: ' + uri, response);
-            return createAvailablePropertyObject(response.data.results.bindings);
-          }else{
-            return $q.reject(response);
-          }
-        }, function (response) {
-          $log.error('Error loading properties from: ' + uri);
-          return $q.reject(response);
-        }
-      );
-    };
-
-    function buildAllURIsQuery (uri) {
-      var query = globalConfig.queryURL,
-
-        param = globalConfig.getAllURIs
-          .replace(/%uri%/g, uri)
-          .replace(/%lang%/g, globalConfig.standardLang)
-          .replace(/\s+/, ' ');
-
-      query += encodeURIComponent(param);
-      return query;
-    }
-
-    var getAllAlternativeURIs = function (data) {
-      var ret = [],retMap = {};
-      for (var key in data) {
-        if (data.hasOwnProperty(key)) {
-          if(typeof data[key].uri === 'object') {
-            if (data[key].uri.hasOwnProperty('value')) {
-              ret.push(data[key].uri.value);
+        /**
+         * Returns the type of a Property
+         * @param $propertyRange
+         * @returns string
+         */
+        var getPropertyType = function ($propertyRange) {
+            if ($propertyRange !== null) {
+                var conf = globalConfig.propertyTypeURIs;
+                for (var key in conf) {
+                    if (conf.hasOwnProperty(key)) {
+                        for (var i = 0, j = conf[key].length; i < j; i++) {
+                            if ($propertyRange.search(conf[key][i]) > -1) {
+                                return key;
+                            }
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
-      return ret;
-    };
+            return 'STANDARD_PROPERTY';
+        };
+
+        var makeLabel = function($label, uri){
+            if ($label !== null) {
+                return $label;
+            } else {
+                uri = cleanURI(uri);
+                var hashPos = uri.lastIndexOf('#'),
+                    slashPos = uri.lastIndexOf('/');
+                if (hashPos > slashPos) {
+                    $label = uri.substr(hashPos + 1);
+                } else {
+                    $label = uri.substr(slashPos + 1);
+                }
+                return $label;
+            }
+
+        };
+
+        var createAvailablePropertyObject = function (data,filterURI) {
+            var ret = [], retMap = {};
+            for (var key in data) {
+                if (data.hasOwnProperty(key)) {
+                    var property = data[key],
+                        uri = cleanURI(property.uri),
+                        type = 'STANDARD_PROPERTY';
+
+                    if(filterURI === uri || filterURI === undefined) {
+
+                        property.$label = makeLabel(property.$label, uri);
+
+                        /* Check whether a property.range is given.*/
+                        if (property.inverse === 'I') {
+                            type = 'INVERSE_PROPERTY';
+                            property.$label = 'is ' + property.$label + ' of';
+                        } else {
+                            type = getPropertyType(property.range);
+                        }
+
+                        /* If we already have a property with the same URI,
+                         then we just add the property.range to the corresponding URI. */
+                        if (!ret.hasOwnProperty(uri)) {
+                            ret.push({
+                                alias: property.$label,
+                                $label: property.$label,
+                                $comment: property.$comment,
+                                uri: uri,
+                                type: type,
+                                $propertyRange: []
+                            });
+                            retMap[uri] = ret.length - 1;
+                        }
+
+                        if (property.range !== null) {
+                            ret[retMap[uri]].$propertyRange.push(property.range);
+                        }
+                    }
+
+                }
+            }
+            return ret;
+        };
+
+        factory.getAvailableClasses = function () {
+            if (!store.hasOwnProperty('classes')) {
+
+                store.addMap({
+                    name: 'classes',
+                    template: [
+                        {
+                            id: '?s',
+                            uri: '?s',
+                            $label: '?l',
+                            $comment: '?c'
+                        }
+                    ],
+                    from: '?s a rdfs:Class .' +
+                    'OPTIONAL { ?s rdfs:label ?l } .' +
+                    'OPTIONAL { ?s rdfs:comment ?c} '
+                });
+            }
+
+            return store.classes.find().asList()
+                .then(function (docs) {
+                    docs.forEach(function (doc) {
+                        doc.id = cleanURI(doc.id);
+                        doc.uri = doc.id;
+                        doc.$label = makeLabel(doc.$label,doc.id);
+                    });
+                    return docs;
+                })
+                .fail(function (error) {
+                    $log.error('Getting Classes:', error);
+                });
+        };
+
+        factory.getURIMetaData = function (uri) {
+            if (!store.hasOwnProperty('metaData' + uri)) {
+                store.addMap({
+                    name: 'metaData' + uri,
+                    template: [
+                        {
+                            id: '?s',
+                            $comment: '?c',
+                            $label: '?l'
+                        }
+                    ],
+                    from:
+                    '?s a rdfs:Class .' +
+                    'FILTER ( str(?s) = "' + uri + '")' +
+                    'OPTIONAL { <'+ uri + '> rdfs:label ?l } .' +
+                    'OPTIONAL { <'+ uri + '> rdfs:comment ?c} '
+                });
+            }
+            var flow = store['metaData' + uri].find();
+
+            return flow.asList()
+                .then(function (docs) {
+                    docs.forEach(function (doc) {
+                        doc.$label = makeLabel(doc.$label,cleanURI(doc.id));
+                    });
+                    return docs[0];
+                })
+                .fail(function (err) {
+                    $log.error('An error occurred: ', err);
+                });
+
+        };
 
 
-    /**
-     * Returns all other classes of a SPARQL-Class given by the classes uri.
-     *
-     * @param uri the uri identifiying the SPARQL-Class.
-     */
-    factory.getAllURIs = function (uri) {
-      $log.info('Lade die Properties von ' + uri);
+        factory.getAllClassURIs = function (uri) {
+            if (!store.hasOwnProperty('anotherClasses' + uri)) {
+                store.addMap({
+                    name: 'anotherClasses' + uri,
+                    template: [
+                        {
+                            id: '?uri'
+                        }
+                    ],
+                    from: '{   <' + uri + '> rdfs:subClassOf* ?uri. }' +
+                    'UNION' +
+                    '{  <' + uri + '> owl:equivalentClass ?uri.  }'
 
-      //Retrieve Properties from Server and add them to availableProperties
-      return $http.get(buildAllURIsQuery(uri))
-        .then(function (response) {
-          if(typeof response.data === 'object') {
-            $log.info(' Other URIs loaded from: ' + uri, response);
-            return getAllAlternativeURIs(response.data.results.bindings);
-          }else{
-            return $q.reject(response);
-          }
-        }, function (response) {
-          $log.error('Error loading properties from: ' + uri);
-          return $q.reject(response);
-        }
-      );
-    };
+                });
+            }
+            var flow = store['anotherClasses' + uri].find();
 
+            return flow.asList()
+                .then(function (docs) {
+                    var ret = [];
+                    docs.forEach(function (doc) {
+                        ret.push(doc.id);
+                    });
+                    return ret;
+                })
+                .fail(function (err) {
+                    $log.error('An error occurred: ', err);
+                });
 
-    return factory;
+        };
 
-  }]);
+        factory.getProperties = function (uri,filterURI) {
+            if (!store.hasOwnProperty('props' + uri)) {
+                store.addMap({
+                    name: 'props' + uri,
+                    template: [
+                        {
+                            id: '?uri',
+                            uri: '?uri',
+                            inverse: '?inverse',
+                            $comment: '?comment',
+                            $label: '?alias',
+                            range: '?range'
+                        }
+                    ],
+                    from: ' {' +
+                    '  <' + uri + '> rdfs:subClassOf* ?class.' +
+                    '    { ?uri rdfs:domain ?class .' +
+                    '      BIND("D" as ?inverse)' +
+                    '      OPTIONAL { ?uri rdfs:range ?range}' +
+                    '    } UNION {' +
+                    '      ?uri rdfs:range ?class .' +
+                    '      BIND("I" as ?inverse)' +
+                    '      OPTIONAL { ?uri rdfs:domain ?range}' +
+                    '    }' +
+                    '  }' +
+                    '  OPTIONAL { ?uri rdfs:comment ?comment . }' +
+                    '  OPTIONAL { ?uri rdfs:label ?alias . } '
+                });
+            }
+            var flow = store['props' + uri].find();
+
+            return flow.asList()
+                .then(function (docs) {
+                    return (createAvailablePropertyObject(docs,filterURI));
+                })
+                .fail(function (err) {
+                    $log.error('An error occurred: ', err);
+                });
+        };
+
+        return factory;
+
+    }]);

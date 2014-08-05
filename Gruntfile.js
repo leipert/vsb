@@ -1,4 +1,5 @@
 'use strict';
+/* jshint camelcase: false, node: true */
 
 // # Globbing
 // for performance reasons we're only matching one level down:
@@ -212,7 +213,8 @@ module.exports = function (grunt) {
         exclude: [
           'es5-shim.js', //Deactivated as we do not want to support ie9
           'bootstrap.js', //Deactivated as we do not need it
-          'ui-bootstrap' //Deactivated as we do not need it
+          'ui-bootstrap', //Deactivated as we do not need it
+          'underscore' //Deactivated as we will use a custom lodash build (see below).
         ],
         ignorePath: '<%= appRoot %>/'
       }
@@ -368,6 +370,17 @@ module.exports = function (grunt) {
         configFile: 'karma.conf.js',
         singleRun: true
       }
+    },
+
+    'lodash': {
+      'build': {
+        'dest': '<%= appRoot %>/vendor/lodash.build.js',
+        'options': {
+          'modifier': 'underscore',
+          'plus': ['cloneDeep'],
+          'flags': ['debug']
+        }
+      }
     }
   });
 
@@ -380,6 +393,7 @@ module.exports = function (grunt) {
       // 'writefile:configFile', At the moment we have a fixed config file
       // 'markdown:changeLog', At the moment we have no Changelog
       'clean:server',
+      'lodash',
       'injector',
       'wiredep',
       'copy:css',
@@ -411,6 +425,7 @@ module.exports = function (grunt) {
     // 'writefile:configFile', // At the moment we have a fixed config file
     // 'markdown:changeLog', // At the moment we have no Changelog
     'clean:dist',     // Clean Destination Folder
+    'lodash',
     'injector',        // Automatically at dependencies from bower path (bower.json)
     'wiredep',        // Automatically at dependencies from bower path (bower.json)
     'useminPrepare',  // Prepare minification

@@ -7,7 +7,7 @@
     <span class="pull-right">
 
       <!-- Button (Info-Sign) to show more Infos of subjectInst on hover -->
-      <a ng-mouseenter="subjectInst.showInfos = true" ng-mouseleave="subjectInst.showInfos = false">
+      <a ng-mouseenter="subjectInst.$showInfos = true" ng-mouseleave="subjectInst.$showInfos = false">
         <i class="glyphicon glyphicon-info-sign"></i>
       </a>
 
@@ -28,7 +28,7 @@
 
     <!-- Label/URI of subjectInst -->
     <p>
-      <b>Class: {{subjectInst.label}}<br>
+      <b>Class: {{subjectInst.$label}}<br>
         <span ng-show="expertView">{{subjectInst.uri}}</span></b>
     </p>
 
@@ -42,10 +42,10 @@
   </div>
 
   <!-- Description of a subjectInst -->
-  <div class="subjectDescriptionCSS" ng-show="subjectInst.showInfos && subjectInst.showAdditionalFields">
+  <div class="subjectDescriptionCSS" ng-show="subjectInst.$showInfos">
     <p><b>Description:</b></p>
 
-    <p>{{subjectInst.comment}}</p>
+    <p>{{subjectInst.$comment}}</p>
   </div>
 
   <!-- Here there will be the properties of the subjectInst, see @js/controller/property.js -->
@@ -53,13 +53,13 @@
     <div class="clearfix"></div>
 
     <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
-    <property-dir ng-repeat="propertyInst in subjectInst.selectedProperties"></property-dir>
+    <property-dir ng-repeat="propertyInst in subjectInst.$selectedProperties"></property-dir>
 
     <inverse-property-dir ng-repeat="propertyInst in subjectInst.selectedInverseProperties"></inverse-property-dir>
 
-    <aggregate-property-dir ng-repeat="propertyInst in subjectInst.selectedAggregates"></aggregate-property-dir>
+    <aggregate-property-dir ng-repeat="propertyInst in subjectInst.$selectedAggregates"></aggregate-property-dir>
 
-    <div ng-show="subjectInst.showAdditionalFields">
+    <div>
       <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js -->
       <div class="row">
         <div class="input-group">
@@ -71,14 +71,14 @@
             <!-- IMPORTANT: it has to be item in 'repeat="item in...',
             as ui-select defines it internally.	Anything else wont work!	-->
             <choices
-                repeat="item group by type in subjectInst.availableProperties |
+                repeat="item group by type in subjectInst.$availableProperties |
                         orderBy:'alias' | orderBy:'type' |
                         filter: $select.search | limitTo: 10">
               <p>
                 <strong ng-bind-html="item.alias | highlight: $select.search"></strong>
               </p>
               <p style="white-space:normal;">
-                <small ng-bind-html="item.comment | highlight: $select.search"></small>
+                <small ng-bind-html="item.$comment | highlight: $select.search"></small>
               </p>
             </choices>
           </ui-select>
