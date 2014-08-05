@@ -79,18 +79,17 @@
           <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
           <ui-select ng-model="$parent.selectedSubjectClass">
             <match placeholder="Please choose a subject.">
-
-              {{$select.selected.alias}}
+              {{$select.selected}}
             </match>
             <!-- IMPORTANT: it has to be item in 'repeat="item in...',
             as ui-select defines it internally.	Anything else wont work!	-->
             <choices repeat="item in availableSubjectClasses | filter: $select.search | limitTo: 10">
               <p>
-                <span class="h4" ng-bind-html="item.alias | highlight: $select.search"></span>
+                <span class="h4" ng-bind-html="item.$label | highlight: $select.search"></span>
                 <small ng-bind-html="item.uri | highlight: $select.search"></small>
               </p>
               <p style="white-space:normal;">
-                <small ng-bind-html="item.comment | highlight: $select.search"></small>
+                <small ng-bind-html="item.$comment | highlight: $select.search"></small>
               </p>
             </choices>
           </ui-select>
@@ -116,11 +115,11 @@
         <h3>Queries</h3>
         <div class="col-sm-6">
           <p>JSON:</p>
-          <pre id="json-query">{{translatedJSON}}</pre>
+          <pre id="json-query">{{translatedJSON | replaceURIsWithPrefixes}}</pre>
         </div>
         <div class="col-sm-6">
           <p>SPARQL:&nbsp;<a href="#" ng-click="openInNewTab()">Starte dbpedia-query!</a></p>
-          <pre id="sparql-query">{{translatedSPARQL | beautifySPARQL}}</pre>
+          <pre id="sparql-query">{{translatedSPARQL | beautifySPARQL | replaceURIsWithPrefixes}}</pre>
         </div>
       </div>
       <div class="col-sm-12 text-center">

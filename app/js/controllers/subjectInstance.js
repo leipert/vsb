@@ -19,11 +19,26 @@ angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.e
 
         EndPointService.getAllClassURIs($scope.subjectInst.uri)
             .then(function (data) {
-                $scope.subjectInst.classURIs = data;
+                $log.info('Additional Classes loaded',data);
+                $scope.subjectInst.$classURIs = data;
             })
             .fail(function (error) {
                 $log.error(error);
             });
+
+        if($scope.subjectInst.$copied){
+            EndPointService.getURIMetaData($scope.subjectInst.uri)
+                .then(function (data) {
+                    $scope.subjectInst.$comment = data.$comment;
+                    $scope.subjectInst.$label = data.$label;
+                })
+                .fail(function (error) {
+                    $log.error(error);
+                });
+
+        }
+
+
 
     }]);
 

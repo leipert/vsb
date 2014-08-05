@@ -30,7 +30,17 @@ angular.module('GSB.filters', [])
                 }, {key: key, filter: filter}
             );
         };
-    }).filter('beautifySPARQL', function () {
+    })
+    .filter('replaceURIsWithPrefixes',function(){
+        return function (string){
+            return string
+                .replace(/<?http:\/\/vocab.ub.uni-leipzig.de\/bibrm\/(\w+)>?/ig, 'bibrm:$1')
+                .replace(/<?http:\/\/xmlns.com\/foaf\/0.1\/(\w+)>?/ig, 'foaf:$1')
+                .replace(/<?http:\/\/www.w3.org\/2001\/XMLSchema#(\w+)>?/ig, 'xsd:$1')
+                ;
+        };
+    })
+    .filter('beautifySPARQL', function () {
         return function (string) {
             return string
                 .replace(/<http:\/\/www.w3.org\/1999\/02\/22-rdf-syntax-ns#type>/ig, 'a')

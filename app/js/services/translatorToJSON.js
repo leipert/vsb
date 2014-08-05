@@ -7,6 +7,16 @@
 
 angular.module('GSB.services.translatorToJSON', ['GSB.config'])
     .factory('TranslatorToJSON', ['globalConfig', '$log', function (globalConfig, $log) {
+
+        var cleanDollarValues = function(obj){
+            for(var key in obj){
+                if (obj.hasOwnProperty(key) && key.startsWith('$')){
+                    delete obj[key];
+                }
+            }
+            return obj;
+        };
+
         var factory = {};
 
         /**
@@ -34,9 +44,7 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
                 },
                 allSubjects = _.cloneDeep(subjects);
             allSubjects.map(function (currentSubject) {
-                delete currentSubject.availableProperties;
-                currentSubject.properties = currentSubject.selectedProperties.map(function (currentProperty) {
-                    delete currentProperty.propertyType;
+                currentSubject.properties = currentSubject.$selectedProperties.map(function (currentProperty) {
                     if (currentProperty.type !== 'STANDARD_PROPERTY') {
                         if (currentProperty.hasOwnProperty('linkTo') &&
                             currentProperty.linkTo !== null && currentProperty.linkTo.hasOwnProperty('alias')) {
@@ -47,16 +55,14 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
                     } else {
                         currentProperty.linkTo = null;
                     }
-                    return currentProperty;
+                    return cleanDollarValues(currentProperty);
                 });
-                currentSubject.selectedAggregates = currentSubject.selectedAggregates.map(function (currentAggregate) {
-                    delete currentAggregate.available;
-                    return currentAggregate;
+                currentSubject.$selectedAggregates = currentSubject.$selectedAggregates.map(function (currentAggregate) {
+                    return cleanDollarValues(currentAggregate);
                 });
-                currentSubject.properties = currentSubject.properties.concat(currentSubject.selectedAggregates);
-                delete currentSubject.selectedProperties;
-                delete currentSubject.selectedAggregates;
-                return currentSubject;
+                currentSubject.properties = currentSubject.properties.concat(currentSubject.$selectedAggregates);
+
+                return cleanDollarValues(currentSubject);
             });
 
             json.SUBJECTS = allSubjects;

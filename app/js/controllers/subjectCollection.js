@@ -6,7 +6,8 @@
 
 angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 'GSB.config', 'GSB.services.endPoint'])
     //Inject $scope, $log, EndPointService and globalConfig (see @ js/config.js, @js/services/endPoint.js) into controller
-    .controller('SubjectCollectionCtrl', ['$scope', '$q', '$log', 'EndPointService', 'globalConfig', 'TranslatorManager', function ($scope, $q, $log, EndPointService, globalConfig, TranslatorManager) {
+    .controller('SubjectCollectionCtrl', ['$scope', '$q', '$log', 'EndPointService', 'globalConfig', 'TranslatorManager', 'TranslatorToGSBL',
+        function ($scope, $q, $log, EndPointService, globalConfig, TranslatorManager, TranslatorToGSBL) {
 
         $scope.highlightedSubject = null; //
         $scope.mainSubjectSelected = null; //The subject connected with the start point
@@ -20,7 +21,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
         $scope.uiAddSubject = function () {
             if ($scope.selectedSubjectClass) { // If the selected option is undefined no subject will be added.
                 var newSubject = $scope.selectedSubjectClass;
-                addSubject(newSubject.uri, newSubject.alias, newSubject.comment);
+                addSubject(newSubject.uri, newSubject.$label, newSubject.$comment);
                 $scope.selectedSubjectClass = undefined;
             }
         };
@@ -31,24 +32,23 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
          * TODO: Handle empty alias (maybe in createUniqueAlias) & empty comment
          *
          * @param uri
-         * @param alias
-         * @param comment
+         * @param $label
+         * @param $comment
          */
-        var addSubject = function (uri, alias, comment) {
+        var addSubject = function (uri, $label, $comment) {
             $log.info('Subject added');
             $scope.initialisedSubjects = true;
             $scope.subjects.push(
                 {
-                    alias: createUniqueAlias(alias, uri),
-                    label: alias,
+                    alias: createUniqueAlias($label, uri),
+                    $label: $label,
                     uri: uri,
-                    comment: comment,
-                    classURIs: [uri],
+                    $comment: $comment,
+                    $classURIs: [uri],
                     view: true,
-                    selectedProperties: [],
-                    availableProperties: [],
-                    selectedAggregates: [],
-                    showAdditionalFields: true
+                    $selectedProperties: [],
+                    $availableProperties: [],
+                    $selectedAggregates: []
                 }
             );
             //If there is only one subject, it will be the one selected by the startPoint (automatically).
@@ -63,7 +63,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
          * @param {object} subjectObject a JSON/scope correctly formatted subject
          */
         var addSubjectObject = function (subjectObject) {
-            $log.info('Subject added');
+            $log.info('Subject added',subjectObject);
             $scope.subjects.push(subjectObject);
             //If there is only one subject, it will be the one selected by the startPoint (automatically).
             if ($scope.subjects.length === 1) {
@@ -76,27 +76,22 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
          *
          * TODO: Handle empty alias
          *
-         * @param alias
+         * @param $label
          * @param uri
          * @returns {*}
          */
-        var createUniqueAlias = function (alias, uri) {
+        var createUniqueAlias = function ($label) {
             var aliasUnique = true,
-                newAlias = alias,
+                alias = $label,
                 key = null,
                 c = 1;
-
-            //Handling for empty alias, try an extract of uri
-            if (newAlias.length === 0) {
-                newAlias = uri;
-            }
 
             do {
                 for (key in $scope.subjects) {
                     if ($scope.subjects.hasOwnProperty(key)) {
-                        if ($scope.subjects[key].alias === newAlias) {
+                        if ($scope.subjects[key].alias === alias) {
                             aliasUnique = false;
-                            newAlias = alias + '_' + c;
+                            alias = $label + '_' + c;
                             c += 1;
                             break;
                         }
@@ -104,7 +99,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
                     }
                 }
             } while (!aliasUnique);
-            return newAlias;
+            return alias;
         };
 
         /**
@@ -189,11 +184,12 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
         //Set workspace to initial state
         $scope.availableSubjectClasses = [];
         $scope.subjects = [];
-        var json = JSON.parse('{"START":{"type":"LIST_ALL","linkTo":"contract-dynamic"},"SUBJECTS":[{"alias":"contract-dynamic","label":"contract-dynamic","uri":"http://vocab.ub.uni-leipzig.de/bibrm/LicenseContract","comment":"A class modeling rdf:type business contract between the library and one or more parties. This one contains the dynamic properties of rdf:type contract","classURIs":["<http://vocab.ub.uni-leipzig.de/bibrm/LicenseContract>"],"pos": {"x": 820,"y": 359},"view":true,"showAdditionalFields":true,"$$hashKey":"012","properties":[{"alias":"gekündigt am","comment":"Das Datum, an welchem ein Vertrag/Abo gekündigt wurde","uri":"http://vocab.ub.uni-leipzig.de/bibrm/terminationDate","type":"DATE_PROPERTY","propertyRange":["<http://www.w3.org/2001/XMLSchema#date>"],"view":true,"optional":false,"operator":"MUST","link":null,"arithmetic":null,"compare":null,"compareRaw":{"dateComparison":null,"comparisonInput":""},"$$hashKey":"01V","linkTo":null},{"alias":"Lizenzgeber","comment":"Die Vertragspartei, die eine Lizenz zur Verfügung stellt. Für uns wird hier immer der Verlag eingetragen. (s. weitere Felder: Konsortium, Zahlungsempfänger, Hersteller [Creator])","uri":"http://vocab.ub.uni-leipzig.de/bibrm/licensor","type":"OBJECT_PROPERTY","propertyRange":["<http://xmlns.com/foaf/0.1/Organization>"],"view":true,"optional":false,"operator":"MUST","link":null,"arithmetic":null,"compare":null,"compareRaw":{},"$$hashKey":"03M","linkTo":null}]}]}');
+        var json = JSON.parse('{"START":{"type":"LIST_ALL","linkTo":"contract-dynamic"},"SUBJECTS":[{"alias":"contract-dynamic","uri":"http://vocab.ub.uni-leipzig.de/bibrm/LicenseContract","view":true,"properties":[{"alias":"gekündigt am","uri":"http://vocab.ub.uni-leipzig.de/bibrm/terminationDate","type":"DATE_PROPERTY","view":true,"optional":false,"filterNotExists":false,"linkTo":null,"arithmetic":null,"compare":null,"compareRaw":{"dateComparison":null,"comparisonInput":null}},{"alias":"Lizenzgeber","uri":"http://vocab.ub.uni-leipzig.de/bibrm/licensor","type":"OBJECT_PROPERTY","view":true,"optional":false,"filterNotExists":false,"linkTo":null,"arithmetic":null,"compare":null,"compareRaw":{}}]}]}');
         $scope.fillScopeWithSubjects(TranslatorToGSBL.translateJSONToGSBL(json));
 
         EndPointService.getAvailableClasses()
             .then(function (classes) {
+                $log.info('Classes loaded', classes);
                 $scope.availableSubjectClasses = classes;
             })
             .fail(function (err) {
