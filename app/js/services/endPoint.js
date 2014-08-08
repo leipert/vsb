@@ -121,9 +121,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                             $comment: '?c'
                         }
                     ],
-                    from: '?s a rdfs:Class .' +
-                    'OPTIONAL { ?s rdfs:label ?l } .' +
-                    'OPTIONAL { ?s rdfs:comment ?c} '
+                    from: globalConfig.endPointQueries.getAvailableClasses
                 });
             }
 
@@ -152,11 +150,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                             $label: '?l'
                         }
                     ],
-                    from:
-                    '?s a rdfs:Class .' +
-                    'FILTER ( str(?s) = "' + uri + '")' +
-                    'OPTIONAL { <'+ uri + '> rdfs:label ?l } .' +
-                    'OPTIONAL { <'+ uri + '> rdfs:comment ?c} '
+                    from: globalConfig.endPointQueries.getURIMetaData.replace('%uri%',uri)
                 });
             }
             var flow = store['metaData' + uri].find();
@@ -184,10 +178,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                             id: '?uri'
                         }
                     ],
-                    from: '{   <' + uri + '> rdfs:subClassOf* ?uri. }' +
-                    'UNION' +
-                    '{  <' + uri + '> owl:equivalentClass ?uri.  }'
-
+                    from: globalConfig.endPointQueries.getAllClassURIs.replace('%uri%',uri)
                 });
             }
             var flow = store['anotherClasses' + uri].find();
@@ -220,19 +211,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                             range: '?range'
                         }
                     ],
-                    from: ' {' +
-                    '  <' + uri + '> rdfs:subClassOf* ?class.' +
-                    '    { ?uri rdfs:domain ?class .' +
-                    '      BIND("D" as ?inverse)' +
-                    '      OPTIONAL { ?uri rdfs:range ?range}' +
-                    '    } UNION {' +
-                    '      ?uri rdfs:range ?class .' +
-                    '      BIND("I" as ?inverse)' +
-                    '      OPTIONAL { ?uri rdfs:domain ?range}' +
-                    '    }' +
-                    '  }' +
-                    '  OPTIONAL { ?uri rdfs:comment ?comment . }' +
-                    '  OPTIONAL { ?uri rdfs:label ?alias . } '
+                    from: globalConfig.endPointQueries.getProperties.replace('%uri%',uri)
                 });
             }
             var flow = store['props' + uri].find();

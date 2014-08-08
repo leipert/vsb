@@ -33,6 +33,8 @@ angular.module('GSB.controllers.main', ['GSB.config'])
         };
 
         $scope.theMouseUp = function () {
+            $scope.offsetX = 0;
+            $scope.offsetY = 0;
             $scope.mouseDownAct = false;
         };
 

@@ -29,7 +29,7 @@ angular.module('GSB.config', [])
             'foaf': 'http://xmlns.com/foaf/0.1/',
             'owl': 'http://www.w3.org/2002/07/owl#'
         },
-        defaultGraphURIs: ['http://purl.org/ontology/mo/'],
+        defaultGraphURIs: ['http://gsb.leipert.io/ns/'],
         baseURL: 'https://ssl.leipert.io/sparql',
         resultURL: 'https://ssl.leipert.io/sparql?default-graph-uri=http%3A%2F%2Fpurl.org%2Fontology%2Fmo%2F&format=text%2Fhtml&timeout=5000&debug=on&query=',
         allowedLanguages: ['*', 'de', 'en', 'pl'],
@@ -85,16 +85,14 @@ angular.module('GSB.config', [])
             'UNION' +
             '{  <%uri%> rdfs:subClassOf*/owl:equivalentClass ?uri.  }' +
             'FILTER ( !isBlank(?uri) )',
-            getURIMetaData: '?s a owl:Class .' +
+            getURIMetaData: '?s a rdfs:Class .' +
             'FILTER ( !isBlank(?s) )' +
             'FILTER ( str(?s) = "%uri%")' +
             'OPTIONAL { ?s rdfs:label ?l } .' +
             'OPTIONAL { ?s rdfs:comment ?c} ',
-            getAvailableClasses : '?s a owl:Class .' +
+            getAvailableClasses : '?s a rdfs:Class .' +
             'FILTER ( !isBlank(?s) )' +
             'OPTIONAL { ?s rdfs:label ?l } .' +
             'OPTIONAL { ?s rdfs:comment ?c} '
         }
-
-
     });

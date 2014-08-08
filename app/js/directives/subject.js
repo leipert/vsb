@@ -25,8 +25,9 @@ angular.module('GSB.directives.subject', [])
              *
              */
             link: function (scope, element) {
+                var pos = scope.subjectInst.pos;
                 // Set watch for change of the highlightedSubject
-                var startX = 0, startY = 0, x = 150, y = 400;
+                var startX = 0, startY = 0, x = pos.x || 150, y = pos.y || 250;
 
                 scope.$watch('offsetX', function (newValue) {
                     moveX(newValue);
@@ -38,11 +39,13 @@ angular.module('GSB.directives.subject', [])
 
                 function moveX(offset) {
                     x = x + offset;
+                    scope.subjectInst.pos.x = x;
                     element.css({left: x + 'px'});
                 }
 
                 function moveY(offset) {
                     y = y + offset;
+                    scope.subjectInst.pos.y = y;
                     element.css({top: y + 'px'});
                 }
 
@@ -50,6 +53,8 @@ angular.module('GSB.directives.subject', [])
                 element.find('mover').on('mousedown', function (event) {
                     // Prevent default dragging of selected content
                     event.preventDefault();
+                    scope.dragging=true;
+                    scope.$digest();
                     startX = event.pageX - x;
                     startY = event.pageY - y;
                     $document.on('mousemove', mousemove);
@@ -66,21 +71,23 @@ angular.module('GSB.directives.subject', [])
                 }
 
                 function mouseup() {
+                    scope.dragging=false;
+                    scope.$digest();
                     $document.unbind('mousemove', mousemove);
                     $document.unbind('mouseup', mouseup);
                 }
 
-                //Show additional fields on mouseEnter
-                element.on('mouseenter', function () {
-                    scope.subjectInst.showAdditionalFields = true;
-                    scope.$apply();
-                });
-
-                //Hide additional fields on mouseEnter
-                element.on('mouseleave', function () {
-                    scope.subjectInst.showAdditionalFields = true;
-                    scope.$apply();
-                });
+//                //Show additional fields on mouseEnter
+//                element.on('mouseenter', function () {
+//                    scope.subjectInst.showAdditionalFields = true;
+//                    scope.$apply();
+//                });
+//
+//                //Hide additional fields on mouseEnter
+//                element.on('mouseleave', function () {
+//                    scope.subjectInst.showAdditionalFields = true;
+//                    scope.$apply();
+//                });
             }
         };
     }]);

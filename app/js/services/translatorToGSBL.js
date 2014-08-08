@@ -71,6 +71,7 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
                     {
                         alias: curSubj.alias,
                         uri: curSubj.uri,
+                        pos: curSubj.pos,
                         view: curSubj.view,
                         $selectedAggregates: [],
                         $selectedProperties: subjectsProperties,
