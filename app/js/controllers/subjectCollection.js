@@ -185,8 +185,8 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
         //Set workspace to initial state
         $scope.availableSubjectClasses = [];
         $scope.subjects = [];
-        var json = JSON.parse('{"START":{"type":"LIST_ALL","linkTo":"contract-dynamic"},"SUBJECTS":[{"pos":{"x":300,"y":250},"alias":"contract-dynamic","uri":"http://vocab.ub.uni-leipzig.de/bibrm/LicenseContract","view":true,"properties":[{"alias":"gekündigt am","uri":"http://vocab.ub.uni-leipzig.de/bibrm/terminationDate","type":"DATE_PROPERTY","view":true,"optional":false,"filterNotExists":false,"linkTo":null,"arithmetic":null,"compare":null,"compareRaw":{"dateComparison":null,"comparisonInput":null}},{"alias":"Lizenzgeber","uri":"http://vocab.ub.uni-leipzig.de/bibrm/licensor","type":"OBJECT_PROPERTY","view":true,"optional":false,"filterNotExists":false,"linkTo":null,"arithmetic":null,"compare":null,"compareRaw":{}}]}]}');
-        $scope.fillScopeWithSubjects(TranslatorToGSBL.translateJSONToGSBL(json));
+//        var json = JSON.parse('{"START":{"type":"LIST_ALL","linkTo":"contract-dynamic"},"SUBJECTS":[{"pos":{"x":300,"y":250},"alias":"contract-dynamic","uri":"http://vocab.ub.uni-leipzig.de/bibrm/LicenseContract","view":true,"properties":[{"alias":"gekündigt am","uri":"http://vocab.ub.uni-leipzig.de/bibrm/terminationDate","type":"DATE_PROPERTY","view":true,"optional":false,"filterNotExists":false,"linkTo":null,"arithmetic":null,"compare":null,"compareRaw":{"dateComparison":null,"comparisonInput":null}},{"alias":"Lizenzgeber","uri":"http://vocab.ub.uni-leipzig.de/bibrm/licensor","type":"OBJECT_PROPERTY","view":true,"optional":false,"filterNotExists":false,"linkTo":null,"arithmetic":null,"compare":null,"compareRaw":{}}]}]}');
+//        $scope.fillScopeWithSubjects(TranslatorToGSBL.translateJSONToGSBL(json));
 
         EndPointService.getAvailableClasses()
             .then(function (classes) {

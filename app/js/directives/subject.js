@@ -64,6 +64,9 @@ angular.module('GSB.directives.subject', [])
                 function mousemove(event) {
                     y = event.pageY - startY;
                     x = event.pageX - startX;
+                    scope.subjectInst.pos.x = x;
+                    scope.subjectInst.pos.y = y;
+
                     element.css({
                         top: y + 'px',
                         left: x + 'px'

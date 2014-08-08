@@ -55,7 +55,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
             }
 
             if (!property.filterNotExists) {
-                if (property.arithmetic !== null) {
+                if (property.arithmetic !== null && property.arithmetic !== 'x') {
                     s = rdf.NodeFactory.createVar(sanitizeAlias(subjectAlias + ' ' + 'temp'));
                     triples.addTriples([new sparql.ElementBind(s,property.arithmetic)]);
                 }
