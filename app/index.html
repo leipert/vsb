@@ -66,7 +66,7 @@
     <!-- Row containing workspace -->
     <div ng-controller="SubjectCollectionCtrl" ng-show="showArea == 'workspace'">
       <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
-      <div class="box startPointCSS" start-point-dir style="z-index: 0; position: fixed; top: 165px;left:25px;">
+      <div class="box startPointCSS" start-point-dir style="z-index: 10; position: fixed; top: 165px;left:25px;">
         <b>LIST ALL</b>
         <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects" title="Main Subject Select">
           <option style="display:none" value="">Pick main subject</option>
@@ -74,12 +74,12 @@
       </div>
 
       <!-- See @js/controllers/addSubject.js -->
-      <div class="addSubjectBox form-group pull-right" style="z-index: 0; position: fixed; top: 165px;right:25px;">
+      <div class="addSubjectBox form-group pull-right" style="z-index: 10; position: fixed; top: 165px;right:25px;">
         <div class="input-group">
           <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
           <ui-select ng-model="$parent.selectedSubjectClass">
             <match placeholder="Please choose a subject.">
-              {{$select.selected}}
+              {{$select.selected.$label}}
             </match>
             <!-- IMPORTANT: it has to be item in 'repeat="item in...',
             as ui-select defines it internally.	Anything else wont work!	-->

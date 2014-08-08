@@ -5,9 +5,11 @@
   <div class="propertyHeadCSS">
     <div class="pull-right">
       <!-- Button (Info-Sign) to show more Infos of propertyInst on hover -->
-      <a href="#" ng-mouseenter="propertyInst.$showInfos = true" ng-mouseleave="propertyInst.$showInfos = false">
-        <i class="glyphicon glyphicon-info-sign"></i>
-      </a>
+        <i class="glyphicon glyphicon-info-sign"
+           popover="{{propertyInst.$comment}}"
+           popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
+           popover-placement="top"
+           popover-append-to-body="true"></i>
 
       <!-- Button (Eyes) to show whether a propertyInst will be visible in the result or not. -->
       <a href="#" ng-show="propertyInst.view" ng-click="togglePropertyView(propertyInst)">
@@ -29,16 +31,6 @@
         </div>&nbsp;{{propertyInst.alias}}
     </div>
 
-  </div>
-
-  <!-- Description of a property TODO: Actually use one -->
-  <div class="propertyDescriptionCSS"
-       ng-show="(subjectInst.$showInfos || propertyInst.$showInfos)">
-    <p><b>Description:</b></p>
-
-    <p>
-      {{propertyInst.$comment}}
-    </p>
   </div>
 
   <!-- Body of a property -->

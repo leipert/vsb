@@ -1,5 +1,5 @@
 <div class="subjectCSS box" ng-class="{true: 'highlight-subject'}[highlightedSubject.alias == subjectInst.alias]"
-     style="position:relative;">
+     style="position:absolute;z-index: 5;">
   <!-- Template for subject directive -->
 
   <!--Head of a subject includes the label, the alias and some controls -->
@@ -7,9 +7,11 @@
     <span class="pull-right">
 
       <!-- Button (Info-Sign) to show more Infos of subjectInst on hover -->
-      <a ng-mouseenter="subjectInst.$showInfos = true" ng-mouseleave="subjectInst.$showInfos = false">
-        <i class="glyphicon glyphicon-info-sign"></i>
-      </a>
+      <i class="glyphicon glyphicon-info-sign"
+         popover="{{subjectInst.$comment}}"
+         popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
+         popover-placement="top"
+         popover-append-to-body="true"></i>
 
       <mover><i class="glyphicon glyphicon-move"></i></mover>
 
@@ -25,7 +27,6 @@
       <a ng-click="removeSubject(subjectInst)"><i class="glyphicon glyphicon-trash"></i></a>
 
     </span>
-
     <!-- Label/URI of subjectInst -->
     <p>
       <b>Class: {{subjectInst.$label}}<br>
@@ -39,13 +40,6 @@
              class="form-control" placeholder="Alias"
              ng-model="subjectInst.alias">
     </p>
-  </div>
-
-  <!-- Description of a subjectInst -->
-  <div class="subjectDescriptionCSS" ng-show="subjectInst.$showInfos">
-    <p><b>Description:</b></p>
-
-    <p>{{subjectInst.$comment}}</p>
   </div>
 
   <!-- Here there will be the properties of the subjectInst, see @js/controller/property.js -->
@@ -74,12 +68,13 @@
                 repeat="item group by type in subjectInst.$availableProperties |
                         orderBy:'alias' | orderBy:'type' |
                         filter: $select.search | limitTo: 10">
-              <p>
-                <strong ng-bind-html="item.alias | highlight: $select.search"></strong>
-              </p>
-              <p style="white-space:normal;">
-                <small ng-bind-html="item.$comment | highlight: $select.search"></small>
-              </p>
+                <p style="margin: 0">
+                    <i class="glyphicon glyphicon-question-sign pull-right"
+                       popover="{{item.$comment}}"
+                       popover-trigger="mouseenter"
+                       popover-append-to-body="true"></i>
+                    <strong ng-bind-html="item.alias | highlight: $select.search"></strong>
+                </p>
             </choices>
           </ui-select>
 	        <span class="input-group-btn">
@@ -98,4 +93,7 @@
 
   </div>
 
+    <div class="pull-right ">
+    {{pos}}
+    </div>
 </div>
