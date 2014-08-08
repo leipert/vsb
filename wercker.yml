@@ -16,5 +16,5 @@ build:
 deploy:
   steps:
     - lukevivier/gh-pages:
-        token: $GIT_TOKEN
+        token: $GH_TOKEN
         basedir: dist

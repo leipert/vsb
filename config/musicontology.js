@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('GSB.config', [])
-    .constant('globalConfig', {
+  .constant('globalConfig', {
         propertyTypeURIs: {
             'OBJECT_PROPERTY': [
                 'http://purl.org/ontology/mo/',
@@ -97,4 +97,4 @@ angular.module('GSB.config', [])
         }
 
 
-    });
+  });
