@@ -78,7 +78,8 @@ angular.module('GSB.config', [])
             '      OPTIONAL { ?uri rdfs:domain ?range}' +
             '    }' +
             '  }' +
-            '  FILTER ( !isBlank(?uri) )' +
+            '  FILTER ( !isBlank(?class) )' +
+            '  FILTER ( !isBlank(?range) )' +
             '  OPTIONAL { ?uri rdfs:comment ?comment . }' +
             '  OPTIONAL { ?uri rdfs:label ?alias . } ',
             getAllClassURIs : '{   <%uri%> rdfs:subClassOf* ?uri. }' +
