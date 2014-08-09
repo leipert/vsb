@@ -60,9 +60,7 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
                 json = JSON.parse(bfile);
 
 
-                if (json !== null) {
-                    $rootScope.$broadcast('JSONUpdateEvent', json);
-                } else {
+                if (json === null) {
                     $log.error('JSON is not valid / empty');
                     return;
                 }
@@ -72,7 +70,6 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
                  *
                  * */
                 var newWorkspaceContent = TranslatorToGSBL.translateJSONToGSBL(json);
-
                 $rootScope.$broadcast('WorkspaceUpdateFromJSONEvent', newWorkspaceContent);
             };
             reader.readAsBinaryString(selectedFile);

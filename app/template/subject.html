@@ -7,10 +7,10 @@
     <span class="pull-right">
 
       <!-- Button (Info-Sign) to show more Infos of subjectInst on hover -->
-      <i class="glyphicon glyphicon-info-sign"
+      <i class="glyphicon glyphicon-info-sign" ng-if="subjectInst.$comment"
          popover="{{subjectInst.$comment}}"
          popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
-         popover-placement="top"
+         popover-placement="right"
          popover-append-to-body="true"></i>
 
       <mover><i class="glyphicon glyphicon-move"></i></mover>
@@ -69,7 +69,7 @@
                         orderBy:'alias' | orderBy:'type' |
                         filter: $select.search | limitTo: 10">
                 <p style="margin: 0">
-                    <i class="glyphicon glyphicon-question-sign pull-right"
+                    <i class="glyphicon glyphicon-question-sign pull-right" ng-if="item.$comment"
                        popover="{{item.$comment}}"
                        popover-trigger="mouseenter"
                        popover-append-to-body="true"></i>
