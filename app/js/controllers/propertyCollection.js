@@ -53,6 +53,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
             temp.compare = null;
             $selectedProperties.push(temp);
             $scope.propertySelected = undefined;
+            $scope.subjectInst.showAddProperty = false;
         };
 
         /**
@@ -78,6 +79,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
                         available: angular.copy(globalConfig.aggregateFunctions)
                     }
                 ));
+            $scope.subjectInst.showAddProperty = false;
         };
 
         /**

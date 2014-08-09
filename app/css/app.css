@@ -62,8 +62,8 @@ div.highlight-subject {
 /* doesnt work right now, anybody know why? where is the difference to subjectBodyCSS?*/
 div.subjectCSS > div.subjectHeadCSS {
   /*background-color: #00ff00;*/
-  padding: 5px;
-  margin: 5px 0;
+    padding: 5px 5px 0;
+    margin-top: 5px;
 }
 
 div.subjectCSS div.subjectHeadCSS b {
@@ -83,7 +83,7 @@ div.subjectCSS > div.subjectHeadCSS > .form-control {
 div.subjectCSS div.subjectBodyCSS {
   /*background-color: #ff0000;*/
   padding: 5px;
-  margin: 5px 0;
+  margin: 0;
 }
 
 div.subjectCSS div.subjectBodyCSS select{
@@ -96,9 +96,9 @@ div.subjectCSS div.subjectBodyCSS select{
 div.subjectCSS div.propertyCSS {
   background: #B0E57C;
   color:#000000;
-  border-radius: 5px;
-  padding: 5px;
-  margin: 5px 0;
+  border-radius: 0;
+    padding: 5px 10px;
+    margin: 0 -10px 5px;
 }
 
 div.subjectCSS div.propertyCSS b {

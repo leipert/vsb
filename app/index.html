@@ -85,7 +85,7 @@
             as ui-select defines it internally.	Anything else wont work!	-->
             <choices repeat="item in availableSubjectClasses | filter: $select.search | limitTo: 15">
                 <p style="margin: 0">
-                    <i class="glyphicon glyphicon-question-sign pull-right" ng-if="item.$comment"
+                    <i class="glyphicon glyphicon-info-sign pull-right" ng-if="item.$comment"
                        popover="{{item.$comment}}"
                        popover-trigger="mouseenter"
                        popover-placement="left"
