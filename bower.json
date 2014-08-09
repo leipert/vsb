@@ -14,5 +14,27 @@
   },
   "resolutions": {
     "jquery": "~2.1.1"
-  }
+  },
+    "overrides": {
+        "angular-bootstrap": {
+            "main": [
+                "ui-bootstrap-tpls.js"
+            ]
+        },
+        "underscore.string": {
+            "main": [
+                "lib/underscore.string.js"
+            ]
+        },
+        "jscache": {
+            "main": [
+                "cache.js"
+            ]
+        },
+        "jassa": {
+            "main": [
+                "jassa.min.js"
+            ]
+        }
+    }
 }

@@ -37,6 +37,7 @@
     "load-grunt-tasks": "~0.6.0",
     "time-grunt": "~0.3.2",
     "grunt-injector": "git://github.com/robpc/grunt-injector.git",
-    "grunt-lodash": "~0.3.0"
+    "grunt-lodash": "~0.3.0",
+    "grunt-htmlrefs": "~0.5.0"
   }
 }

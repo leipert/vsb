@@ -213,8 +213,8 @@ module.exports = function (grunt) {
         exclude: [
           'es5-shim.js', //Deactivated as we do not want to support ie9
           'bootstrap.js', //Deactivated as we do not need it
-          'ui-bootstrap', //Deactivated as we do not need it
-          'underscore' //Deactivated as we will use a custom lodash build (see below).
+          'jassa', //Deactivated as we will add it manually
+          'underscore.js' //Deactivated as we will use a custom lodash build (see below).
         ],
         ignorePath: '<%= appRoot %>/'
       }
@@ -341,6 +341,12 @@ module.exports = function (grunt) {
             cwd: '<%= bowerRC.directory %>/bootstrap/dist/fonts/',
             src: ['**'],
             dest: '<%= distRoot %>/fonts/'
+          },
+          {
+            expand: true,
+            cwd: '<%= bowerRC.directory %>/jassa/',
+            src: ['*.min.js'],
+            dest: '<%= distRoot %>/js/'
           }
         ]
       },
@@ -381,7 +387,15 @@ module.exports = function (grunt) {
           'flags': ['debug']
         }
       }
-    }
+    },
+
+      htmlrefs: {
+          dist: {
+              src: './dist/index.html',
+              dest: './dist/index.html'
+          }
+      }
+
   });
 
   grunt.registerTask('serve', function () {
@@ -425,21 +439,22 @@ module.exports = function (grunt) {
     // 'writefile:configFile', // At the moment we have a fixed config file
     // 'markdown:changeLog', // At the moment we have no Changelog
     'clean:dist',     // Clean Destination Folder
-    'lodash',
-    'injector',        // Automatically at dependencies from bower path (bower.json)
+    'lodash',         // Create a custom lodash build
+    'injector',       // Automatically at dependencies from bower path (bower.json)
     'wiredep',        // Automatically at dependencies from bower path (bower.json)
     'useminPrepare',  // Prepare minification
     'copy:images',    // Copy images to Dist
-    'copy:css',    // Copy stylesheets to Dist
+    'copy:css',       // Copy stylesheets to Dist
     'autoprefixer',   // Adds prefixes to css properties (ie -webkit-property, -moz-property)
     'concat',         // Concat styles and scripts into one file
     'ngmin',          // preminify Angular files (i.e. function ($scope) -> ['$scope', function($scope)])
     'copy:dist',      // Copy remaining files to Dist
     'cssmin',         // Minify CSS
     'uglify',         // Minify JS
+    'htmlrefs',       // Change minfied Jassa import to revved version
     'rev',            // Create file revisions to force browser reload
     'usemin',         // Replace links to CSS and scripts with revisioned ones in index.html
-    'htmlmin'
+    'htmlmin'         // Minify HTML
   ]);
 
   grunt.registerTask('default', [

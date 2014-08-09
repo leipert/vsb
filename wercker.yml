@@ -17,4 +17,4 @@ deploy:
   steps:
     - lukevivier/gh-pages:
         token: $GH_TOKEN
-        basedir: app
+        basedir: dist
