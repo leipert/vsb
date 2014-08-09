@@ -1,5 +1,5 @@
 @prefix :         <http://gsb.leipert.io/ns/> .
-@prefix gsb: <http://gsb.leipert.io/ns/> .
+@prefix gsb:      <http://gsb.leipert.io/ns/> .
 @prefix doap:     <http://usefulinc.com/ns/doap#>.
 @prefix foaf:     <http://xmlns.com/foaf/0.1/> .
 @prefix owl:      <http://www.w3.org/2002/07/owl#> .
@@ -23,9 +23,16 @@
     rdfs:label "Agent"@de, "Agent"@en ;
     rdfs:comment "Analog zu foaf:Agent"@de, "Analogue to foaf:Agent"@en ;
     rdfs:subClassOf owl:Thing ;
+    rdfs:isDefinedBy <http://gsb.leipert.io/ns/> ;
     owl:equivalentClass foaf:Agent .
 
     # Agent Properties
+
+    :name a owl:DataProperty
+        rdfs:label "Name"@de, "Name"@en ;
+        rdfs:comment "Name eines Agents"@de, "Name of an Agent"@en ;
+        rdfs:domain :Agent ;
+        rdfs:range xsd:string .
 
     :founder a owl:ObjectProperty, owl:IrreflexiveProperty ;
         rdfs:label "Gründer"@de, "Founder"@en ;
@@ -49,6 +56,18 @@
     owl:equivalentClass foaf:Person .
 
     # Person Properties
+
+    :birthDate a owl:DataProperty ;
+        rdfs:label "Geburtstag"@de, "Birth Date"@en ;
+        rdfs:comment "Der Geburtstag einer Person"@de, "The birth date of a person"@en ;
+        rdfs:domain :Person ;
+        rdfs:range xsd:date .
+
+    :age a owl:DataProperty ;
+        rdfs:label "Alter"@de, "Age"@en ;
+        rdfs:comment "Das Alter einer Person"@de, "The age of a person"@en ;
+        rdfs:domain :Person ;
+        rdfs:range xsd:integer .
 
     :ancestor a owl:ObjectProperty, owl:TransitiveProperty, owl:AsymmetricProperty, owl:IrreflexiveProperty ;
         rdfs:label "Vorfahr"@de, "Ancestor"@en ;

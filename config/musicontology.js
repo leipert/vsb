@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('GSB.config', [])
-  .constant('globalConfig', {
+    .constant('globalConfig', {
         propertyTypeURIs: {
             'OBJECT_PROPERTY': [
                 'http://purl.org/ontology/mo/',
@@ -27,7 +27,8 @@ angular.module('GSB.config', [])
         prefixes: {
             'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
             'foaf': 'http://xmlns.com/foaf/0.1/',
-            'owl': 'http://www.w3.org/2002/07/owl#'
+            'owl': 'http://www.w3.org/2002/07/owl#',
+            'mo': 'http://purl.org/ontology/mo/'
         },
         defaultGraphURIs: ['http://purl.org/ontology/mo/'],
         baseURL: 'https://ssl.leipert.io/sparql',
@@ -98,4 +99,4 @@ angular.module('GSB.config', [])
         }
 
 
-  });
+    });

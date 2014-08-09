@@ -27,7 +27,8 @@ angular.module('GSB.config', [])
         prefixes: {
             'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
             'foaf': 'http://xmlns.com/foaf/0.1/',
-            'owl': 'http://www.w3.org/2002/07/owl#'
+            'owl': 'http://www.w3.org/2002/07/owl#',
+            'gsb': 'http://gsb.leipert.io/ns/'
         },
         defaultGraphURIs: ['http://gsb.leipert.io/ns/'],
         baseURL: 'https://ssl.leipert.io/sparql',
@@ -78,7 +79,8 @@ angular.module('GSB.config', [])
             '      OPTIONAL { ?uri rdfs:domain ?range}' +
             '    }' +
             '  }' +
-            '  FILTER ( !isBlank(?uri) )' +
+            '  FILTER ( !isBlank(?class) )' +
+            '  FILTER ( !isBlank(?range) )' +
             '  OPTIONAL { ?uri rdfs:comment ?comment . }' +
             '  OPTIONAL { ?uri rdfs:label ?alias . } ',
             getAllClassURIs : '{   <%uri%> rdfs:subClassOf* ?uri. }' +
