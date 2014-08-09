@@ -35,6 +35,11 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
             }
         ];
 
+        $scope.getOperatorText = function(value){
+            if (value !== null) {
+                return $scope.propertyOperators[value - 1].label;
+            }
+        };
 
         /**
          * Adds a property selected from the $availableProperties of a

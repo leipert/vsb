@@ -3,7 +3,8 @@
 
   <!-- Top of a property -->
   <div class="propertyHeadCSS">
-    <div class="pull-right">
+      <p>
+    <span class="pull-right icon-list">
       <!-- Button (Info-Sign) to show more Infos of propertyInst on hover -->
         <i class="glyphicon glyphicon-info-sign"
            popover="{{propertyInst.$comment}}"
@@ -12,25 +13,40 @@
            popover-append-to-body="true"></i>
 
       <!-- Button (Eyes) to show whether a propertyInst will be visible in the result or not. -->
-      <a href="#" ng-show="propertyInst.view" ng-click="togglePropertyView(propertyInst)">
-        <i class="glyphicon glyphicon-eye-open"></i>
-      </a>
-      <a href="#" ng-show="!propertyInst.view" ng-click="togglePropertyView(propertyInst)">
-        <i class="glyphicon glyphicon-eye-close"></i>
-      </a>
+        <i class="glyphicon glyphicon-eye-open" ng-show="propertyInst.view" ng-click="togglePropertyView(propertyInst)"></i>
+        <i class="glyphicon glyphicon-eye-close" ng-hide="propertyInst.view" ng-click="togglePropertyView(propertyInst)"></i>
 
       <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/property.js -->
-      <a href="#" ng-click="removeProperty(propertyInst)"><i class="glyphicon glyphicon-trash"></i></a>
-    </div>
+      <i class="glyphicon glyphicon-trash" ng-click="removeProperty(propertyInst)"></i>
+    </span>
+      <b>
+      <span class="h4" >{{propertyInst.alias}}</span>
+      <i class="glyphicon glyphicon-edit pointer" ng-click="propertyInst.editAlias = true"></i>
+      <small ng-show="propertyInst.alias !== propertyInst.$label"><small>({{ propertyInst.uri | replaceURIsWithPrefixes}})</small></small>
+  </b>
+      </p>
+      <!--Input for changing the Alias:-->
+      <div class="input-group"ng-show="propertyInst.editAlias">
+
+          <input type="text" size="30" maxlength="40"
+                 class="form-control" placeholder="Alias"
+                 ng-model="propertyInst.alias">
+        <div class="input-group-btn">
+            <button class="btn btn-success" ng-click="propertyInst.editAlias = false">
+        <i class="glyphicon glyphicon-check"></i>
+            </button>
+        </div>
+      </div>
 
     <!-- Alias of propertyInst -->
     <div>
         <div class="pull-left">
             <select ng-model="propertyInst.$operator" ng-options="x.value as x.label for x in propertyOperators"
                     title="Change Property Operator"></select>
-        </div>&nbsp;{{propertyInst.alias}}
+        </div>
+        <!--&nbsp;{{propertyInst.alias}}-->
     </div>
-
+<div class="clearfix"></div>
   </div>
 
   <!-- Body of a property -->

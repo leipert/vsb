@@ -5,13 +5,13 @@
   <!--Head of a subject includes the label, the alias and some controls -->
   <div class="subjectHeadCSS">
       <p>
-    <span class="pull-right">
+    <span class="pull-right icon-list">
 
-              <mover><i class="glyphicon glyphicon-move"></i></mover>
+     <mover><i class="glyphicon glyphicon-move"></i></mover>
 
 
       <!-- Button (Info-Sign) to show more Infos of subjectInst on hover -->
-      <i class="glyphicon glyphico+n-info-sign" ng-if="subjectInst.$comment"
+      <i class="glyphicon glyphicon-info-sign" ng-if="subjectInst.$comment"
          popover="{{subjectInst.$comment}}"
          popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
          popover-placement="right"
@@ -19,21 +19,17 @@
 
 
       <!-- Button (Eyes) to show whether a subjectInst will be visible in the result or not. -->
-      <a ng-show="subjectInst.view" ng-click="toggleSubjectView()">
-        <i class="glyphicon glyphicon-eye-open"></i>
-      </a>
-      <a ng-show="!subjectInst.view" ng-click="toggleSubjectView()">
-        <i class="glyphicon glyphicon-eye-close"></i>
-      </a>
+        <i class="glyphicon glyphicon-eye-open" ng-show="subjectInst.view" ng-click="toggleSubjectView()"></i>
+        <i class="glyphicon glyphicon-eye-close" ng-hide="subjectInst.view" ng-click="toggleSubjectView()"></i>
 
       <!--Button (Trash-ICON) to remove subjectInst from list @js/controller/main.js-->
-      <a ng-click="removeSubject(subjectInst)"><i class="glyphicon glyphicon-trash"></i></a>
+      <i class="glyphicon glyphicon-trash" ng-click="removeSubject(subjectInst)"></i>
 
     </span>
     <!-- Label/URI of subjectInst -->
       <b>
           <span class="h4" >{{subjectInst.alias}}</span>
-          <i class="glyphicon glyphicon-edit" ng-click="subjectInst.editAlias = true"></i>
+          <i class="glyphicon glyphicon-edit pointer" ng-click="subjectInst.editAlias = true"></i>
           <small ng-show="subjectInst.alias !== subjectInst.$label"><small>({{ subjectInst.uri | replaceURIsWithPrefixes}})</small></small>
       </b>
 </p>

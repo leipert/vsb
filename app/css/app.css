@@ -1,16 +1,29 @@
 /* No need to think about the following */
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
-
 .row {
   margin: 10px 0;
 }
 
-/* Set height and color of workspace and result area */
-
-#workspace {
-  min-height: 450px;
-  background-color: #eeeeee;
+body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
 }
+
+pre {
+    -webkit-touch-callout: default;
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+    cursor: text;
+}
+
+/* Set height and color of workspace and result area */
 
 #sparql-query, #json-query {
   border: 1px solid black;
@@ -70,16 +83,6 @@ div.subjectCSS div.subjectHeadCSS b {
   color: darkgoldenrod;
 }
 
-#workspace div.subjectCSS > div.subjectHeadCSS > .input-group-addon {
-  background: #BF98D5;
-  color: #54226F;
-}
-div.subjectCSS > div.subjectHeadCSS > .form-control {
-  background: #C5A8D5;
-  color: #735B80;
-}
-
-
 div.subjectCSS div.subjectBodyCSS {
   /*background-color: #ff0000;*/
   padding: 5px;
@@ -105,76 +108,17 @@ div.subjectCSS div.propertyCSS b {
   color: #0D5516;
 }
 
-div.subjectCSS div.propertyCSS a {
-  color: #CC0000;
-}
-
 div.subjectCSS div.propertyCSS select {
   background: #D3F2B5;
   color: #0D5516;
 }
 
-div.subjectCSS div.propertyCSS div.propertyHeadCSS i {
-  color: #0000bb;
-}
-
-div.subjectCSS div.inversePropertyCSS {
-  background: #00E57C;
-  color:#000000;
-  border-radius: 5px;
-  padding: 5px;
-  margin: 5px 0;
-}
-
-div.subjectCSS div.inversePropertyCSS b {
-  color: #0D5516;
-}
-
-div.subjectCSS div.inversePropertyCSS a {
-  color: #CC0000;
-}
-
-div.subjectCSS div.inversePropertyCSS select {
-  background: #D3F2B5;
-  color: #0D5516;
-}
-
-div.subjectCSS div.inversePropertyCSS div.inversePropertyHeadCSS i {
-  color: #0000bb;
-}
-
-
-#saveLink a:hover
-    {
-    color: #000000;
-    text-decoration: none;
-    }
-#saveLink a:link
-{
-    color: #ffffff;
-  text-decoration: none;
-}
-#saveLink a:active
-{
-    color: #ffffff;
-    text-decoration: none;
-}
-#saveLink a:visited
-{
-    color: #ffffff;
-    text-decoration: none;
-}
 
 .ui-select-bootstrap > .ui-select-choices {
   width:400px;
   max-height: 600px;
 }
 
-.dropdown-menu {
-  width: 400px;
-  right:0;
-  left:auto;
-}
 
 #top-controls td
 {
@@ -183,4 +127,20 @@ div.subjectCSS div.inversePropertyCSS div.inversePropertyHeadCSS i {
 
 #legend td {
   padding-right: 5em;
+}
+ {
+}
+
+i.pointer,
+.icon-list i {
+    cursor: pointer;
+    color: #2d5085;
+
+}
+
+i.pointer:hover,
+.icon-list i:hover {
+    cursor: pointer;
+    color: #599cee;
+
 }
