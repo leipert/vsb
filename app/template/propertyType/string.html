@@ -1,15 +1,41 @@
 <div>
   <!-- if a property is selected, it will be linked with the subject -->
-  <select ng-model="selectedLanguage"
-          ng-options="x as x for x in allowedLanguages"
-          title="Select">
-    <option value="">LANG</option>
-  </select>
-  <select ng-model="stringComparison"
-          ng-options="idx as x.label for (idx, x) in allowedStringComparisons"
-          title="Compare this string">
-    <option value="">exists</option>
-  </select>
-  <input ng-show="stringComparison != null" ng-model="comparisonInput">
-  <input ng-show="stringComparison != null && showFlags" ng-model="comparisonRegexFlags">
+
+    <div class="input-group input-group-sm" >
+        <div class="input-group-addon">
+            Language
+        </div>
+        <select ng-model="selectedLanguage"
+                ng-options="x as x for x in allowedLanguages"
+                title="Select"
+                class="form-control input-sm">
+            <option value="">Select a language</option>
+        </select>
+        </div>
+
+        <div class="input-group input-group-sm" style="margin-top: 5px">
+            <div class="input-group-addon">
+                Comparison
+            </div>
+        <div class="input-group-btn dropdown" is-open="dd2.isopen">
+            <button type="button" class="btn dropdown-toggle btn-default"
+                    style="border-radius: 0;border-right: 0"
+                    >
+                {{getStringComparisonLabel()}} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="(idx,x) in allowedStringComparisons">
+                    <a href="#" ng-click="changeStringComparison(idx)">{{x.label}}</a>
+                </li>
+            </ul>
+        </div>
+        <input ng-disabled="stringComparison === null" type="text" class="form-control input-sm" ng-model="comparisonInput">
+        <span ng-show="showFlags" class="input-group-btn" style="width:0; "></span>
+        <input ng-show="showFlags"
+               type="text" class="form-control input-sm"
+               ng-model="comparisonRegexFlags"
+               style="border-left:0"
+                />
+    </div>
+
 </div>

@@ -1,18 +1,16 @@
-<div class="col-xs-10">
-  <form class="form-horizontal">
-    <div class="form-group">
-      <label class="col-xs-4 control-label">Arithmetics:</label>
-
-      <div class="col-xs-8">
+<div>
+    <div class="input-group input-group-sm">
+        <div class="input-group-addon">
+            Arithmetics
+        </div>
         <input class="form-control" ng-model="numberArithmetic" limit-input="[^\-\*\/\.\+()\d xe]">
-      </div>
     </div>
-    <div class="form-group">
-      <label class="col-xs-4 control-label">Comparison:</label>
 
-      <div class="col-xs-8">
+    <div class="input-group input-group-sm" style="margin-top: 5px;">
+        <div class="input-group-addon">
+            Comparison
+        </div>
         <input class="form-control" ng-model="numberComparison" limit-input="[^\-\*\/\.\+()><=!\d xye]">
-      </div>
     </div>
-  </form>
-</div>
+    </form>
+    </div>
