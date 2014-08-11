@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.propertyType.object', ['GSB.config'])
     //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
-    .controller('ObjectPropertyCtrl', ['$scope', function ($scope) {
+    .controller('ObjectPropertyCtrl', function ($scope) {
         //Observes and updates the values of linked partner of the choosen object properties
         $scope.$watch('propertyInst.linkTo', function (nv) {
             if (nv !== undefined && nv !== null) {
@@ -15,4 +15,4 @@ angular.module('GSB.controllers.propertyType.object', ['GSB.config'])
             }
         });
 
-    }]);
+    });

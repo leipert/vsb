@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.propertyType.aggregate', ['GSB.config'])
     //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
-    .controller('AggregatePropertyCtrl', ['$scope', function ($scope) {
+    .controller('AggregatePropertyCtrl', function ($scope) {
         //Observes and updates the values of the choosen aggregate properties
         $scope.$watch('selected', function (nv) {
             if (nv !== undefined && nv !== null) {
@@ -25,4 +25,4 @@ angular.module('GSB.controllers.propertyType.aggregate', ['GSB.config'])
                 $scope.propertyInst.linkTo = nv.alias;
             }
         });
-    }]);
+    });

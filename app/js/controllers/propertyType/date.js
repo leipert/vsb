@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.propertyType.date', ['GSB.config', 'ui.bootstrap'])
     //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
-    .controller('DatePropertyCtrl', ['$scope', function ($scope) {
+    .controller('DatePropertyCtrl', function ($scope) {
 
         $scope.open = function ($event) {
             $event.preventDefault();
@@ -90,4 +90,4 @@ angular.module('GSB.controllers.propertyType.date', ['GSB.config', 'ui.bootstrap
             }
         }
 
-    }]);
+    });

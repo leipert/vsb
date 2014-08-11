@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.main', ['GSB.config'])
 //Inject $scope, $log and globalConfig (see @ js/config.js) into controller
-    .controller('MainCtrl', ['$scope', '$log', 'globalConfig', function ($scope, $log, globalConfig) {
+    .controller('MainCtrl', function ($scope, $log, globalConfig) {
 
         //Some drag and drop variables
         $scope.showArea = 'workspace';
@@ -112,4 +112,4 @@ angular.module('GSB.controllers.main', ['GSB.config'])
         };
 
 
-    }]);
+    });

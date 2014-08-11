@@ -6,8 +6,8 @@
 
 angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 'GSB.config', 'GSB.services.endPoint'])
     //Inject $scope, $log, EndPointService and globalConfig (see @ js/config.js, @js/services/endPoint.js) into controller
-    .controller('SubjectCollectionCtrl', ['$scope', '$q', '$log', 'EndPointService', 'globalConfig', 'TranslatorManager', 'TranslatorToGSBL',
-        function ($scope, $q, $log, EndPointService, globalConfig, TranslatorManager, TranslatorToGSBL) {
+    .controller('SubjectCollectionCtrl',
+        function ($scope, $q, $log, EndPointService, globalConfig, TranslatorManager) {
 
         $scope.highlightedSubject = null; //
         $scope.mainSubjectSelected = null; //The subject connected with the start point
@@ -185,8 +185,6 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
         //Set workspace to initial state
         $scope.availableSubjectClasses = [];
         $scope.subjects = [];
-//        var json = JSON.parse('{"START":{"type":"LIST_ALL","linkTo":"contract-dynamic"},"SUBJECTS":[{"pos":{"x":300,"y":250},"alias":"contract-dynamic","uri":"http://vocab.ub.uni-leipzig.de/bibrm/LicenseContract","view":true,"properties":[{"alias":"gekündigt am","uri":"http://vocab.ub.uni-leipzig.de/bibrm/terminationDate","type":"DATE_PROPERTY","view":true,"optional":false,"filterNotExists":false,"linkTo":null,"arithmetic":null,"compare":null,"compareRaw":{"dateComparison":null,"comparisonInput":null}},{"alias":"Lizenzgeber","uri":"http://vocab.ub.uni-leipzig.de/bibrm/licensor","type":"OBJECT_PROPERTY","view":true,"optional":false,"filterNotExists":false,"linkTo":null,"arithmetic":null,"compare":null,"compareRaw":{}}]}]}');
-//        $scope.fillScopeWithSubjects(TranslatorToGSBL.translateJSONToGSBL(json));
 
         EndPointService.getAvailableClasses()
             .then(function (classes) {
@@ -197,4 +195,4 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
                 $log.error('An error occurred: ', err);
             });
 
-    }]);
+    });

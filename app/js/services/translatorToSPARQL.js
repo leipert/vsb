@@ -8,7 +8,7 @@
 
 
 angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
-    .factory('TranslatorToSPARQL', ['globalConfig', '$log', function (globalConfig, $log) {
+    .factory('TranslatorToSPARQL', function () {
 
         var factory = {};
 
@@ -132,4 +132,4 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
         return factory;
 
-    }]);
+    });

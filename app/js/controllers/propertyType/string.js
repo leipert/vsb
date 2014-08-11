@@ -6,8 +6,8 @@
  */
 
 angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
-    //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
-    .controller('StringPropertyCtrl', ['$scope', '$http', '$log', 'globalConfig', function ($scope, $http, $log, globalConfig) {
+    //Inject $scope, $http, and globalConfig (see @ js/config.js) into controller
+    .controller('StringPropertyCtrl', function ($scope, $http, globalConfig) {
 
         var start = angular.copy($scope.propertyInst.compareRaw);
 
@@ -141,4 +141,4 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
             }
         }
 
-    }]);
+    });

@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.propertyType.number', ['GSB.config'])
     //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
-    .controller('NumberPropertyCtrl', ['$scope', function ($scope) {
+    .controller('NumberPropertyCtrl', function ($scope) {
         $scope.numberArithmetic = '';
 
 
@@ -35,7 +35,7 @@ angular.module('GSB.controllers.propertyType.number', ['GSB.config'])
             if(newValue === 'x'){
                 $scope.propertyInst.arithmetic = null;
             } else {
-            $scope.propertyInst.arithmetic = newValue.replace(/x/g, '%before_arithmetic%');
+                $scope.propertyInst.arithmetic = newValue.replace(/x/g, '%before_arithmetic%');
             }
         });
 
@@ -47,10 +47,10 @@ angular.module('GSB.controllers.propertyType.number', ['GSB.config'])
             if(newValue === 'x' || newValue == 'y'){
                 $scope.propertyInst.compare = null;
             } else {
-            $scope.propertyInst.compare = newValue
-                .replace(/x/g, '%before_arithmetic%')
-                .replace(/y/g, '%after_arithmetic%');
+                $scope.propertyInst.compare = newValue
+                    .replace(/x/g, '%before_arithmetic%')
+                    .replace(/y/g, '%after_arithmetic%');
             }
         });
 
-    }]);
+    });

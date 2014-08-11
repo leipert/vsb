@@ -6,7 +6,8 @@
  */
 
 angular.module('GSB.services.translatorManager', ['GSB.config'])
-    .factory('TranslatorManager', ['$log', 'globalConfig', '$rootScope', 'TranslatorToJSON', 'TranslatorToGSBL', 'TranslatorToSPARQL', function ($log, globalConfig, $rootScope, TranslatorToJSON, TranslatorToGSBL, TranslatorToSPARQL) {
+    .factory('TranslatorManager',
+    function ($log, globalConfig, $rootScope, TranslatorToJSON, TranslatorToGSBL, TranslatorToSPARQL) {
         var factory = {};
 
 
@@ -87,4 +88,4 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
         };
 
         return factory;
-    }]);
+    });

@@ -8,7 +8,7 @@
  */
 
 angular.module('GSB.services.endPoint', ['GSB.config'])
-    .factory('EndPointService', ['$http', '$q', '$log', 'globalConfig', function ($http, $q, $log, globalConfig) {
+    .factory('EndPointService', function ($http, $q, $log, globalConfig) {
         _.mixin(_.str.exports());
         var factory = {};
 
@@ -227,4 +227,4 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
 
         return factory;
 
-    }]);
+    });

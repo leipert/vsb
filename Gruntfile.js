@@ -287,10 +287,13 @@ module.exports = function (grunt) {
       }
     },
 
-    // ngmin tries to make the code safe for minification automatically by
+    // ngAnnotate tries to make the code safe for minification automatically by
     // using the Angular long form for dependency injection. It doesn't work on
     // things like resolve or inject so those have to be done manually.
-    ngmin: {
+    ngAnnotate: {
+      options: {
+          singleQuotes: true
+      },
       dist: {
         files: [
           {
@@ -447,7 +450,7 @@ module.exports = function (grunt) {
     'copy:css',       // Copy stylesheets to Dist
     'autoprefixer',   // Adds prefixes to css properties (ie -webkit-property, -moz-property)
     'concat',         // Concat styles and scripts into one file
-    'ngmin',          // preminify Angular files (i.e. function ($scope) -> ['$scope', function($scope)])
+    'ngAnnotate',          // preminify Angular files (i.e. function ($scope) -> ['$scope', function($scope)])
     'copy:dist',      // Copy remaining files to Dist
     'cssmin',         // Minify CSS
     'uglify',         // Minify JS

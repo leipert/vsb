@@ -6,7 +6,7 @@
  */
 
 angular.module('GSB.services.translatorToJSON', ['GSB.config'])
-    .factory('TranslatorToJSON', ['globalConfig', '$log', function (globalConfig, $log) {
+    .factory('TranslatorToJSON', function (globalConfig, $log) {
 
         var cleanDollarValues = function(obj){
             for(var key in obj){
@@ -70,4 +70,4 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
             return JSON.stringify(json, null, 2);
         };
         return factory;
-    }]);
+    });

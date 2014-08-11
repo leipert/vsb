@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.services.endPoint'])
 //Inject $scope, $http, $log and globalConfig (see @js/config.js, @js/services/endPoint.js) into controller
-    .controller('PropertyCollectionCtrl', ['$scope', '$http', '$q', '$log', 'globalConfig', 'EndPointService', function ($scope, $http, $q, $log, globalConfig, EndPointService) {
+    .controller('PropertyCollectionCtrl', function ($scope, $http, $q, $log, globalConfig, EndPointService) {
 
         var $selectedProperties = $scope.subjectInst.$selectedProperties;
         EndPointService.$availableProperties = [];
@@ -75,4 +75,4 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
             $scope.subjectInst.$selectedAggregates.splice($scope.subjectInst.$selectedAggregates.indexOf(aggregateInst), 1);
         };
 
-    }]);
+    });

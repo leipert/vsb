@@ -31,7 +31,7 @@ angular.module('GSB.filters', ['GSB.config'])
             );
         };
     })
-    .filter('replaceURIsWithPrefixes',function(globalConfig){
+    .filter('replaceURIsWithPrefixes', function(globalConfig){
         return function (string){
             for(var key in globalConfig.prefixes){
                 if(globalConfig.prefixes.hasOwnProperty(key)){

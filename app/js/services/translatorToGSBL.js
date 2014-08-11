@@ -6,7 +6,7 @@
  */
 
 angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
-    .factory('TranslatorToGSBL', ['globalConfig', '$log', function (globalConfig, $log) {
+    .factory('TranslatorToGSBL', function (globalConfig, $log) {
         var factory = {};
 
         /**
@@ -88,4 +88,4 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
             return workspaceContent;
         };
         return factory;
-    }]);
+    });

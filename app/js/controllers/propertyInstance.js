@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
     //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
-    .controller('PropertyInstanceCtrl', ['$scope', '$log', 'EndPointService', function ($scope, $log, EndPointService) {
+    .controller('PropertyInstanceCtrl', function ($scope, $log, EndPointService) {
 
         /**
          * Changes visibility of a given propertyInst
@@ -17,11 +17,11 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
         };
 
         $scope.togglePropertyExists = function () {
-            $scope.propertyInst.filterExists =  !$scope.propertyInst.filterExists;
+            $scope.propertyInst.filterExists = !$scope.propertyInst.filterExists;
         };
 
         $scope.toggleHasFilter = function () {
-            $scope.propertyInst.hasFilter =  !$scope.propertyInst.hasFilter;
+            $scope.propertyInst.hasFilter = !$scope.propertyInst.hasFilter;
         };
 
         /**
@@ -31,8 +31,8 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
             $scope.propertyInst.optional = !$scope.propertyInst.optional;
         };
 
-        if($scope.propertyInst.$copied){
-            EndPointService.getProperties($scope.subjectInst.uri,$scope.propertyInst.uri)
+        if ($scope.propertyInst.$copied) {
+            EndPointService.getProperties($scope.subjectInst.uri, $scope.propertyInst.uri)
                 .then(function (data) {
                     data = data[0];
                     $scope.propertyInst.$comment = data.$comment;
@@ -58,4 +58,4 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
         });
 
 
-    }]);
+    });

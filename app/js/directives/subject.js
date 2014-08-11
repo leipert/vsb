@@ -11,7 +11,7 @@
 
 angular.module('GSB.directives.subject', [])
 
-    .directive('subjectDir', ['$document', function ($document) {
+    .directive('subjectDir', function ($document) {
         return {
             restrict: 'E',
             replace: true,
@@ -93,4 +93,4 @@ angular.module('GSB.directives.subject', [])
 //                });
             }
         };
-    }]);
+    });

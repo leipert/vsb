@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.endPoint'])
     //Inject $scope, $log, EndPointService and globalConfig (see @ js/config.js, @js/services/endPoint.js) into controller
-    .controller('SubjectInstanceCtrl', ['$scope', '$log', 'EndPointService', function ($scope, $log, EndPointService) {
+    .controller('SubjectInstanceCtrl', function ($scope, $log, EndPointService) {
 
 
         /**
@@ -40,5 +40,5 @@ angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.e
 
 
 
-    }]);
+    });
 
