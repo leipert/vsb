@@ -1,5 +1,5 @@
 {
-  "name": "gsb",
+  "name": "GSB",
   "version": "1.0.0",
   "description": "A graphical SPARQL Builder. Create SPARQL Queries without any SPARQL knowledge!",
   "repository": "https://github.com/swp14-gsb/gsb",
@@ -38,6 +38,7 @@
     "grunt-injector": "git://github.com/robpc/grunt-injector.git",
     "grunt-lodash": "~0.3.0",
     "grunt-htmlrefs": "~0.5.0",
-    "grunt-ng-annotate": "~0.3.2"
+    "grunt-ng-annotate": "~0.3.2",
+    "grunt-angular-templates": "~0.5.7"
   }
 }
