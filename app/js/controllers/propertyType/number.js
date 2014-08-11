@@ -13,18 +13,18 @@ angular.module('GSB.controllers.propertyType.number', ['GSB.config'])
 
         var start = angular.copy($scope.propertyInst.compareRaw);
 
-        $scope.numberArithmetic = '';
-        $scope.numberComparison = '';
+        $scope.numberArithmetic = 'x';
+        $scope.numberComparison = 'y';
+
 
         if (start !== null && start !== undefined) {
-            if (start.numberArithmetic !== null) {
+            if (start.numberArithmetic !== null && start.numberArithmetic !== undefined) {
                 $scope.numberArithmetic = start.numberArithmetic;
             }
-            if (start.numberComparison !== null) {
+            if (start.numberComparison !== null && start.numberComparison !== undefined) {
                 $scope.numberComparison = start.numberComparison;
             }
         }
-
 
         //Observes and updates the values of the chosen number arithmetics
         $scope.$watch('numberArithmetic', function (newValue) {
@@ -32,7 +32,11 @@ angular.module('GSB.controllers.propertyType.number', ['GSB.config'])
                 newValue = 'x';
             }
             $scope.propertyInst.compareRaw.numberArithmetic = newValue;
+            if(newValue === 'x'){
+                $scope.propertyInst.arithmetic = null;
+            } else {
             $scope.propertyInst.arithmetic = newValue.replace(/x/g, '%before_arithmetic%');
+            }
         });
 
         $scope.$watch('numberComparison', function (newValue) {
@@ -40,9 +44,13 @@ angular.module('GSB.controllers.propertyType.number', ['GSB.config'])
                 newValue = 'y';
             }
             $scope.propertyInst.compareRaw.numberComparison = newValue;
+            if(newValue === 'x' || newValue == 'y'){
+                $scope.propertyInst.compare = null;
+            } else {
             $scope.propertyInst.compare = newValue
                 .replace(/x/g, '%before_arithmetic%')
                 .replace(/y/g, '%after_arithmetic%');
+            }
         });
 
     }]);

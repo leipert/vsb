@@ -1,9 +1,74 @@
-<div class="propertyCSS">
-  <!-- Template for property directive -->
+<div class="propertyCSS" ng-class="propertyInst.filterExists ? '' : 'notExists'">
+    <!-- Template for property directive -->
 
-  <!-- Top of a property -->
-  <div class="propertyHeadCSS">
-    <div class="pull-right">
+    <!-- Top of a property -->
+    <div class="propertyHeadCSS">
+        <p>
+        <div class="dropdown pull-right icon-list" on-toggle="toggled(open)">
+            &nbsp;<i class="glyphicon glyphicon-plus dropdown-toggle"></i>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-show="propertyInst.hasFilter">
+                    <a href="#" ng-click="toggleHasFilter()">
+                        <i class="glyphicon glyphicon-filter"></i> Remove Filter
+                    </a>
+                </li>
+                <li ng-hide="propertyInst.hasFilter">
+                    <a href="#" ng-click="toggleHasFilter()">
+                        <i class="glyphicon glyphicon-filter"></i> Add Filter
+                    </a>
+                </li>
+                <li ng-show="propertyInst.filterExists">
+                    <a href="#" ng-click="togglePropertyExists()">
+                        <i class="glyphicon glyphicon-remove"></i> Exists not
+                    </a>
+                </li>
+                <li ng-hide="propertyInst.filterExists">
+                    <a href="#" ng-click="togglePropertyExists()">
+                        <i class="glyphicon glyphicon-check"></i> Exists
+                    </a>
+                </li>
+                <li ng-show="propertyInst.filterExists && !propertyInst.optional">
+                    <a href="#" ng-click="togglePropertyOptional()">
+                        <i class="glyphicon glyphicon-question-sign"></i> Is Optional
+                    </a>
+                </li>
+                <li ng-show="propertyInst.filterExists && propertyInst.optional">
+                    <a href="#" ng-click="togglePropertyOptional()">
+                        <i class="glyphicon glyphicon-exclamation-sign"></i> Is Mandatory
+                    </a>
+                </li>
+                <li ng-hide="propertyInst.view">
+                    <a href="#" ng-click="togglePropertyView()">
+                        <i class="glyphicon glyphicon-eye-open"></i> Show Property
+                    </a>
+                </li>
+                <li ng-show="propertyInst.view">
+                    <a href="#" ng-click="togglePropertyView()">
+                        <i class="glyphicon glyphicon-eye-close"></i> Hide Property
+                    </a>
+                </li>
+                <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/property.js -->
+                <li>
+                    <a href="#" ng-click="removeProperty(propertyInst)">
+                        <i class="glyphicon glyphicon-trash"></i> Delete Property
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+          <span class="pull-right icon-list">
+
+        <i class="glyphicon glyphicon-remove"
+           ng-hide="propertyInst.filterExists"
+           ng-click="togglePropertyExists()"></i>
+        <i class="glyphicon glyphicon-question-sign"
+           ng-show="propertyInst.filterExists && propertyInst.optional"
+           ng-click="togglePropertyOptional()"></i>
+
+        <!-- Button (Eyes) to show whether a propertyInst will be visible in the result or not. -->
+        <i class="glyphicon glyphicon-eye-close"
+           ng-hide="propertyInst.view" ng-click="togglePropertyView()"></i>
+
       <!-- Button (Info-Sign) to show more Infos of propertyInst on hover -->
         <i class="glyphicon glyphicon-info-sign"
            popover="{{propertyInst.$comment}}"
@@ -11,59 +76,65 @@
            popover-placement="top"
            popover-append-to-body="true"></i>
 
-      <!-- Button (Eyes) to show whether a propertyInst will be visible in the result or not. -->
-      <a href="#" ng-show="propertyInst.view" ng-click="togglePropertyView(propertyInst)">
-        <i class="glyphicon glyphicon-eye-open"></i>
-      </a>
-      <a href="#" ng-show="!propertyInst.view" ng-click="togglePropertyView(propertyInst)">
-        <i class="glyphicon glyphicon-eye-close"></i>
-      </a>
+    </span>
+        <!-- Alias of propertyInst -->
+        <b>
+            <span class="h5"><b>{{propertyInst.alias}}</b></span>
+            <i class="glyphicon glyphicon-edit pointer" ng-click="propertyInst.editAlias = true"></i>
+            <small ng-show="propertyInst.alias !== propertyInst.$label">
+                <small>({{ propertyInst.uri | replaceURIsWithPrefixes}})</small>
+            </small>
+        </b>
+        </p>
+        <!--Input for changing the Alias:-->
+        <div class="input-group" ng-show="propertyInst.editAlias">
 
-      <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/property.js -->
-      <a href="#" ng-click="removeProperty(propertyInst)"><i class="glyphicon glyphicon-trash"></i></a>
+            <input type="text" size="30" maxlength="40"
+                   class="form-control" placeholder="Alias"
+                   ng-model="propertyInst.alias">
+
+            <div class="input-group-btn">
+                <button class="btn btn-success" ng-click="propertyInst.editAlias = false">
+                    <i class="glyphicon glyphicon-check"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
     </div>
 
-    <!-- Alias of propertyInst -->
-    <div>
-        <div class="pull-left">
-            <select ng-model="propertyInst.$operator" ng-options="x.value as x.label for x in propertyOperators"
-                    title="Change Property Operator"></select>
-        </div>&nbsp;{{propertyInst.alias}}
+    <!-- Body of a property -->
+    <div class="propertyBodyCSS">
+
+        <!--Depending on PropertyType the appropriate controls are inserted,
+        you can use ng-include for direct insertion templates or
+        a own directive with templates and controllers
+        This is the place if you want to add new property Types.-->
+        <div class="propertyFilters" ng-show="propertyInst.filterExists && propertyInst.hasFilter"
+             ng-switch on="propertyInst.type">
+
+            <div ng-switch-when="OBJECT_PROPERTY">
+                <div object-property-dir></div>
+            </div>
+            <div ng-switch-when="NUMBER_PROPERTY">
+                <div number-property-dir></div>
+            </div>
+            <div ng-switch-when="STRING_PROPERTY">
+                <div string-property-dir></div>
+            </div>
+            <div ng-switch-when="INVERSE_PROPERTY">
+                <div object-property-dir></div>
+            </div>
+            <div ng-switch-when="DATE_PROPERTY">
+                <div date-property-dir></div>
+            </div>
+
+            <div ng-switch-default></div>
+        </div>
+
+        <!-- CSS Trick, because pull-right does not make the container higher -->
+        <div class="clearfix"></div>
+
     </div>
-
-  </div>
-
-  <!-- Body of a property -->
-  <div class="propertyBodyCSS">
-
-    <!--Depending on PropertyType the appropriate controls are inserted,
-    you can use ng-include for direct insertion templates or
-    a own directive with templates and controllers
-    This is the place if you want to add new property Types.-->
-    <div ng-switch on="propertyInst.type">
-
-      <div ng-switch-when="OBJECT_PROPERTY">
-        <div object-property-dir></div>
-      </div>
-      <div ng-switch-when="NUMBER_PROPERTY">
-        <div number-property-dir></div>
-      </div>
-      <div ng-switch-when="STRING_PROPERTY">
-        <div string-property-dir></div>
-      </div>
-      <div ng-switch-when="INVERSE_PROPERTY">
-        <div object-property-dir></div>
-      </div>
-      <div ng-switch-when="DATE_PROPERTY">
-        <div date-property-dir></div>
-      </div>
-
-      <div ng-switch-default></div>
-    </div>
-
-    <!-- CSS Trick, because pull-right does not make the container higher -->
-    <div class="clearfix"></div>
-
-  </div>
 
 </div>

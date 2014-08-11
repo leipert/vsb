@@ -52,6 +52,25 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
         $scope.comparisonInput = '';
         $scope.comparisonRegexFlags = 'i';
 
+        $scope.getStringComparisonLabel = function(){
+            if($scope.stringComparison === null){
+                return 'no comparison';
+            }
+            return $scope.allowedStringComparisons[$scope.stringComparison].label;
+        };
+        $scope.getLangComparisonLabel = function(){
+            if($scope.selectedLanguage === null){
+                return 'LANG';
+            }
+            return $scope.selectedLanguage;
+        };
+
+        $scope.changeStringComparison = function(key){
+            $scope.stringComparison = key;
+        };
+        $scope.changeLangComparison = function(key){
+            $scope.selectedLanguage = key;
+        };
 
         if (start !== null && start !== undefined) {
             if (start.selectedLanguage !== null && start.selectedLanguage !== undefined) {

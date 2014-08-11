@@ -4,14 +4,17 @@ build:
   # The steps that will be executed on build
   steps:
     # A step that executes `npm install` command
+    - script:
+        name: Copying config
+        code: cp $CONFIG_FILE app/js/config.js
     - npm-install
     - leipert/yeoman-bower-install
     - script:
-        name: Copying config.inc.js
-        code: cp $CONFIG_FILE app/js/config.js
-    - script:
         name: Run grunt build
         code: grunt build
+    - script:
+        name: Copying graphs
+        code: cp config/graphs/*.ttl dist/
 
 deploy:
   steps:

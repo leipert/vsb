@@ -203,7 +203,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                     name: 'props' + uri,
                     template: [
                         {
-                            id: '?uri',
+                            id: '?id',
                             uri: '?uri',
                             inverse: '?inverse',
                             $comment: '?comment',

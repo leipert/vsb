@@ -4,41 +4,43 @@
 
   <!--Head of a subject includes the label, the alias and some controls -->
   <div class="subjectHeadCSS">
-    <span class="pull-right">
+      <p>
+    <span class="pull-right icon-list">
+
+     <mover><i class="glyphicon glyphicon-move"></i></mover>
+
 
       <!-- Button (Info-Sign) to show more Infos of subjectInst on hover -->
-      <i class="glyphicon glyphicon-info-sign"
+      <i class="glyphicon glyphicon-info-sign" ng-if="subjectInst.$comment"
          popover="{{subjectInst.$comment}}"
          popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
-         popover-placement="top"
+         popover-placement="right"
          popover-append-to-body="true"></i>
 
-      <mover><i class="glyphicon glyphicon-move"></i></mover>
 
       <!-- Button (Eyes) to show whether a subjectInst will be visible in the result or not. -->
-      <a ng-show="subjectInst.view" ng-click="toggleSubjectView()">
-        <i class="glyphicon glyphicon-eye-open"></i>
-      </a>
-      <a ng-show="!subjectInst.view" ng-click="toggleSubjectView()">
-        <i class="glyphicon glyphicon-eye-close"></i>
-      </a>
+        <i class="glyphicon glyphicon-eye-open" ng-show="subjectInst.view" ng-click="toggleSubjectView()"></i>
+        <i class="glyphicon glyphicon-eye-close" ng-hide="subjectInst.view" ng-click="toggleSubjectView()"></i>
 
       <!--Button (Trash-ICON) to remove subjectInst from list @js/controller/main.js-->
-      <a ng-click="removeSubject(subjectInst)"><i class="glyphicon glyphicon-trash"></i></a>
+      <i class="glyphicon glyphicon-trash" ng-click="removeSubject(subjectInst)"></i>
 
     </span>
     <!-- Label/URI of subjectInst -->
-    <p>
-      <b>Class: {{subjectInst.$label}}<br>
-        <span ng-show="expertView">{{subjectInst.uri}}</span></b>
-    </p>
-
+      <b>
+          <span class="h4" >{{subjectInst.alias}}</span>
+          <i class="glyphicon glyphicon-edit pointer" ng-click="subjectInst.editAlias = true"></i>
+          <small ng-show="subjectInst.alias !== subjectInst.$label"><small>({{ subjectInst.uri | replaceURIsWithPrefixes}})</small></small>
+      </b>
+</p>
     <!--Input for changing the Alias:-->
-    <p class="input-group pull-left">
-      <span class="input-group-addon">as</span>
+    <p class="input-group pull-left"ng-show="subjectInst.editAlias">
       <input type="text" size="30" maxlength="40"
              class="form-control" placeholder="Alias"
              ng-model="subjectInst.alias">
+        <span class="btn input-group-addon btn-success" ng-click="subjectInst.editAlias = false">
+        <i class="glyphicon glyphicon-check"></i>
+        </span>
     </p>
   </div>
 
@@ -49,11 +51,15 @@
     <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
     <property-dir ng-repeat="propertyInst in subjectInst.$selectedProperties"></property-dir>
 
-    <inverse-property-dir ng-repeat="propertyInst in subjectInst.selectedInverseProperties"></inverse-property-dir>
-
     <aggregate-property-dir ng-repeat="propertyInst in subjectInst.$selectedAggregates"></aggregate-property-dir>
 
-    <div>
+      <div ng-hide="subjectInst.showAddProperty" class="text-center">
+          <div class="btn btn-sm btn-success" ng-click="subjectInst.showAddProperty = true" >
+              <span class="glyphicon glyphicon-plus"></span> Property
+          </div>
+      </div>
+
+    <div ng-show="subjectInst.showAddProperty">
       <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js -->
       <div class="row">
         <div class="input-group">
@@ -69,7 +75,7 @@
                         orderBy:'alias' | orderBy:'type' |
                         filter: $select.search | limitTo: 10">
                 <p style="margin: 0">
-                    <i class="glyphicon glyphicon-question-sign pull-right"
+                    <i class="glyphicon glyphicon-info-sign pull-right" ng-if="item.$comment"
                        popover="{{item.$comment}}"
                        popover-trigger="mouseenter"
                        popover-append-to-body="true"></i>

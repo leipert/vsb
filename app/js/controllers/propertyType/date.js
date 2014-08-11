@@ -39,8 +39,16 @@ angular.module('GSB.controllers.propertyType.date', ['GSB.config', 'ui.bootstrap
             }
         ];
 
-        $scope.dateComparison = null;
-        $scope.comparisonInput = '';
+        $scope.getDateComparisonLabel = function(key){
+            return $scope.allowedDateComparisons[key].label;
+        };
+
+        $scope.changeDateComparison = function(key){
+            $scope.dateComparison = key;
+        };
+
+        $scope.dateComparison = 0;
+        $scope.comparisonInput = new Date();
 
 
         if (start !== null && start !== undefined) {

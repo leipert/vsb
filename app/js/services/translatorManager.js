@@ -18,21 +18,8 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
         factory.prepareSaveLink = function (mainSubjectSelected, subjects) {
 
             var json = TranslatorToJSON.translateGSBLToJSON(mainSubjectSelected, subjects);
-
             var blob = new Blob([json], {type: 'application/json'});
-            var url = URL.createObjectURL(blob);
-
-            var a = document.createElement('a');
-            a.download = 'query.json';
-            a.href = url;
-            a.textContent = 'Download query.json';
-
-            if (document.getElementById('saveLink').firstChild === null) {
-                document.getElementById('saveLink').appendChild(a);
-            }
-            else {
-                document.getElementById('saveLink').replaceChild(a, document.getElementById('saveLink').firstChild);
-            }
+            document.getElementById('saveLink').href = URL.createObjectURL(blob);
 
         };
 
@@ -60,9 +47,7 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
                 json = JSON.parse(bfile);
 
 
-                if (json !== null) {
-                    $rootScope.$broadcast('JSONUpdateEvent', json);
-                } else {
+                if (json === null) {
                     $log.error('JSON is not valid / empty');
                     return;
                 }
@@ -72,7 +57,6 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
                  *
                  * */
                 var newWorkspaceContent = TranslatorToGSBL.translateJSONToGSBL(json);
-
                 $rootScope.$broadcast('WorkspaceUpdateFromJSONEvent', newWorkspaceContent);
             };
             reader.readAsBinaryString(selectedFile);

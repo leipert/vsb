@@ -16,6 +16,13 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
             $scope.propertyInst.view = !$scope.propertyInst.view;
         };
 
+        $scope.togglePropertyExists = function () {
+            $scope.propertyInst.filterExists =  !$scope.propertyInst.filterExists;
+        };
+
+        $scope.toggleHasFilter = function () {
+            $scope.propertyInst.hasFilter =  !$scope.propertyInst.hasFilter;
+        };
 
         /**
          * Changes optionality of a given propertyInst
@@ -37,19 +44,6 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
                     $log.error(error);
                 });
         }
-
-
-        $scope.$watch('propertyInst.$operator',function(nv){
-            if(nv === 1){
-                $scope.propertyInst.filterNotExists = false;
-                $scope.propertyInst.optional = false;
-            }else if(nv === 2){
-                $scope.propertyInst.filterNotExists = false;
-                $scope.propertyInst.optional = true;
-            }else if(nv ===3){
-                $scope.propertyInst.filterNotExists = true;
-            }
-        });
 
         $scope.$watch('propertyInst.linkTo', function (nv) {
             if (typeof nv === 'string') {

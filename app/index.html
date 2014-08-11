@@ -52,7 +52,7 @@
           </table>
           <span ng-show="showArea == 'query'">
             <a href="#" class="btn btn-warning" ng-click="showArea = 'workspace'">Back to Workspace</a>
-            <a href="#" class="btn btn-success" ng-click=""><div id="saveLink"><i class="glyphicon glyphicon-save"></i></div></a>
+            <a href="" download="query.json" id="saveLink" class="btn btn-success"><i class="glyphicon glyphicon-save"></i> Download query.json</a>
             <a class="btn btn-info" ng-click="showArea = 'help'"><b>?</b></a>
           </span>
           <span ng-show="showArea == 'help'">
@@ -83,14 +83,16 @@
             </match>
             <!-- IMPORTANT: it has to be item in 'repeat="item in...',
             as ui-select defines it internally.	Anything else wont work!	-->
-            <choices repeat="item in availableSubjectClasses | filter: $select.search | limitTo: 10">
-              <p>
-                <span class="h4" ng-bind-html="item.$label | highlight: $select.search"></span>
-                <small ng-bind-html="item.uri | highlight: $select.search"></small>
-              </p>
-              <p style="white-space:normal;">
-                <small ng-bind-html="item.$comment | highlight: $select.search"></small>
-              </p>
+            <choices repeat="item in availableSubjectClasses | filter: $select.search | limitTo: 15">
+                <p style="margin: 0">
+                    <i class="glyphicon glyphicon-info-sign pull-right" ng-if="item.$comment"
+                       popover="{{item.$comment}}"
+                       popover-trigger="mouseenter"
+                       popover-placement="left"
+                       popover-append-to-body="true"></i>
+                    <strong ng-bind-html="item.$label | highlight: $select.search"></strong>
+                    <small><small ng-bind-html="item.uri | replaceURIsWithPrefixes"></small></small>
+                </p>
             </choices>
           </ui-select>
 	        <span class="input-group-btn">

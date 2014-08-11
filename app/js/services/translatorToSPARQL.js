@@ -39,9 +39,9 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
                 triples = new sparql.ElementTriplesBlock(),
                 r;
             var s = rdf.NodeFactory.createVar(subjectAlias);
-            var b = s;
             var p = rdf.NodeFactory.createUri(uri);
             var o = rdf.NodeFactory.createVar(alias);
+            var b = o;
             var view = subjectView && property.view;
             if (type === 'INVERSE_PROPERTY') {
                 r = translateObjectProperty(s, p, o, property.linkTo, view);
@@ -54,16 +54,24 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
                 view = r.view;
             }
 
-            if (!property.filterNotExists) {
-                if (property.arithmetic !== null && property.arithmetic !== 'x') {
-                    s = rdf.NodeFactory.createVar(sanitizeAlias(subjectAlias + ' ' + 'temp'));
-                    triples.addTriples([new sparql.ElementBind(s,property.arithmetic)]);
+            if (property.filterExists) {
+                if(property.hasFilter) {
+                    if (property.arithmetic !== null) {
+                        b = rdf.NodeFactory.createVar(sanitizeAlias(alias + ' ' + 'temp'));
+                    }
                 }
-                triples.addTriples([new rdf.Triple(s, p, o)]);
 
-                if (property.compare !== null) {
-                    property.compare = property.compare.replace(/%before_arithmetic%/g, b).replace(/%after_arithmetic%/g, s);
-                    triples.addTriples([new sparql.ElementFilter(property.compare)]);
+                triples.addTriples([new rdf.Triple(s, p, b)]);
+
+                if(property.hasFilter) {
+                    if (property.arithmetic !== null) {
+                        property.arithmetic = property.arithmetic.replace(/%before_arithmetic%/g, b).replace(/%after_arithmetic%/g, o);
+                        triples.addTriples([new sparql.ElementBind(o, property.arithmetic)]);
+                    }
+                    if (property.compare !== null) {
+                        property.compare = property.compare.replace(/%before_arithmetic%/g, b).replace(/%after_arithmetic%/g, o);
+                        triples.addTriples([new sparql.ElementFilter(property.compare)]);
+                    }
                 }
 
                 if (view && !shownVariables.contains(rdf.NodeFactory.createVar(alias))) {

@@ -41,24 +41,16 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
 
                     var curProp = curSubj.properties[p];
 
-                    var $operator = 1;
-
-                    if(curProp.filterNotExists){
-                        $operator = 3;
-                    }else if (curProp.optional){
-                        $operator = 2;
-                    }
-
                     subjectsProperties.push(
                         {
-                            $operator: $operator,
                             $copied : true,
                             alias: curProp.alias,
                             uri: curProp.uri,
                             type: curProp.type,
                             view: curProp.view,
                             optional: curProp.optional,
-                            filterNotExists: curProp.filterNotExists,
+                            filterExists: curProp.filterExists,
+                            hasFilter: curProp.hasFilter,
                             linkTo: curProp.linkTo,
                             arithmetic: curProp.arithmetic,
                             compare: curProp.compare,
