@@ -7,11 +7,11 @@
       <p>
     <span class="pull-right icon-list">
 
-     <mover><i class="glyphicon glyphicon-move"></i></mover>&nbsp;
+     <mover><i class="fa fa-fw fa-arrows"></i></mover>
 
 
       <!-- Button (Info-Sign) to show more Infos of subjectInst on hover -->
-      <i class="glyphicon glyphicon-info-sign" ng-if="subjectInst.$comment"
+      <i class="fa fa-fw fa-info-circle" ng-if="subjectInst.$comment"
          popover="{{subjectInst.$comment}}"
          popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
          popover-placement="right"
@@ -19,17 +19,17 @@
 
 
       <!-- Button (Eyes) to show whether a subjectInst will be visible in the result or not. -->
-        <i class="glyphicon glyphicon-eye-open" ng-show="subjectInst.view" ng-click="toggleSubjectView()"></i>
-        <i class="glyphicon glyphicon-eye-close" ng-hide="subjectInst.view" ng-click="toggleSubjectView()"></i>
+        <i class="fa fa-fw fa-eye" ng-show="subjectInst.view" ng-click="toggleSubjectView()"></i>
+        <i class="fa fa-fw fa-eye-slash" ng-hide="subjectInst.view" ng-click="toggleSubjectView()"></i>
 
       <!--Button (Trash-ICON) to remove subjectInst from list @js/controller/main.js-->
-      <i class="glyphicon glyphicon-trash" ng-click="removeSubject(subjectInst)"></i>
+      <i class="fa fa-fw fa-trash-o" ng-click="removeSubject(subjectInst)"></i>
 
     </span>
     <!-- Label/URI of subjectInst -->
       <b>
           <span class="h4" >{{subjectInst.alias}}</span>
-          <i class="glyphicon glyphicon-edit pointer" ng-click="subjectInst.editAlias = true"></i>
+          <i class="fa fa-edit pointer" ng-click="subjectInst.editAlias = true"></i>
           <small ng-show="subjectInst.alias !== subjectInst.$label"><small>({{ subjectInst.uri | replaceURIsWithPrefixes}})</small></small>
       </b>
 </p>
@@ -39,7 +39,7 @@
              class="form-control" placeholder="Alias"
              ng-model="subjectInst.alias">
         <span class="btn input-group-addon btn-success" ng-click="subjectInst.editAlias = false">
-        <i class="glyphicon glyphicon-check"></i>
+        <i class="fa fa-check-square-o"></i>
         </span>
     </p>
   </div>
@@ -55,7 +55,7 @@
 
       <div ng-hide="subjectInst.showAddProperty" class="text-center">
           <div class="btn btn-sm btn-success" ng-click="subjectInst.showAddProperty = true" >
-              <span class="glyphicon glyphicon-plus"></span> Property
+              <span class="fa fa-plus"></span> Property
           </div>
       </div>
 
@@ -75,7 +75,7 @@
                         orderBy:'alias' | orderBy:'type' |
                         filter: $select.search | limitTo: 10">
                 <p style="margin: 0">
-                    <i class="glyphicon glyphicon-info-sign pull-right" ng-if="item.$comment"
+                    <i class="fa fa-info-circle pull-right" ng-if="item.$comment"
                        popover="{{item.$comment}}"
                        popover-trigger="mouseenter"
                        popover-append-to-body="true"></i>
@@ -85,7 +85,7 @@
           </ui-select>
 	        <span class="input-group-btn">
 		        <button ng-click="addProperty()" class="btn btn-success">
-              <span class="glyphicon glyphicon-plus"></span>
+              <span class="fa fa-plus"></span>
             </button>
           </span>
 

@@ -338,13 +338,6 @@ module.exports = function (grunt) {
             dest: '<%= distRoot %>/images',
             src: ['generated/*']
           },
-          // Copy bootstrap fonts
-          {
-            expand: true,
-            cwd: '<%= bowerRC.directory %>/bootstrap/dist/fonts/',
-            src: ['**'],
-            dest: '<%= distRoot %>/fonts/'
-          },
           {
             expand: true,
             cwd: '<%= bowerRC.directory %>/jassa/',

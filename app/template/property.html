@@ -5,52 +5,52 @@
     <div class="propertyHeadCSS">
         <p>
         <div class="dropdown pull-right icon-list" on-toggle="toggled(open)">
-            &nbsp;<i class="glyphicon glyphicon-plus dropdown-toggle"></i>
+            &nbsp;<i class="fa fa-fw fa-ellipsis-h dropdown-toggle"></i>
             <ul class="dropdown-menu" role="menu">
                 <li ng-show="propertyInst.hasFilter">
                     <a href="#" ng-click="toggleHasFilter()">
-                        <i class="glyphicon glyphicon-filter"></i> Remove Filter
+                        <i class="fa fa-fw fa-filter"></i> Remove Filter
                     </a>
                 </li>
                 <li ng-hide="propertyInst.hasFilter">
                     <a href="#" ng-click="toggleHasFilter()">
-                        <i class="glyphicon glyphicon-filter"></i> Add Filter
+                        <i class="fa fa-fw fa-filter"></i> Add Filter
                     </a>
                 </li>
                 <li ng-show="propertyInst.filterExists">
                     <a href="#" ng-click="togglePropertyExists()">
-                        <i class="glyphicon glyphicon-remove"></i> Exists not
+                        <i class="fa fa-fw fa-square-o"></i> Exists not
                     </a>
                 </li>
                 <li ng-hide="propertyInst.filterExists">
                     <a href="#" ng-click="togglePropertyExists()">
-                        <i class="glyphicon glyphicon-check"></i> Exists
+                        <i class="fa fa-fw fa-check-square-o"></i> Exists
                     </a>
                 </li>
                 <li ng-show="propertyInst.filterExists && !propertyInst.optional">
                     <a href="#" ng-click="togglePropertyOptional()">
-                        <i class="glyphicon glyphicon-question-sign"></i> Is Optional
+                        <i class="fa fa-fw fa-question-circle"></i> Is Optional
                     </a>
                 </li>
                 <li ng-show="propertyInst.filterExists && propertyInst.optional">
                     <a href="#" ng-click="togglePropertyOptional()">
-                        <i class="glyphicon glyphicon-exclamation-sign"></i> Is Mandatory
+                        <i class="fa fa-fw fa-exclamation-circle"></i> Is Mandatory
                     </a>
                 </li>
                 <li ng-hide="propertyInst.view">
                     <a href="#" ng-click="togglePropertyView()">
-                        <i class="glyphicon glyphicon-eye-open"></i> Show Property
+                        <i class="fa fa-fw fa-eye"></i> Show Property
                     </a>
                 </li>
                 <li ng-show="propertyInst.view">
                     <a href="#" ng-click="togglePropertyView()">
-                        <i class="glyphicon glyphicon-eye-close"></i> Hide Property
+                        <i class="fa fa-fw fa-eye-slash"></i> Hide Property
                     </a>
                 </li>
                 <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/property.js -->
                 <li>
                     <a href="#" ng-click="removeProperty(propertyInst)">
-                        <i class="glyphicon glyphicon-trash"></i> Delete Property
+                        <i class="fa fa-fw fa-trash-o"></i> Delete Property
                     </a>
                 </li>
             </ul>
@@ -58,19 +58,19 @@
         </div>
           <span class="pull-right icon-list">
 
-        <i class="glyphicon glyphicon-remove"
+        <i class="fa fa-square-o fa-fw"
            ng-hide="propertyInst.filterExists"
            ng-click="togglePropertyExists()"></i>
-        <i class="glyphicon glyphicon-question-sign"
+        <i class="fa fa-fw fa-question-circle"
            ng-show="propertyInst.filterExists && propertyInst.optional"
            ng-click="togglePropertyOptional()"></i>
 
         <!-- Button (Eyes) to show whether a propertyInst will be visible in the result or not. -->
-        <i class="glyphicon glyphicon-eye-close"
+        <i class="fa fa-fw fa-eye-slash"
            ng-hide="propertyInst.view" ng-click="togglePropertyView()"></i>
 
       <!-- Button (Info-Sign) to show more Infos of propertyInst on hover -->
-        <i class="glyphicon glyphicon-info-sign"
+        <i class="fa fa-fw fa-info-circle"
            popover="{{propertyInst.$comment}}"
            popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
            popover-placement="top"
@@ -80,7 +80,7 @@
         <!-- Alias of propertyInst -->
         <b>
             <span class="h5"><b>{{propertyInst.alias}}</b></span>
-            <i class="glyphicon glyphicon-edit pointer" ng-click="propertyInst.editAlias = true"></i>
+            <i class="fa fa-edit pointer" ng-click="propertyInst.editAlias = true"></i>
             <small ng-show="propertyInst.alias !== propertyInst.$label">
                 <small>({{ propertyInst.uri | replaceURIsWithPrefixes}})</small>
             </small>
@@ -95,7 +95,7 @@
 
             <div class="input-group-btn">
                 <button class="btn btn-success" ng-click="propertyInst.editAlias = false">
-                    <i class="glyphicon glyphicon-check"></i>
+                    <i class="fa fa-check-square-o"></i>
                 </button>
             </div>
         </div>

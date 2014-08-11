@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>GSB: Prototyp</title>
-    <!-- build:css css/vendor.css -->
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- build:css css/vendor.css -->
         <!-- bower:css -->
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
         <!-- endbower -->
@@ -31,29 +32,26 @@
           <table ng-show="showArea == 'workspace'">
             <tr>
               <td>
-                <a href="#" class="btn btn-warning" ng-click="showArea = 'query'; translate()">Run Query</a>
+                <a href="#" class="btn btn-warning" ng-click="showArea = 'query'; translate()"><i class="fa fa-play-circle fa-fw"></i> Run Query</a>
               </td>
               <td>
-                <a href="#" class="btn btn-danger" ng-click="resetWorkspace()">Reset Workspace</a>
-              </td>
-              <td>
-                <a href="#" class="btn btn-info" ng-click="expertView = !expertView"><i class="glyphicon glyphicon-tower"></i></a>
+                <a href="#" class="btn btn-danger" ng-click="resetWorkspace()"><i class="fa fa-undo fa-fw"></i> Reset Workspace</a>
               </td>
               <td>
                 <input class="btn btn-default" type="file" id="uploadJSON"/>    
               </td>
               <td>
-                <a class="btn btn-success" ng-click="loadJSON()"><i class="glyphicon glyphicon-open"></i>Open JSON-Query</a>
+                <a class="btn btn-success" ng-click="loadJSON()"><i class="fa fa-upload fa-fw"></i> Open JSON-Query</a>
               </td>
               <td>
-                <a class="btn btn-info" ng-click="showArea = 'help'"><b>?</b></a>
+                <a class="btn btn-info" ng-click="showArea = 'help'"><i class="fa fa-question"></i></a>
               </td>
             </tr>
           </table>
           <span ng-show="showArea == 'query'">
-            <a href="#" class="btn btn-warning" ng-click="showArea = 'workspace'">Back to Workspace</a>
-            <a href="" download="query.json" id="saveLink" class="btn btn-success"><i class="glyphicon glyphicon-save"></i> Download query.json</a>
-            <a class="btn btn-info" ng-click="showArea = 'help'"><b>?</b></a>
+            <a href="#" class="btn btn-warning" ng-click="showArea = 'workspace'"><i class="fa fa-backward fa-fw"></i> Back to Workspace</a>
+            <a href="" download="query.json" id="saveLink" class="btn btn-success"><i class="fa fa-download"></i> Download query.json</a>
+            <a class="btn btn-info" ng-click="showArea = 'help'"><i class="fa fa-question"></i></a>
           </span>
           <span ng-show="showArea == 'help'">
             <a href="#" class="btn btn-warning" ng-click="showArea = 'workspace'">Workspace</a>
@@ -85,7 +83,7 @@
             as ui-select defines it internally.	Anything else wont work!	-->
             <choices repeat="item in availableSubjectClasses | filter: $select.search | limitTo: 15">
                 <p style="margin: 0">
-                    <i class="glyphicon glyphicon-info-sign pull-right" ng-if="item.$comment"
+                    <i class="fa fa-info-circle pull-right" ng-if="item.$comment"
                        popover="{{item.$comment}}"
                        popover-trigger="mouseenter"
                        popover-placement="left"
@@ -97,7 +95,7 @@
           </ui-select>
 	        <span class="input-group-btn">
 		        <button ng-click="uiAddSubject()" class="btn btn-success">
-              <span class="glyphicon glyphicon-plus"></span>
+              <span class="fa fa-plus"></span>
             </button>
           </span>
 
@@ -146,11 +144,6 @@
           <td><b>Reset Workspace</b></td>
           <td> Reset der Arbeitsfläche um von Vorn zu
             beginnen</td>
-        </tr>
-        <tr>
-          <td><i class="glyphicon glyphicon-tower"></i></td>
-          <td> URIs der Subjekte
-            anzeigen</td>
         </tr>
         <tr>
           <td><b>Open JSON-Query</b></td>
