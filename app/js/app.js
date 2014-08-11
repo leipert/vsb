@@ -26,7 +26,8 @@ angular.module('GSB', [
     'GSB.services.translatorManager',
     'GSB.services.translatorToJSON',
     'GSB.services.translatorToGSBL',
-    'GSB.services.translatorToSPARQL'
+    'GSB.services.translatorToSPARQL',
+    'LocalForageModule'
 ]).config(function (uiSelectConfig) {
     uiSelectConfig.theme = 'bootstrap';
 });

@@ -44,7 +44,7 @@ angular.module('GSB.controllers.propertyType.number', ['GSB.config'])
                 newValue = 'y';
             }
             $scope.propertyInst.compareRaw.numberComparison = newValue;
-            if(newValue === 'x' || newValue == 'y'){
+            if(newValue === 'x' || newValue === 'y'){
                 $scope.propertyInst.compare = null;
             } else {
                 $scope.propertyInst.compare = newValue

@@ -7,7 +7,7 @@
 angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 'GSB.config', 'GSB.services.endPoint'])
     //Inject $scope, $log, EndPointService and globalConfig (see @ js/config.js, @js/services/endPoint.js) into controller
     .controller('SubjectCollectionCtrl',
-        function ($scope, $q, $log, EndPointService, globalConfig, TranslatorManager) {
+        function ($scope, $q, $log, EndPointService, globalConfig, TranslatorManager, TranslatorToGSBL, $localForage) {
 
         $scope.highlightedSubject = null; //
         $scope.mainSubjectSelected = null; //The subject connected with the start point
@@ -185,6 +185,13 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
         //Set workspace to initial state
         $scope.availableSubjectClasses = [];
         $scope.subjects = [];
+
+            $localForage.getItem('current')
+                .then(function(data){
+                    if(data!==null){
+                        $scope.fillScopeWithSubjects(TranslatorToGSBL.translateJSONToGSBL(data));
+                    }
+                });
 
         EndPointService.getAvailableClasses()
             .then(function (classes) {
