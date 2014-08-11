@@ -28,7 +28,7 @@
 
     # Agent Properties
 
-    :name a owl:DataProperty
+    :name a owl:DataProperty ;
         rdfs:label "Name"@de, "Name"@en ;
         rdfs:comment "Name eines Agents"@de, "Name of an Agent"@en ;
         rdfs:domain :Agent ;

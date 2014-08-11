@@ -75,7 +75,7 @@ div.highlight-subject {
 /* doesnt work right now, anybody know why? where is the difference to subjectBodyCSS?*/
 div.subjectCSS > div.subjectHeadCSS {
   /*background-color: #00ff00;*/
-    padding: 5px 5px 0;
+    padding: 5px 10px 0;
     margin-top: 5px;
 }
 
@@ -100,7 +100,7 @@ div.subjectCSS div.propertyCSS {
   background: #B0E57C;
   color:#000000;
   border-radius: 0;
-    padding: 5px 10px;
+    padding: 5px 15px;
     margin: 0 -10px 5px;
 }
 
@@ -109,10 +109,26 @@ div.subjectCSS div.propertyCSS b {
 }
 
 div.subjectCSS div.propertyCSS select {
-  background: #D3F2B5;
-  color: #0D5516;
+  background: #fff;
+  color: #555;
 }
 
+div.subjectCSS div.propertyCSS.notExists {
+    background: #ef5d54;
+    border-color: #A53238;
+    color:#000000;
+    border-radius: 0;
+    padding: 5px 15px;
+    margin: 0 -10px 5px;
+}
+
+div.subjectCSS div.propertyCSS.notExists b {
+    color: #6B1015;
+}
+
+div.subjectCSS div.propertyFilters {
+    padding-bottom: 10px;
+}
 
 .ui-select-bootstrap > .ui-select-choices {
   width:400px;
@@ -135,12 +151,12 @@ i.pointer,
 .icon-list i {
     cursor: pointer;
     color: #2d5085;
-
+    text-decoration: none;
 }
 
 i.pointer:hover,
 .icon-list i:hover {
     cursor: pointer;
     color: #599cee;
-
+    text-decoration: none;
 }

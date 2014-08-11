@@ -53,6 +53,8 @@ angular.module('GSB.filters', ['GSB.config'])
                 .replace(/\{/ig, '\n{\n')
                 .replace(/}\s+/ig, '\n}\n')
                 .replace(/^\?/igm, '\t?')
+                .replace(/^FILTER/igm, '\tFILTER')
+                .replace(/^BIND/igm, '\tBIND')
                 .replace(/select distinct\s+/ig, 'SELECT DISTINCT \n')
             ;
         };

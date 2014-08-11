@@ -4,7 +4,7 @@ angular.module('GSB.config', [])
     .constant('globalConfig', {
         propertyTypeURIs: {
             'OBJECT_PROPERTY': [
-                'http://purl.org/ontology/mo/',
+                'http://gsb.leipert.io/ns/',
                 'http://purl.org/NET/c4dm/keys.owl#Key',
                 'http://purl.org/dc/terms/MediaType',
                 'http://web.resource.org/cc/License',
@@ -30,7 +30,7 @@ angular.module('GSB.config', [])
             'owl': 'http://www.w3.org/2002/07/owl#',
             'gsb': 'http://gsb.leipert.io/ns/'
         },
-        defaultGraphURIs: ['http://gsb.leipert.io/ns/'],
+        defaultGraphURIs: ['http://gsb.leipert.io/ns/','http://xmlns.com/foaf/0.1/'],
         baseURL: 'https://ssl.leipert.io/sparql',
         resultURL: 'https://ssl.leipert.io/sparql?default-graph-uri=http%3A%2F%2Fpurl.org%2Fontology%2Fmo%2F&format=text%2Fhtml&timeout=5000&debug=on&query=',
         allowedLanguages: ['*', 'de', 'en', 'pl'],
@@ -68,24 +68,22 @@ angular.module('GSB.config', [])
             }
         ],
         endPointQueries : {
-            getProperties : ' {' +
-            '  <%uri%> rdfs:subClassOf* ?class.' +
-            '    { ?uri rdfs:domain ?class .' +
-            '      BIND("D" as ?inverse)' +
-            '      OPTIONAL { ?uri rdfs:range ?range}' +
-            '    } UNION {' +
-            '      ?uri rdfs:range ?class .' +
-            '      BIND("I" as ?inverse)' +
-            '      OPTIONAL { ?uri rdfs:domain ?range}' +
-            '    }' +
-            '  }' +
-            '  FILTER ( !isBlank(?class) )' +
-            '  FILTER ( !isBlank(?range) )' +
-            '  OPTIONAL { ?uri rdfs:comment ?comment . }' +
-            '  OPTIONAL { ?uri rdfs:label ?alias . } ',
-            getAllClassURIs : '{   <%uri%> rdfs:subClassOf* ?uri. }' +
-            'UNION' +
-            '{  <%uri%> rdfs:subClassOf*/owl:equivalentClass ?uri.  }' +
+            getProperties :
+            '<%uri%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?class .' +
+            '{' +
+            '    ?uri ?x ?class .' +
+            '    FILTER (?x = rdfs:domain) .' +
+            '        OPTIONAL { ?uri rdfs:range ?range }  .' +
+            '} UNION {' +
+            '    ?uri ?x ?class .    FILTER (?x = rdfs:range) .' +
+            '        OPTIONAL { ?uri rdfs:domain ?range} .' +
+            '} .' +
+            'OPTIONAL { ?uri rdfs:comment ?comment } .' +
+            'OPTIONAL { ?uri rdfs:label ?alias } .' +
+            'FILTER ( !isBlank(?class) && !isBlank(?uri) && !isBlank(?range) ) .' +
+            'BIND (if( ?x = rdfs:range, "I", "D") AS ?inverse)'+
+            'BIND ( CONCAT(?uri, ?inverse) AS ?id)',
+            getAllClassURIs : '<%uri%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?uri ' +
             'FILTER ( !isBlank(?uri) )',
             getURIMetaData: '?s a rdfs:Class .' +
             'FILTER ( !isBlank(?s) )' +

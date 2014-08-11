@@ -20,41 +20,21 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
                 $log.error('An error occurred: ', err);
             });
 
-        $scope.propertyOperators = [
-            {
-          label: 'MUST',
-            value: 1
-        },
-            {
-                label: 'MAY',
-                value: 2
-            },
-            {
-                label: 'CAN\'T',
-                value: 3
-            }
-        ];
-
-        $scope.getOperatorText = function(value){
-            if (value !== null) {
-                return $scope.propertyOperators[value - 1].label;
-            }
-        };
-
         /**
          * Adds a property selected from the $availableProperties of a
          * subjectInst to the $selectedProperties of the same subjectInst
          */
         $scope.addProperty = function () {
             var temp = angular.copy($scope.propertySelected);
-            temp.$operator = 1;
+            temp.filterExists = true;
+            temp.hasFilter = false;
             temp.alias = temp.$label;
             temp.arithmetic = null;
             temp.compareRaw = {};
             temp.link = null;
             temp.view = true;
             temp.optional = false;
-            temp.arithmetic = 'x';
+            temp.arithmetic = null;
             temp.compare = null;
             $selectedProperties.push(temp);
             $scope.propertySelected = undefined;
