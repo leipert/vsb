@@ -39,7 +39,6 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
             });
             return $q.all(promises).then(function(data){
                 $scope.propertyInst.$propertyRange = _.uniq(_.flatten(data));
-                $log.warn($scope.propertyInst.$propertyRange);
             });
         };
 

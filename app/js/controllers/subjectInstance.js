@@ -19,7 +19,7 @@ angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.e
 
         EndPointService.getSuperAndEqClasses($scope.subjectInst.uri)
             .then(function (data) {
-                $log.info('Additional Classes loaded',data);
+                $log.debug('SUBJECT Additional Classes loaded for' + $scope.subjectInst.uri,data);
                 $scope.subjectInst.$classURIs = data;
             })
             .fail(function (error) {

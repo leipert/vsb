@@ -36,7 +36,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
          * @param $comment
          */
         var addSubject = function (uri, $label, $comment) {
-            $log.info('Subject added');
+            $log.debug('SUBJECT added' + uri);
             $scope.initialisedSubjects = true;
             $scope.subjects.push(
                 {
@@ -64,7 +64,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
          * @param {object} subjectObject a JSON/scope correctly formatted subject
          */
         var addSubjectObject = function (subjectObject) {
-            $log.info('Subject added',subjectObject);
+            $log.debug('SUBJECT added ' + subjectObject.uri, subjectObject);
             $scope.subjects.push(subjectObject);
             //If there is only one subject, it will be the one selected by the startPoint (automatically).
             if ($scope.subjects.length === 1) {
@@ -195,7 +195,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
 
         EndPointService.getAvailableClasses()
             .then(function (classes) {
-                $log.info('Classes loaded', classes);
+                $log.debug('Classes loaded', classes);
                 $scope.availableSubjectClasses = classes;
             })
             .fail(function (err) {

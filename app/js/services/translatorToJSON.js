@@ -28,7 +28,7 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
          */
         factory.translateGSBLToJSON = function (mainSubjectSelected, subjects) {
 
-            $log.info('Translate GSBL to JSON');
+            $log.debug('Translate GSBL to JSON');
 
             if (mainSubjectSelected === null) {
                 $log.error('Main Subject not connected');
@@ -68,7 +68,7 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
             json.SUBJECTS = allSubjects;
 
             $localForage.set('current',json).then(function() {
-                $log.info('Current Workspace saved into localForage');
+                $log.debug('Current Workspace saved into localForage');
             });
 
             return JSON.stringify(json, null, 2);
