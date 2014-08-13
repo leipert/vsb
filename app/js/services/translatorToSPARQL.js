@@ -46,11 +46,11 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
             if (type === 'INVERSE_PROPERTY') {
                 r = translateObjectProperty(s, p, o, property.linkTo, view);
                 s = r.o;
-                o = r.s;
+                b = r.s;
                 view = r.view;
             } else if (type === 'OBJECT_PROPERTY') {
                 r = translateObjectProperty(s, p, o, property.linkTo, view);
-                o = r.o;
+                b = r.o;
                 view = r.view;
             }
 

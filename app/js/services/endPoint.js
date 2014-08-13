@@ -64,7 +64,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
 
         };
 
-        var createAvailablePropertyObject = function (data,filterURI) {
+        var createAvailablePropertyObject = function (data, inverse, filterURI) {
             var ret = [], retMap = {};
             for (var key in data) {
                 if (data.hasOwnProperty(key)) {
@@ -72,12 +72,12 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                         uri = cleanURI(property.uri),
                         type = 'STANDARD_PROPERTY';
 
-                    if(filterURI === uri || filterURI === undefined) {
+                    if(filterURI === uri || filterURI === undefined || filterURI === null) {
 
                         property.$label = makeLabel(property.$label, uri);
 
                         /* Check whether a property.range is given.*/
-                        if (property.inverse === 'I') {
+                        if (inverse) {
                             type = 'INVERSE_PROPERTY';
                             property.$label = 'is ' + property.$label + ' of';
                         } else {
@@ -101,6 +101,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                         if (property.range !== null) {
                             ret[retMap[uri]].$propertyRange.push(property.range);
                         }
+
                     }
 
                 }
@@ -197,32 +198,53 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
 
         };
 
-        factory.getProperties = function (uri,filterURI) {
-            if (!store.hasOwnProperty('props' + uri)) {
+
+        var getProperties = function (uri, query, inverse, filterURI) {
+            var storeKey = (inverse)? 'InverseProperties' : 'DirectProperties';
+            if (!store.hasOwnProperty(storeKey + uri)) {
                 store.addMap({
-                    name: 'props' + uri,
+                    name: storeKey + uri,
                     template: [
                         {
-                            id: '?id',
+                            id: '?uri',
                             uri: '?uri',
-                            inverse: '?inverse',
                             $comment: '?comment',
-                            $label: '?alias',
+                            $label: '?label',
+                            test: [{
+                                id: '?label'}],
                             range: '?range'
                         }
                     ],
-                    from: globalConfig.endPointQueries.getProperties.replace('%uri%',uri)
+                    from: query
                 });
             }
-            var flow = store['props' + uri].find();
+            var flow = store[storeKey + uri].find();
 
             return flow.asList()
                 .then(function (docs) {
-                    return (createAvailablePropertyObject(docs,filterURI));
+                    return (createAvailablePropertyObject(docs, inverse, filterURI));
                 })
                 .fail(function (err) {
                     $log.error('An error occurred: ', err);
                 });
+        };
+
+
+
+        factory.getDirectProperties = function (uri, filterURI){
+            return getProperties(cleanURI(uri), globalConfig.endPointQueries.getDirectProperties.replace('%uri%',uri), false, filterURI);
+        };
+
+        factory.getInverseProperties = function (uri, filterURI){
+            return getProperties(cleanURI(uri), globalConfig.endPointQueries.getInverseProperties.replace('%uri%',uri), true, filterURI);
+        };
+
+        factory.getPropertyDetails = function (uri, property){
+            if(property.type === 'INVERSE_PROPERTY'){
+                return factory.getInverseProperties(cleanURI(uri), property.uri);
+            }else{
+                return factory.getDirectProperties(cleanURI(uri), property.uri);
+            }
         };
 
         return factory;
