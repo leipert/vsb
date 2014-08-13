@@ -10,11 +10,20 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
     .controller('PropertyCollectionCtrl', function ($scope, $http, $q, $log, globalConfig, EndPointService) {
 
         var $selectedProperties = $scope.subjectInst.$selectedProperties;
-        EndPointService.$availableProperties = [];
-        EndPointService.getProperties($scope.subjectInst.uri)
+        $scope.subjectInst.$availableProperties = [];
+        EndPointService.getDirectProperties($scope.subjectInst.uri)
             .then(function (properties) {
-                $log.info('Properties loaded', properties);
-                $scope.subjectInst.$availableProperties = properties;
+                $log.debug('PROPERTIES (direkt) loaded for' + $scope.subjectInst.uri, properties);
+                $scope.subjectInst.$availableProperties = _.union($scope.subjectInst.$availableProperties,properties);
+            })
+            .fail(function (err) {
+                $log.error('An error occurred: ', err);
+            });
+
+        EndPointService.getInverseProperties($scope.subjectInst.uri)
+            .then(function (properties) {
+                $log.debug('PROPERTIES (inverse) loaded for' + $scope.subjectInst.uri, properties);
+                $scope.subjectInst.$availableProperties = _.union($scope.subjectInst.$availableProperties,properties);
             })
             .fail(function (err) {
                 $log.error('An error occurred: ', err);

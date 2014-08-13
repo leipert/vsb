@@ -17,7 +17,7 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
          */
         factory.translateJSONToGSBL = function (json) {
 
-            $log.info('Translate JSON to GSBL');
+            $log.debug('Translate JSON to GSBL');
 
             if (json === null) {
                 $log.error('Empty JSON File');

@@ -71,8 +71,6 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
          */
         factory.translateGSBLToSPARQL = function (mainSubjectSelected, subjects) {
 
-            $log.info('Managing translation from GSBL to SPARQL');
-
             var newJSON = TranslatorToJSON.translateGSBLToJSON(mainSubjectSelected, subjects);
             $rootScope.$broadcast('JSONUpdateEvent', newJSON);
 

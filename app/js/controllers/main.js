@@ -78,7 +78,7 @@ angular.module('GSB.controllers.main', ['GSB.config'])
          * Initializes the Workspace
          */
         $scope.initializeWorkspace = function () {
-            $log.info('Initialized Workspace');
+            $log.debug('Initialized Workspace');
             $scope.translatedJSON = 'In the near future the translated JSON will be here.';
             $scope.translatedSPARQL = 'In the near future the translated SPARQL will be here.';
             $scope.expertView = false;
@@ -89,7 +89,7 @@ angular.module('GSB.controllers.main', ['GSB.config'])
          * Clears the Workspace
          */
         $scope.clearWorkspace = function () {
-            $log.info('Cleared Workspace');
+            $log.debug('Cleared Workspace');
             $scope.$broadcast('removeAllSubjectsEvent');
             $scope.translatedJSON = 'In the near future the translated JSON will be here.';
             $scope.translatedSPARQL = 'In the near future the translated SPARQL will be here.';
