@@ -17,7 +17,7 @@ angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.e
             $scope.subjectInst.view = !$scope.subjectInst.view;
         };
 
-        EndPointService.getAllClassURIs($scope.subjectInst.uri)
+        EndPointService.getSuperAndEqClasses($scope.subjectInst.uri)
             .then(function (data) {
                 $log.info('Additional Classes loaded',data);
                 $scope.subjectInst.$classURIs = data;
@@ -27,15 +27,15 @@ angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.e
             });
 
         if($scope.subjectInst.$copied){
-            EndPointService.getURIMetaData($scope.subjectInst.uri)
+            EndPointService.getAvailableClasses($scope.subjectInst.uri)
                 .then(function (data) {
+                    data = data[0];
                     $scope.subjectInst.$comment = data.$comment;
                     $scope.subjectInst.$label = data.$label;
                 })
                 .fail(function (error) {
                     $log.error(error);
                 });
-
         }
 
 

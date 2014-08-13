@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
     //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
-    .controller('PropertyInstanceCtrl', function ($scope, $log, EndPointService) {
+    .controller('PropertyInstanceCtrl', function ($scope, $log, $q, EndPointService) {
 
         /**
          * Changes visibility of a given propertyInst
@@ -31,6 +31,18 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
             $scope.propertyInst.optional = !$scope.propertyInst.optional;
         };
 
+        var getSubClassesOfRange = function(range){
+            var originalPropertyRange = angular.copy(range);
+            var promises = [];
+            originalPropertyRange.forEach(function(rangeItem){
+                promises.push(EndPointService.getSubAndEqClasses(rangeItem));
+            });
+            return $q.all(promises).then(function(data){
+                $scope.propertyInst.$propertyRange = _.uniq(_.flatten(data));
+                $log.warn($scope.propertyInst.$propertyRange);
+            });
+        };
+
         if ($scope.propertyInst.$copied) {
             EndPointService.getPropertyDetails($scope.subjectInst.uri, $scope.propertyInst)
                 .then(function (data) {
@@ -41,9 +53,12 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
                     $scope.propertyInst.type = data.type;
                     return data.$propertyRange;
                 })
+                .then(getSubClassesOfRange)
                 .fail(function (error) {
                     $log.error(error);
                 });
+        }else{
+            getSubClassesOfRange($scope.propertyInst.$propertyRange);
         }
 
         $scope.$watch('propertyInst.linkTo', function (nv) {
