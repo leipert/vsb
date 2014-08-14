@@ -36,7 +36,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
          * @param $comment
          */
         var addSubject = function (uri, $label, $comment) {
-            $log.debug('SUBJECT added' + uri);
+            $log.debug('SUBJECT added ' + uri);
             $scope.initialisedSubjects = true;
             $scope.subjects.push(
                 {
@@ -188,14 +188,14 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
 
             $localForage.getItem('current')
                 .then(function(data){
-                    if(data!==null){
+                    if(data!==null && data.CONFIG === globalConfig.name){
                         $scope.fillScopeWithSubjects(TranslatorToGSBL.translateJSONToGSBL(data));
                     }
                 });
 
         EndPointService.getAvailableClasses()
             .then(function (classes) {
-                $log.debug('Classes loaded', classes);
+                $log.debug('Classes loaded ', classes);
                 $scope.availableSubjectClasses = classes;
             })
             .catch(function (err) {

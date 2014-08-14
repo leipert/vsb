@@ -328,7 +328,8 @@ module.exports = function (grunt) {
                         src: [
                             '*.{ico,png,txt}',
                             '.htaccess',
-                            '*.html'
+                            '*.html',
+                            'overwrite.js'
                         ]
                     },
                     {
@@ -378,7 +379,7 @@ module.exports = function (grunt) {
                 'dest': '<%= appRoot %>/vendor/lodash.build.js',
                 'options': {
                     'modifier': 'underscore',
-                    'plus': ['cloneDeep','findKey'],
+                    'plus': ['cloneDeep','findKey','merge'],
                     'flags': ['debug']
                 }
             }

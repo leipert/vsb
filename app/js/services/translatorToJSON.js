@@ -35,6 +35,7 @@ angular.module('GSB.services.translatorToJSON', ['GSB.config'])
                 return null;
             }
             var json = {
+                    CONFIG : globalConfig.name,
                     START: {
                         type: 'LIST_ALL',
                         'linkTo': mainSubjectSelected.alias

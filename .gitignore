@@ -6,7 +6,7 @@ tmp
 .idea
 /nbproject
 app/bower_components/
-app/js/config.js
+app/overwrite.js
 dist/
 .tmp/
 app/vendor/lodash.build.js

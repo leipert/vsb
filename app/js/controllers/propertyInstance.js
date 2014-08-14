@@ -32,31 +32,35 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
         };
 
         var getSubClassesOfRange = function(range){
-            var originalPropertyRange = angular.copy(range);
-            var promises = [];
-            originalPropertyRange.forEach(function(rangeItem){
-                promises.push(EndPointService.getSubAndEqClasses(rangeItem));
-            });
-            return $q.all(promises).then(function($range){
-                $range = _.uniq(_.flatten($range));
-                $scope.propertyInst.$range = $range;
-                return $range;
-            }).then(function($range){
-                if($scope.propertyInst.type !== 'INVERSE_PROPERTY'){
-                    $scope.propertyInst.type = EndPointService.getPropertyType($range);
-                }
-            });
+            if(range !== undefined) {
+                var originalPropertyRange = angular.copy(range);
+                var promises = [];
+                originalPropertyRange.forEach(function (rangeItem) {
+                    promises.push(EndPointService.getSubAndEqClasses(rangeItem));
+                });
+                return $q.all(promises).then(function ($range) {
+                    $range = _.uniq(_.flatten($range));
+                    $scope.propertyInst.$range = $range;
+                    return $range;
+                }).then(function ($range) {
+                    if ($scope.propertyInst.type !== 'INVERSE_PROPERTY') {
+                        $scope.propertyInst.type = EndPointService.getPropertyType($range);
+                    }
+                });
+            }
         };
 
         if ($scope.propertyInst.$copied) {
             EndPointService.getPropertyDetails($scope.subjectInst.uri, $scope.propertyInst)
                 .then(function (data) {
                     data = data[0];
-                    $scope.propertyInst.$comment = data.$comment;
-                    $scope.propertyInst.$label = data.$label;
-                    $scope.propertyInst.$range = data.$range;
-                    $scope.propertyInst.type = data.type;
-                    return data.$range;
+                    if(data !== undefined) {
+                        $scope.propertyInst.$comment = data.$comment;
+                        $scope.propertyInst.$label = data.$label;
+                        $scope.propertyInst.$range = data.$range;
+                        $scope.propertyInst.type = data.type;
+                        return data.$range;
+                    }
                 })
                 .then(getSubClassesOfRange)
                 .catch(function (error) {

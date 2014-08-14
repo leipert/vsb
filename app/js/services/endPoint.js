@@ -167,7 +167,6 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                         }
                         property.alias = property.$label;
                     });
-                    $log.warn(propertyCollection);
                     return propertyCollection;
                 })
                 .catch(function (err) {

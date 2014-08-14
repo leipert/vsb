@@ -13,7 +13,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
         $scope.subjectInst.$availableProperties = [];
         EndPointService.getDirectProperties($scope.subjectInst.uri)
             .then(function (properties) {
-                $log.debug('PROPERTIES (direkt) loaded for' + $scope.subjectInst.uri, properties);
+                $log.debug('PROPERTIES (direkt) loaded for ' + $scope.subjectInst.uri, properties);
                 $scope.subjectInst.$availableProperties = _.union($scope.subjectInst.$availableProperties,properties);
             })
             .catch(function (err) {
@@ -22,7 +22,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
 
         EndPointService.getInverseProperties($scope.subjectInst.uri)
             .then(function (properties) {
-                $log.debug('PROPERTIES (inverse) loaded for' + $scope.subjectInst.uri, properties);
+                $log.debug('PROPERTIES (inverse) loaded for ' + $scope.subjectInst.uri, properties);
                 $scope.subjectInst.$availableProperties = _.union($scope.subjectInst.$availableProperties,properties);
             })
             .catch(function (err) {

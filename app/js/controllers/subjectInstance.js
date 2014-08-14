@@ -19,7 +19,7 @@ angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.e
 
         EndPointService.getSuperAndEqClasses($scope.subjectInst.uri)
             .then(function (data) {
-                $log.debug('SUBJECT Additional Classes loaded for' + $scope.subjectInst.uri,data);
+                $log.debug('SUBJECT Additional Classes loaded for ' + $scope.subjectInst.uri,data);
                 $scope.subjectInst.$classURIs = data;
             })
             .catch(function (error) {
@@ -30,8 +30,10 @@ angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.e
             EndPointService.getAvailableClasses($scope.subjectInst.uri)
                 .then(function (data) {
                     data = data[0];
-                    $scope.subjectInst.$comment = data.$comment;
-                    $scope.subjectInst.$label = data.$label;
+                    if(data !== undefined) {
+                        $scope.subjectInst.$comment = data.$comment;
+                        $scope.subjectInst.$label = data.$label;
+                    }
                 })
                 .catch(function (error) {
                     $log.error(error);
