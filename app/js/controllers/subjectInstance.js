@@ -22,7 +22,7 @@ angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.e
                 $log.debug('SUBJECT Additional Classes loaded for' + $scope.subjectInst.uri,data);
                 $scope.subjectInst.$classURIs = data;
             })
-            .fail(function (error) {
+            .catch(function (error) {
                 $log.error(error);
             });
 
@@ -33,7 +33,7 @@ angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.e
                     $scope.subjectInst.$comment = data.$comment;
                     $scope.subjectInst.$label = data.$label;
                 })
-                .fail(function (error) {
+                .catch(function (error) {
                     $log.error(error);
                 });
         }

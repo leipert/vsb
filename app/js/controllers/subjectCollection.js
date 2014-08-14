@@ -198,7 +198,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
                 $log.debug('Classes loaded', classes);
                 $scope.availableSubjectClasses = classes;
             })
-            .fail(function (err) {
+            .catch(function (err) {
                 $log.error('An error occurred: ', err);
             });
 

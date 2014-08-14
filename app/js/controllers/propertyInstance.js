@@ -31,14 +31,41 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
             $scope.propertyInst.optional = !$scope.propertyInst.optional;
         };
 
+        /**
+         * Returns the type of a Property
+         * @param $range
+         * @returns string
+         */
+        var getPropertyType = function ($range) {
+            var findKey = function(uri) {
+                return _.findKey(globalConfig.propertyTypeURIs, function(elem) {
+                    var regex = new RegExp('(?:' + elem.join('|') + ')');
+                    return regex.test(uri);
+                });
+            };
+            for(var i = 0, j = $range.length; i<j ;i++){
+                var key = findKey($range[i]);
+                if(key){
+                    return key;
+                }
+            }
+            return 'STANDARD_PROPERTY';
+        };
+
         var getSubClassesOfRange = function(range){
             var originalPropertyRange = angular.copy(range);
             var promises = [];
             originalPropertyRange.forEach(function(rangeItem){
                 promises.push(EndPointService.getSubAndEqClasses(rangeItem));
             });
-            return $q.all(promises).then(function(data){
-                $scope.propertyInst.$propertyRange = _.uniq(_.flatten(data));
+            return $q.all(promises).then(function($range){
+                $range = _.uniq(_.flatten($range));
+                $scope.propertyInst.$range = $range;
+                return $range;
+            }).then(function($range){
+                if($scope.propertyInst.type !== 'INVERSE_PROPERTY'){
+                    $scope.propertyInst.type = getPropertyType($range);
+                }
             });
         };
 
@@ -48,16 +75,16 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
                     data = data[0];
                     $scope.propertyInst.$comment = data.$comment;
                     $scope.propertyInst.$label = data.$label;
-                    $scope.propertyInst.$propertyRange = data.$propertyRange;
+                    $scope.propertyInst.$range = data.$range;
                     $scope.propertyInst.type = data.type;
-                    return data.$propertyRange;
+                    return data.$range;
                 })
                 .then(getSubClassesOfRange)
-                .fail(function (error) {
+                .catch(function (error) {
                     $log.error(error);
                 });
         }else{
-            getSubClassesOfRange($scope.propertyInst.$propertyRange);
+            getSubClassesOfRange($scope.propertyInst.$range);
         }
 
         $scope.$watch('propertyInst.linkTo', function (nv) {

@@ -16,7 +16,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
                 $log.debug('PROPERTIES (direkt) loaded for' + $scope.subjectInst.uri, properties);
                 $scope.subjectInst.$availableProperties = _.union($scope.subjectInst.$availableProperties,properties);
             })
-            .fail(function (err) {
+            .catch(function (err) {
                 $log.error('An error occurred: ', err);
             });
 
@@ -25,7 +25,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
                 $log.debug('PROPERTIES (inverse) loaded for' + $scope.subjectInst.uri, properties);
                 $scope.subjectInst.$availableProperties = _.union($scope.subjectInst.$availableProperties,properties);
             })
-            .fail(function (err) {
+            .catch(function (err) {
                 $log.error('An error occurred: ', err);
             });
 

@@ -378,7 +378,7 @@ module.exports = function (grunt) {
                 'dest': '<%= appRoot %>/vendor/lodash.build.js',
                 'options': {
                     'modifier': 'underscore',
-                    'plus': ['cloneDeep'],
+                    'plus': ['cloneDeep','findKey'],
                     'flags': ['debug']
                 }
             }
