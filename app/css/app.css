@@ -131,8 +131,11 @@ div.subjectCSS div.propertyFilters {
 }
 
 .ui-select-bootstrap > .ui-select-choices {
-  width:400px;
-  max-height: 600px;
+  width:350px;
+  max-height: 300px;
+  right: 0;
+  left: auto;
+
 }
 
 

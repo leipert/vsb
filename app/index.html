@@ -81,7 +81,10 @@
             </match>
             <!-- IMPORTANT: it has to be item in 'repeat="item in...',
             as ui-select defines it internally.	Anything else wont work!	-->
-            <choices repeat="item in availableSubjectClasses | filter: $select.search | limitTo: 15">
+            <choices repeat="item in availableSubjectClasses |
+                        filter: $select.search |
+                        orderBy:'$label' | orderBy:'type' |
+                        limitTo: 50">
                 <p style="margin: 0">
                     <i class="fa fa-info-circle pull-right" ng-if="item.$comment"
                        popover="{{item.$comment}}"

@@ -72,8 +72,9 @@
             as ui-select defines it internally.	Anything else wont work!	-->
             <choices
                 repeat="item group by type in subjectInst.$availableProperties |
-                        orderBy:'alias' | orderBy:'type' |
-                        filter: $select.search | limitTo: 10">
+                        filter: $select.search |
+                        orderBy:'$label' | orderBy:'type' |
+                        limitTo: 50">
                 <p style="margin: 0">
                     <i class="fa fa-info-circle pull-right" ng-if="item.$comment"
                        popover="{{item.$comment}}"
