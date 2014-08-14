@@ -81,6 +81,7 @@
                        popover-trigger="mouseenter"
                        popover-append-to-body="true"></i>
                     <strong ng-bind-html="item.alias | highlight: $select.search"></strong>
+                    <small><small ng-bind-html="item.uri | replaceURIsWithPrefixes"></small></small>
                 </p>
             </choices>
           </ui-select>

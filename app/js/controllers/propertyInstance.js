@@ -31,27 +31,6 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
             $scope.propertyInst.optional = !$scope.propertyInst.optional;
         };
 
-        /**
-         * Returns the type of a Property
-         * @param $range
-         * @returns string
-         */
-        var getPropertyType = function ($range) {
-            var findKey = function(uri) {
-                return _.findKey(globalConfig.propertyTypeURIs, function(elem) {
-                    var regex = new RegExp('(?:' + elem.join('|') + ')');
-                    return regex.test(uri);
-                });
-            };
-            for(var i = 0, j = $range.length; i<j ;i++){
-                var key = findKey($range[i]);
-                if(key){
-                    return key;
-                }
-            }
-            return 'STANDARD_PROPERTY';
-        };
-
         var getSubClassesOfRange = function(range){
             var originalPropertyRange = angular.copy(range);
             var promises = [];
@@ -64,7 +43,7 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
                 return $range;
             }).then(function($range){
                 if($scope.propertyInst.type !== 'INVERSE_PROPERTY'){
-                    $scope.propertyInst.type = getPropertyType($range);
+                    $scope.propertyInst.type = EndPointService.getPropertyType($range);
                 }
             });
         };

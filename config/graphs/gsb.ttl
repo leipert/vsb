@@ -77,7 +77,7 @@
 
     :scion a owl:ObjectProperty, owl:TransitiveProperty, owl:AsymmetricProperty, owl:IrreflexiveProperty ;
         rdfs:label "Nachfahr"@de, "Scion"@en ;
-        rdfs:comment "Der Vorfahr einer Person"@de, "The scion of a person"@en ;
+        rdfs:comment "Der Nachfahr einer Person"@de, "The scion of a person"@en ;
         rdfs:domain foaf:Person ;
         rdfs:range foaf:Person ;
         owl:inverseOf :scion .

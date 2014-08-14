@@ -23,7 +23,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             if (str === null || str === undefined) {
                 return str;
             }
-            return str.replace(/^</, '').replace(/>$/, '');
+            return str.replace(/^<+/, '').replace(/>+$/, '');
         };
 
         var makeLabel = function($label, uri){
@@ -43,12 +43,28 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
 
         };
 
+        /**
+         * Returns the type of a Property
+         * @param $range
+         * @returns string
+         */
+        factory.getPropertyType = function ($range) {
+            var findKey = function(uri) {
+                return _.findKey(globalConfig.propertyTypeURIs, function(elem) {
+                    var regex = new RegExp('(?:' + elem.join('|') + ')');
+                    return regex.test(uri);
+                });
+            };
+            for(var i = 0, j = $range.length; i<j ;i++){
+                var key = findKey($range[i]);
+                if(key){
+                    return key;
+                }
+            }
+            return 'STANDARD_PROPERTY';
+        };
 
         factory.getAvailableClasses = function (uri) {
-            var criteria = {id: {$regex: ''}};
-            if(uri !== undefined){
-                criteria = {id:{$regex: cleanURI(uri)}};
-            }
             if (!store.hasOwnProperty('classes')) {
 
                 store.addMap({
@@ -63,14 +79,17 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                     from: globalConfig.endPointQueries.getAvailableClasses
                 });
             }
-            var flow = store.classes.find(criteria);
+            var flow = store.classes.find();
             return $q.when(flow.asList())
-                .then(function (docs) {
-                    docs.forEach(function (doc) {
+                .then(function (classCollection) {
+                    if(uri){
+                        classCollection = _.filter(classCollection, {id: '<' + cleanURI(uri) + '>'});
+                    }
+                    classCollection.forEach(function (doc) {
                         doc.uri = cleanURI(doc.id);
                         doc.$label = makeLabel(doc.$label,doc.uri);
                     });
-                    return docs;
+                    return classCollection;
                 })
                 .catch(function (error) {
                     $log.error('Getting Classes:', error);
@@ -114,10 +133,6 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         };
 
         var getProperties = function (uri, query, inverse, filterURI) {
-            var criteria = {id: {$regex: ''}};
-            if(filterURI !== undefined){
-                criteria = {id:{$regex: cleanURI(filterURI)}};
-            }
             var storeKey = (inverse)? 'InverseProperties' : 'DirectProperties';
             if (!store.hasOwnProperty(storeKey + uri)) {
                 store.addMap({
@@ -133,10 +148,13 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                     from: query
                 });
             }
-            var flow = store[storeKey + uri].find(criteria);
+            var flow = store[storeKey + uri].find();
 
             return $q.when(flow.asList())
                 .then(function (propertyCollection) {
+                    if(filterURI){
+                        propertyCollection = _.filter(propertyCollection, {id: '<' + cleanURI(filterURI) + '>'});
+                    }
                     propertyCollection.forEach(function (property) {
                         property.$range = _.pluck(property.$range,'id');
                         property.uri = cleanURI(property.id);
@@ -145,10 +163,11 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                             property.type = 'INVERSE_PROPERTY';
                             property.$label = 'is ' + property.$label + ' of';
                         } else {
-                            property.type = 'DIRECT_PROPERTY';
+                            property.type = factory.getPropertyType(property.$range);
                         }
                         property.alias = property.$label;
                     });
+                    $log.warn(propertyCollection);
                     return propertyCollection;
                 })
                 .catch(function (err) {
