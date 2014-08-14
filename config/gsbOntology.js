@@ -5,20 +5,13 @@ angular.module('GSB.config', [])
         propertyTypeURIs: {
             'OBJECT_PROPERTY': [
                 'http://gsb.leipert.io/ns/',
-                'http://purl.org/NET/c4dm/keys.owl#Key',
-                'http://purl.org/dc/terms/MediaType',
-                'http://web.resource.org/cc/License',
                 'http://xmlns.com/foaf/0.1/'
             ],
             'NUMBER_PROPERTY': [
-                /http:\/\/www\.w3\.org\/2001\/XMLSchema#(integer|float|double)/,
-                'http://www.w3.org/2001/XMLSchema#decimal',
-                'http://www.w3.org/2001/XMLSchema#positiveInteger',
-                'http://www.w3.org/2001/XMLSchema#nonNegativeInteger'
+                'http://www.w3.org/2001/XMLSchema#(integer|float|double|decimal|positiveInteger|nonNegativeInteger)'
             ],
             'STRING_PROPERTY': [
-                'http://www.w3.org/2001/XMLSchema#string',
-                'http://www.w3.org/2001/XMLSchema#literal'
+                'http://www.w3.org/2001/XMLSchema#(string|literal)'
             ],
             'DATE_PROPERTY': [
                 'http://www.w3.org/2001/XMLSchema#date'
@@ -30,9 +23,9 @@ angular.module('GSB.config', [])
             'owl': 'http://www.w3.org/2002/07/owl#',
             'gsb': 'http://gsb.leipert.io/ns/'
         },
-        defaultGraphURIs: ['http://gsb.leipert.io/ns/','http://xmlns.com/foaf/0.1/'],
+        defaultGraphURIs: ['http://gsb.leipert.io/ns/'],
         baseURL: 'https://ssl.leipert.io/sparql',
-        resultURL: 'https://ssl.leipert.io/sparql?default-graph-uri=http%3A%2F%2Fpurl.org%2Fontology%2Fmo%2F&format=text%2Fhtml&timeout=5000&debug=on&query=',
+        resultURL: 'https://ssl.leipert.io/sparql?default-graph-uri=&format=text%2Fhtml&timeout=5000&debug=on&query=',
         allowedLanguages: ['*', 'de', 'en', 'pl'],
         standardLang: 'en',
         aggregateFunctions: [
@@ -67,32 +60,26 @@ angular.module('GSB.config', [])
                 restrictTo: 'STRING_PROPERTY'
             }
         ],
-        endPointQueries : {
-            getProperties :
-            '<%uri%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?class .' +
-            '{' +
-            '    ?uri ?x ?class .' +
-            '    FILTER (?x = rdfs:domain) .' +
-            '        OPTIONAL { ?uri rdfs:range ?range }  .' +
-            '} UNION {' +
-            '    ?uri ?x ?class .    FILTER (?x = rdfs:range) .' +
-            '        OPTIONAL { ?uri rdfs:domain ?range} .' +
-            '} .' +
-            'OPTIONAL { ?uri rdfs:comment ?comment } .' +
-            'OPTIONAL { ?uri rdfs:label ?alias } .' +
-            'FILTER ( !isBlank(?class) && !isBlank(?uri) && !isBlank(?range) ) .' +
-            'BIND (if( ?x = rdfs:range, "I", "D") AS ?inverse)'+
-            'BIND ( CONCAT(?uri, ?inverse) AS ?id)',
-            getAllClassURIs : '<%uri%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?uri ' +
+        endPointQueries: {
+            getDirectProperties: '<%uri%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?class .' +
+            '?uri rdfs:domain ?class .' +
+            'OPTIONAL { ?uri rdfs:range ?range }  .' +
+            'OPTIONAL { ?uri rdfs:label ?label . BIND(LANG(?label) AS ?label_loc) } .' +
+            'OPTIONAL { ?uri rdfs:comment ?comment . BIND(LANG(?comment) AS ?comment_loc) } .' +
+            'FILTER ( !isBlank(?class) && !isBlank(?uri) && !isBlank(?range) ) ',
+            getInverseProperties: '<%uri%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?class .' +
+            '?uri rdfs:range ?class .' +
+            'OPTIONAL { ?uri rdfs:domain ?range }  .' +
+            'OPTIONAL { ?uri rdfs:label ?label . BIND(LANG(?label) AS ?label_loc) } .' +
+            'OPTIONAL { ?uri rdfs:comment ?comment . BIND(LANG(?comment) AS ?comment_loc) } .' +
+            'FILTER ( !isBlank(?class) && !isBlank(?uri) && !isBlank(?range) ) ',
+            getSuperAndEqClasses: '<%uri%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?uri ' +
             'FILTER ( !isBlank(?uri) )',
-            getURIMetaData: '?s a rdfs:Class .' +
-            'FILTER ( !isBlank(?s) )' +
-            'FILTER ( str(?s) = "%uri%")' +
-            'OPTIONAL { ?s rdfs:label ?l } .' +
-            'OPTIONAL { ?s rdfs:comment ?c} ',
-            getAvailableClasses : '?s a rdfs:Class .' +
-            'FILTER ( !isBlank(?s) )' +
-            'OPTIONAL { ?s rdfs:label ?l } .' +
-            'OPTIONAL { ?s rdfs:comment ?c} '
+            getSubAndEqClasses: '<%uri%> (^rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?uri ' +
+            'FILTER ( !isBlank(?uri) )',
+            getAvailableClasses: '{?uri a rdfs:Class .} UNION {?uri a owl:Class .} .' +
+            'FILTER ( !isBlank(?uri) )' +
+            'OPTIONAL { ?uri rdfs:label ?label . BIND(LANG(?label) AS ?label_loc) } .' +
+            'OPTIONAL { ?uri rdfs:comment ?comment . BIND(LANG(?comment) AS ?comment_loc)} '
         }
     });

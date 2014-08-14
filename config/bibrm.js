@@ -4,11 +4,7 @@ angular.module('GSB.config', [])
     .constant('globalConfig', {
         propertyTypeURIs: {
             'OBJECT_PROPERTY': [
-                'http://purl.org/ontology/mo/',
-                'http://purl.org/NET/c4dm/keys.owl#Key',
-                'http://purl.org/dc/terms/MediaType',
-                'http://web.resource.org/cc/License',
-                'http://xmlns.com/foaf/0.1/'
+                'http://vocab.ub.uni-leipzig.de/bibrm/'
             ],
             'NUMBER_PROPERTY': [
                 'http://www.w3.org/2001/XMLSchema#(integer|float|double|decimal|positiveInteger|nonNegativeInteger)'
@@ -21,14 +17,20 @@ angular.module('GSB.config', [])
             ]
         },
         prefixes: {
-            'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
-            'foaf': 'http://xmlns.com/foaf/0.1/',
-            'owl': 'http://www.w3.org/2002/07/owl#',
-            'mo': 'http://purl.org/ontology/mo/'
+            rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
+            foaf: 'http://xmlns.com/foaf/0.1/',
+            owl: 'http://www.w3.org/2002/07/owl#',
+            bibrm: 'http://vocab.ub.uni-leipzig.de/bibrm/',
+            sysont: 'http://ns.ontowiki.net/SysOnt/',
+            bibo: 'http://purl.org/ontology/bibo/',
+            aiiso: 'http://purl.org/vocab/aiiso/schema#',
+            dct: 'http://purl.org/dc/terms/',
+            sioc: 'http://rdfs.org/sioc/ns#',
+            geo: 'http://www.w3.org/2003/01/geo/wgs84_pos#'
         },
-        defaultGraphURIs: ['http://purl.org/ontology/mo/'],
-        baseURL: 'https://ssl.leipert.io/sparql',
-        resultURL: 'https://ssl.leipert.io/sparql?default-graph-uri=http%3A%2F%2Fpurl.org%2Fontology%2Fmo%2F&format=text%2Fhtml&timeout=5000&debug=on&query=',
+        defaultGraphURIs: [''],
+        baseURL: 'http://localhost:8890/sparql',
+        resultURL: 'http://localhost:8890/sparql?default-graph-uri=&format=text%2Fhtml&timeout=5000&debug=on&query=',
         allowedLanguages: ['*', 'de', 'en', 'pl'],
         standardLang: 'en',
         aggregateFunctions: [
