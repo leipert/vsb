@@ -34,18 +34,17 @@
         rdfs:domain :Agent ;
         rdfs:range xsd:string .
 
-    :founder a owl:ObjectProperty, owl:IrreflexiveProperty ;
-        rdfs:label "Gründer"@de, "Founder"@en ;
+    :founded a owl:ObjectProperty, owl:IrreflexiveProperty ;
+        rdfs:label "gründete"@de, "founded"@en ;
         rdfs:comment "Gründer einer Organisation"@de, "Founder of an Organisation"@en ;
         rdfs:domain foaf:Agent ;
         rdfs:range :Organisation .
 
-    :owner a owl:ObjectProperty, owl:IrreflexiveProperty ;
-        rdfs:label "Eigentümer"@de, "Owner"@en ;
+    :owns a owl:ObjectProperty, owl:IrreflexiveProperty ;
         rdfs:comment "Eigentümer einer Organisation"@de, "Owner of an Organisation"@en ;
+        rdfs:label "besitzt"@de, "owns"@en ;
         rdfs:domain :Agent ;
         rdfs:range foaf:Organization .
-
 # End Class Agent
 
 # Start Class Person
@@ -83,6 +82,11 @@
         rdfs:range foaf:Person ;
         owl:inverseOf :scion .
 
+    :keeps a owl:ObjectProperty, owl:IrreflexiveProperty ;
+        rdfs:label "besitzt"@de, "owns"@en ;
+        rdfs:domain :Person ;
+        rdfs:range :Pet .
+
 # End Class Person
 
 :Organisation a rdfs:Class ;
@@ -90,3 +94,8 @@
     rdfs:comment "Analog zu foaf:Organization"@de, "Analogue to foaf:Organisation"@en ;
     rdfs:subClassOf :Agent ;
     owl:equivalentClass foaf:Organization .
+
+:Pet a owl:Class ;
+    rdfs:label "Haustier"@de, "Pet"@en ;
+    rdfs:comment "Das Haustier einer Person"@de, "A Persons pet."@en ;
+    rdfs:subClassOf :Agent .

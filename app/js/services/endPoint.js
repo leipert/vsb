@@ -20,31 +20,10 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         var store = new sponate.StoreFacade(sparqlService, globalConfig.prefixes);
 
         var cleanURI = function (str) {
-            if (str === null) {
-                return null;
+            if (str === null || str === undefined) {
+                return str;
             }
             return str.replace(/^</, '').replace(/>$/, '');
-        };
-
-        /**
-         * Returns the type of a Property
-         * @param $propertyRange
-         * @returns string
-         */
-        var getPropertyType = function ($propertyRange) {
-            if ($propertyRange !== null) {
-                var conf = globalConfig.propertyTypeURIs;
-                for (var key in conf) {
-                    if (conf.hasOwnProperty(key)) {
-                        for (var i = 0, j = conf[key].length; i < j; i++) {
-                            if ($propertyRange.search(conf[key][i]) > -1) {
-                                return key;
-                            }
-                        }
-                    }
-                }
-            }
-            return 'STANDARD_PROPERTY';
         };
 
         var makeLabel = function($label, uri){
@@ -64,50 +43,6 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
 
         };
 
-        var createAvailablePropertyObject = function (data, inverse, filterURI) {
-            var ret = [], retMap = {};
-            for (var key in data) {
-                if (data.hasOwnProperty(key)) {
-                    var property = data[key],
-                        uri = cleanURI(property.uri),
-                        type = 'STANDARD_PROPERTY';
-
-                    if(filterURI === uri || filterURI === undefined || filterURI === null) {
-
-                        property.$label = makeLabel(property.$label, uri);
-
-                        /* Check whether a property.range is given.*/
-                        if (inverse) {
-                            type = 'INVERSE_PROPERTY';
-                            property.$label = 'is ' + property.$label + ' of';
-                        } else {
-                            type = getPropertyType(property.range);
-                        }
-
-                        /* If we already have a property with the same URI,
-                         then we just add the property.range to the corresponding URI. */
-                        if (!ret.hasOwnProperty(uri)) {
-                            ret.push({
-                                alias: property.$label,
-                                $label: property.$label,
-                                $comment: property.$comment,
-                                uri: uri,
-                                type: type,
-                                $propertyRange: []
-                            });
-                            retMap[uri] = ret.length - 1;
-                        }
-
-                        if (property.range !== null) {
-                            ret[retMap[uri]].$propertyRange.push(property.range);
-                        }
-
-                    }
-
-                }
-            }
-            return ret;
-        };
 
         factory.getAvailableClasses = function (uri) {
             var criteria = {id: {$regex: ''}};
@@ -120,25 +55,24 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                     name: 'classes',
                     template: [
                         {
-                            id: '?s',
-                            uri: '?s',
-                            $label: '?l',
-                            $comment: '?c'
+                            id: '?uri',
+                            $label: '?label',
+                            $comment: '?comment'
                         }
                     ],
                     from: globalConfig.endPointQueries.getAvailableClasses
                 });
             }
-            return store.classes.find(criteria).asList()
+            var flow = store.classes.find(criteria);
+            return $q.when(flow.asList())
                 .then(function (docs) {
                     docs.forEach(function (doc) {
-                        doc.id = cleanURI(doc.id);
-                        doc.uri = doc.id;
-                        doc.$label = makeLabel(doc.$label,doc.id);
+                        doc.uri = cleanURI(doc.id);
+                        doc.$label = makeLabel(doc.$label,doc.uri);
                     });
                     return docs;
                 })
-                .fail(function (error) {
+                .catch(function (error) {
                     $log.error('Getting Classes:', error);
                 });
         };
@@ -157,7 +91,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             }
             var flow = store[key + uri].find();
 
-            return flow.asList()
+            return $q.when(flow.asList())
                 .then(function (docs) {
                     var ret = [];
                     docs.forEach(function (doc) {
@@ -165,7 +99,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                     });
                     return ret;
                 })
-                .fail(function (err) {
+                .catch(function (err) {
                     $log.error('An error occurred: ', err);
                 });
 
@@ -180,6 +114,10 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         };
 
         var getProperties = function (uri, query, inverse, filterURI) {
+            var criteria = {id: {$regex: ''}};
+            if(filterURI !== undefined){
+                criteria = {id:{$regex: cleanURI(filterURI)}};
+            }
             var storeKey = (inverse)? 'InverseProperties' : 'DirectProperties';
             if (!store.hasOwnProperty(storeKey + uri)) {
                 store.addMap({
@@ -187,27 +125,36 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                     template: [
                         {
                             id: '?uri',
-                            uri: '?uri',
                             $comment: '?comment',
                             $label: '?label',
-                            range: '?range'
+                            $range : [{id:'?range'}]
                         }
                     ],
                     from: query
                 });
             }
-            var flow = store[storeKey + uri].find();
+            var flow = store[storeKey + uri].find(criteria);
 
-            return flow.asList()
-                .then(function (docs) {
-                    return (createAvailablePropertyObject(docs, inverse, filterURI));
+            return $q.when(flow.asList())
+                .then(function (propertyCollection) {
+                    propertyCollection.forEach(function (property) {
+                        property.$range = _.pluck(property.$range,'id');
+                        property.uri = cleanURI(property.id);
+                        property.$label = makeLabel(property.$label,property.uri);
+                        if (inverse) {
+                            property.type = 'INVERSE_PROPERTY';
+                            property.$label = 'is ' + property.$label + ' of';
+                        } else {
+                            property.type = 'DIRECT_PROPERTY';
+                        }
+                        property.alias = property.$label;
+                    });
+                    return propertyCollection;
                 })
-                .fail(function (err) {
+                .catch(function (err) {
                     $log.error('An error occurred: ', err);
                 });
         };
-
-
 
         factory.getDirectProperties = function (uri, filterURI){
             return getProperties(cleanURI(uri), globalConfig.endPointQueries.getDirectProperties.replace('%uri%',uri), false, filterURI);

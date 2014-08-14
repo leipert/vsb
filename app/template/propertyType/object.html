@@ -6,7 +6,7 @@
             </div>
             <select ng-model="propertyInst.linkTo"
                     class="form-control input-sm"
-                    ng-options="x as x.alias for x in subjects | objectPropertyFilter : '$classURIs' : propertyInst.$propertyRange"
+                    ng-options="x as x.alias for x in subjects | objectPropertyFilter : '$classURIs' : propertyInst.$range"
                     title="Link with a subject">
                 <option value="">Link with a subject</option>
             </select>
