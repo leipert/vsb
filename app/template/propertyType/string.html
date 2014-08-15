@@ -3,29 +3,32 @@
 
     <div class="input-group input-group-sm" >
         <div class="input-group-addon">
-            Language
+            {{'LANGUAGE' | translate}}
         </div>
         <select ng-model="selectedLanguage"
                 ng-options="x as x for x in allowedLanguages"
                 title="Select"
                 class="form-control input-sm">
-            <option value="">Select a language</option>
+            <option value="">{{'SELECT_LANGUAGE' | translate}}</option>
         </select>
         </div>
 
         <div class="input-group input-group-sm" style="margin-top: 5px">
             <div class="input-group-addon">
-                Comparison
+                {{'COMPARISON' | translate}}
             </div>
         <div class="input-group-btn dropdown" is-open="dd2.isopen">
             <button type="button" class="btn dropdown-toggle btn-default"
                     style="border-radius: 0;border-right: 0"
                     >
-                {{getStringComparisonLabel()}} <span class="caret"></span>
+                {{getStringComparisonLabel() | translate}} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a href="#" ng-click="changeStringComparison(null)">{{}}</a>
+                </li>
                 <li ng-repeat="(idx,x) in allowedStringComparisons">
-                    <a href="#" ng-click="changeStringComparison(idx)">{{x.label}}</a>
+                    <a href="#" ng-click="changeStringComparison(idx)">{{x.label | translate}}</a>
                 </li>
             </ul>
         </div>

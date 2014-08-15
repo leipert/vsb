@@ -29,8 +29,6 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
         /**
          * a function which adds a new subject with an uri, alias and comment
          *
-         * TODO: Handle empty alias (maybe in createUniqueAlias) & empty comment
-         *
          * @param uri
          */
         var addSubject = function (uri) {

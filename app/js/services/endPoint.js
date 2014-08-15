@@ -45,7 +45,6 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             comments.forEach(function (comment){
                 languageStorage.setItem(comment.id,uri + '.$comment',comment.value);
             });
-            languageStorage.setItem('default',uri+'.$comment','');
         };
 
         /**

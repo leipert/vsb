@@ -32,34 +32,32 @@
           <table ng-show="showArea == 'workspace'">
             <tr>
               <td>
-                <a href="#" class="btn btn-warning" ng-click="showArea = 'query'; translate()"><i class="fa fa-play-circle fa-fw"></i> Run Query</a>
+                <a href="#" class="btn btn-warning" ng-click="showArea = 'query'; translate()"><i class="fa fa-play-circle fa-fw"></i> {{ 'RUN_QUERY' | translate }}</a>
               </td>
               <td>
-                <a href="#" class="btn btn-danger" ng-click="resetWorkspace()"><i class="fa fa-undo fa-fw"></i> Reset Workspace</a>
+                <a href="#" class="btn btn-danger" ng-click="resetWorkspace()"><i class="fa fa-undo fa-fw"></i> {{ 'RESET_WORKSPACE' | translate }}</a>
               </td>
               <td>
                 <input class="btn btn-default" type="file" id="uploadJSON"/>    
               </td>
               <td>
-                <a class="btn btn-success" ng-click="loadJSON()"><i class="fa fa-upload fa-fw"></i> Open JSON-Query</a>
+                <a class="btn btn-success" ng-click="loadJSON()"><i class="fa fa-upload fa-fw"></i> {{ 'LOAD_JSON' | translate }}</a>
               </td>
               <td>
                 <a class="btn btn-info" ng-click="showArea = 'help'"><i class="fa fa-question"></i></a>
                   <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
                   <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
-                  <button ng-click="changeLanguage('pl')" translate="BUTTON_LANG_PL"></button>
-
               </td>
             </tr>
           </table>
           <span ng-show="showArea == 'query'">
-            <a href="#" class="btn btn-warning" ng-click="showArea = 'workspace'"><i class="fa fa-backward fa-fw"></i> Back to Workspace</a>
-            <a href="" download="query.json" id="saveLink" class="btn btn-success"><i class="fa fa-download"></i> Download query.json</a>
+            <a href="#" class="btn btn-warning" ng-click="showArea = 'workspace'"><i class="fa fa-backward fa-fw"></i> {{ 'BACK_TO_WORKSPACE' | translate }}</a>
+            <a href="" download="query.json" id="saveLink" class="btn btn-success"><i class="fa fa-download"></i> {{ 'DOWNLOAD_JSON' | translate }}</a>
             <a class="btn btn-info" ng-click="showArea = 'help'"><i class="fa fa-question"></i></a>
           </span>
           <span ng-show="showArea == 'help'">
-            <a href="#" class="btn btn-warning" ng-click="showArea = 'workspace'">Workspace</a>
-            <a href="#" class="btn btn-warning" ng-click="showArea = 'query'">Results</a>
+            <a href="#" class="btn btn-warning" ng-click="showArea = 'workspace'">{{ 'WORKSPACE' | translate }}</a>
+            <a href="#" class="btn btn-warning" ng-click="showArea = 'query'">{{ 'QUERIES' | translate }}</a>
           </span>
         </div>
       </div>
@@ -69,9 +67,9 @@
     <div ng-controller="SubjectCollectionCtrl" ng-show="showArea == 'workspace'">
       <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
       <div class="box startPointCSS" start-point-dir style="z-index: 10; position: fixed; top: 165px;left:25px;">
-        <b>LIST ALL</b>
+        <b>{{ 'LIST_ALL' | translate }}</b>
         <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects" title="Main Subject Select">
-          <option style="display:none" value="">Pick main subject</option>
+          <option style="display:none" value="">{{ 'PICK_MAIN_SUBJECT' | translate }}</option>
         </select>
       </div>
 
@@ -80,7 +78,7 @@
         <div class="input-group">
           <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
           <ui-select ng-model="$parent.selectedSubjectClass">
-            <match placeholder="Please choose a subject.">
+            <match placeholder="{{ 'CHOOSE_A_SUBJECT' | translate }}">
               {{$select.selected.uri + '.$label' | translate}}
             </match>
             <!-- IMPORTANT: it has to be item in 'repeat="item in...',
@@ -93,7 +91,7 @@
                         orderBy:'type' |
                         limitTo: 50">
                 <p style="margin: 0">
-                    <i class="fa fa-info-circle pull-right" ng-if="item.uri + '.$comment'"
+                    <i class="fa fa-info-circle pull-right" ng-if="(item.uri + '.$comment' | translate) !== item.uri + '.$comment'"
                        popover="{{item.uri + '.$comment' | translate}}"
                        popover-trigger="mouseenter"
                        popover-placement="left"
@@ -120,24 +118,24 @@
     <div class="container" ng-show="showArea == 'query'" style="top:165px;position: relative">
       <div ng-hide="hideQueries" class="col-sm-12">
         <div class="col-sm-12 text-center">
-          <a ng-click="hideQueries = true"> Hide Queries</a>
+          <a href="#" ng-click="hideQueries = true"> {{ 'HIDE_QUERIES' | translate }}</a>
         </div>
-        <h3>Queries</h3>
+        <h3>{{ 'QUERIES' | translate }}</h3>
         <div class="col-sm-6">
-          <p>JSON:</p>
+          <p>{{ 'JSON' | translate }}:</p>
           <pre id="json-query">{{translatedJSON | replaceURIsWithPrefixes}}</pre>
         </div>
         <div class="col-sm-6">
-          <p>SPARQL:&nbsp;<a href="#" ng-click="openInNewTab()">Starte dbpedia-query!</a></p>
+          <p>{{ 'SPARQL' | translate }}:&nbsp;<a href="#" ng-click="openInNewTab()">Starte dbpedia-query!</a></p>
           <pre id="sparql-query">{{translatedSPARQL | beautifySPARQL | replaceURIsWithPrefixes}}</pre>
         </div>
       </div>
       <div class="col-sm-12 text-center">
-        <a ng-hide="hideQueries" ng-click="hideQueries = true"> Hide Queries</a>
-        <a ng-show="hideQueries" ng-click="hideQueries = false"> Show Queries</a>
+        <a href="#" ng-hide="hideQueries" ng-click="hideQueries = true"> {{ 'HIDE_QUERIES' | translate }}</a>
+        <a href="#" ng-show="hideQueries" ng-click="hideQueries = false"> {{ 'SHOW_QUERIES' | translate }}</a>
       </div>
       <div class="col-sm-12" style="">
-        <h3>Results</h3>
+        <h3>{{ 'RESULTS' | translate }}</h3>
 
       </div>
     </div>
