@@ -7,7 +7,12 @@
 
 angular.module('GSB.controllers.main', ['GSB.config'])
 //Inject $scope, $log and globalConfig (see @ js/config.js) into controller
-    .controller('MainCtrl', function ($scope, $log, globalConfig) {
+    .controller('MainCtrl', function ($scope, $log, globalConfig,$translate) {
+
+        $scope.changeLanguage = function (langKey) {
+            $translate.use(langKey);
+        };
+
 
         //Some drag and drop variables
         $scope.showArea = 'workspace';

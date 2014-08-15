@@ -7,7 +7,7 @@
 angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 'GSB.config', 'GSB.services.endPoint'])
     //Inject $scope, $log, EndPointService and globalConfig (see @ js/config.js, @js/services/endPoint.js) into controller
     .controller('SubjectCollectionCtrl',
-        function ($scope, $q, $log, EndPointService, globalConfig, TranslatorManager, TranslatorToGSBL, $localForage) {
+        function ($scope, $q, $log, EndPointService, globalConfig, TranslatorManager, TranslatorToGSBL, $localForage,$translate) {
 
         $scope.highlightedSubject = null; //
         $scope.mainSubjectSelected = null; //The subject connected with the start point
@@ -21,7 +21,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
         $scope.uiAddSubject = function () {
             if ($scope.selectedSubjectClass) { // If the selected option is undefined no subject will be added.
                 var newSubject = $scope.selectedSubjectClass;
-                addSubject(newSubject.uri, newSubject.$label, newSubject.$comment);
+                addSubject(newSubject.uri);
                 $scope.selectedSubjectClass = undefined;
             }
         };
@@ -32,18 +32,13 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
          * TODO: Handle empty alias (maybe in createUniqueAlias) & empty comment
          *
          * @param uri
-         * @param $label
-         * @param $comment
          */
-        var addSubject = function (uri, $label, $comment) {
+        var addSubject = function (uri) {
             $log.debug('SUBJECT added ' + uri);
             $scope.initialisedSubjects = true;
             $scope.subjects.push(
                 {
-                    alias: createUniqueAlias($label, uri),
-                    $label: $label,
                     uri: uri,
-                    $comment: $comment,
                     $classURIs: [uri],
                     view: true,
                     $selectedProperties: [],
@@ -72,35 +67,8 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
             }
         };
 
-        /**
-         * returns a unique alias for a given alias
-         *
-         * TODO: Handle empty alias
-         *
-         * @param $label
-         * @param uri
-         * @returns {*}
-         */
-        var createUniqueAlias = function ($label) {
-            var aliasUnique = true,
-                alias = $label,
-                key = null,
-                c = 1;
-
-            do {
-                for (key in $scope.subjects) {
-                    if ($scope.subjects.hasOwnProperty(key)) {
-                        if ($scope.subjects[key].alias === alias) {
-                            aliasUnique = false;
-                            alias = $label + '_' + c;
-                            c += 1;
-                            break;
-                        }
-                        aliasUnique = true;
-                    }
-                }
-            } while (!aliasUnique);
-            return alias;
+        $scope.doesAliasExist = function(alias){
+            return _.filter($scope.subjects,{alias : alias}).length > 0;
         };
 
         /**
@@ -196,6 +164,8 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
         EndPointService.getAvailableClasses()
             .then(function (classes) {
                 $log.debug('Classes loaded ', classes);
+
+                $translate.refresh();
                 $scope.availableSubjectClasses = classes;
             })
             .catch(function (err) {

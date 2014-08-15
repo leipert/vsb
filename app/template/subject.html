@@ -11,8 +11,8 @@
 
 
       <!-- Button (Info-Sign) to show more Infos of subjectInst on hover -->
-      <i class="fa fa-fw fa-info-circle" ng-if="subjectInst.$comment"
-         popover="{{subjectInst.$comment}}"
+      <i class="fa fa-fw fa-info-circle" ng-if="subjectInst.uri + '.$comment'"
+         popover="{{subjectInst.uri + '.$comment' | translate}}"
          popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
          popover-placement="right"
          popover-append-to-body="true"></i>
@@ -30,7 +30,8 @@
       <b>
           <span class="h4" >{{subjectInst.alias}}</span>
           <i class="fa fa-edit pointer" ng-click="subjectInst.editAlias = true"></i>
-          <small ng-show="subjectInst.alias !== subjectInst.$label"><small>({{ subjectInst.uri | replaceURIsWithPrefixes}})</small></small>
+          <!-- TODO: just show if necessary -->
+          <small><small>({{ subjectInst.uri | replaceURIsWithPrefixes}})</small></small>
       </b>
 </p>
     <!--Input for changing the Alias:-->

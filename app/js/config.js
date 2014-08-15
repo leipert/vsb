@@ -28,7 +28,7 @@ angular.module('GSB.config', [])
         baseURL: 'https://ssl.leipert.io/sparql',
         resultURL: 'https://ssl.leipert.io/sparql?default-graph-uri=&format=text%2Fhtml&timeout=5000&debug=on&query=',
         allowedLanguages: ['*', 'de', 'en'],
-        standardLang: 'en',
+        fallBackLanguages: ['en'],
         aggregateFunctions: [
             {
                 alias: 'cnt',

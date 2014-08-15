@@ -8,7 +8,7 @@
  */
 
 angular.module('GSB.services.endPoint', ['GSB.config'])
-    .factory('EndPointService', function ($http, $q, $log, globalConfig) {
+    .factory('EndPointService', function ($http, $q, $log, globalConfig,languageStorage) {
         _.mixin(_.str.exports());
         var factory = {};
 
@@ -26,21 +26,26 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             return str.replace(/^<+/, '').replace(/>+$/, '');
         };
 
-        var makeLabel = function($label, uri){
-            if ($label !== null) {
-                return $label;
-            } else {
+        var extractLabelFromURI = function(uri){
                 uri = cleanURI(uri);
                 var hashPos = uri.lastIndexOf('#'),
                     slashPos = uri.lastIndexOf('/');
                 if (hashPos > slashPos) {
-                    $label = uri.substr(hashPos + 1);
+                    return uri.substr(hashPos + 1);
                 } else {
-                    $label = uri.substr(slashPos + 1);
-                }
-                return $label;
+                    return uri.substr(slashPos + 1);
             }
+        };
 
+        var fillTranslationStorage = function(uri,labels,comments){
+            labels.forEach(function (label){
+                languageStorage.setItem(label.id,uri + '.$label',label.value);
+            });
+            languageStorage.setItem('default',uri+'.$label',extractLabelFromURI(uri));
+            comments.forEach(function (comment){
+                languageStorage.setItem(comment.id,uri + '.$comment',comment.value);
+            });
+            languageStorage.setItem('default',uri+'.$comment','');
         };
 
         /**
@@ -72,8 +77,8 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                     template: [
                         {
                             id: '?uri',
-                            $label: '?label',
-                            $comment: '?comment'
+                            $labels: [{id: '?label_loc', value: '?label'}],
+                            $comments: [{id: '?comment_loc', value: '?comment'}]
                         }
                     ],
                     from: globalConfig.endPointQueries.getAvailableClasses
@@ -87,7 +92,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                     }
                     classCollection.forEach(function (doc) {
                         doc.uri = cleanURI(doc.id);
-                        doc.$label = makeLabel(doc.$label,doc.uri);
+                        fillTranslationStorage(doc.uri,doc.$labels,doc.$comments);
                     });
                     return classCollection;
                 })

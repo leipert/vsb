@@ -28,7 +28,7 @@
       <!-- Row containing top controls -->
       <div class="row">
         <div id="top-controls" class="col-sm-12">
-          <h1>Graphical SPARQL Builder</h1>
+          <h1>{{'TITLE' | translate}}</h1>
           <table ng-show="showArea == 'workspace'">
             <tr>
               <td>
@@ -45,6 +45,10 @@
               </td>
               <td>
                 <a class="btn btn-info" ng-click="showArea = 'help'"><i class="fa fa-question"></i></a>
+                  <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+                  <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+                  <button ng-click="changeLanguage('pl')" translate="BUTTON_LANG_PL"></button>
+
               </td>
             </tr>
           </table>
@@ -77,21 +81,24 @@
           <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
           <ui-select ng-model="$parent.selectedSubjectClass">
             <match placeholder="Please choose a subject.">
-              {{$select.selected.$label}}
+              {{$select.selected.uri + '.$label' | translate}}
             </match>
             <!-- IMPORTANT: it has to be item in 'repeat="item in...',
-            as ui-select defines it internally.	Anything else wont work!	-->
+            as ui-select defines it internally.	Anything else wont work!
+            	TODO: Order by localized label
+            	TODO: Only show comment if existing
+            	-->
             <choices repeat="item in availableSubjectClasses |
                         filter: $select.search |
-                        orderBy:'$label' | orderBy:'type' |
+                        orderBy:'type' |
                         limitTo: 50">
                 <p style="margin: 0">
-                    <i class="fa fa-info-circle pull-right" ng-if="item.$comment"
-                       popover="{{item.$comment}}"
+                    <i class="fa fa-info-circle pull-right" ng-if="item.uri + '.$comment'"
+                       popover="{{item.uri + '.$comment' | translate}}"
                        popover-trigger="mouseenter"
                        popover-placement="left"
                        popover-append-to-body="true"></i>
-                    <strong ng-bind-html="item.$label | highlight: $select.search"></strong>
+                    <strong ng-bind-html="item.uri + '.$label' | translate | highlight: $select.search"></strong>
                     <small><small ng-bind-html="item.uri | replaceURIsWithPrefixes"></small></small>
                 </p>
             </choices>
@@ -226,6 +233,7 @@
     <script src="bower_components/jscache/cache.js"></script>
     <script src="bower_components/localforage/dist/localforage.min.js"></script>
     <script src="bower_components/angular-localforage/dist/angular-localForage.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
     <!-- endbower -->
 <!-- endbuild -->
 
@@ -256,6 +264,7 @@
     <script src="js/directives/subject.js"></script>
     <script src="js/filters.js"></script>
     <script src="js/services/endPoint.js"></script>
+    <script src="js/services/languageService.js"></script>
     <script src="js/services/translatorManager.js"></script>
     <script src="js/services/translatorToGSBL.js"></script>
     <script src="js/services/translatorToJSON.js"></script>
