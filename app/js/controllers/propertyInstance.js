@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
     //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
-    .controller('PropertyInstanceCtrl', function ($scope, $log, $q, EndPointService) {
+    .controller('PropertyInstanceCtrl', function ($scope, $log, $q, $translate, EndPointService) {
 
         /**
          * Changes visibility of a given propertyInst
@@ -55,8 +55,6 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
                 .then(function (data) {
                     data = data[0];
                     if(data !== undefined) {
-                        $scope.propertyInst.$comment = data.$comment;
-                        $scope.propertyInst.$label = data.$label;
                         $scope.propertyInst.$range = data.$range;
                         $scope.propertyInst.type = data.type;
                         return data.$range;
@@ -68,6 +66,17 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
                 });
         }else{
             getSubClassesOfRange($scope.propertyInst.$range);
+        }
+
+        if (!$scope.propertyInst.alias) {
+            $translate($scope.propertyInst.uri + '.$label').then(function (label) {
+                var alias = label, c = 1;
+                while ($scope.doesAliasExist(alias)) {
+                    alias = label + '_' + c;
+                    c += 1;
+                }
+                $scope.propertyInst.alias = alias;
+            });
         }
 
         $scope.$watch('propertyInst.linkTo', function (nv) {

@@ -23,14 +23,15 @@ angular.module('GSB', [
     'GSB.directives.propertyType.date',
     'GSB.directives.propertyType.aggregate',
     'GSB.services.endPoint',
+    'GSB.services.languageService',
     'GSB.services.translatorManager',
     'GSB.services.translatorToJSON',
     'GSB.services.translatorToGSBL',
     'GSB.services.translatorToSPARQL',
     'LocalForageModule'
 ]).config(function (uiSelectConfig) {
-    uiSelectConfig.theme = 'bootstrap';
-});
+        uiSelectConfig.theme = 'bootstrap';
+    });
 
 //Global functions
 

@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.endPoint'])
     //Inject $scope, $log, EndPointService and globalConfig (see @ js/config.js, @js/services/endPoint.js) into controller
-    .controller('SubjectInstanceCtrl', function ($scope, $log, EndPointService) {
+    .controller('SubjectInstanceCtrl', function ($scope, $log, $translate, EndPointService) {
 
 
         /**
@@ -26,21 +26,16 @@ angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.e
                 $log.error(error);
             });
 
-        if($scope.subjectInst.$copied){
-            EndPointService.getAvailableClasses($scope.subjectInst.uri)
-                .then(function (data) {
-                    data = data[0];
-                    if(data !== undefined) {
-                        $scope.subjectInst.$comment = data.$comment;
-                        $scope.subjectInst.$label = data.$label;
-                    }
-                })
-                .catch(function (error) {
-                    $log.error(error);
-                });
+        if (!$scope.subjectInst.alias) {
+            $translate($scope.subjectInst.uri + '.$label').then(function (label) {
+                var alias = label, c = 1;
+                while ($scope.doesAliasExist(alias)) {
+                    alias = label + '_' + c;
+                    c += 1;
+                }
+                $scope.subjectInst.alias = alias;
+            });
         }
-
-
 
     });
 

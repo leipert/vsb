@@ -14,27 +14,27 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
         //Rules for String comparisons
         $scope.allowedStringComparisons = [
             {
-                label: 'contains',
+                label: 'CONTAINS',
                 f: 'regex(%after_arithmetic%, "%input%", "i")',
                 showFlags: false
             },
             {
-                label: 'equals',
+                label: 'EQUALS',
                 f: '(str(%after_arithmetic%)="%input%")',
                 showFlags: false
             },
             {
-                label: 'equals not',
+                label: 'EQUALS_NOT',
                 f: '(str(%after_arithmetic%)!="%input%")',
                 showFlags: false
             },
             {
-                label: 'starts with',
+                label: 'STARTS_WITH',
                 f: 'regex(%after_arithmetic%, "^%input%", "i")',
                 showFlags: false
             },
             {
-                label: 'ends with',
+                label: 'ENDS_WITH',
                 f: 'regex(%after_arithmetic%, "%input%$", "i")',
                 showFlags: false
 
@@ -54,22 +54,13 @@ angular.module('GSB.controllers.propertyType.string', ['GSB.config'])
 
         $scope.getStringComparisonLabel = function(){
             if($scope.stringComparison === null){
-                return 'no comparison';
+                return 'NO_COMPARISON';
             }
             return $scope.allowedStringComparisons[$scope.stringComparison].label;
-        };
-        $scope.getLangComparisonLabel = function(){
-            if($scope.selectedLanguage === null){
-                return 'LANG';
-            }
-            return $scope.selectedLanguage;
         };
 
         $scope.changeStringComparison = function(key){
             $scope.stringComparison = key;
-        };
-        $scope.changeLangComparison = function(key){
-            $scope.selectedLanguage = key;
         };
 
         if (start !== null && start !== undefined) {

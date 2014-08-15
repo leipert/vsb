@@ -20,21 +20,21 @@ angular.module('GSB.controllers.propertyType.date', ['GSB.config', 'ui.bootstrap
         //Rules for date comparisons
         $scope.allowedDateComparisons = [
             {
-                label: 'equals',
+                label: 'EQUALS',
                 f: 'xsd:dateTime(%after_arithmetic%) >= "%input_start_of_day%"^^xsd:dateTime' +
                 '&& xsd:dateTime(%after_arithmetic%) <= "%input_end_of_day%"^^xsd:dateTime'
             },
             {
-                label: 'equals not',
+                label: 'EQUALS_NOT',
                 f: 'xsd:dateTime(%after_arithmetic%) < "%input_start_of_day%"^^xsd:dateTime' +
                 '|| xsd:dateTime(%after_arithmetic%) > "%input_end_of_day%"^^xsd:dateTime'
             },
             {
-                label: 'after',
+                label: 'AFTER',
                 f: 'xsd:dateTime(%after_arithmetic%) > "%input_end_of_day%"^^xsd:dateTime'
             },
             {
-                label: 'before',
+                label: 'BEFORE',
                 f: 'xsd:dateTime(%after_arithmetic%) < "%input_start_of_day%"^^xsd:dateTime'
             }
         ];

@@ -329,6 +329,7 @@ module.exports = function (grunt) {
                             '*.{ico,png,txt}',
                             '.htaccess',
                             '*.html',
+                            'locale.json',
                             'overwrite.js'
                         ]
                     },

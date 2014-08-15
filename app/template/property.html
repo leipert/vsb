@@ -9,48 +9,48 @@
             <ul class="dropdown-menu" role="menu">
                 <li ng-show="propertyInst.hasFilter">
                     <a href="#" ng-click="toggleHasFilter()">
-                        <i class="fa fa-fw fa-filter"></i> Remove Filter
+                        <i class="fa fa-fw fa-filter"></i> {{'REMOVE_FILTER' | translate}}
                     </a>
                 </li>
                 <li ng-hide="propertyInst.hasFilter">
                     <a href="#" ng-click="toggleHasFilter()">
-                        <i class="fa fa-fw fa-filter"></i> Add Filter
+                        <i class="fa fa-fw fa-filter"></i> {{'ADD_FILTER' | translate}}
                     </a>
                 </li>
                 <li ng-show="propertyInst.filterExists">
                     <a href="#" ng-click="togglePropertyExists()">
-                        <i class="fa fa-fw fa-square-o"></i> Exists not
+                        <i class="fa fa-fw fa-square-o"></i>  {{'EXISTS_NOT' | translate}}
                     </a>
                 </li>
                 <li ng-hide="propertyInst.filterExists">
                     <a href="#" ng-click="togglePropertyExists()">
-                        <i class="fa fa-fw fa-check-square-o"></i> Exists
+                        <i class="fa fa-fw fa-check-square-o"></i>  {{'EXISTS' | translate}}
                     </a>
                 </li>
                 <li ng-show="propertyInst.filterExists && !propertyInst.optional">
                     <a href="#" ng-click="togglePropertyOptional()">
-                        <i class="fa fa-fw fa-question-circle"></i> Is Optional
+                        <i class="fa fa-fw fa-question-circle"></i>  {{'IS_OPTIONAL' | translate}}
                     </a>
                 </li>
                 <li ng-show="propertyInst.filterExists && propertyInst.optional">
                     <a href="#" ng-click="togglePropertyOptional()">
-                        <i class="fa fa-fw fa-exclamation-circle"></i> Is Mandatory
+                        <i class="fa fa-fw fa-exclamation-circle"></i>  {{'IS_MANDATORY' | translate}}
                     </a>
                 </li>
                 <li ng-hide="propertyInst.view">
                     <a href="#" ng-click="togglePropertyView()">
-                        <i class="fa fa-fw fa-eye"></i> Show Property
+                        <i class="fa fa-fw fa-eye"></i>  {{'SHOW_PROPERTY' | translate}}
                     </a>
                 </li>
                 <li ng-show="propertyInst.view">
                     <a href="#" ng-click="togglePropertyView()">
-                        <i class="fa fa-fw fa-eye-slash"></i> Hide Property
+                        <i class="fa fa-fw fa-eye-slash"></i>  {{'HIDE_PROPERTY' | translate}}
                     </a>
                 </li>
                 <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/property.js -->
                 <li>
                     <a href="#" ng-click="removeProperty(propertyInst)">
-                        <i class="fa fa-fw fa-trash-o"></i> Delete Property
+                        <i class="fa fa-fw fa-trash-o"></i>  {{'DELETE_PROPERTY' | translate}}
                     </a>
                 </li>
             </ul>
@@ -70,8 +70,8 @@
            ng-hide="propertyInst.view" ng-click="togglePropertyView()"></i>
 
       <!-- Button (Info-Sign) to show more Infos of propertyInst on hover -->
-        <i class="fa fa-fw fa-info-circle"
-           popover="{{propertyInst.$comment}}"
+        <i class="fa fa-fw fa-info-circle" ng-if="(propertyInst.uri + '.$comment' | translate) !== propertyInst.uri + '.$comment'"
+           popover="{{propertyInst.uri +'.$comment' | translate}}"
            popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
            popover-placement="top"
            popover-append-to-body="true"></i>
@@ -81,7 +81,7 @@
         <b>
             <span class="h5"><b>{{propertyInst.alias}}</b></span>
             <i class="fa fa-edit pointer" ng-click="propertyInst.editAlias = true"></i>
-            <small ng-show="propertyInst.alias !== propertyInst.$label">
+            <small>
                 <small>({{ propertyInst.uri | replaceURIsWithPrefixes}})</small>
             </small>
         </b>
