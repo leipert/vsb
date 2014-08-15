@@ -63,6 +63,11 @@ angular.module('GSB.services.languageService', ['GSB.config','pascalprecht.trans
                 }
             },
             factory = {};
+
+        factory.mergeLanguages = function (data){
+            storage = _.merge(storage,data);
+        };
+
         factory.setItem = function(lang,key,value){
             if (!storage.hasOwnProperty(lang)) {
                 storage[lang] = {};

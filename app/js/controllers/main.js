@@ -7,12 +7,16 @@
 
 angular.module('GSB.controllers.main', ['GSB.config'])
 //Inject $scope, $log and globalConfig (see @ js/config.js) into controller
-    .controller('MainCtrl', function ($scope, $log, globalConfig,$translate) {
+    .controller('MainCtrl', function ($scope, $log, globalConfig, $http, $translate, languageStorage) {
 
         $scope.changeLanguage = function (langKey) {
             $translate.use(langKey);
         };
 
+        $http.get('locale.json').success(function(data){
+            languageStorage.mergeLanguages(data)
+            $translate.refresh();
+        });
 
         //Some drag and drop variables
         $scope.showArea = 'workspace';
@@ -109,7 +113,6 @@ angular.module('GSB.controllers.main', ['GSB.config'])
 
         /**
          * Open the SPARQL Query in a new dbpedia tab
-         * TODO-NICO: Use or delete it.
          */
         $scope.openInNewTab = function () {
             var win = window.open(globalConfig.resultURL + encodeURIComponent($scope.translatedSPARQL), '_blank');
