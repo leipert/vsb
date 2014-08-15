@@ -67,21 +67,24 @@
           <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
           <ui-select ng-model="$parent.propertySelected">
             <match placeholder="Please choose a property to add.">
-              {{$select.selected.alias}}
+              {{$select.selected.uri + '.$label' | translate}}
             </match>
             <!-- IMPORTANT: it has to be item in 'repeat="item in...',
-            as ui-select defines it internally.	Anything else wont work!	-->
+            as ui-select defines it internally.	Anything else wont work!
+                TODO: Order by localized label
+            	TODO: Only show comment if existing
+            	-->
             <choices
                 repeat="item group by type in subjectInst.$availableProperties |
                         filter: $select.search |
-                        orderBy:'$label' | orderBy:'type' |
+                        orderBy:'type' |
                         limitTo: 50">
                 <p style="margin: 0">
-                    <i class="fa fa-info-circle pull-right" ng-if="item.$comment"
-                       popover="{{item.$comment}}"
+                    <i class="fa fa-info-circle pull-right" ng-if="item.uri + '.$comment'"
+                       popover="{{item.uri + '.$comment' | translate}}"
                        popover-trigger="mouseenter"
                        popover-append-to-body="true"></i>
-                    <strong ng-bind-html="item.alias | highlight: $select.search"></strong>
+                    <strong ng-bind-html="item.uri + '.$label' | translate | highlight: $select.search"></strong>
                     <small><small ng-bind-html="item.uri | replaceURIsWithPrefixes"></small></small>
                 </p>
             </choices>

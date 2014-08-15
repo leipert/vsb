@@ -7,13 +7,14 @@
 
 angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.services.endPoint'])
 //Inject $scope, $http, $log and globalConfig (see @js/config.js, @js/services/endPoint.js) into controller
-    .controller('PropertyCollectionCtrl', function ($scope, $http, $q, $log, globalConfig, EndPointService) {
+    .controller('PropertyCollectionCtrl', function ($scope, $http, $q, $log, $translate, globalConfig, EndPointService) {
 
         var $selectedProperties = $scope.subjectInst.$selectedProperties;
         $scope.subjectInst.$availableProperties = [];
         EndPointService.getDirectProperties($scope.subjectInst.uri)
             .then(function (properties) {
                 $log.debug('PROPERTIES (direkt) loaded for ' + $scope.subjectInst.uri, properties);
+                $translate.refresh();
                 $scope.subjectInst.$availableProperties = _.union($scope.subjectInst.$availableProperties,properties);
             })
             .catch(function (err) {
@@ -23,6 +24,7 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
         EndPointService.getInverseProperties($scope.subjectInst.uri)
             .then(function (properties) {
                 $log.debug('PROPERTIES (inverse) loaded for ' + $scope.subjectInst.uri, properties);
+                $translate.refresh();
                 $scope.subjectInst.$availableProperties = _.union($scope.subjectInst.$availableProperties,properties);
             })
             .catch(function (err) {
@@ -37,7 +39,6 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
             var temp = angular.copy($scope.propertySelected);
             temp.filterExists = true;
             temp.hasFilter = false;
-            temp.alias = temp.$label;
             temp.arithmetic = null;
             temp.compareRaw = {};
             temp.link = null;
@@ -48,6 +49,10 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
             $selectedProperties.push(temp);
             $scope.propertySelected = undefined;
             $scope.subjectInst.showAddProperty = false;
+        };
+
+        $scope.doesAliasExist = function(alias){
+            return _.filter($selectedProperties,{alias : alias}).length > 0;
         };
 
         /**

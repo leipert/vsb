@@ -34,7 +34,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                     return uri.substr(hashPos + 1);
                 } else {
                     return uri.substr(slashPos + 1);
-            }
+                }
         };
 
         var fillTranslationStorage = function(uri,labels,comments){
@@ -145,8 +145,8 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                     template: [
                         {
                             id: '?uri',
-                            $comment: '?comment',
-                            $label: '?label',
+                            $labels: [{id: '?label_loc', value: '?label'}],
+                            $comments: [{id: '?comment_loc', value: '?comment'}],
                             $range : [{id:'?range'}]
                         }
                     ],
@@ -163,14 +163,12 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                     propertyCollection.forEach(function (property) {
                         property.$range = _.pluck(property.$range,'id');
                         property.uri = cleanURI(property.id);
-                        property.$label = makeLabel(property.$label,property.uri);
+                        fillTranslationStorage(property.uri,property.$labels,property.$comments);
                         if (inverse) {
                             property.type = 'INVERSE_PROPERTY';
-                            property.$label = 'is ' + property.$label + ' of';
                         } else {
                             property.type = factory.getPropertyType(property.$range);
                         }
-                        property.alias = property.$label;
                     });
                     return propertyCollection;
                 })
