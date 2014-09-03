@@ -4,19 +4,17 @@
   "main": "dist/",
   "dependencies": {
     "jquery": "~2.1.1",
-    "angular": "1.2.15",
+    "angular": "1.2.19",
     "bootstrap": "~3.1.1",
     "angular-bootstrap": "~0.11.0",
-    "angular-sanitize": "1.2.15",
-    "angular-ui-select": "just-boris/ui-select#bower",
+    "angular-sanitize": "1.2.19",
+    "angular-ui-select": "~0.6.0",
     "momentjs": "~2.7.0",
-    "jassa": "leipert/Jassa-Bower#0.0.5",
     "angular-localforage": "~0.2.9",
-    "angular-translate": "~2.2.0"
-  },
-  "resolutions": {
-    "jquery": "~2.1.1",
-    "angular": "1.2.15"
+    "angular-translate": "~2.2.0",
+    "jassa": "0.6.0-SNAPSHOT",
+    "bluebird": "~2.3.2",
+    "lodash": "#master"
   },
   "overrides": {
     "angular-bootstrap": {
@@ -24,19 +22,9 @@
         "ui-bootstrap-tpls.js"
       ]
     },
-    "underscore.string": {
+    "lodash": {
       "main": [
-        "lib/underscore.string.js"
-      ]
-    },
-    "jscache": {
-      "main": [
-        "cache.js"
-      ]
-    },
-    "jassa": {
-      "main": [
-        "jassa.min.js"
+        "dist/lodash.js"
       ]
     }
   }

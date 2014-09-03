@@ -14,7 +14,7 @@ angular.module('GSB.controllers.main', ['GSB.config'])
         };
 
         $http.get('locale.json').success(function(data){
-            languageStorage.mergeLanguages(data)
+            languageStorage.mergeLanguages(data);
             $translate.refresh();
         });
 
@@ -108,6 +108,12 @@ angular.module('GSB.controllers.main', ['GSB.config'])
         //Initialize Workspace
         $scope.initializeWorkspace();
 
+        $scope.$on('enableButton',function(){
+            $scope.disableRun = false;
+        });
+        $scope.$on('disableButton',function(){
+            $scope.disableRun = true;
+        });
 
         /** FOLGENDES MUSS AUS DIESEM CONTROLLER RAUS! **/
 

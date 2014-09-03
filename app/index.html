@@ -32,7 +32,7 @@
           <table ng-show="showArea == 'workspace'">
             <tr>
               <td>
-                <a href="#" class="btn btn-warning" ng-click="showArea = 'query'; translate()"><i class="fa fa-play-circle fa-fw"></i> {{ 'RUN_QUERY' | translate }}</a>
+                <button type="button" class="btn btn-warning" ng-click="showArea = 'query'; translate()" ng-disabled="disableRun"><i class="fa fa-play-circle fa-fw"></i> {{ 'RUN_QUERY' | translate }}</button>
               </td>
               <td>
                 <a href="#" class="btn btn-danger" ng-click="resetWorkspace()"><i class="fa fa-undo fa-fw"></i> {{ 'RESET_WORKSPACE' | translate }}</a>
@@ -78,15 +78,15 @@
         <div class="input-group">
           <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
           <ui-select ng-model="$parent.selectedSubjectClass">
-            <match placeholder="{{ 'CHOOSE_A_SUBJECT' | translate }}">
+            <ui-select-match placeholder="{{ 'CHOOSE_A_SUBJECT' | translate }}">
               {{$select.selected.uri + '.$label' | translate}}
-            </match>
+            </ui-select-match>
             <!-- IMPORTANT: it has to be item in 'repeat="item in...',
             as ui-select defines it internally.	Anything else wont work!
             	TODO: Order by localized label
             	TODO: Only show comment if existing
             	-->
-            <choices repeat="item in availableSubjectClasses |
+            <ui-select-choices repeat="item in availableSubjectClasses |
                         filter: $select.search |
                         orderBy:'type' |
                         limitTo: 50">
@@ -99,7 +99,7 @@
                     <strong ng-bind-html="item.uri + '.$label' | translate | highlight: $select.search"></strong>
                     <small><small ng-bind-html="item.uri | replaceURIsWithPrefixes"></small></small>
                 </p>
-            </choices>
+            </ui-select-choices>
           </ui-select>
 	        <span class="input-group-btn">
 		        <button ng-click="uiAddSubject()" class="btn btn-success">
@@ -116,9 +116,9 @@
 
     <!-- Result area -->
     <div class="container" ng-show="showArea == 'query'" style="top:165px;position: relative">
-      <div ng-hide="hideQueries" class="col-sm-12">
+      <div ng-show="showQueries" class="col-sm-12">
         <div class="col-sm-12 text-center">
-          <a href="#" ng-click="hideQueries = true"> {{ 'HIDE_QUERIES' | translate }}</a>
+          <a href="#" ng-click="showQueries = false"> {{ 'HIDE_QUERIES' | translate }}</a>
         </div>
         <h3>{{ 'QUERIES' | translate }}</h3>
         <div class="col-sm-6">
@@ -126,17 +126,17 @@
           <pre id="json-query">{{translatedJSON | replaceURIsWithPrefixes}}</pre>
         </div>
         <div class="col-sm-6">
-          <p>{{ 'SPARQL' | translate }}:&nbsp;<a href="#" ng-click="openInNewTab()">Starte dbpedia-query!</a></p>
+            <p> {{ 'SPARQL' | translate }}</p>
           <pre id="sparql-query">{{translatedSPARQL | beautifySPARQL | replaceURIsWithPrefixes}}</pre>
         </div>
       </div>
       <div class="col-sm-12 text-center">
-        <a href="#" ng-hide="hideQueries" ng-click="hideQueries = true"> {{ 'HIDE_QUERIES' | translate }}</a>
-        <a href="#" ng-show="hideQueries" ng-click="hideQueries = false"> {{ 'SHOW_QUERIES' | translate }}</a>
+        <a href="#" ng-show="showQueries" ng-click="showQueries = false"> {{ 'HIDE_QUERIES' | translate }}</a>
+        <a href="#" ng-hide="showQueries" ng-click="showQueries = true"> {{ 'SHOW_QUERIES' | translate }}</a>
       </div>
       <div class="col-sm-12" style="">
         <h3>{{ 'RESULTS' | translate }}</h3>
-
+          <p><a href="#" ng-click="openInNewTab()">Show results!</a></p>
       </div>
     </div>
 
@@ -219,7 +219,6 @@
 
 </div>
 <!-- build:js js/vendor.js -->
-    <script src="vendor/lodash.build.js"></script>
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
@@ -227,11 +226,11 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-ui-select/dist/select.js"></script>
     <script src="bower_components/momentjs/moment.js"></script>
-    <script src="bower_components/underscore.string/lib/underscore.string.js"></script>
-    <script src="bower_components/jscache/cache.js"></script>
     <script src="bower_components/localforage/dist/localforage.min.js"></script>
     <script src="bower_components/angular-localforage/dist/angular-localForage.js"></script>
     <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/bluebird/js/browser/bluebird.js"></script>
+    <script src="bower_components/lodash/dist/lodash.js"></script>
     <!-- endbower -->
 <!-- endbuild -->
 

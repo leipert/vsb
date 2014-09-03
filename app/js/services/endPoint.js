@@ -6,17 +6,18 @@
  * @namespace data.results.bindings
  *
  */
+/* global $*/
 
 angular.module('GSB.services.endPoint', ['GSB.config'])
     .factory('EndPointService', function ($http, $q, $log, globalConfig,languageStorage) {
-        _.mixin(_.str.exports());
         var factory = {};
 
-        var service = Jassa.service;
-        var sponate = Jassa.sponate;
+        var jassa = new Jassa(Promise, $.ajax);
+        var service = jassa.service;
+        var sponate = jassa.sponate;
 
         var sparqlService = new service.SparqlServiceHttp(globalConfig.baseURL, globalConfig.defaultGraphURIs);
-        sparqlService = new service.SparqlServiceCache(sparqlService);
+        //sparqlService = new service.SparqlServiceCache(sparqlService); TODO: Do we need this?
         var store = new sponate.StoreFacade(sparqlService, globalConfig.prefixes);
 
         var cleanURI = function (str) {
@@ -84,8 +85,9 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                 });
             }
             var flow = store.classes.find();
-            return $q.when(flow.asList())
+            return flow.list()
                 .then(function (classCollection) {
+                    classCollection = _.pluck(classCollection,'val');
                     if(uri){
                         classCollection = _.filter(classCollection, {id: '<' + cleanURI(uri) + '>'});
                     }
@@ -113,14 +115,9 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                 });
             }
             var flow = store[key + uri].find();
-
-            return $q.when(flow.asList())
+            return flow.list()
                 .then(function (docs) {
-                    var ret = [];
-                    docs.forEach(function (doc) {
-                        ret.push(doc.id);
-                    });
-                    return ret;
+                    return _.pluck( _.pluck(docs,'val'), 'id');
                 })
                 .catch(function (err) {
                     $log.error('An error occurred: ', err);
@@ -153,9 +150,9 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                 });
             }
             var flow = store[storeKey + uri].find();
-
-            return $q.when(flow.asList())
+            return flow.list()
                 .then(function (propertyCollection) {
+                    propertyCollection = _.pluck(propertyCollection,'val');
                     if(filterURI){
                         propertyCollection = _.filter(propertyCollection, {id: '<' + cleanURI(filterURI) + '>'});
                     }

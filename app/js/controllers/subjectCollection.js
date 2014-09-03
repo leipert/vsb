@@ -46,11 +46,19 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
                 }
             );
             //If there is only one subject, it will be the one selected by the startPoint (automatically).
-            //TODO: Move to separate $watch ???
-            if ($scope.subjects.length === 1) {
-                $scope.mainSubjectSelected = $scope.subjects[0];
-            }
+
         };
+
+            $scope.$watchCollection('subjects',function(nv){
+               if(nv.length === 0){
+                   $scope.$emit('disableButton');
+               } else {
+                   $scope.$emit('enableButton');
+               }
+                if(nv.length===1){
+                    $scope.mainSubjectSelected = nv[0];
+                }
+            });
 
         /**
          * a function which adds a new subject given as a subjectObject
@@ -60,9 +68,6 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
             $log.debug('SUBJECT added ' + subjectObject.uri, subjectObject);
             $scope.subjects.push(subjectObject);
             //If there is only one subject, it will be the one selected by the startPoint (automatically).
-            if ($scope.subjects.length === 1) {
-                $scope.mainSubjectSelected = $scope.subjects[0];
-            }
         };
 
         $scope.doesAliasExist = function(alias){
@@ -75,11 +80,6 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
          */
         $scope.removeSubject = function (subjectInst) {
             $scope.subjects.splice($scope.subjects.indexOf(subjectInst), 1);
-            //If there is only one subject, it will be the one selected by the startPoint automatically .
-            //TODO: Move to separate $watch ???
-            if ($scope.subjects.length === 1) {
-                $scope.mainSubjectSelected = $scope.subjects[0];
-            }
         };
 
 
@@ -88,7 +88,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
          */
         $scope.removeAllSubjects = function () {
             {
-                $scope.subjects.splice(0, $scope.subjects.length);
+                $scope.subjects = [];
             }
         };
 
@@ -140,7 +140,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
         });
 
         $scope.$on('SPARQLUpdateEvent', function (event, newSPARQL) {
-            $scope.$parent.translatedSPARQL = newSPARQL;
+            $scope.$parent.translatedSPARQL = newSPARQL.toString();
         });
 
         $scope.$on('WorkspaceUpdateFromJSONEvent', function (scope, newWorkspaceContent) {
