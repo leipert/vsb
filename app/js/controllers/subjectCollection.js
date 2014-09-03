@@ -118,8 +118,8 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
             $scope.highlightedSubject = data;
         });
 
-        $scope.$on('translationEvent', function () {
-            TranslatorManager.translateGSBLToSPARQL($scope.mainSubjectSelected, $scope.subjects);
+        $scope.$on('translationEvent', function (event, language) {
+            TranslatorManager.translateGSBLToSPARQL($scope.mainSubjectSelected, $scope.subjects, language);
             TranslatorManager.prepareSaveLink($scope.mainSubjectSelected, $scope.subjects);
         });
 

@@ -49,6 +49,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
                 s = r.o;
                 b = r.s;
                 view = r.view;
+                type = 'OBJECT_PROPERTY';
             } else if (type === 'OBJECT_PROPERTY') {
                 r = translateObjectProperty(s, p, o, property.linkTo, view);
                 b = r.o;
@@ -77,6 +78,9 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
                 if (view && !shownVariables.contains(rdf.NodeFactory.createVar(alias))) {
                     shownVariables.add(rdf.NodeFactory.createVar(alias));
+                    if(type === 'OBJECT_PROPERTY') {
+                        triples.addTriples([new sparql.ElementOptional(createLabelVar(s, alias))]);
+                    }
                 }
 
             } else {
@@ -92,8 +96,19 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
             return triples;
         }
 
-        function translateSubject(subject) {
+        function createLabelVar(s,alias){
+            var label = rdf.NodeFactory.createVar(sanitizeAlias(alias+ '_label'));
+            var ElementTriplesBlock = new sparql.ElementTriplesBlock();
+            shownVariables.add(label);
+            ElementTriplesBlock.addTriples([new rdf.Triple(s,vocab.rdfs.label,label)]);
+            /*jshint camelcase: false */
+            ElementTriplesBlock.addTriples([new sparql.ElementFilter(new sparql.E_LangMatches(new sparql.E_Lang(label),'"' + factory.language + '"'))]);
+            /*jshint camelcase: true */
 
+            return ElementTriplesBlock;
+        }
+
+        function translateSubject(subject) {
             var alias = sanitizeAlias(subject.alias),
                 s = rdf.NodeFactory.createVar(sanitizeAlias(alias)),
                 o = rdf.NodeFactory.createUri(subject.uri),
@@ -102,6 +117,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
             if (subject.view && !shownVariables.contains(s,alias)) {
                 shownVariables.add(s);
+                ElementTriplesBlock.addTriples([new sparql.ElementOptional(createLabelVar(s,alias))]);
             }
 
             if (subject.hasOwnProperty('properties')) {
@@ -117,8 +133,10 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
          * Function to start translation process, with call to changeURIs for the mockup data
          * and replaceAliasSpaces to replace spaces with underscores
          * @param json
+         * @param language
          */
-        factory.translateJSONToSPARQL = function (json) {
+        factory.translateJSONToSPARQL = function (json,language) {
+            factory.language = language;
             shownVariables = new sparql.VarExprList();
             var query = new sparql.Query(),
                 ElementTriplesBlock = new sparql.ElementTriplesBlock();

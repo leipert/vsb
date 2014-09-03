@@ -20,6 +20,12 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         //sparqlService = new service.SparqlServiceCache(sparqlService); TODO: Do we need this?
         var store = new sponate.StoreFacade(sparqlService, globalConfig.prefixes);
 
+        factory.runSPARQLQuery = function(query){
+            var qe = sparqlService.createQueryExecution(query.toString());
+            qe.setTimeout(10000);
+            return qe.execAny();
+        };
+
         var cleanURI = function (str) {
             if (str === null || str === undefined) {
                 return str;

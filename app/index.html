@@ -7,6 +7,7 @@
       <!-- build:css css/vendor.css -->
         <!-- bower:css -->
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="bower_components/ng-table/ng-table.css" />
         <!-- endbower -->
         <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
     <!-- endbuild -->
@@ -137,6 +138,49 @@
       <div class="col-sm-12" style="">
         <h3>{{ 'RESULTS' | translate }}</h3>
           <p><a href="#" ng-click="openInNewTab()">Show results!</a></p>
+          <table ng-table="tableParams" show-filter="true" class="table table-responsive table-striped">
+              <thead>
+              <tr>
+                  <th ng-repeat="column in resultHead" ng-show="column.visible"
+                      class="text-center sortable" ng-class="{
+                    'sort-asc': tableParams.isSortBy(column.sortable, 'asc'),
+                    'sort-desc': tableParams.isSortBy(column.sortable, 'desc')
+                  }"
+                      ng-click="tableParams.sorting(column.sortable, tableParams.isSortBy(column.sortable, 'asc') ? 'desc' : 'asc')">
+                      {{column.title}}
+                  </th>
+              </tr>
+              <tr style="background-color: #fff">
+                  <th ng-repeat="column in resultHead" ng-show="column.visible" class="filter">
+                      <input type="text" ng-show="column.visible" ng-model="params.filter()[column.field]"
+                             class="input-filter form-control">
+                  </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="user in $data">
+                  <td ng-repeat="column in resultHead" ng-show="column.visible" sortable="column.sortable">
+                      <div ng-switch="user[column.field].type">
+                          <div ng-switch-when="uri">
+                              <a ng-href="{{user[column.field].value}}" target="_blank">
+                                  <span ng-show="user[column.field + '_label']" >{{user[column.field + '_label'].value}}</span>
+                                  <span ng-hide="user[column.field + '_label']" >{{user[column.field].value}}</span>
+                              </a>
+                          </div>
+                          <div ng-switch-when="typed-literal">
+                              <div ng-switch="user[column.field].datatype">
+                                  <div ng-switch-default>{{user[column.field].value}} <small><small>({{user[column.field].datatype | replaceURIsWithPrefixes}})</small></small></div>
+                              </div>
+                              </div>
+                          <div ng-switch-default>
+                              {{user[column.field].type}}
+                              {{user[column.field]}}
+                          </div>
+                      </div>
+                  </td>
+              </tr>
+              </tbody>
+          </table>
       </div>
     </div>
 
@@ -231,6 +275,7 @@
     <script src="bower_components/angular-translate/angular-translate.js"></script>
     <script src="bower_components/bluebird/js/browser/bluebird.js"></script>
     <script src="bower_components/lodash/dist/lodash.js"></script>
+    <script src="bower_components/ng-table/ng-table.js"></script>
     <!-- endbower -->
 <!-- endbuild -->
 
