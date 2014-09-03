@@ -66,16 +66,17 @@
         <div class="input-group">
           <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
           <ui-select ng-model="$parent.propertySelected">
-            <match placeholder="{{ 'CHOOSE_A_PROPERTY' | translate }}">
+            <ui-select-match placeholder="{{ 'CHOOSE_A_PROPERTY' | translate }}">
               {{$select.selected.uri + '.$label' | translate}}
-            </match>
+            </ui-select-match>
             <!-- IMPORTANT: it has to be item in 'repeat="item in...',
             as ui-select defines it internally.	Anything else wont work!
                 TODO: Order by localized label
             	TODO: Only show comment if existing
             	-->
-            <choices
-                repeat="item group by type in subjectInst.$availableProperties |
+            <ui-select-choices
+                group-by="'type'"
+                repeat="item in subjectInst.$availableProperties |
                         filter: $select.search |
                         orderBy:'type' |
                         limitTo: 50">
@@ -87,7 +88,7 @@
                     <strong ng-bind-html="item.uri + '.$label' | translate | highlight: $select.search"></strong>
                     <small><small ng-bind-html="item.uri | replaceURIsWithPrefixes"></small></small>
                 </p>
-            </choices>
+            </ui-select-choices>
           </ui-select>
 	        <span class="input-group-btn">
 		        <button ng-click="addProperty()" class="btn btn-success">
@@ -97,9 +98,9 @@
 
         </div>
       </div>
-      <div class="row">
-        <button ng-click="addAggregate()" class="btn btn-success">{{ 'ADD_A_AGGREGATE' | translate }}</button>
-      </div>
+      <!--<div class="row">-->
+        <!--<button ng-click="addAggregate()" class="btn btn-success">{{ 'ADD_A_AGGREGATE' | translate }}</button>-->
+      <!--</div>-->
     </div>
 
 

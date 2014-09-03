@@ -3,7 +3,7 @@
   margin: 10px 0;
 }
 
-body {
+* {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -138,7 +138,6 @@ div.subjectCSS div.propertyFilters {
 
 }
 
-
 #top-controls td
 {
   padding:2px;
@@ -147,7 +146,9 @@ div.subjectCSS div.propertyFilters {
 #legend td {
   padding-right: 5em;
 }
- {
+
+a {
+    cursor: pointer;
 }
 
 i.pointer,

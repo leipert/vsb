@@ -163,13 +163,14 @@ module.exports = function (grunt) {
             all: [
                 'Gruntfile.js',
                 '<%= appRoot %>/js/**/*.js'
-            ],
-            test: {
-                options: {
-                    jshintrc: 'test/.jshintrc'
-                },
-                src: ['test/spec/**/*.js']
-            }
+            ]
+            //], TODO: Deactivated camelCase for tests for now
+            //test: {
+            //    options: {
+            //        jshintrc: 'test/.jshintrc'
+            //    },
+            //    src: ['test/spec/**/*.js']
+            //}
         },
 
         // Empties folders to start fresh
@@ -212,9 +213,8 @@ module.exports = function (grunt) {
                 src: ['<%= appRoot %>/index.html'],
                 exclude: [
                     'es5-shim.js', //Deactivated as we do not want to support ie9
-                    'bootstrap.js', //Deactivated as we do not need it
                     'jassa', //Deactivated as we will add it manually
-                    'underscore.js' //Deactivated as we will use a custom lodash build (see below).
+                    'bootstrap.js' //Deactivated as we do not need it
                 ],
                 ignorePath: '<%= appRoot %>/'
             }
@@ -375,17 +375,6 @@ module.exports = function (grunt) {
             }
         },
 
-        'lodash': {
-            'build': {
-                'dest': '<%= appRoot %>/vendor/lodash.build.js',
-                'options': {
-                    'modifier': 'underscore',
-                    'plus': ['cloneDeep','findKey','merge'],
-                    'flags': ['debug']
-                }
-            }
-        },
-
         htmlrefs: {
             dist: {
                 src: './dist/index.html',
@@ -427,7 +416,6 @@ module.exports = function (grunt) {
             // 'writefile:configFile', At the moment we have a fixed config file
             // 'markdown:changeLog', At the moment we have no Changelog
             'clean:server',
-            'lodash',
             'injector',
             'wiredep',
             'copy:css',
@@ -459,7 +447,6 @@ module.exports = function (grunt) {
         // 'writefile:configFile', // At the moment we have a fixed config file
         // 'markdown:changeLog', // At the moment we have no Changelog
         'clean:dist',     // Clean Destination Folder
-        'lodash',         // Create a custom lodash build
         'injector',       // Automatically at dependencies from bower path (bower.json)
         'wiredep',        // Automatically at dependencies from bower path (bower.json)
         'useminPrepare',  // Prepare minification

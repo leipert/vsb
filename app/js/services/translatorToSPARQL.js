@@ -4,13 +4,14 @@
  * A factory to handle translation of JSON -> SPARQL
  *
  */
-/* global jassa */
-
+/* global $ */
 
 angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     .factory('TranslatorToSPARQL', function () {
 
         var factory = {};
+
+        var jassa = new Jassa(Promise, $.ajax);
 
         var sparql = jassa.sparql;
         var rdf = jassa.rdf;
@@ -79,7 +80,9 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
                 }
 
             } else {
+                /*jshint camelcase: false */
                 triples.addTriples([new sparql.ElementFilter(new sparql.E_NotExists(new rdf.Triple(s, p, o)))]);
+                /*jshint camelcase: true */
             }
 
             if (property.optional) {
@@ -94,18 +97,19 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
             var alias = sanitizeAlias(subject.alias),
                 s = rdf.NodeFactory.createVar(sanitizeAlias(alias)),
                 o = rdf.NodeFactory.createUri(subject.uri),
-                triples = [new rdf.Triple(s, vocab.rdf.type, o)];
+                ElementTriplesBlock = new sparql.ElementTriplesBlock();
+                ElementTriplesBlock.addTriples([new rdf.Triple(s, vocab.rdf.type, o)]);
 
-            if (subject.view && !shownVariables.contains(s)) {
+            if (subject.view && !shownVariables.contains(s,alias)) {
                 shownVariables.add(s);
             }
 
             if (subject.hasOwnProperty('properties')) {
                 subject.properties.forEach(function (property) {
-                    triples = triples.concat(translateProperty(property, alias, subject.view));
+                    ElementTriplesBlock.addTriples(translateProperty(property, alias, subject.view));
                 });
             }
-            return triples;
+            return ElementTriplesBlock;
         }
 
 
@@ -127,8 +131,10 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
             query.setProjectVars(shownVariables);
             query.setDistinct(true);
             query.setLimit(100);
-            return query.toString();
+            return query;
         };
+
+
 
         return factory;
 
