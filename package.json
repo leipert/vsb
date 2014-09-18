@@ -7,9 +7,9 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "gulp jshint",
+    "test": "gulp test",
     "precommit": "gulp jshint",
-    "prepush": "gulp jshint"
+    "prepush": "gulp"
   },
   "devDependencies": {
     "bower": "~1.3.5",

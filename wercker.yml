@@ -10,8 +10,8 @@ build:
     - npm-install
     - leipert/yeoman-bower-install
     - script:
-        name: Run grunt build
-        code: grunt build
+        name: Test and build gsb
+        code: gulp
     - script:
         name: Copying graphs
         code: cp config/graphs/*.ttl dist/
