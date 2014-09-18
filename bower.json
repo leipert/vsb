@@ -27,6 +27,9 @@
       "main": [
         "dist/lodash.js"
       ]
-    }
+    },
+      "jassa":{
+          "main":[]
+      }
   }
 }

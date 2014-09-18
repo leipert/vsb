@@ -4,18 +4,10 @@
     <meta charset="utf-8">
     <title>GSB: Prototyp</title>
       <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-      <!-- build:css css/vendor.css -->
-        <!-- bower:css -->
-        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="bower_components/ng-table/ng-table.css" />
-        <!-- endbower -->
-        <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
-    <!-- endbuild -->
-
-    <!-- build:css({.tmp,app}) css/main.css -->
-        <link rel="stylesheet" href="css/app.css">
-    <!-- endbuild -->
-
+      <!-- inject:vendor:css -->
+      <!-- endinject -->
+      <!-- inject:css -->
+      <!-- endinject -->
 
   </head>
 
@@ -262,56 +254,16 @@
     </div>
 
 </div>
-<!-- build:js js/vendor.js -->
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-ui-select/dist/select.js"></script>
-    <script src="bower_components/momentjs/moment.js"></script>
-    <script src="bower_components/localforage/dist/localforage.min.js"></script>
-    <script src="bower_components/angular-localforage/dist/angular-localForage.js"></script>
-    <script src="bower_components/angular-translate/angular-translate.js"></script>
-    <script src="bower_components/bluebird/js/browser/bluebird.js"></script>
-    <script src="bower_components/lodash/dist/lodash.js"></script>
-    <script src="bower_components/ng-table/ng-table.js"></script>
-    <!-- endbower -->
-<!-- endbuild -->
 
-<!-- ref:js js/jassa.min.js -->
-<script src="bower_components/jassa/jassa.min.js"></script>
-<!-- endref -->
 
-<!-- build:js({.tmp,app}) js/main.js -->
-    <script src="js/app.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/controllers/main.js"></script>
-    <script src="js/controllers/propertyCollection.js"></script>
-    <script src="js/controllers/propertyInstance.js"></script>
-    <script src="js/controllers/propertyType/aggregate.js"></script>
-    <script src="js/controllers/propertyType/date.js"></script>
-    <script src="js/controllers/propertyType/number.js"></script>
-    <script src="js/controllers/propertyType/object.js"></script>
-    <script src="js/controllers/propertyType/string.js"></script>
-    <script src="js/controllers/subjectCollection.js"></script>
-    <script src="js/controllers/subjectInstance.js"></script>
-    <script src="js/directives/property.js"></script>
-    <script src="js/directives/propertyType/aggregate.js"></script>
-    <script src="js/directives/propertyType/date.js"></script>
-    <script src="js/directives/propertyType/number.js"></script>
-    <script src="js/directives/propertyType/object.js"></script>
-    <script src="js/directives/propertyType/string.js"></script>
-    <script src="js/directives/startPoint.js"></script>
-    <script src="js/directives/subject.js"></script>
-    <script src="js/filters.js"></script>
-    <script src="js/services/endPoint.js"></script>
-    <script src="js/services/languageService.js"></script>
-    <script src="js/services/translatorManager.js"></script>
-    <script src="js/services/translatorToGSBL.js"></script>
-    <script src="js/services/translatorToJSON.js"></script>
-    <script src="js/services/translatorToSPARQL.js"></script>
-<!-- endbuild -->
+
+    <!-- inject:vendor:js -->
+    <!-- endinject -->
+    <!-- ref:js js/jassa.min.js -->
+    <script src="bower_components/jassa/jassa.min.js"></script>
+    <!-- endref -->
+    <!-- inject:js -->
+    <!-- endinject -->
 <script src="overwrite.js"></script>
 </body>
 </html>
