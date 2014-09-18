@@ -5,6 +5,9 @@ build:
   steps:
     # A step that executes `npm install` command
     - script:
+        name: Make sure gulp is installed
+        code: sudo npm install gulp -g
+    - script:
         name: Copying config
         code: cp $CONFIG_FILE app/overwrite.js
     - npm-install
