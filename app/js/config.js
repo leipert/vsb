@@ -2,21 +2,16 @@
 
 angular.module('GSB.config', [])
     .constant('globalConfig', {
-        name : 'STANDARD_CONFIG',
-        propertyTypeURIs: {
-            'OBJECT_PROPERTY': [
-                'http://gsb.leipert.io/ns/',
-                'http://xmlns.com/foaf/0.1/',
-            ],
-            'NUMBER_PROPERTY': [
-                'http://www.w3.org/2001/XMLSchema#(integer|float|double|decimal|positiveInteger|nonNegativeInteger)'
-            ],
-            'STRING_PROPERTY': [
-                'http://www.w3.org/2001/XMLSchema#(string|literal)'
-            ],
-            'DATE_PROPERTY': [
-                'http://www.w3.org/2001/XMLSchema#date'
-            ]
+        name: 'STANDARD_CONFIG',
+        propertyTypeByType: {
+            'http://www.w3.org/2002/07/owl#ObjectProperty': 'OBJECT_PROPERTY'
+        },
+        propertyTypeByRange: {
+            'http://gsb.leipert.io/ns/': 'OBJECT_PROPERTY',
+            'http://xmlns.com/foaf/0.1/': 'OBJECT_PROPERTY',
+            'http://www.w3.org/2001/XMLSchema#(integer|float|double|decimal|positiveInteger|nonNegativeInteger)': 'NUMBER_PROPERTY',
+            'http://www.w3.org/2001/XMLSchema#(string|literal)': 'STRING_PROPERTY',
+            'http://www.w3.org/2001/XMLSchema#date': 'DATE_PROPERTY'
         },
         prefixes: {
             'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
@@ -24,7 +19,7 @@ angular.module('GSB.config', [])
             'owl': 'http://www.w3.org/2002/07/owl#',
             'gsb': 'http://gsb.leipert.io/ns/'
         },
-        defaultGraphURIs: ['http://xmlns.com/foaf/0.1/','http://gsb.leipert.io/ns/'],
+        defaultGraphURIs: ['http://xmlns.com/foaf/0.1/', 'http://gsb.leipert.io/ns/'],
         baseURL: 'https://ssl.leipert.io/sparql',
         resultURL: 'https://ssl.leipert.io/sparql?default-graph-uri=&format=text%2Fhtml&timeout=5000&debug=on&query=',
         allowedLanguages: ['*', 'de', 'en'],
@@ -65,12 +60,14 @@ angular.module('GSB.config', [])
             getDirectProperties: '<%uri%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?class .' +
             '?uri rdfs:domain ?class .' +
             'OPTIONAL { ?uri rdfs:range ?range }  .' +
+            'OPTIONAL { ?uri rdf:type ?type }  .' +
             'OPTIONAL { ?uri rdfs:label ?label . BIND(LANG(?label) AS ?label_loc) } .' +
             'OPTIONAL { ?uri rdfs:comment ?comment . BIND(LANG(?comment) AS ?comment_loc) } .' +
             'FILTER ( !isBlank(?class) && !isBlank(?uri) && !isBlank(?range) ) ',
             getInverseProperties: '<%uri%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?class .' +
             '?uri rdfs:range ?class .' +
             'OPTIONAL { ?uri rdfs:domain ?range }  .' +
+            'OPTIONAL { ?uri rdf:type ?type }  .' +
             'OPTIONAL { ?uri rdfs:label ?label . BIND(LANG(?label) AS ?label_loc) } .' +
             'OPTIONAL { ?uri rdfs:comment ?comment . BIND(LANG(?comment) AS ?comment_loc) } .' +
             'FILTER ( !isBlank(?class) && !isBlank(?uri) && !isBlank(?range) ) ',

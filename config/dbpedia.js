@@ -3,9 +3,7 @@
 angular.module('GSB.config')
     .config(function (globalConfig) {
         globalConfig.name = 'DBPEDIA_CONFIG';
-        globalConfig.propertyTypeURIs.OBJECT_PROPERTY = [
-            'http://dbpedia.org/ontology/'
-        ];
+        globalConfig.propertyTypeByRange['http://dbpedia.org/ontology/'] = 'OBJECT_PROPERTY';
         globalConfig.prefixes = _.merge(globalConfig.prefixes,{
             'category': 'http://dbpedia.org/resource/Category:',
             'dbpedia': 'http://dbpedia.org/resource/',

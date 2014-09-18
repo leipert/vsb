@@ -9,7 +9,7 @@
 /* global $*/
 
 angular.module('GSB.services.endPoint', ['GSB.config'])
-    .factory('EndPointService', function ($http, $q, $log, globalConfig,languageStorage) {
+    .factory('EndPointService', function ($http, $q, $log, globalConfig, languageStorage) {
         var factory = {};
 
         var jassa = new Jassa(Promise, $.ajax);
@@ -20,7 +20,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         //sparqlService = new service.SparqlServiceCache(sparqlService); TODO: Do we need this?
         var store = new sponate.StoreFacade(sparqlService, globalConfig.prefixes);
 
-        factory.runSPARQLQuery = function(query){
+        factory.runSPARQLQuery = function (query) {
             var qe = sparqlService.createQueryExecution(query.toString());
             qe.setTimeout(10000);
             return qe.execAny();
@@ -33,24 +33,24 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             return str.replace(/^<+/, '').replace(/>+$/, '');
         };
 
-        var extractLabelFromURI = function(uri){
-                uri = cleanURI(uri);
-                var hashPos = uri.lastIndexOf('#'),
-                    slashPos = uri.lastIndexOf('/');
-                if (hashPos > slashPos) {
-                    return uri.substr(hashPos + 1);
-                } else {
-                    return uri.substr(slashPos + 1);
-                }
+        var extractLabelFromURI = function (uri) {
+            uri = cleanURI(uri);
+            var hashPos = uri.lastIndexOf('#'),
+                slashPos = uri.lastIndexOf('/');
+            if (hashPos > slashPos) {
+                return uri.substr(hashPos + 1);
+            } else {
+                return uri.substr(slashPos + 1);
+            }
         };
 
-        var fillTranslationStorage = function(uri,labels,comments){
-            labels.forEach(function (label){
-                languageStorage.setItem(label.id,uri + '.$label',label.value);
+        var fillTranslationStorage = function (uri, labels, comments) {
+            labels.forEach(function (label) {
+                languageStorage.setItem(label.id, uri + '.$label', label.value);
             });
-            languageStorage.setItem('default',uri+'.$label',extractLabelFromURI(uri));
-            comments.forEach(function (comment){
-                languageStorage.setItem(comment.id,uri + '.$comment',comment.value);
+            languageStorage.setItem('default', uri + '.$label', extractLabelFromURI(uri));
+            comments.forEach(function (comment) {
+                languageStorage.setItem(comment.id, uri + '.$comment', comment.value);
             });
         };
 
@@ -59,20 +59,22 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
          * @param $range
          * @returns string
          */
-        factory.getPropertyType = function ($range) {
-            var findKey = function(uri) {
-                return _.findKey(globalConfig.propertyTypeURIs, function(elem) {
-                    var regex = new RegExp('(?:' + elem.join('|') + ')');
-                    return regex.test(uri);
-                });
-            };
-            for(var i = 0, j = $range.length; i<j ;i++){
-                var key = findKey($range[i]);
-                if(key){
-                    return key;
-                }
+        factory.getPropertyType = function (property) {
+            var type = (_.find(globalConfig.propertyTypeByType,
+                function (val, key) {
+                    return new RegExp(key).test(property.$type);
+                }));
+
+            if (!!type) {
+                return type;
             }
-            return 'STANDARD_PROPERTY';
+
+            type = (_.find(globalConfig.propertyTypeByRange,
+                function (val, key) {
+                    return new RegExp(key).test(property.$range);
+                }));
+
+            return (!!type) ? type : 'STANDARD_PROPERTY';
         };
 
         factory.getAvailableClasses = function (uri) {
@@ -93,13 +95,13 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             var flow = store.classes.find();
             return flow.list()
                 .then(function (classCollection) {
-                    classCollection = _.pluck(classCollection,'val');
-                    if(uri){
+                    classCollection = _.pluck(classCollection, 'val');
+                    if (uri) {
                         classCollection = _.filter(classCollection, {id: '<' + cleanURI(uri) + '>'});
                     }
                     classCollection.forEach(function (doc) {
                         doc.uri = cleanURI(doc.id);
-                        fillTranslationStorage(doc.uri,doc.$labels,doc.$comments);
+                        fillTranslationStorage(doc.uri, doc.$labels, doc.$comments);
                     });
                     return classCollection;
                 })
@@ -123,7 +125,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             var flow = store[key + uri].find();
             return flow.list()
                 .then(function (docs) {
-                    return _.pluck( _.pluck(docs,'val'), 'id');
+                    return _.pluck(_.pluck(docs, 'val'), 'id');
                 })
                 .catch(function (err) {
                     $log.error('An error occurred: ', err);
@@ -132,15 +134,15 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         };
 
         factory.getSuperAndEqClasses = function (uri) {
-            return getOtherClasses(cleanURI(uri),globalConfig.endPointQueries.getSuperAndEqClasses.replace('%uri%',cleanURI(uri)),'SuperAndEqClasses');
+            return getOtherClasses(cleanURI(uri), globalConfig.endPointQueries.getSuperAndEqClasses.replace('%uri%', cleanURI(uri)), 'SuperAndEqClasses');
         };
 
         factory.getSubAndEqClasses = function (uri) {
-            return getOtherClasses(cleanURI(uri),globalConfig.endPointQueries.getSubAndEqClasses.replace('%uri%',cleanURI(uri)),'SubAndEqClasses');
+            return getOtherClasses(cleanURI(uri), globalConfig.endPointQueries.getSubAndEqClasses.replace('%uri%', cleanURI(uri)), 'SubAndEqClasses');
         };
 
         var getProperties = function (uri, query, inverse, filterURI) {
-            var storeKey = (inverse)? 'InverseProperties' : 'DirectProperties';
+            var storeKey = (inverse) ? 'InverseProperties' : 'DirectProperties';
             if (!store.hasOwnProperty(storeKey + uri)) {
                 store.addMap({
                     name: storeKey + uri,
@@ -149,7 +151,8 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                             id: '?uri',
                             $labels: [{id: '?label_loc', value: '?label'}],
                             $comments: [{id: '?comment_loc', value: '?comment'}],
-                            $range : [{id:'?range'}]
+                            $range: [{id: '?range'}],
+                            $type: '?type'
                         }
                     ],
                     from: query
@@ -158,18 +161,18 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             var flow = store[storeKey + uri].find();
             return flow.list()
                 .then(function (propertyCollection) {
-                    propertyCollection = _.pluck(propertyCollection,'val');
-                    if(filterURI){
+                    propertyCollection = _.pluck(propertyCollection, 'val');
+                    if (filterURI) {
                         propertyCollection = _.filter(propertyCollection, {id: '<' + cleanURI(filterURI) + '>'});
                     }
                     propertyCollection.forEach(function (property) {
-                        property.$range = _.pluck(property.$range,'id');
+                        property.$range = _.pluck(property.$range, 'id');
                         property.uri = cleanURI(property.id);
-                        fillTranslationStorage(property.uri,property.$labels,property.$comments);
+                        fillTranslationStorage(property.uri, property.$labels, property.$comments);
                         if (inverse) {
                             property.type = 'INVERSE_PROPERTY';
                         } else {
-                            property.type = factory.getPropertyType(property.$range);
+                            property.type = factory.getPropertyType(property);
                         }
                     });
                     return propertyCollection;
@@ -179,18 +182,18 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                 });
         };
 
-        factory.getDirectProperties = function (uri, filterURI){
-            return getProperties(cleanURI(uri), globalConfig.endPointQueries.getDirectProperties.replace('%uri%',uri), false, filterURI);
+        factory.getDirectProperties = function (uri, filterURI) {
+            return getProperties(cleanURI(uri), globalConfig.endPointQueries.getDirectProperties.replace('%uri%', uri), false, filterURI);
         };
 
-        factory.getInverseProperties = function (uri, filterURI){
-            return getProperties(cleanURI(uri), globalConfig.endPointQueries.getInverseProperties.replace('%uri%',uri), true, filterURI);
+        factory.getInverseProperties = function (uri, filterURI) {
+            return getProperties(cleanURI(uri), globalConfig.endPointQueries.getInverseProperties.replace('%uri%', uri), true, filterURI);
         };
 
-        factory.getPropertyDetails = function (uri, property){
-            if(property.type === 'INVERSE_PROPERTY'){
+        factory.getPropertyDetails = function (uri, property) {
+            if (property.type === 'INVERSE_PROPERTY') {
                 return factory.getInverseProperties(cleanURI(uri), property.uri);
-            }else{
+            } else {
                 return factory.getDirectProperties(cleanURI(uri), property.uri);
             }
         };

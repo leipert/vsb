@@ -110,6 +110,7 @@
         you can use ng-include for direct insertion templates or
         a own directive with templates and controllers
         This is the place if you want to add new property Types.-->
+        {{propertyInst.type}}
         <div class="propertyFilters" ng-show="propertyInst.filterExists && propertyInst.hasFilter"
              ng-switch on="propertyInst.type">
 
@@ -120,6 +121,9 @@
                 <div number-property-dir></div>
             </div>
             <div ng-switch-when="STRING_PROPERTY">
+                <div string-property-dir></div>
+            </div>
+            <div ng-switch-when="STANDARD_PROPERTY">
                 <div string-property-dir></div>
             </div>
             <div ng-switch-when="INVERSE_PROPERTY">

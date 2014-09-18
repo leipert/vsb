@@ -3,9 +3,7 @@
 angular.module('GSB.config')
     .config(function (globalConfig) {
         globalConfig.name = 'BIBRM_CONFIG';
-        globalConfig.propertyTypeURIs.OBJECT_PROPERTY = [
-            'http://vocab.ub.uni-leipzig.de/bibrm/'
-        ];
+        globalConfig.propertyTypeByRange['http://vocab.ub.uni-leipzig.de/bibrm/'] ='OBJECT_PROPERTY';
         globalConfig.prefixes = _.merge(globalConfig.prefixes,{
             bibrm: 'http://vocab.ub.uni-leipzig.de/bibrm/',
             sysont: 'http://ns.ontowiki.net/SysOnt/',

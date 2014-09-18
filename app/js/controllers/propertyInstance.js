@@ -41,10 +41,10 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
                 return $q.all(promises).then(function ($range) {
                     $range = _.uniq(_.flatten($range));
                     $scope.propertyInst.$range = $range;
-                    return $range;
-                }).then(function ($range) {
-                    if ($scope.propertyInst.type !== 'INVERSE_PROPERTY') {
-                        $scope.propertyInst.type = EndPointService.getPropertyType($range);
+                    return $scope.propertyInst;
+                }).then(function (propertyInst) {
+                    if (propertyInst.type !== 'INVERSE_PROPERTY') {
+                        propertyInst.type = EndPointService.getPropertyType(propertyInst);
                     }
                 });
             }
