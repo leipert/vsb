@@ -79,11 +79,11 @@ angular.module('GSB.controllers.propertyType.date', ['GSB.config', 'ui.bootstrap
 
         function renderDate() {
             if ($scope.dateComparison !== null && $scope.comparisonInput instanceof Date) {
-                var date = $scope.comparisonInput.toDateString() + ' UTC';
+                var date = $scope.comparisonInput;
                 $scope.propertyInst.compare =
                     $scope.allowedDateComparisons[$scope.dateComparison].f
-                        .replace(/%input_start_of_day%/g, moment.utc(date).hour(0).minute(0).second(0).format())
-                        .replace(/%input_end_of_day%/g, moment.utc(date).hour(23).minute(59).second(59).format());
+                        .replace(/%input_start_of_day%/g, moment(date).hour(0).minute(0).second(0).format())
+                        .replace(/%input_end_of_day%/g, moment(date).hour(23).minute(59).second(59).format());
 
             } else {
                 $scope.propertyInst.compare = null;

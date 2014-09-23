@@ -4,7 +4,7 @@
  * A factory to handle translation of JSON -> SPARQL
  *
  */
-/* global $ */
+
 
 angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
     .factory('TranslatorToSPARQL', function () {
@@ -17,6 +17,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
         var rdf = jassa.rdf;
         var vocab = jassa.vocab;
         var shownVariables;
+        var objects = new sparql.VarExprList(), main = '';
 
         function sanitizeAlias(string) {
 
@@ -79,7 +80,7 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
                 if (view && !shownVariables.contains(rdf.NodeFactory.createVar(alias))) {
                     shownVariables.add(rdf.NodeFactory.createVar(alias));
                     if(type === 'OBJECT_PROPERTY') {
-                        triples.addTriples([new sparql.ElementOptional(createLabelVar(s, alias))]);
+                        objects.add(rdf.NodeFactory.createVar(alias));
                     }
                 }
 
@@ -96,18 +97,6 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
             return triples;
         }
 
-        function createLabelVar(s,alias){
-            var label = rdf.NodeFactory.createVar(sanitizeAlias(alias+ '_label'));
-            var ElementTriplesBlock = new sparql.ElementTriplesBlock();
-            shownVariables.add(label);
-            ElementTriplesBlock.addTriples([new rdf.Triple(s,vocab.rdfs.label,label)]);
-            /*jshint camelcase: false */
-            ElementTriplesBlock.addTriples([new sparql.ElementFilter(new sparql.E_LangMatches(new sparql.E_Lang(label),'"' + factory.language + '"'))]);
-            /*jshint camelcase: true */
-
-            return ElementTriplesBlock;
-        }
-
         function translateSubject(subject) {
             var alias = sanitizeAlias(subject.alias),
                 s = rdf.NodeFactory.createVar(sanitizeAlias(alias)),
@@ -117,7 +106,10 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
 
             if (subject.view && !shownVariables.contains(s,alias)) {
                 shownVariables.add(s);
-                ElementTriplesBlock.addTriples([new sparql.ElementOptional(createLabelVar(s,alias))]);
+                objects.add(s);
+                if(main === ''){
+                    main = s;
+                }
             }
 
             if (subject.hasOwnProperty('properties')) {
@@ -133,10 +125,8 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
          * Function to start translation process, with call to changeURIs for the mockup data
          * and replaceAliasSpaces to replace spaces with underscores
          * @param json
-         * @param language
          */
-        factory.translateJSONToSPARQL = function (json,language) {
-            factory.language = language;
+        factory.translateJSONToSPARQL = function (json) {
             shownVariables = new sparql.VarExprList();
             var query = new sparql.Query(),
                 ElementTriplesBlock = new sparql.ElementTriplesBlock();
@@ -148,8 +138,43 @@ angular.module('GSB.services.translatorToSPARQL', ['GSB.config'])
             query.setQueryPattern(ElementTriplesBlock);
             query.setProjectVars(shownVariables);
             query.setDistinct(true);
-            query.setLimit(100);
+
             return query;
+        };
+
+        factory.translateJSONToSponateMap = function (json) {
+
+            objects = new sparql.VarExprList();
+            main = '';
+
+            shownVariables = new sparql.VarExprList();
+            var ElementTriplesBlock = new sparql.ElementTriplesBlock(),r;
+            if (json.hasOwnProperty('SUBJECTS')) {
+                json.SUBJECTS.forEach(function (subject) {
+                    ElementTriplesBlock.addTriples(translateSubject(subject));
+                });
+            }
+
+            r = {
+                name: new Date().toISOString(),
+                template: [{
+                    id: main.toString(),
+                    rows: [{
+                        id: '?rowId'
+                    }]
+                }],
+                from: ElementTriplesBlock.toString()
+            };
+
+            shownVariables.getVars().forEach(function(Var){
+                var key = Var.toString().replace(/^\?/,'');
+                if(objects.contains(Var)){
+                    key = '$'+key;
+                }
+                r.template[0].rows[0][key] = Var.toString();
+            });
+
+            return r;
         };
 
 

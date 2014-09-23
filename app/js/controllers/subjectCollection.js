@@ -139,7 +139,7 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
             $scope.$parent.translatedJSON = newJSON;
         });
 
-        $scope.$on('SPARQLUpdateEvent', function (event, newSPARQL) {
+        $scope.$on('SPARQLQueryUpdateEvent', function (event, newSPARQL) {
             $scope.$parent.translatedSPARQL = newSPARQL.toString();
         });
 

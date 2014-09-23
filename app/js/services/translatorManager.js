@@ -70,7 +70,7 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
          *  @param subjects
          *  @param language
          */
-        factory.translateGSBLToSPARQL = function (mainSubjectSelected, subjects, language) {
+        factory.translateGSBLToSPARQL = function (mainSubjectSelected, subjects) {
 
             var newJSON = TranslatorToJSON.translateGSBLToJSON(mainSubjectSelected, subjects);
             $rootScope.$broadcast('JSONUpdateEvent', newJSON);
@@ -82,8 +82,13 @@ angular.module('GSB.services.translatorManager', ['GSB.config'])
             }
 
 
-            var newSPARQL = TranslatorToSPARQL.translateJSONToSPARQL(JSON.parse(newJSON), language);
-            $rootScope.$broadcast('SPARQLUpdateEvent', newSPARQL);
+            var newSPARQL = TranslatorToSPARQL.translateJSONToSPARQL(JSON.parse(newJSON));
+
+            $rootScope.$broadcast('SPARQLQueryUpdateEvent', newSPARQL);
+
+            var sponateMap = TranslatorToSPARQL.translateJSONToSponateMap(JSON.parse(newJSON));
+
+            $rootScope.$broadcast('SPARQLUpdateEvent', sponateMap);
         };
 
         return factory;
