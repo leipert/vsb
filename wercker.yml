@@ -17,7 +17,7 @@ build:
         code: gulp
     - script:
         name: Copying config
-        code: cp -r config/* dist/config/
+        code: mkdir -p dist/config && cp -r config/* dist/config/
 
 
 deploy:
