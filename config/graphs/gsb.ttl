@@ -1,0 +1,126 @@
+@prefix :         <http://gsb.leipert.io/ns/> .
+@prefix gsb:      <http://gsb.leipert.io/ns/> .
+@prefix doap:     <http://usefulinc.com/ns/doap#>.
+@prefix foaf:     <http://xmlns.com/foaf/0.1/> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann:     <http://purl.org/vocab/vann/>.
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+
+<http://gsb.leipert.io/ns/> a owl:Ontology;
+    foaf:maker <http://leipert.io>;
+    doap:maintainer <http://leipert.io>;
+    doap:homepage <http://leipert.io/gsb>;
+    vann:changes <https://github.com/leipert/gsb/commits/master/test.ttl>;
+    vann:preferredNamespacePrefix "gsb";
+    vann:preferredNamespaceUri "http://gsb.leipert.io/ns/";
+    rdfs:label "Graphical SPARQL Builder Vocabulary.";
+    rdfs:isDefinedBy <> .
+
+# Start Class Agent
+:Agent a rdfs:Class ;
+    rdfs:label "Agent"@de, "Agent"@en ;
+    rdfs:comment "Analog zu foaf:Agent"@de, "Analogue to foaf:Agent"@en ;
+    rdfs:subClassOf owl:Thing ;
+    rdfs:isDefinedBy <http://gsb.leipert.io/ns/> ;
+    owl:equivalentClass foaf:Agent .
+
+    # Agent Properties
+
+    :name a owl:DataProperty ;
+        rdfs:label "Name"@de, "Name"@en ;
+        rdfs:comment "Name eines Agents"@de, "Name of an Agent"@en ;
+        rdfs:domain :Agent ;
+        rdfs:range xsd:string .
+
+    :founded a owl:ObjectProperty, owl:IrreflexiveProperty ;
+        rdfs:label "gründete"@de, "founded"@en ;
+        rdfs:comment "Gründer einer Organisation"@de, "Founder of an Organisation"@en ;
+        rdfs:domain foaf:Agent ;
+        rdfs:range :Organisation .
+
+    :owns a owl:ObjectProperty, owl:IrreflexiveProperty ;
+        rdfs:comment "Eigentümer einer Organisation"@de, "Owner of an Organisation"@en ;
+        rdfs:label "besitzt"@de, "owns"@en ;
+        rdfs:domain :Agent ;
+        rdfs:range foaf:Organization .
+# End Class Agent
+
+# Start Class Person
+:Person a rdfs:Class ;
+    rdfs:label "Person"@de, "Person"@en ;
+    rdfs:comment "Analog zu foaf:Person"@de, "Analogue to foaf:Person"@en ;
+    rdfs:subClassOf :Agent ;
+    owl:equivalentClass foaf:Person .
+
+    # Person Properties
+
+    :birthDate a owl:DataProperty ;
+        rdfs:label "Geburtstag"@de, "Birth Date"@en ;
+        rdfs:comment "Der Geburtstag einer Person"@de, "The birth date of a person"@en ;
+        rdfs:domain :Person ;
+        rdfs:range xsd:date .
+
+    :age a owl:DataProperty ;
+        rdfs:label "Alter"@de, "Age"@en ;
+        rdfs:comment "Das Alter einer Person"@de, "The age of a person"@en ;
+        rdfs:domain :Person ;
+        rdfs:range xsd:integer .
+
+    :ancestor a owl:ObjectProperty, owl:TransitiveProperty, owl:AsymmetricProperty, owl:IrreflexiveProperty ;
+        rdfs:label "Vorfahr"@de, "Ancestor"@en ;
+        rdfs:comment "Der Vorfahr einer Person"@de, "The Ancestor of a person"@en ;
+        rdfs:domain :Person ;
+        rdfs:range :Person ;
+        owl:inverseOf :scion .
+
+    :scion a owl:ObjectProperty, owl:TransitiveProperty, owl:AsymmetricProperty, owl:IrreflexiveProperty ;
+        rdfs:label "Nachfahr"@de, "Scion"@en ;
+        rdfs:comment "Der Nachfahr einer Person"@de, "The scion of a person"@en ;
+        rdfs:domain foaf:Person ;
+        rdfs:range foaf:Person ;
+        owl:inverseOf :ancestor .
+
+    :keeps a owl:ObjectProperty, owl:IrreflexiveProperty ;
+        rdfs:label "besitzt"@de, "owns"@en ;
+        rdfs:domain :Person ;
+        rdfs:range :Pet .
+
+    :title a owl:DataProperty ;
+        rdfs:label "Titel"@de, "Title"@en ;
+        rdfs:comment "Der Titel einer Person"@de, "The title of a person"@en ;
+        rdfs:domain :Person ;
+        rdfs:range xsd:string .
+
+
+# End Class Person
+
+:Organisation a rdfs:Class ;
+    rdfs:label "Organisation"@de, "Organisation"@en ;
+    rdfs:comment "Analog zu foaf:Organization"@de, "Analogue to foaf:Organisation"@en ;
+    rdfs:subClassOf :Agent ;
+    owl:equivalentClass foaf:Organization .
+
+:Pet a owl:Class ;
+    rdfs:label "Haustier"@de, "Pet"@en ;
+    rdfs:comment "Das Haustier einer Person"@de, "A Persons pet."@en ;
+    rdfs:subClassOf :Agent .
+
+### DATA:
+
+:Lukas a :Person ;
+    rdfs:label "Lukas"@de ;
+    :age 22 ;
+    :birthDate "1992-12-14"^^xsd:date ;
+    :scion :Winfried ;
+    :title "Master of Disaster" .
+
+:Winfried a :Person .
+
+:Eduardo a :Person ;
+    rdfs:label "Eduardo"@de ;
+    :age 40 ;
+    :birthDate "1974-12-12"^^xsd:date ;
+    :scion :Lukas ;
+    :title "Master of Disaster, sr." .
