@@ -14,4 +14,5 @@ angular.module('GSB.config')
         });
         globalConfig.defaultGraphURIs = ['http://dbpedia.org'];
         globalConfig.baseURL = 'http://dbpedia.org/sparql';
+        globalConfig.resultURL = globalConfig.baseURL + '?query=';
     });
