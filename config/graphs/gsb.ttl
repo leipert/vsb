@@ -80,12 +80,19 @@
         rdfs:comment "Der Nachfahr einer Person"@de, "The scion of a person"@en ;
         rdfs:domain foaf:Person ;
         rdfs:range foaf:Person ;
-        owl:inverseOf :scion .
+        owl:inverseOf :ancestor .
 
     :keeps a owl:ObjectProperty, owl:IrreflexiveProperty ;
         rdfs:label "besitzt"@de, "owns"@en ;
         rdfs:domain :Person ;
         rdfs:range :Pet .
+
+    :title a owl:DataProperty ;
+        rdfs:label "Titel"@de, "Title"@en ;
+        rdfs:comment "Der Titel einer Person"@de, "The title of a person"@en ;
+        rdfs:domain :Person ;
+        rdfs:range xsd:string .
+
 
 # End Class Person
 
@@ -99,3 +106,21 @@
     rdfs:label "Haustier"@de, "Pet"@en ;
     rdfs:comment "Das Haustier einer Person"@de, "A Persons pet."@en ;
     rdfs:subClassOf :Agent .
+
+### DATA:
+
+:Lukas a :Person ;
+    rdfs:label "Lukas"@de ;
+    :age 22 ;
+    :birthDate "1992-12-14"^^xsd:date ;
+    :scion :Winfried ;
+    :title "Master of Disaster" .
+
+:Winfried a :Person .
+
+:Eduardo a :Person ;
+    rdfs:label "Eduardo"@de ;
+    :age 40 ;
+    :birthDate "1974-12-12"^^xsd:date ;
+    :scion :Lukas ;
+    :title "Master of Disaster, sr." .

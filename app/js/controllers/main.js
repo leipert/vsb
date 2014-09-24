@@ -52,16 +52,18 @@ angular.module('GSB.controllers.main', ['GSB.config', 'ngTable'])
 
         $scope.resultData = [];
 
-        $scope.$on('SPARQLUpdateEvent', function (event, newSPARQL) {
-            EndPointService.runSPARQLQuery(newSPARQL).then(
+        $scope.$on('SPARQLUpdateEvent', function (event, sponateMap) {
+            EndPointService.runSponateMap(sponateMap).then(
                 function (data) {
                     $scope.resultHead = [];
-                    data.head.vars.filter(function (c, i, a) {
-                        return !(_.endsWith(c, '_label') && _.contains(a, c.replace(/_label$/, '')));
-                    }).forEach(function (head) {
-                        $scope.resultHead.push({title: head, field: head, visible: true, sortable: head});
+                    $scope.resultData = (_(data).chain().pluck('val').pluck('rows').flatten(true).value());
+                    _($scope.resultData).chain().map(function (x) {
+                        return _.keys(x);
+                    }).flatten().uniq().value().forEach(function (head) {
+                        if (head !== 'id') {
+                            $scope.resultHead.push({title: head, field: head, visible: true, sortable: head});
+                        }
                     });
-                    $scope.resultData = data.results.bindings;
                     $scope.$apply();
                 }
             );
@@ -71,8 +73,30 @@ angular.module('GSB.controllers.main', ['GSB.config', 'ngTable'])
             return angular.copy($scope.resultData);
         };
 
-        /*jshint newcap: false */
+        $scope.resultType = function (data) {
+            if (_.isString(data)) {
+                return 'string';
+            }
+            if (_.isDate(data)) {
+                return 'date';
+            }
+            if (_.isObject(data)) {
+                if (data.hasOwnProperty('id') && data.hasOwnProperty('label')) {
+                    return 'uri';
+                }
+                if (data.hasOwnProperty('lexicalValue') && data.hasOwnProperty('datatypeUri')) {
+                    return 'lexicalValue';
+                }
+                return 'object';
+            }
+        };
 
+        $scope.extractLabelFromURI = function (uri) {
+            return EndPointService.extractLabelFromURI(uri);
+        };
+
+
+        /*jshint newcap: false */
         $scope.tableParams = new ngTableParams(
             /*jshint newcap: true */
             {
@@ -110,7 +134,7 @@ angular.module('GSB.controllers.main', ['GSB.config', 'ngTable'])
          */
         $scope.translate = function () {
 
-            $scope.$broadcast('translationEvent',language);
+            $scope.$broadcast('translationEvent', language);
 
         };
 

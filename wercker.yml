@@ -16,11 +16,20 @@ build:
         name: Test and build gsb
         code: gulp
     - script:
-        name: Copying graphs
-        code: cp config/graphs/*.ttl dist/
+        name: Copying config
+        code: cp -r config/* dist/config/
+
 
 deploy:
   steps:
-    - lukevivier/gh-pages:
-        token: $GH_TOKEN
-        basedir: dist
+    - leipert/git-push:
+         gh_token: $GH_TOKEN
+         gh_pages: true
+         basedir: dist
+         discard_history: true
+    - leipert/git-push:
+         gh_token: $GH_TOKEN
+         host: github.com
+         repo: leipert/gsb
+         branch: dist
+         basedir: dist

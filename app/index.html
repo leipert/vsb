@@ -31,7 +31,7 @@
                 <a href="#" class="btn btn-danger" ng-click="resetWorkspace()"><i class="fa fa-undo fa-fw"></i> {{ 'RESET_WORKSPACE' | translate }}</a>
               </td>
               <td>
-                <input class="btn btn-default" type="file" id="uploadJSON"/>    
+                <input class="btn btn-default" type="file" id="uploadJSON"/>
               </td>
               <td>
                 <a class="btn btn-success" ng-click="loadJSON()"><i class="fa fa-upload fa-fw"></i> {{ 'LOAD_JSON' | translate }}</a>
@@ -152,23 +152,20 @@
               <tbody>
               <tr ng-repeat="user in $data">
                   <td ng-repeat="column in resultHead" ng-show="column.visible" sortable="column.sortable">
-                      <div ng-switch="user[column.field].type">
-                          <div ng-switch-when="uri">
-                              <a ng-href="{{user[column.field].value}}" target="_blank">
-                                  <span ng-show="user[column.field + '_label']" >{{user[column.field + '_label'].value}}</span>
-                                  <span ng-hide="user[column.field + '_label']" >{{user[column.field].value}}</span>
+                      <span ng-switch="resultType(user[column.field])">
+                          <span ng-switch-when="uri">
+                              <a ng-href="{{user[column.field].id}}">
+                                  <span ng-if="user[column.field].label">{{user[column.field].label}}</span>
+                                  <span ng-if="!user[column.field].label">{{extractLabelFromURI(user[column.field].id)}}</span>
                               </a>
-                          </div>
-                          <div ng-switch-when="typed-literal">
-                              <div ng-switch="user[column.field].datatype">
-                                  <div ng-switch-default>{{user[column.field].value}} <small><small>({{user[column.field].datatype | replaceURIsWithPrefixes}})</small></small></div>
-                              </div>
-                              </div>
-                          <div ng-switch-default>
-                              {{user[column.field].type}}
-                              {{user[column.field]}}
-                          </div>
-                      </div>
+                          </span>
+                        <span ng-switch-when="lexicalValue">
+                            {{user[column.field].lexicalValue}}
+                            <small><small class="ng-binding">({{user[column.field].datatypeUri}})</small></small>
+                            </span>
+                        <span ng-switch-default>{{user[column.field]}}</span>
+                      </span>
+
                   </td>
               </tr>
               </tbody>
@@ -216,7 +213,7 @@
       Reset Workspace hat die Funktion alle Veränderungen und Einstellungen am Workspace zurückzusetzen, sodass ein einfaches und schnelles Erstellen neuer Queries möglich ist.
 
       <p><img src="images/help03.png" alt="Show Class URL Button"></p>
-      Mit diesem Button kann man das Anzeigen der URI an- und ausstellen. 
+      Mit diesem Button kann man das Anzeigen der URI an- und ausstellen.
 
       <p><img src="images/help04.png" alt="Query as JSON Button"></p>
       Durch diesen Button erhält man ein Popup Fenster, in dem die JSON-Query, ähnlich wie bei "Run Query" zu sehen ist, was ein leichtes Kopieren jener ermöglicht ohne den Workspace verlassen zu müssen.

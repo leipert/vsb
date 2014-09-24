@@ -14,6 +14,7 @@ angular.module('GSB.config')
             geo: 'http://www.w3.org/2003/01/geo/wgs84_pos#'
         });
         globalConfig.defaultGraphURIs = [''];
-        globalConfig.baseURL = 'http://localhost:8890/sparql';
+        globalConfig.baseURL = 'https://alpha.oerli.eu/sparql-vt';
+        globalConfig.resultURL = globalConfig.baseURL + '?query=';
 
     });

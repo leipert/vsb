@@ -5,22 +5,28 @@
 
 * {
     -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     cursor: default;
 }
 
 pre {
     -webkit-touch-callout: default;
-    -webkit-user-select: text;
-    -khtml-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
     user-select: text;
     cursor: text;
+}
+
+table.table td {
+    cursor: text;
+}
+
+table.table td span {
+    -webkit-touch-callout: default;
+    user-select: text;
+    cursor: inherit;
+}
+
+table.table td a {
+    cursor: pointer;
 }
 
 /* Set height and color of workspace and result area */

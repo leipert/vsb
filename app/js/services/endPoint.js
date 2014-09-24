@@ -13,17 +13,37 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
         var factory = {};
 
         var jassa = new Jassa(Promise, $.ajax);
+        var sparql = jassa.sparql;
         var service = jassa.service;
         var sponate = jassa.sponate;
 
         var sparqlService = new service.SparqlServiceHttp(globalConfig.baseURL, globalConfig.defaultGraphURIs);
-        //sparqlService = new service.SparqlServiceCache(sparqlService); TODO: Do we need this?
+        sparqlService = new service.SparqlServiceCache(sparqlService);
         var store = new sponate.StoreFacade(sparqlService, globalConfig.prefixes);
 
-        factory.runSPARQLQuery = function (query) {
-            var qe = sparqlService.createQueryExecution(query.toString());
-            qe.setTimeout(10000);
-            return qe.execAny();
+        factory.runSponateMap = function (sponateMap) {
+            var key = sponateMap.name;
+
+            //TODO: Use languages correctly
+            var langs = ['de', 'en', ''];
+
+            var labelConfig = new sparql.BestLabelConfig(langs);
+            var labelTemplate = sponate.MappedConceptUtils.createMappedConceptBestLabel(labelConfig);
+
+            sponateMap.template[0].rows[0] =  _.mapValues(sponateMap.template[0].rows[0],function(val,key){
+                if(_.startsWith(key,'$')){
+                    return {
+                        id: val,
+                        label: {$ref: {target: labelTemplate, on: val, attr: 'displayLabel'}}
+                    };
+                }
+                return val;
+            });
+
+            store.addMap(sponateMap);
+            var flow = store[key].find().limit(100);
+            return flow.list();
+
         };
 
         var cleanURI = function (str) {
@@ -33,7 +53,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             return str.replace(/^<+/, '').replace(/>+$/, '');
         };
 
-        var extractLabelFromURI = function (uri) {
+        factory.extractLabelFromURI = function (uri) {
             uri = cleanURI(uri);
             var hashPos = uri.lastIndexOf('#'),
                 slashPos = uri.lastIndexOf('/');
@@ -44,11 +64,12 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
             }
         };
 
+        //TODO: Deprecate
         var fillTranslationStorage = function (uri, labels, comments) {
             labels.forEach(function (label) {
                 languageStorage.setItem(label.id, uri + '.$label', label.value);
             });
-            languageStorage.setItem('default', uri + '.$label', extractLabelFromURI(uri));
+            languageStorage.setItem('default', uri + '.$label', factory.extractLabelFromURI(uri));
             comments.forEach(function (comment) {
                 languageStorage.setItem(comment.id, uri + '.$comment', comment.value);
             });
@@ -92,6 +113,7 @@ angular.module('GSB.services.endPoint', ['GSB.config'])
                     from: globalConfig.endPointQueries.getAvailableClasses
                 });
             }
+
             var flow = store.classes.find();
             return flow.list()
                 .then(function (classCollection) {
