@@ -1,13 +1,16 @@
-'use strict';
+(function () {
+    'use strict';
 
-/**
- * PropertyCollectionCtrl
- * Controller which holds all the properties of a subject.
- */
+    /**
+     * PropertyCollectionCtrl
+     * Controller which holds all the properties of a subject.
+     */
 
-angular.module('GSB.property.collection', ['GSB.config', 'GSB.endPointService'])
+    angular.module('GSB.property.collection', ['GSB.config', 'GSB.endPointService', 'GSB.arrowService'])
 //Inject $scope, $http, $log and globalConfig (see @js/config.js, @js/services/endPoint.js) into controller
-    .controller('PropertyCollectionCtrl', function ($scope, $http, $q, $log, $translate, globalConfig, EndPointService, ArrowService) {
+        .controller('PropertyCollectionCtrl', PropertyCollectionCtrl);
+
+    function PropertyCollectionCtrl($scope, $http, $q, $log, $translate, globalConfig, EndPointService, ArrowService) {
 
         var $selectedProperties = $scope.subjectInst.$selectedProperties;
         $scope.subjectInst.$availableProperties = [];
@@ -15,7 +18,7 @@ angular.module('GSB.property.collection', ['GSB.config', 'GSB.endPointService'])
             .then(function (properties) {
                 $log.debug('PROPERTIES (direkt) loaded for ' + $scope.subjectInst.uri, properties);
                 $translate.refresh();
-                $scope.subjectInst.$availableProperties = _.union($scope.subjectInst.$availableProperties,properties);
+                $scope.subjectInst.$availableProperties = _.union($scope.subjectInst.$availableProperties, properties);
             })
             .catch(function (err) {
                 $log.error('An error occurred: ', err);
@@ -25,7 +28,7 @@ angular.module('GSB.property.collection', ['GSB.config', 'GSB.endPointService'])
             .then(function (properties) {
                 $log.debug('PROPERTIES (inverse) loaded for ' + $scope.subjectInst.uri, properties);
                 $translate.refresh();
-                $scope.subjectInst.$availableProperties = _.union($scope.subjectInst.$availableProperties,properties);
+                $scope.subjectInst.$availableProperties = _.union($scope.subjectInst.$availableProperties, properties);
             })
             .catch(function (err) {
                 $log.error('An error occurred: ', err);
@@ -51,8 +54,8 @@ angular.module('GSB.property.collection', ['GSB.config', 'GSB.endPointService'])
             $scope.subjectInst.showAddProperty = false;
         };
 
-        $scope.doesAliasExist = function(alias){
-            return _.filter($selectedProperties,{alias : alias}).length > 0;
+        $scope.doesAliasExist = function (alias) {
+            return _.filter($selectedProperties, {alias: alias}).length > 0;
         };
 
         /**
@@ -91,4 +94,6 @@ angular.module('GSB.property.collection', ['GSB.config', 'GSB.endPointService'])
             $scope.subjectInst.$selectedAggregates.splice($scope.subjectInst.$selectedAggregates.indexOf(aggregateInst), 1);
         };
 
-    });
+    }
+
+})();

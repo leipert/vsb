@@ -1,21 +1,24 @@
-'use strict';
+(function () {
+    'use strict';
 
-/**
- * Property directive
- * Creates the possibility to use a <property> element,
- * which will be replaced with the contents of template/date.html
- */
+    /**
+     * Property directive
+     * Creates the possibility to use a <property> element,
+     * which will be replaced with the contents of template/date.html
+     */
 
-angular.module('GSB.propertyType.date', ['ui.bootstrap','GSB.config'])
-    .directive('datePropertyDir', function () {
+    angular.module('GSB.propertyType.date', ['ui.bootstrap'])
+        .directive('datePropertyDir', datePropertyDir);
+    function datePropertyDir() {
         return {
             restrict: 'A',
             replace: true,
-            controller: 'DatePropertyCtrl',
+            controller: DatePropertyCtrl,
             templateUrl: '/modules/propertyType/date.tpl.html'
         };
-    })
-    .controller('DatePropertyCtrl', function ($scope) {
+    }
+
+    function DatePropertyCtrl($scope) {
 
         $scope.open = function ($event) {
             $event.preventDefault();
@@ -47,11 +50,11 @@ angular.module('GSB.propertyType.date', ['ui.bootstrap','GSB.config'])
             }
         ];
 
-        $scope.getDateComparisonLabel = function(key){
+        $scope.getDateComparisonLabel = function (key) {
             return $scope.allowedDateComparisons[key].label;
         };
 
-        $scope.changeDateComparison = function(key){
+        $scope.changeDateComparison = function (key) {
             $scope.dateComparison = key;
         };
 
@@ -98,4 +101,5 @@ angular.module('GSB.propertyType.date', ['ui.bootstrap','GSB.config'])
             }
         }
 
-    });
+    }
+})();

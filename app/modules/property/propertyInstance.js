@@ -1,13 +1,25 @@
-'use strict';
+(function () {
+    'use strict';
 
-/**
- * PropertyInstanceCtrl
- * Controller for a single property.
- */
+    /**
+     * PropertyInstanceCtrl
+     * Controller for a single property.
+     */
 
-angular.module('GSB.property.instance', ['GSB.config', 'GSB.filters'])
-    //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
-    .controller('PropertyInstanceCtrl', function ($scope, $log, $q, $translate, EndPointService, ArrowService,$timeout) {
+    angular.module('GSB.property.instance', ['GSB.config', 'GSB.filters', 'GSB.arrowService'])
+        //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
+        .directive('propertyDir', propertyDir);
+
+    function propertyDir() {
+        return {
+            restrict: 'E',
+            replace: true,
+            controller: PropertyInstanceCtrl,
+            templateUrl: '/modules/property/property.tpl.html'
+        };
+    }
+
+    function PropertyInstanceCtrl($scope, $log, $q, $translate, EndPointService, ArrowService, $timeout) {
 
         /**
          * Changes visibility of a given propertyInst
@@ -31,8 +43,8 @@ angular.module('GSB.property.instance', ['GSB.config', 'GSB.filters'])
             $scope.propertyInst.optional = !$scope.propertyInst.optional;
         };
 
-        var getSubClassesOfRange = function(range){
-            if(range !== undefined) {
+        var getSubClassesOfRange = function (range) {
+            if (range !== undefined) {
                 var originalPropertyRange = angular.copy(range);
                 var promises = [];
                 originalPropertyRange.forEach(function (rangeItem) {
@@ -54,7 +66,7 @@ angular.module('GSB.property.instance', ['GSB.config', 'GSB.filters'])
             EndPointService.getPropertyDetails($scope.subjectInst.uri, $scope.propertyInst)
                 .then(function (data) {
                     data = data[0];
-                    if(data !== undefined) {
+                    if (data !== undefined) {
                         $scope.propertyInst.$range = data.$range;
                         $scope.propertyInst.type = data.type;
                         return data.$range;
@@ -64,7 +76,7 @@ angular.module('GSB.property.instance', ['GSB.config', 'GSB.filters'])
                 .catch(function (error) {
                     $log.error(error);
                 });
-        }else{
+        } else {
             getSubClassesOfRange($scope.propertyInst.$range);
         }
 
@@ -77,13 +89,13 @@ angular.module('GSB.property.instance', ['GSB.config', 'GSB.filters'])
                 }
                 $scope.propertyInst.alias = alias;
                 $scope.propertyInst.$id = $scope.subjectInst.$id + alias.toLowerCase();
-                $timeout(function(){
+                $timeout(function () {
                     ArrowService.addEndpoint($scope.propertyInst.$id);
-                },50);
+                }, 50);
 
 
             });
-        }else{
+        } else {
             $scope.propertyInst.$id = $scope.subjectInst.$id + $scope.propertyInst.alias.toLowerCase();
             ArrowService.addEndpoint($scope.propertyInst.$id);
 
@@ -102,4 +114,5 @@ angular.module('GSB.property.instance', ['GSB.config', 'GSB.filters'])
         });
 
 
-    });
+    }
+})();

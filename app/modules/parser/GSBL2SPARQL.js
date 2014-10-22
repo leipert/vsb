@@ -1,13 +1,16 @@
-'use strict';
-/**
- * JSON Translator Factory
- * A factory to handle translation of JSON -> SPARQL
- *
- */
+(function () {
+    'use strict';
+    /**
+     * JSON Translator Factory
+     * A factory to handle translation of JSON -> SPARQL
+     *
+     */
 
 
-angular.module('GSB.parser.GSBL2SPARQL', ['GSB.config'])
-    .factory('TranslatorToSPARQL', function () {
+    angular.module('GSB.parser.GSBL2SPARQL', [])
+        .factory('TranslatorToSPARQL', TranslatorToSPARQL);
+
+    function TranslatorToSPARQL() {
 
         var factory = {};
 
@@ -58,7 +61,7 @@ angular.module('GSB.parser.GSBL2SPARQL', ['GSB.config'])
             }
 
             if (property.filterExists) {
-                if(property.hasFilter) {
+                if (property.hasFilter) {
                     if (property.arithmetic !== null) {
                         b = rdf.NodeFactory.createVar(sanitizeAlias(alias + ' ' + 'temp'));
                     }
@@ -66,7 +69,7 @@ angular.module('GSB.parser.GSBL2SPARQL', ['GSB.config'])
 
                 triples.addTriples([new rdf.Triple(s, p, b)]);
 
-                if(property.hasFilter) {
+                if (property.hasFilter) {
                     if (property.arithmetic !== null) {
                         property.arithmetic = property.arithmetic.replace(/%before_arithmetic%/g, b).replace(/%after_arithmetic%/g, o);
                         triples.addTriples([new sparql.ElementBind(o, property.arithmetic)]);
@@ -79,7 +82,7 @@ angular.module('GSB.parser.GSBL2SPARQL', ['GSB.config'])
 
                 if (view && !shownVariables.contains(rdf.NodeFactory.createVar(alias))) {
                     shownVariables.add(rdf.NodeFactory.createVar(alias));
-                    if(type === 'OBJECT_PROPERTY') {
+                    if (type === 'OBJECT_PROPERTY') {
                         objects.add(rdf.NodeFactory.createVar(alias));
                     }
                 }
@@ -102,12 +105,12 @@ angular.module('GSB.parser.GSBL2SPARQL', ['GSB.config'])
                 s = rdf.NodeFactory.createVar(sanitizeAlias(alias)),
                 o = rdf.NodeFactory.createUri(subject.uri),
                 ElementTriplesBlock = new sparql.ElementTriplesBlock();
-                ElementTriplesBlock.addTriples([new rdf.Triple(s, vocab.rdf.type, o)]);
+            ElementTriplesBlock.addTriples([new rdf.Triple(s, vocab.rdf.type, o)]);
 
-            if (subject.view && !shownVariables.contains(s,alias)) {
+            if (subject.view && !shownVariables.contains(s, alias)) {
                 shownVariables.add(s);
                 objects.add(s);
-                if(main === ''){
+                if (main === '') {
                     main = s;
                 }
             }
@@ -148,7 +151,7 @@ angular.module('GSB.parser.GSBL2SPARQL', ['GSB.config'])
             main = '';
 
             shownVariables = new sparql.VarExprList();
-            var ElementTriplesBlock = new sparql.ElementTriplesBlock(),r;
+            var ElementTriplesBlock = new sparql.ElementTriplesBlock(), r;
             if (json.hasOwnProperty('SUBJECTS')) {
                 json.SUBJECTS.forEach(function (subject) {
                     ElementTriplesBlock.addTriples(translateSubject(subject));
@@ -166,10 +169,10 @@ angular.module('GSB.parser.GSBL2SPARQL', ['GSB.config'])
                 from: ElementTriplesBlock.toString()
             };
 
-            shownVariables.getVars().forEach(function(Var){
-                var key = Var.toString().replace(/^\?/,'');
-                if(objects.contains(Var)){
-                    key = '$'+key;
+            shownVariables.getVars().forEach(function (Var) {
+                var key = Var.toString().replace(/^\?/, '');
+                if (objects.contains(Var)) {
+                    key = '$' + key;
                 }
                 r.template[0].rows[0][key] = Var.toString();
             });
@@ -178,7 +181,8 @@ angular.module('GSB.parser.GSBL2SPARQL', ['GSB.config'])
         };
 
 
-
         return factory;
 
-    });
+    }
+
+})();

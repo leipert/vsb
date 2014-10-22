@@ -1,21 +1,26 @@
-'use strict';
+(function () {
+    'use strict';
 
-/**
- * Property directive
- * Creates the possibility to use a <property> element,
- * which will be replaced with the contents of template/property.html
- */
+    /**
+     * Property directive
+     * Creates the possibility to use a <property> element,
+     * which will be replaced with the contents of template/property.html
+     */
 
-angular.module('GSB.propertyType.aggregate', [])
-    .directive('aggregatePropertyDir', function () {
+    angular.module('GSB.propertyType.aggregate', [])
+        .directive('aggregatePropertyDir', aggregatePropertyDir)
+        .filter('aggregatePropertyFilter', aggregatePropertyFilter);
+
+    function aggregatePropertyDir() {
         return {
             restrict: 'E',
             replace: true,
-            controller: 'AggregatePropertyCtrl',
+            controller: AggregatePropertyCtrl,
             templateUrl: '/modules/propertyType/aggregate.tpl.html'
         };
-    })
-    .controller('AggregatePropertyCtrl', function ($scope) {
+    }
+
+    function AggregatePropertyCtrl($scope) {
         //Observes and updates the values of the choosen aggregate properties
         $scope.$watch('selected', function (nv) {
             if (nv !== undefined && nv !== null) {
@@ -33,8 +38,9 @@ angular.module('GSB.propertyType.aggregate', [])
                 $scope.propertyInst.linkTo = nv.alias;
             }
         });
-    })
-    .filter('aggregatePropertyFilter', function () {
+    }
+
+    function aggregatePropertyFilter() {
         return function (arrayOfObjects, filter) {
             if (filter === null || filter === undefined || !filter.hasOwnProperty('restrictTo') || filter.restrictTo === null) {
                 return arrayOfObjects;
@@ -46,5 +52,6 @@ angular.module('GSB.propertyType.aggregate', [])
                 filter
             );
         };
-    })
-;
+    }
+
+})();

@@ -1,16 +1,19 @@
-'use strict';
-/**
- * JSON Translator Factory
- * A factory to handle translation of GSBL -> JSON
- *
- */
+(function () {
+    'use strict';
+    /**
+     * JSON Translator Factory
+     * A factory to handle translation of GSBL -> JSON
+     *
+     */
 
-angular.module('GSB.parser.GSBL2JSON', ['GSB.config'])
-    .factory('TranslatorToJSON', function (globalConfig, $log, $localForage) {
+    angular.module('GSB.parser.GSBL2JSON', ['GSB.config'])
+        .factory('TranslatorToJSON', TranslatorToJSON);
 
-        var cleanDollarValues = function(obj){
-            for(var key in obj){
-                if (obj.hasOwnProperty(key) && key.startsWith('$')){
+    function TranslatorToJSON(globalConfig, $log, $localForage) {
+
+        var cleanDollarValues = function (obj) {
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key) && key.startsWith('$')) {
                     delete obj[key];
                 }
             }
@@ -35,7 +38,7 @@ angular.module('GSB.parser.GSBL2JSON', ['GSB.config'])
                 return null;
             }
             var json = {
-                    CONFIG : globalConfig.name,
+                    CONFIG: globalConfig.name,
                     START: {
                         type: 'LIST_ALL',
                         'linkTo': mainSubjectSelected.alias
@@ -68,11 +71,13 @@ angular.module('GSB.parser.GSBL2JSON', ['GSB.config'])
 
             json.SUBJECTS = allSubjects;
 
-            $localForage.set('current',json).then(function() {
+            $localForage.set('current', json).then(function () {
                 $log.debug('Current Workspace saved into localForage');
             });
 
             return JSON.stringify(json, null, 2);
         };
         return factory;
-    });
+    }
+
+})();

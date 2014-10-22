@@ -1,22 +1,25 @@
-'use strict';
+(function () {
+    'use strict';
 
-/**
- * Subject directive
- * Creates the possibility to use a <subject-dir> element,
- * which will be replaced with the contents of template/subject.html
- * Additionally a subject directive uses it's own scope which is needed,
- * so that each subject can hold it's own property list
- *
- */
+    /**
+     * Subject directive
+     * Creates the possibility to use a <subject-dir> element,
+     * which will be replaced with the contents of template/subject.html
+     * Additionally a subject directive uses it's own scope which is needed,
+     * so that each subject can hold it's own property list
+     *
+     */
 
-angular.module('GSB.subject.instance')
+    angular.module('GSB.subject.instance', ['GSB.config', 'GSB.endPointService', 'GSB.arrowService', 'GSB.filters'])
 
-    .directive('subjectDir', function ($document,ArrowService) {
+        .directive('subjectDir', subjectDir);
+
+    function subjectDir($document, ArrowService) {
         return {
             restrict: 'E',
             replace: true,
-            controller: 'SubjectInstanceCtrl',
-            templateUrl: '/modules/subject/instance/subject.tpl.html',
+            controller: SubjectInstanceCtrl,
+            templateUrl: '/modules/subject/subject.tpl.html',
             /**
              * The link function is the function where you can interact with the DOM
              *
@@ -52,7 +55,7 @@ angular.module('GSB.subject.instance')
                 element.find('mover').on('mousedown', function (event) {
                     // Prevent default dragging of selected content
                     event.preventDefault();
-                    scope.dragging=true;
+                    scope.dragging = true;
                     scope.$digest();
                     startX = event.pageX - x;
                     startY = event.pageY - y;
@@ -74,7 +77,7 @@ angular.module('GSB.subject.instance')
                 }
 
                 function mouseup() {
-                    scope.dragging=false;
+                    scope.dragging = false;
                     scope.$digest();
                     ArrowService.repaintEverything();
                     $document.unbind('mousemove', mousemove);
@@ -83,4 +86,45 @@ angular.module('GSB.subject.instance')
 
             }
         };
-    });
+    }
+
+    function SubjectInstanceCtrl($scope, $log, $timeout, $translate, EndPointService, ArrowService) {
+
+        /**
+         * Change the View of the given Subject
+         */
+        $scope.toggleSubjectView = function () {
+            $scope.subjectInst.view = !$scope.subjectInst.view;
+        };
+
+        EndPointService.getSuperAndEqClasses($scope.subjectInst.uri)
+            .then(function (data) {
+                $log.debug('SUBJECT Additional Classes loaded for ' + $scope.subjectInst.uri, data);
+                $scope.subjectInst.$classURIs = data;
+            })
+            .catch(function (error) {
+                $log.error(error);
+            });
+
+        if (!$scope.subjectInst.alias) {
+            $translate($scope.subjectInst.uri + '.$label').then(function (label) {
+                var alias = label, c = 1;
+                while ($scope.doesAliasExist(alias)) {
+                    alias = label + '_' + c;
+                    c += 1;
+                }
+                $scope.subjectInst.alias = alias;
+                $scope.subjectInst.$id = alias.toLowerCase();
+                $timeout(function () {
+                    ArrowService.addEndpoint($scope.subjectInst.$id);
+                }, 50);
+            });
+        } else {
+            $scope.subjectInst.$id = $scope.subjectInst.alias.toLowerCase();
+            ArrowService.addEndpoint($scope.subjectInst.$id);
+        }
+
+    }
+
+
+})();

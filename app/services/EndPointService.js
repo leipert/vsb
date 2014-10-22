@@ -1,15 +1,18 @@
-'use strict';
-/**
- * EndPointService
- * A Service, which gets the available SPARQL classes from the Server.
- *
- * @namespace data.results.bindings
- *
- */
-/* global $*/
+(function () {
+    'use strict';
+    /**
+     * EndPointService
+     * A Service, which gets the available SPARQL classes from the Server.
+     *
+     * @namespace data.results.bindings
+     *
+     */
+    /* global $*/
 
-angular.module('GSB.endPointService', ['GSB.config'])
-    .factory('EndPointService', function ($http, $q, $log, globalConfig, languageStorage) {
+    angular.module('GSB.endPointService', ['GSB.config'])
+        .factory('EndPointService', EndPointService);
+
+    function EndPointService($http, $q, $log, globalConfig, languageStorage) {
         var factory = {};
 
         var jassa = new Jassa(Promise, $.ajax);
@@ -30,8 +33,8 @@ angular.module('GSB.endPointService', ['GSB.config'])
             var labelConfig = new sparql.BestLabelConfig(langs);
             var labelTemplate = sponate.MappedConceptUtils.createMappedConceptBestLabel(labelConfig);
 
-            sponateMap.template[0].rows[0] =  _.mapValues(sponateMap.template[0].rows[0],function(val,key){
-                if(_.startsWith(key,'$')){
+            sponateMap.template[0].rows[0] = _.mapValues(sponateMap.template[0].rows[0], function (val, key) {
+                if (_.startsWith(key, '$')) {
                     return {
                         id: val,
                         label: {$ref: {target: labelTemplate, on: val, attr: 'displayLabel'}}
@@ -222,4 +225,7 @@ angular.module('GSB.endPointService', ['GSB.config'])
 
         return factory;
 
-    });
+    }
+
+
+})();

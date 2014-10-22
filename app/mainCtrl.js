@@ -1,13 +1,17 @@
-'use strict';
+(function () {
+    'use strict';
 
-/**
- * MainCtrl
- * Controller that controls mainly everything.
- */
+    /**
+     * MainCtrl
+     * Controller that controls mainly everything.
+     */
 
-angular.module('GSB.mainCtrl', ['GSB.config', 'ngTable'])
+    angular.module('GSB.mainCtrl', ['GSB.config', 'ngTable'])
 //Inject $scope, $log and globalConfig (see @ js/config.js) into controller
-    .controller('MainCtrl', function ($scope, $log, globalConfig, $http, $translate, languageStorage, EndPointService, ngTableParams, $filter,ArrowService) {
+        .controller('MainCtrl', MainCtrl)
+        .filter('deepOrderBy', deepOrderBy);
+
+    function MainCtrl($scope, $log, globalConfig, $http, $translate, languageStorage, EndPointService, ngTableParams, $filter, ArrowService) {
         var language;
         $scope.changeLanguage = function (langKey) {
             language = langKey;
@@ -212,7 +216,9 @@ angular.module('GSB.mainCtrl', ['GSB.config', 'ngTable'])
         };
 
 
-    }).filter('deepOrderBy', function () {
+    }
+
+    function deepOrderBy() {
         return function (collection, field) {
             if (field.length === 0) {
                 return collection;
@@ -227,4 +233,5 @@ angular.module('GSB.mainCtrl', ['GSB.config', 'ngTable'])
                 return sortOrder * obj1[field].value.localeCompare(obj2[field].value);
             });
         };
-    });
+    }
+})();

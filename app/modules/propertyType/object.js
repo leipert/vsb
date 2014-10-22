@@ -1,21 +1,26 @@
-'use strict';
+(function () {
+    'use strict';
 
-/**
- * Property directive
- * Creates the possibility to use a <property> element,
- * which will be replaced with the contents of template/property.html
- */
+    /**
+     * Property directive
+     * Creates the possibility to use a <property> element,
+     * which will be replaced with the contents of template/property.html
+     */
 
-angular.module('GSB.propertyType.object', ['GSB.config'])
-    .directive('objectPropertyDir', function () {
+    angular.module('GSB.propertyType.object', ['GSB.arrowService'])
+        .directive('objectPropertyDir', objectPropertyDir)
+        .filter('objectPropertyFilter', objectPropertyFilter);
+
+    function objectPropertyDir() {
         return {
             restrict: 'A',
             replace: true,
-            controller: 'ObjectPropertyCtrl',
+            controller: ObjectPropertyCtrl,
             templateUrl: '/modules/propertyType/object.tpl.html'
         };
-    })
-    .controller('ObjectPropertyCtrl', function ($scope, ArrowService) {
+    }
+
+    function ObjectPropertyCtrl($scope, ArrowService) {
         //Observes and updates the values of linked partner of the choosen object properties
 
         var lastConnection = null;
@@ -48,8 +53,9 @@ angular.module('GSB.propertyType.object', ['GSB.config'])
 
         });
 
-    })
-    .filter('objectPropertyFilter', function () {
+    }
+
+    function objectPropertyFilter() {
         return function (arrayOfObjects, key, filter) {
             if (key === null || key === undefined || typeof filter !== 'object' || filter.length === 0) {
                 return arrayOfObjects;
@@ -67,5 +73,7 @@ angular.module('GSB.propertyType.object', ['GSB.config'])
                 }, {key: key, filter: filter}
             );
         };
-    })
-;
+    }
+
+
+})();

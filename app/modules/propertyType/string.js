@@ -1,21 +1,25 @@
-'use strict';
+(function () {
+    'use strict';
 
-/**
- * Property directive
- * Creates the possibility to use a <property> element,
- * which will be replaced with the contents of template/property.html
- */
+    /**
+     * Property directive
+     * Creates the possibility to use a <property> element,
+     * which will be replaced with the contents of template/property.html
+     */
 
-angular.module('GSB.propertyType.string', ['GSB.config'])
-    .directive('stringPropertyDir', function () {
+    angular.module('GSB.propertyType.string', ['GSB.config'])
+        .directive('stringPropertyDir', stringPropertyDir);
+
+    function stringPropertyDir() {
         return {
             restrict: 'A',
             replace: true,
-            controller: 'StringPropertyCtrl',
+            controller: StringPropertyCtrl,
             templateUrl: '/modules/propertyType/string.tpl.html'
         };
-    })
-    .controller('StringPropertyCtrl', function ($scope, $http, globalConfig) {
+    }
+
+    function StringPropertyCtrl($scope, $http, globalConfig) {
 
         var start = angular.copy($scope.propertyInst.compareRaw);
 
@@ -60,14 +64,14 @@ angular.module('GSB.propertyType.string', ['GSB.config'])
         $scope.comparisonInput = '';
         $scope.comparisonRegexFlags = 'i';
 
-        $scope.getStringComparisonLabel = function(){
-            if($scope.stringComparison === null){
+        $scope.getStringComparisonLabel = function () {
+            if ($scope.stringComparison === null) {
                 return 'NO_COMPARISON';
             }
             return $scope.allowedStringComparisons[$scope.stringComparison].label;
         };
 
-        $scope.changeStringComparison = function(key){
+        $scope.changeStringComparison = function (key) {
             $scope.stringComparison = key;
         };
 
@@ -140,4 +144,5 @@ angular.module('GSB.propertyType.string', ['GSB.config'])
             }
         }
 
-    });
+    }
+})();

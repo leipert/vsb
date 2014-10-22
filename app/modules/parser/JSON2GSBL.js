@@ -1,12 +1,15 @@
-'use strict';
-/**
- * GSBL Translator Factory
- * A factory to handle translation of JSON -> GSBL
- *
- */
+(function () {
+    'use strict';
+    /**
+     * GSBL Translator Factory
+     * A factory to handle translation of JSON -> GSBL
+     *
+     */
 
-angular.module('GSB.parser.JSON2GSBL', ['GSB.config'])
-    .factory('TranslatorToGSBL', function (globalConfig, $log) {
+    angular.module('GSB.parser.JSON2GSBL', ['GSB.config'])
+        .factory('TranslatorToGSBL', TranslatorToGSBL);
+
+    function TranslatorToGSBL(globalConfig, $log) {
         var factory = {};
 
         /**
@@ -43,7 +46,7 @@ angular.module('GSB.parser.JSON2GSBL', ['GSB.config'])
 
                     subjectsProperties.push(
                         {
-                            $copied : true,
+                            $copied: true,
                             $id: curSubj.alias.toLowerCase() + curProp.alias.toLowerCase(),
                             alias: curProp.alias,
                             uri: curProp.uri,
@@ -69,7 +72,7 @@ angular.module('GSB.parser.JSON2GSBL', ['GSB.config'])
                         $id: curSubj.alias.toLowerCase(),
                         $selectedAggregates: [],
                         $selectedProperties: subjectsProperties,
-                        $copied : true
+                        $copied: true
                     }
                 );
             }
@@ -90,4 +93,6 @@ angular.module('GSB.parser.JSON2GSBL', ['GSB.config'])
             return workspaceContent;
         };
         return factory;
-    });
+    }
+
+})();

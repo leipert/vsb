@@ -1,13 +1,15 @@
-'use strict';
-/**
- * Translator Manager Factory
- * A factory to manage translation of GSBL -> JSON and JSON -> SPARQL
- *
- */
+(function () {
+    'use strict';
+    /**
+     * Translator Manager Factory
+     * A factory to manage translation of GSBL -> JSON and JSON -> SPARQL
+     *
+     */
 
-angular.module('GSB.parser', ['GSB.config','GSB.parser.GSBL2JSON','GSB.parser.GSBL2SPARQL','GSB.parser.JSON2GSBL','LocalForageModule'])
-    .factory('TranslatorManager',
-    function ($log, globalConfig, $rootScope, TranslatorToJSON, TranslatorToGSBL, TranslatorToSPARQL) {
+    angular.module('GSB.parser', ['GSB.config', 'GSB.parser.GSBL2JSON', 'GSB.parser.GSBL2SPARQL', 'GSB.parser.JSON2GSBL', 'LocalForageModule'])
+        .factory('TranslatorManager', TranslatorManager);
+
+    function TranslatorManager($log, globalConfig, $rootScope, TranslatorToJSON, TranslatorToGSBL, TranslatorToSPARQL) {
         var factory = {};
 
 
@@ -92,4 +94,6 @@ angular.module('GSB.parser', ['GSB.config','GSB.parser.GSBL2JSON','GSB.parser.GS
         };
 
         return factory;
-    });
+    }
+
+})();

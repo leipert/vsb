@@ -1,17 +1,22 @@
-'use strict';
-angular.module('GSB.filters', ['GSB.config'])
-    .filter('replaceURIsWithPrefixes', function(globalConfig){
-        return function (string){
-            for(var key in globalConfig.prefixes){
-                if(globalConfig.prefixes.hasOwnProperty(key)){
-                    var regex = new RegExp('<?'+globalConfig.prefixes[key]+'(\\w+)>?','ig');
-                    string = string.replace(regex,key+':$1');
+(function () {
+    'use strict';
+    angular.module('GSB.filters', ['GSB.config'])
+        .filter('replaceURIsWithPrefixes', replaceURIsWithPrefixes)
+        .filter('beautifySPARQL', beautifySPARQL);
+
+    function replaceURIsWithPrefixes(globalConfig) {
+        return function (string) {
+            for (var key in globalConfig.prefixes) {
+                if (globalConfig.prefixes.hasOwnProperty(key)) {
+                    var regex = new RegExp('<?' + globalConfig.prefixes[key] + '(\\w+)>?', 'ig');
+                    string = string.replace(regex, key + ':$1');
                 }
             }
             return string;
         };
-    })
-    .filter('beautifySPARQL', function () {
+    }
+
+    function beautifySPARQL() {
         return function (string) {
             return string
                 .replace(/<http:\/\/www.w3.org\/1999\/02\/22-rdf-syntax-ns#type>/ig, 'a')
@@ -25,6 +30,7 @@ angular.module('GSB.filters', ['GSB.config'])
                 .replace(/^FILTER/igm, '\tFILTER')
                 .replace(/^BIND/igm, '\tBIND')
                 .replace(/select distinct\s+/ig, 'SELECT DISTINCT \n')
-            ;
+                ;
         };
-    });
+    }
+})();

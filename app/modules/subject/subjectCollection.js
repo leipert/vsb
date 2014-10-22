@@ -1,13 +1,14 @@
-'use strict';
-/**
- * SubjectCollectionCtrl
- * Controller for all subjects.
- */
+(function () {
+    'use strict';
+    /**
+     * SubjectCollectionCtrl
+     * Controller for all subjects.
+     */
 
-angular.module('GSB.subject.collection', ['ngSanitize', 'ui.select', 'GSB.config', 'GSB.endPointService', 'GSB.parser'])
-    //Inject $scope, $log, EndPointService and globalConfig (see @ js/config.js, @js/services/endPoint.js) into controller
-    .controller('SubjectCollectionCtrl',
-        function ($scope, $q, $log, EndPointService, globalConfig, TranslatorManager, TranslatorToGSBL, $localForage,$translate, ArrowService) {
+    angular.module('GSB.subject.collection', ['ngSanitize', 'ui.select', 'GSB.config', 'GSB.endPointService', 'GSB.parser', 'GSB.arrowService', 'LocalForageModule'])
+        //Inject $scope, $log, EndPointService and globalConfig (see @ js/config.js, @js/services/endPoint.js) into controller
+        .controller('SubjectCollectionCtrl', SubjectCollectionCtrl);
+    function SubjectCollectionCtrl($scope, $q, $log, EndPointService, globalConfig, TranslatorManager, TranslatorToGSBL, $localForage, $translate, ArrowService) {
 
         $scope.mainSubjectSelected = null; //The subject connected with the start point
 
@@ -48,16 +49,16 @@ angular.module('GSB.subject.collection', ['ngSanitize', 'ui.select', 'GSB.config
 
         };
 
-            $scope.$watchCollection('subjects',function(nv){
-               if(nv.length === 0){
-                   $scope.$emit('disableButton');
-               } else {
-                   $scope.$emit('enableButton');
-               }
-                if(nv.length===1){
-                    $scope.mainSubjectSelected = nv[0];
-                }
-            });
+        $scope.$watchCollection('subjects', function (nv) {
+            if (nv.length === 0) {
+                $scope.$emit('disableButton');
+            } else {
+                $scope.$emit('enableButton');
+            }
+            if (nv.length === 1) {
+                $scope.mainSubjectSelected = nv[0];
+            }
+        });
 
         /**
          * a function which adds a new subject given as a subjectObject
@@ -69,8 +70,8 @@ angular.module('GSB.subject.collection', ['ngSanitize', 'ui.select', 'GSB.config
             //If there is only one subject, it will be the one selected by the startPoint (automatically).
         };
 
-        $scope.doesAliasExist = function(alias){
-            return _.filter($scope.subjects,{alias : alias}).length > 0;
+        $scope.doesAliasExist = function (alias) {
+            return _.filter($scope.subjects, {alias: alias}).length > 0;
         };
 
         /**
@@ -80,7 +81,7 @@ angular.module('GSB.subject.collection', ['ngSanitize', 'ui.select', 'GSB.config
         $scope.removeSubject = function (subjectInst) {
             $scope.subjects.splice($scope.subjects.indexOf(subjectInst), 1);
             ArrowService.deleteAllConnections(subjectInst.$id);
-            angular.forEach(subjectInst.$selectedProperties,function(property){
+            angular.forEach(subjectInst.$selectedProperties, function (property) {
                 ArrowService.deleteAllConnections(property.$id);
             });
         };
@@ -152,12 +153,12 @@ angular.module('GSB.subject.collection', ['ngSanitize', 'ui.select', 'GSB.config
         $scope.availableSubjectClasses = [];
         $scope.subjects = [];
 
-            $localForage.getItem('current')
-                .then(function(data){
-                    if(data!==null && data.CONFIG === globalConfig.name){
-                        $scope.fillScopeWithSubjects(TranslatorToGSBL.translateJSONToGSBL(data));
-                    }
-                });
+        $localForage.getItem('current')
+            .then(function (data) {
+                if (data !== null && data.CONFIG === globalConfig.name) {
+                    $scope.fillScopeWithSubjects(TranslatorToGSBL.translateJSONToGSBL(data));
+                }
+            });
 
         EndPointService.getAvailableClasses()
             .then(function (classes) {
@@ -170,4 +171,5 @@ angular.module('GSB.subject.collection', ['ngSanitize', 'ui.select', 'GSB.config
                 $log.error('An error occurred: ', err);
             });
 
-    });
+    }
+})();
