@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.services.endPoint'])
 //Inject $scope, $http, $log and globalConfig (see @js/config.js, @js/services/endPoint.js) into controller
-    .controller('PropertyCollectionCtrl', function ($scope, $http, $q, $log, $translate, globalConfig, EndPointService) {
+    .controller('PropertyCollectionCtrl', function ($scope, $http, $q, $log, $translate, globalConfig, EndPointService, ArrowService) {
 
         var $selectedProperties = $scope.subjectInst.$selectedProperties;
         $scope.subjectInst.$availableProperties = [];
@@ -61,6 +61,8 @@ angular.module('GSB.controllers.propertyCollection', ['GSB.config', 'GSB.service
          */
         $scope.removeProperty = function (propertyInst) {
             $selectedProperties.splice($selectedProperties.indexOf(propertyInst), 1);
+            ArrowService.deleteAllConnections(propertyInst.$id);
+
         };
 
         /**

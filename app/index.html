@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <title>GSB: Prototyp</title>
-      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
       <!-- inject:vendor:css -->
       <!-- endinject -->
       <!-- inject:css -->
@@ -57,7 +56,7 @@
     </div>
 
     <!-- Row containing workspace -->
-    <div ng-controller="SubjectCollectionCtrl" ng-show="showArea == 'workspace'">
+    <div ng-controller="SubjectCollectionCtrl" ng-show="showArea == 'workspace'" id="workspace">
       <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
       <div class="box startPointCSS" start-point-dir style="z-index: 10; position: fixed; top: 165px;left:25px;">
         <b>{{ 'LIST_ALL' | translate }}</b>

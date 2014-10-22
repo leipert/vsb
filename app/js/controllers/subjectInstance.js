@@ -7,8 +7,7 @@
 
 angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.endPoint'])
     //Inject $scope, $log, EndPointService and globalConfig (see @ js/config.js, @js/services/endPoint.js) into controller
-    .controller('SubjectInstanceCtrl', function ($scope, $log, $translate, EndPointService) {
-
+    .controller('SubjectInstanceCtrl', function ($scope, $log, $timeout, $translate, EndPointService, ArrowService) {
 
         /**
          * Change the View of the given Subject
@@ -34,7 +33,14 @@ angular.module('GSB.controllers.subjectInstance', ['GSB.config', 'GSB.services.e
                     c += 1;
                 }
                 $scope.subjectInst.alias = alias;
+                $scope.subjectInst.$id = alias.toLowerCase();
+                $timeout(function(){
+                    ArrowService.addEndpoint($scope.subjectInst.$id);
+                },50);
             });
+        }else{
+            $scope.subjectInst.$id = $scope.subjectInst.alias.toLowerCase();
+            ArrowService.addEndpoint($scope.subjectInst.$id);
         }
 
     });

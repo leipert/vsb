@@ -1,6 +1,8 @@
 'use strict';
 
 var $ = require('gulp-stack').plugins;
+
+$.less = require('gulp-less');
 var staticFiles = [
     {
         name: 'locales',
@@ -13,6 +15,12 @@ var staticFiles = [
         src: 'app/bower_components/jassa/*.min.js'
     },
     {
+        name: 'fonts',
+        folder: 'dist/fonts',
+        src: '$vendor',
+        filter: ['{f,F}ont*.{otf,eot,svg,ttf,woff}']
+    },
+    {
         name: 'images',
         folder: 'dist/images',
         src: ['app/images/*'],
@@ -22,6 +30,12 @@ var staticFiles = [
 
 var overWriteJS = function(){
     return gulp.src('app/overwrite.js');
+};
+
+
+var bowerCSS = function(){
+    console.warn($.less);
+    return gulp.src('app/css/styles.less').pipe($.less()).pipe(gulp.dest('.tmp/css/'));
 };
 
 var gulp = require('gulp-stack').gulp([
@@ -36,13 +50,14 @@ var gulp = require('gulp-stack').gulp([
     {
         files : {
             js: 'app/js/**/*.js',
-            css: 'app/css/**/*.css',
+            css: ['app/css/**/*.css','.tmp/css/**/*.css'],
             vendor: [],
             partials: 'app/template/**/*.html',
             test: [],
             static: staticFiles
         },
         injectInto: {
+            css: bowerCSS,
             js:  overWriteJS
         },
         bower: 'app/bower_components/**', // String of bower directory string
@@ -58,3 +73,7 @@ var gulp = require('gulp-stack').gulp([
 gulp.newTask('default', ['build', 'jshint']);
 
 gulp.newTask('build', ['html', 'app', 'static', 'vendor']);
+
+gulp.task('dev',['develop'],function(){
+    bowerCSS();
+});

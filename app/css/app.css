@@ -74,10 +74,6 @@ div.subjectCSS {
   width: 400px;
 }
 
-div.highlight-subject {
-  border: 4px black solid;
-}
-
 /* doesnt work right now, anybody know why? where is the difference to subjectBodyCSS?*/
 div.subjectCSS > div.subjectHeadCSS {
   /*background-color: #00ff00;*/
@@ -103,11 +99,13 @@ div.subjectCSS div.subjectBodyCSS select{
 /* Set layout of properties etc. */
 
 div.subjectCSS div.propertyCSS {
+    position: relative;
   background: #B0E57C;
   color:#000000;
   border-radius: 0;
     padding: 5px 15px;
-    margin: 0 -10px 5px;
+    margin: 0 10px 5px;
+
 }
 
 div.subjectCSS div.propertyCSS b {
@@ -169,4 +167,31 @@ i.pointer:hover,
     cursor: pointer;
     color: #599cee;
     text-decoration: none;
+}
+
+.connector{
+    z-index: 10;
+}
+
+svg.connector path {
+    stroke: #5c96bc;
+    stroke-width: 2px;
+    outline: transparent 4px;
+}
+
+svg.connector path.arrow {
+    fill: #5c96bc;
+}
+
+.aLabel {
+    background-color:white;
+    opacity:0.8;
+    padding:0.3em;
+    border-radius:0.5em;
+    border:1px solid #346789;
+    z-index: 15;
+}
+
+.input-group > .ui-select-bootstrap > input.ui-select-search.form-control {
+    border-radius: 0;
 }

@@ -44,6 +44,7 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
                     subjectsProperties.push(
                         {
                             $copied : true,
+                            $id: curSubj.alias.toLowerCase() + curProp.alias.toLowerCase(),
                             alias: curProp.alias,
                             uri: curProp.uri,
                             type: curProp.type,
@@ -65,6 +66,7 @@ angular.module('GSB.services.translatorToGSBL', ['GSB.config'])
                         uri: curSubj.uri,
                         pos: curSubj.pos,
                         view: curSubj.view,
+                        $id: curSubj.alias.toLowerCase(),
                         $selectedAggregates: [],
                         $selectedProperties: subjectsProperties,
                         $copied : true
