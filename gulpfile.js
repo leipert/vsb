@@ -28,13 +28,14 @@ var staticFiles = [
     }
 ];
 
-var overWriteJS = function(){
+var overWriteJS = function () {
     return gulp.src('app/overwrite.js');
 };
 
 
-var bowerCSS = function(){
-    return gulp.src('app/css/styles.less').pipe($.plumber()).pipe($.less()).pipe(gulp.dest('app/css/'));
+var bowerCSS = function () {
+    return gulp.src('app/styles/styles.less')
+        .pipe($.less())
 };
 
 var gulp = require('gulp-stack').gulp([
@@ -47,18 +48,18 @@ var gulp = require('gulp-stack').gulp([
         'html'
     ],
     {
-        files : {
-            js: ['app/**/*.js','!app/overwrite.js'],
+        files: {
+            js: ['app/**/*.js', '!app/overwrite.js'],
             vendor: [],
             test: [],
             static: staticFiles
         },
         injectInto: {
             css: bowerCSS,
-            js:  overWriteJS
+            js: overWriteJS
         },
         bower: 'app/bower_components/**', // String of bower directory string
-        templateCacheOptions: {root: 'template/', module: 'GSB'}
+        templateCacheOptions: {root: '/', module: 'GSB'}
     }
 );
 
@@ -71,8 +72,9 @@ gulp.newTask('default', ['build', 'jshint']);
 
 gulp.newTask('build', ['html', 'app', 'static', 'vendor']);
 
-gulp.task('dev',['develop'],function(){
-    $.watch('app/css/styles.less',function(){
-        bowerCSS();
-    });
+gulp.task('dev', ['develop'], function () {
+    $.watch('app/styles/styles.less')
+        .pipe($.plumber())
+        .pipe($.less())
+        .pipe(gulp.dest('app/styles/'));
 });
