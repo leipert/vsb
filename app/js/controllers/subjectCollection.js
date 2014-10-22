@@ -7,9 +7,8 @@
 angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 'GSB.config', 'GSB.services.endPoint'])
     //Inject $scope, $log, EndPointService and globalConfig (see @ js/config.js, @js/services/endPoint.js) into controller
     .controller('SubjectCollectionCtrl',
-        function ($scope, $q, $log, EndPointService, globalConfig, TranslatorManager, TranslatorToGSBL, $localForage,$translate) {
+        function ($scope, $q, $log, EndPointService, globalConfig, TranslatorManager, TranslatorToGSBL, $localForage,$translate, ArrowService) {
 
-        $scope.highlightedSubject = null; //
         $scope.mainSubjectSelected = null; //The subject connected with the start point
 
         //  List of available subject classes that can be added to the workspace.
@@ -80,6 +79,10 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
          */
         $scope.removeSubject = function (subjectInst) {
             $scope.subjects.splice($scope.subjects.indexOf(subjectInst), 1);
+            ArrowService.deleteAllConnections(subjectInst.$id);
+            angular.forEach(subjectInst.$selectedProperties,function(property){
+                ArrowService.deleteAllConnections(property.$id);
+            });
         };
 
 
@@ -114,9 +117,6 @@ angular.module('GSB.controllers.subjectCollection', ['ngSanitize', 'ui.select', 
         /*
          * 		------  EVENT HANDLING  -----------------------------
          */
-        $scope.$on('setHighLightTo', function (event, data) {
-            $scope.highlightedSubject = data;
-        });
 
         $scope.$on('translationEvent', function (event, language) {
             TranslatorManager.translateGSBLToSPARQL($scope.mainSubjectSelected, $scope.subjects, language);

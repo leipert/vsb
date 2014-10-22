@@ -23,6 +23,7 @@ angular.module('GSB', [
     'GSB.directives.propertyType.date',
     'GSB.directives.propertyType.aggregate',
     'GSB.services.endPoint',
+    'GSB.services.jsPlumb',
     'GSB.services.languageService',
     'GSB.services.translatorManager',
     'GSB.services.translatorToJSON',

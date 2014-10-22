@@ -1,35 +1,42 @@
 {
-  "name": "GSB",
-  "version": "1.1.0-SNAPSHOT",
-  "main": "dist/",
-  "dependencies": {
-    "jquery": "~2.1.1",
-    "angular": "1.2.19",
-    "bootstrap": "~3.1.1",
-    "angular-bootstrap": "~0.11.0",
-    "angular-sanitize": "1.2.19",
-    "angular-ui-select": "~0.6.0",
-    "momentjs": "~2.8.1",
-    "angular-localforage": "~0.2.9",
-    "angular-translate": "~2.2.0",
-    "jassa": "0.9.0-SNAPSHOT",
-    "bluebird": "~2.3.2",
-    "lodash": "#master",
-    "ng-table": "~0.3.3"
-  },
-  "overrides": {
-    "angular-bootstrap": {
-      "main": [
-        "ui-bootstrap-tpls.js"
-      ]
+    "name": "GSB",
+    "version": "1.1.0-SNAPSHOT",
+    "main": "dist/",
+    "dependencies": {
+        "angular": "1.2.19",
+        "bootstrap": "~3.2.0",
+        "angular-bootstrap": "~0.11.0",
+        "angular-sanitize": "1.2.19",
+        "angular-ui-select": "~0.6.0",
+        "momentjs": "~2.8.1",
+        "angular-localforage": "~0.2.9",
+        "angular-translate": "~2.2.0",
+        "jassa": "0.9.0-SNAPSHOT",
+        "bluebird": "~2.3.2",
+        "lodash": "#master",
+        "ng-table": "~0.3.3",
+        "jsplumb": "~1.6.4",
+        "fontawesome":"~4.2.0"
     },
-    "lodash": {
-      "main": [
-        "dist/lodash.js"
-      ]
-    },
-      "jassa":{
-          "main":[]
-      }
-  }
+    "overrides": {
+        "angular-bootstrap": {
+            "main": [
+                "ui-bootstrap-tpls.js"
+            ]
+        },
+        "lodash": {
+            "main": [
+                "dist/lodash.js"
+            ]
+        },
+        "jassa": {
+            "main": []
+        },
+        "bootstrap": {
+            "main": []
+        },
+        "jsplumb": {
+            "main": "dist/js/dom.jsPlumb-1.6.4.js"
+        }
+    }
 }

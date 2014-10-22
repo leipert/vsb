@@ -11,7 +11,7 @@
 
 angular.module('GSB.directives.subject', [])
 
-    .directive('subjectDir', function ($document) {
+    .directive('subjectDir', function ($document,ArrowService) {
         return {
             restrict: 'E',
             replace: true,
@@ -26,7 +26,6 @@ angular.module('GSB.directives.subject', [])
              */
             link: function (scope, element) {
                 var pos = scope.subjectInst.pos;
-                // Set watch for change of the highlightedSubject
                 var startX = 0, startY = 0, x = pos.x || 150, y = pos.y || 250;
 
                 scope.$watch('offsetX', function (newValue) {
@@ -64,6 +63,7 @@ angular.module('GSB.directives.subject', [])
                 function mousemove(event) {
                     y = event.pageY - startY;
                     x = event.pageX - startX;
+                    ArrowService.repaintEverything();
                     scope.subjectInst.pos.x = x;
                     scope.subjectInst.pos.y = y;
 
@@ -76,21 +76,11 @@ angular.module('GSB.directives.subject', [])
                 function mouseup() {
                     scope.dragging=false;
                     scope.$digest();
+                    ArrowService.repaintEverything();
                     $document.unbind('mousemove', mousemove);
                     $document.unbind('mouseup', mouseup);
                 }
 
-//                //Show additional fields on mouseEnter
-//                element.on('mouseenter', function () {
-//                    scope.subjectInst.showAdditionalFields = true;
-//                    scope.$apply();
-//                });
-//
-//                //Hide additional fields on mouseEnter
-//                element.on('mouseleave', function () {
-//                    scope.subjectInst.showAdditionalFields = true;
-//                    scope.$apply();
-//                });
             }
         };
     });

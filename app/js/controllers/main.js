@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.main', ['GSB.config', 'ngTable'])
 //Inject $scope, $log and globalConfig (see @ js/config.js) into controller
-    .controller('MainCtrl', function ($scope, $log, globalConfig, $http, $translate, languageStorage, EndPointService, ngTableParams, $filter) {
+    .controller('MainCtrl', function ($scope, $log, globalConfig, $http, $translate, languageStorage, EndPointService, ngTableParams, $filter,ArrowService) {
         var language;
         $scope.changeLanguage = function (langKey) {
             language = langKey;
@@ -31,6 +31,8 @@ angular.module('GSB.controllers.main', ['GSB.config', 'ngTable'])
             $scope.startX = $event.pageX;
             $scope.startY = $event.pageY;
             $scope.mouseDownAct = true;
+            ArrowService.setVisibilityForAllConnection(false);
+
         };
 
         $scope.theMouseMove = function ($event) {
@@ -46,6 +48,8 @@ angular.module('GSB.controllers.main', ['GSB.config', 'ngTable'])
             $scope.offsetX = 0;
             $scope.offsetY = 0;
             $scope.mouseDownAct = false;
+            ArrowService.setVisibilityForAllConnection(true);
+            ArrowService.repaintEverything();
         };
 
         $scope.resultHead = [];

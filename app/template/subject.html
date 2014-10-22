@@ -1,12 +1,11 @@
-<div class="subjectCSS box" ng-class="{true: 'highlight-subject'}[highlightedSubject.alias == subjectInst.alias]"
-     style="position:absolute;z-index: 5;">
+<div class="subjectCSS box" id="{{subjectInst.$id}}"
+     style="position:absolute;z-index: 5;" >
   <!-- Template for subject directive -->
 
   <!--Head of a subject includes the label, the alias and some controls -->
   <div class="subjectHeadCSS">
       <p>
     <span class="pull-right icon-list">
-
      <mover><i class="fa fa-fw fa-arrows"></i></mover>
 
 
@@ -60,7 +59,7 @@
           </div>
       </div>
 
-    <div ng-show="subjectInst.showAddProperty">
+    <div ng-show="subjectInst.showAddProperty" style="margin: 0px 25px">
       <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js -->
       <div class="row">
         <div class="input-group">

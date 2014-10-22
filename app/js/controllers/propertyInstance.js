@@ -7,7 +7,7 @@
 
 angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
     //Inject $scope, $http, $log and globalConfig (see @ js/config.js) into controller
-    .controller('PropertyInstanceCtrl', function ($scope, $log, $q, $translate, EndPointService) {
+    .controller('PropertyInstanceCtrl', function ($scope, $log, $q, $translate, EndPointService, ArrowService,$timeout) {
 
         /**
          * Changes visibility of a given propertyInst
@@ -76,7 +76,17 @@ angular.module('GSB.controllers.propertyInstance', ['GSB.config'])
                     c += 1;
                 }
                 $scope.propertyInst.alias = alias;
+                $scope.propertyInst.$id = $scope.subjectInst.$id + alias.toLowerCase();
+                $timeout(function(){
+                    ArrowService.addEndpoint($scope.propertyInst.$id);
+                },50);
+
+
             });
+        }else{
+            $scope.propertyInst.$id = $scope.subjectInst.$id + $scope.propertyInst.alias.toLowerCase();
+            ArrowService.addEndpoint($scope.propertyInst.$id);
+
         }
 
         $scope.$watch('propertyInst.linkTo', function (nv) {
