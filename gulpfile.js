@@ -34,8 +34,7 @@ var overWriteJS = function(){
 
 
 var bowerCSS = function(){
-    console.warn($.less);
-    return gulp.src('app/css/styles.less').pipe($.less()).pipe(gulp.dest('.tmp/css/'));
+    return gulp.src('app/css/styles.less').pipe($.plumber()).pipe($.less()).pipe(gulp.dest('app/css/'));
 };
 
 var gulp = require('gulp-stack').gulp([
@@ -49,10 +48,8 @@ var gulp = require('gulp-stack').gulp([
     ],
     {
         files : {
-            js: 'app/js/**/*.js',
-            css: ['app/css/**/*.css','.tmp/css/**/*.css'],
+            js: ['app/**/*.js','!app/overwrite.js'],
             vendor: [],
-            partials: 'app/template/**/*.html',
             test: [],
             static: staticFiles
         },
@@ -75,5 +72,7 @@ gulp.newTask('default', ['build', 'jshint']);
 gulp.newTask('build', ['html', 'app', 'static', 'vendor']);
 
 gulp.task('dev',['develop'],function(){
-    bowerCSS();
+    $.watch('app/css/styles.less',function(){
+        bowerCSS();
+    });
 });

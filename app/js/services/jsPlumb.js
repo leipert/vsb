@@ -26,7 +26,7 @@
                                 length: 14,
                                 foldback: 0.8
                             }],
-                            ['Label', {label: '', id: 'label', cssClass: 'aLabel'}]
+                            ['Label', {label: '', id: 'label', cssClass: 'connector-label'}]
                         ],
                         Container: 'workspace'
                     });

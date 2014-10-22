@@ -60,7 +60,7 @@
       <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
       <div class="box startPointCSS" start-point-dir style="z-index: 10; position: fixed; top: 165px;left:25px;">
         <b>{{ 'LIST_ALL' | translate }}</b>
-        <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects" title="Main Subject Select">
+        <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects" title="Main Subject Select" class="pull-right">
           <option style="display:none" value="">{{ 'PICK_MAIN_SUBJECT' | translate }}</option>
         </select>
       </div>
