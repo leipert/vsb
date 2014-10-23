@@ -7,21 +7,23 @@
         'GSB.filters',
         'GSB.subject',
         'GSB.mainCtrl',
-        'GSB.languageService'
-    ]).config(function (uiSelectConfig) {
-        uiSelectConfig.theme = 'bootstrap';
-    });
+        'GSB.languageService',
+        'ui.router'
+    ])
+        .config(function (uiSelectConfig) {
+            uiSelectConfig.theme = 'bootstrap';
+        })
+        .config(stateProviderConfig);
+    /* @ngInject */
+    function stateProviderConfig($stateProvider, $urlRouterProvider) {
 
-    //TODO: Refactor
-    if (typeof String.prototype.startsWith !== 'function') {
-        /**
-         * Returns whether the String starts with the given str
-         * @param str
-         * @returns {boolean}
-         */
-        String.prototype.startsWith = function (str) {
-            return this.indexOf(str) === 0;
-        };
+        $stateProvider.state('authenticate', {
+            url: '/',
+            templateUrl: '/modules/layout/content.tpl.html'
+        });
+
+        $urlRouterProvider.otherwise('/');
     }
+
 
 })();

@@ -13,7 +13,7 @@
 
         var cleanDollarValues = function (obj) {
             for (var key in obj) {
-                if (obj.hasOwnProperty(key) && key.startsWith('$')) {
+                if (obj.hasOwnProperty(key) && _.startsWith(key,'$')) {
                     delete obj[key];
                 }
             }
