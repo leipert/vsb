@@ -11,7 +11,7 @@
         .controller('MainCtrl', MainCtrl)
         .filter('deepOrderBy', deepOrderBy);
 
-    function MainCtrl($scope, $log, globalConfig, $http, $translate, languageStorage, EndPointService, ngTableParams, $filter, ArrowService) {
+    function MainCtrl($scope, $log, globalConfig, $http, $translate, languageStorage, EndPointService, ngTableParams, $filter, $state, ArrowService) {
         var language;
         $scope.changeLanguage = function (langKey) {
             language = langKey;
@@ -24,7 +24,6 @@
         });
 
         //Some drag and drop variables
-        $scope.showArea = 'workspace';
         $scope.initialisedSubjects = false;
         $scope.offsetX = 0;
         $scope.offsetY = 0;
@@ -143,6 +142,7 @@
         $scope.translate = function () {
 
             $scope.$broadcast('translationEvent', language);
+            $state.go('result');
 
         };
 

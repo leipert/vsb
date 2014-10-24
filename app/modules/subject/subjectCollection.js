@@ -121,7 +121,7 @@
 
         $scope.$on('translationEvent', function (event, language) {
             TranslatorManager.translateGSBLToSPARQL($scope.mainSubjectSelected, $scope.subjects, language);
-            TranslatorManager.prepareSaveLink($scope.mainSubjectSelected, $scope.subjects);
+            //TranslatorManager.prepareSaveLink($scope.mainSubjectSelected, $scope.subjects);
         });
 
         $scope.$on('saveJsonEvent', function () {

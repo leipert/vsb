@@ -17,7 +17,8 @@
         "ng-table": "~0.3.3",
         "jsplumb": "~1.6.4",
         "fontawesome": "~4.2.0",
-        "ui-router": "~0.2.11"
+        "ui-router": "~0.2.11",
+        "angular-toggle-switch": "~1.0.0"
     },
     "overrides": {
         "angular-bootstrap": {

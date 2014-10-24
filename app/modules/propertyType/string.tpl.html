@@ -1,7 +1,7 @@
 <div>
-  <!-- if a property is selected, it will be linked with the subject -->
+    <!-- if a property is selected, it will be linked with the subject -->
 
-    <div class="input-group input-group-sm" >
+    <div class="input-group input-group-sm">
         <div class="input-group-addon">
             {{'LANGUAGE' | translate}}
         </div>
@@ -11,28 +11,28 @@
                 class="form-control input-sm">
             <option value="">{{'SELECT_LANGUAGE' | translate}}</option>
         </select>
-        </div>
+    </div>
 
-        <div class="input-group input-group-sm" style="margin-top: 5px">
-            <div class="input-group-addon">
-                {{'COMPARISON' | translate}}
-            </div>
+    <div class="input-group input-group-sm" style="margin-top: 5px">
+        <div class="input-group-addon">
+            {{'COMPARISON' | translate}}
+        </div>
         <div class="input-group-btn dropdown" is-open="dd2.isopen">
             <button type="button" class="btn dropdown-toggle btn-default"
-                    style="border-radius: 0;border-right: 0"
-                    >
+                    style="border-radius: 0;border-right: 0">
                 {{getStringComparisonLabel() | translate}} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a href="#" ng-click="changeStringComparison(null)">{{}}</a>
+                    <a href="" ng-click="changeStringComparison(null)">{{}}</a>
                 </li>
                 <li ng-repeat="(idx,x) in allowedStringComparisons">
-                    <a href="#" ng-click="changeStringComparison(idx)">{{x.label | translate}}</a>
+                    <a href="" ng-click="changeStringComparison(idx)">{{x.label | translate}}</a>
                 </li>
             </ul>
         </div>
-        <input ng-disabled="stringComparison === null" type="text" class="form-control input-sm" ng-model="comparisonInput">
+        <input ng-disabled="stringComparison === null" type="text" class="form-control input-sm"
+               ng-model="comparisonInput">
         <span ng-show="showFlags" class="input-group-btn" style="width:0; "></span>
         <input ng-show="showFlags"
                type="text" class="form-control input-sm"

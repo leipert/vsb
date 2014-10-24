@@ -7,48 +7,48 @@
             &nbsp;<i class="fa fa-fw fa-ellipsis-h dropdown-toggle"></i>
             <ul class="dropdown-menu" role="menu">
                 <li ng-show="propertyInst.hasFilter">
-                    <a href="#" ng-click="toggleHasFilter()">
+                    <a href="" ng-click="toggleHasFilter()">
                         <i class="fa fa-fw fa-filter"></i> {{'REMOVE_FILTER' | translate}}
                     </a>
                 </li>
                 <li ng-hide="propertyInst.hasFilter">
-                    <a href="#" ng-click="toggleHasFilter()">
+                    <a href="" ng-click="toggleHasFilter()">
                         <i class="fa fa-fw fa-filter"></i> {{'ADD_FILTER' | translate}}
                     </a>
                 </li>
                 <li ng-show="propertyInst.filterExists">
-                    <a href="#" ng-click="togglePropertyExists()">
+                    <a href="" ng-click="togglePropertyExists()">
                         <i class="fa fa-fw fa-square-o"></i>  {{'EXISTS_NOT' | translate}}
                     </a>
                 </li>
                 <li ng-hide="propertyInst.filterExists">
-                    <a href="#" ng-click="togglePropertyExists()">
+                    <a href="" ng-click="togglePropertyExists()">
                         <i class="fa fa-fw fa-check-square-o"></i>  {{'EXISTS' | translate}}
                     </a>
                 </li>
                 <li ng-show="propertyInst.filterExists && !propertyInst.optional">
-                    <a href="#" ng-click="togglePropertyOptional()">
+                    <a href="" ng-click="togglePropertyOptional()">
                         <i class="fa fa-fw fa-question-circle"></i>  {{'IS_OPTIONAL' | translate}}
                     </a>
                 </li>
                 <li ng-show="propertyInst.filterExists && propertyInst.optional">
-                    <a href="#" ng-click="togglePropertyOptional()">
+                    <a href="" ng-click="togglePropertyOptional()">
                         <i class="fa fa-fw fa-exclamation-circle"></i>  {{'IS_MANDATORY' | translate}}
                     </a>
                 </li>
                 <li ng-hide="propertyInst.view">
-                    <a href="#" ng-click="togglePropertyView()">
+                    <a href="" ng-click="togglePropertyView()">
                         <i class="fa fa-fw fa-eye"></i>  {{'SHOW_PROPERTY' | translate}}
                     </a>
                 </li>
                 <li ng-show="propertyInst.view">
-                    <a href="#" ng-click="togglePropertyView()">
+                    <a href="" ng-click="togglePropertyView()">
                         <i class="fa fa-fw fa-eye-slash"></i>  {{'HIDE_PROPERTY' | translate}}
                     </a>
                 </li>
                 <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/property.js -->
                 <li>
-                    <a href="#" ng-click="removeProperty(propertyInst)">
+                    <a href="" ng-click="removeProperty(propertyInst)">
                         <i class="fa fa-fw fa-trash-o"></i>  {{'DELETE_PROPERTY' | translate}}
                     </a>
                 </li>

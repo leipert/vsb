@@ -72,8 +72,16 @@ gulp.newTask('default', ['build', 'jshint']);
 
 gulp.newTask('build', ['html', 'app', 'static', 'vendor']);
 
-gulp.task('dev', ['develop'], function () {
-    $.watch('app/styles/styles.less')
+gulp.task('dev', ['develop','watch.less','less']);
+
+gulp.task('watch.less',function(){
+    $.watch('app/**/*.less',function(files,cb){
+        gulp.start('less',cb);
+    })
+});
+
+gulp.task('less',function(){
+    gulp.src('app/styles/styles.less')
         .pipe($.plumber())
         .pipe($.less())
         .pipe(gulp.dest('app/styles/'));

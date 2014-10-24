@@ -1,9 +1,9 @@
-@import "imports";
 @import "variables";
 
 /* No need to think about the following */
-.row {
-  margin: 10px 0;
+
+body {
+  background: url('../images/background.png');
 }
 
 * {
@@ -41,12 +41,6 @@ a {
   min-height: 300px;
 }
 
-.startPointCSS {
-  background: @btn-danger-bg;
-  border-color: darken(spin(@btn-danger-bg, -10), 10%);
-  color: darken(@btn-danger-bg, 20%);
-}
-
 .box {
   border-radius: @border-radius-base;
   border: 1px solid black;
@@ -55,23 +49,40 @@ a {
   width: 250px;
 }
 
+.startPointCSS {
+  background: @startpoint-bg-color;
+  border-color: @startpoint-border-color;
+  color: @startpoint-heading-color;
+  z-index: 10;
+  position: fixed;
+  top: 66px;
+  left: 150px;
+}
+
+
 .addSubjectBox {
   .box();
   padding: 0;
   border-color: transparent;
+  z-index: 10;
+  position: fixed;
+  top: 66px;
+  right: 25px;
 }
 
 .subjectCSS {
-  background-color: #ffff99;
-  border-color: #A4A019;
+  background-color: @subject-bg-color;
+  border-color: @subject-border-color;
   width: 400px;
+  position: absolute;
+  z-index: 5;
 
   .subjectHeadCSS {
     padding: 5px 10px 0;
     margin-top: 5px;
 
     b {
-      color: darkgoldenrod;
+      color: @subject-heading-color;
     }
 
   }
@@ -85,30 +96,30 @@ a {
 
 i.pointer, .icon-list i {
   cursor: pointer;
-  color: #2d5085;
+  color: @icon-color;
   text-decoration: none;
   &:hover {
-    color: #599cee;
+    color: @icon-color-hover;
   }
 }
 
 .propertyCSS {
   position: relative;
-  background: #B0E57C;
-  color: #000000;
+  background: @property-bg-color;
+  color: @property-text-color;
   padding: 5px 15px;
   margin: 0 10px 5px;
+  border: none;
 
   b {
-    color: #0D5516;
+    color: @property-heading-color;
   }
 
   &.notExists {
-    background: #ef5d54;
-    border-color: #A53238;
+    background: @property-danger-bg-color;
 
     b {
-      color: #6B1015;
+      color: @property-danger-heading-color;
 
     }
   }
@@ -135,18 +146,140 @@ i.pointer, .icon-list i {
   z-index: 10;
   &-label {
     background-color: white;
-    opacity: 0.8;
+    opacity: 0.95;
     padding: 0.3em;
     border-radius: 0.5em;
-    border: 1px solid #2d5085;
+    border: 1px solid @arrow-color;
     z-index: 15;
   }
   path {
-    stroke: #2d5085;
+    stroke: @arrow-color;
     stroke-width: 2px;
     outline: transparent 4px;
     &.arrow {
-      fill: #2d5085;
+      fill: @arrow-color;
     }
   }
 }
+
+.navigation {
+  z-index: 10;
+  position: fixed;
+  background: @navigation-bg;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-right: 2px solid darken(@navigation-bg, 10%);
+
+  .line-height-mixin() {
+    line-height: 44px;
+    vertical-align: middle;
+    height: 44px;
+    cursor: inherit;
+  }
+
+  .list-group {
+
+    width: 100%;
+
+    &.fix-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      margin: 0;
+    }
+
+  }
+
+  .list-group-item {
+
+    background: @navigation-bg;
+    border: 1px solid darken(@navigation-bg, 10%);
+    border-right: none;
+    color: @navigation-color;
+    height: 66px;
+    vertical-align: middle;
+
+    &-heading {
+      line-height: 44px;
+      vertical-align: middle;
+    }
+
+    &-text, &-heading {
+      text-align: center;
+      width: 100%;
+    }
+    &-text, &-description {
+      display: none;
+    }
+
+    .fa {
+      .line-height-mixin();
+      color: @navigation-icon-color;
+    }
+
+    &-description {
+      .line-height-mixin();
+      font-size: 16px;
+    }
+
+    .fa-toggle-on {
+      color: @green;
+    }
+
+    .fa-toggle-off {
+      color: @red;
+    }
+
+  }
+
+  & a.list-group {
+    &-item:hover {
+      color: @navigation-color;
+      background: darken(@navigation-bg, 10%);
+      .fa-toggle-on:before {
+        color: @red;
+        content: "\f204";
+      }
+      .fa-toggle-off:before {
+        color: @green;
+        content: "\f205";
+      }
+    }
+  }
+
+  &.fixed-width {
+    width: 300px;
+    .list-group-item-heading {
+      line-height: 1.1;
+    }
+    .list-group-item-text,
+    .list-group-item-description {
+      display: inline-block;
+    }
+
+    & + .content {
+      margin-left: 350px;
+      .startPointCSS {
+        left: 350px;
+      }
+    }
+
+  }
+
+  & + .content {
+    margin-top: 66px;
+    margin-left: 150px;
+  }
+
+}
+
+.bg-scroll {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: all-scroll;
+}
+

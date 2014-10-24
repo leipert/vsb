@@ -4,6 +4,7 @@
 // Loads all our components
     angular.module('GSB', [
         'GSB.config',
+        'GSB.layout',
         'GSB.filters',
         'GSB.subject',
         'GSB.mainCtrl',
@@ -17,12 +18,31 @@
     /* @ngInject */
     function stateProviderConfig($stateProvider, $urlRouterProvider) {
 
-        $stateProvider.state('authenticate', {
-            url: '/',
-            templateUrl: '/modules/layout/content.tpl.html'
+        $stateProvider.state('workspace', {
+            url: '/workspace',
+            views: {
+                content: {
+                    templateUrl: '/modules/layout/workspace/content.tpl.html'
+                },
+                navigation: {
+                    templateUrl: '/modules/layout/workspace/navigation.tpl.html'
+                }
+            }
         });
 
-        $urlRouterProvider.otherwise('/');
+        $stateProvider.state('result', {
+            url: '/result',
+            views: {
+                content: {
+                    templateUrl: '/modules/layout/result/content.tpl.html'
+                },
+                navigation: {
+                    templateUrl: '/modules/layout/result/navigation.tpl.html'
+                }
+            }
+        });
+
+        $urlRouterProvider.otherwise('/workspace');
     }
 
 

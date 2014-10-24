@@ -10,4 +10,4 @@ app/overwrite.js
 dist/
 .tmp/
 app/vendor/lodash.build.js
-app/css/styles.css
+app/styles/styles.css
