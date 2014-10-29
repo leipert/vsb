@@ -53,13 +53,6 @@
 
             SubjectService.setMainSubjectWithAlias(json.START.linkTo);
 
-            //Find the subject connected to the startpoint
-            //var startSubject = allTheSubjects[0];
-            //for (i = 0; i < allTheSubjects.length; i++) {
-            //    if (json.START.linkTo === allTheSubjects[i].alias) {
-            //        startSubject = allTheSubjects[i];
-            //    }
-            //}
 
         };
         return factory;
