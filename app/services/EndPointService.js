@@ -122,7 +122,7 @@
                 .then(function (classCollection) {
                     classCollection = _.pluck(classCollection, 'val');
                     if (uri) {
-                        classCollection = _.filter(classCollection, {id: '<' + cleanURI(uri) + '>'});
+                        classCollection = _.filter(classCollection, {id: cleanURI(uri)});
                     }
                     classCollection.forEach(function (doc) {
                         doc.uri = cleanURI(doc.id);
@@ -188,7 +188,7 @@
                 .then(function (propertyCollection) {
                     propertyCollection = _.pluck(propertyCollection, 'val');
                     if (filterURI) {
-                        propertyCollection = _.filter(propertyCollection, {id: '<' + cleanURI(filterURI) + '>'});
+                        propertyCollection = _.filter(propertyCollection, {id: cleanURI(filterURI) });
                     }
                     propertyCollection.forEach(function (property) {
                         property.$range = _.pluck(property.$range, 'id');

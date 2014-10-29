@@ -1,13 +1,10 @@
-(function(){
+(function () {
     'use strict';
-    angular.module('GSB.layout',['toggle-switch'])
-        .controller('NavigationCtrl',NavigationCtrl);
+    angular.module('GSB.layout', ['GSB.layout.workspace','GSB.layout.workspace.navigation'])
+        .controller('NavigationCtrl', NavigationCtrl);
 
-    function NavigationCtrl($scope, $rootScope){
-        $scope.switchStatus = true;
-
-        $scope.$watch('switchStatus',function(nv){
-            $rootScope.switchStatus = nv;
-        });
+    function NavigationCtrl($scope) {
+        $scope.switchStatus = false;
     }
+
 })();

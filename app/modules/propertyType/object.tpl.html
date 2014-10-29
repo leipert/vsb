@@ -4,15 +4,16 @@
             <div class="input-group-addon">
                 {{'A_LINK_TO' | translate}}
             </div>
-            <select ng-model="propertyInst.linkTo"
+            <select ng-model="property.linkTo"
                     class="form-control input-sm"
-                    ng-options="x as x.alias for x in subjects | objectPropertyFilter : '$classURIs' : propertyInst.$range"
+                    ng-options="x as x.alias for x in vm.subjects | objectPropertyFilter : '$classURIs' : property.$range"
                     title="Link with a subject">
                 <option value="">{{'LINK_WITH_SUBJECT' | translate}}</option>
             </select>
             <div class="input-group-addon">
                 {{'EXISTS' | translate}}
             </div>
+
             <!-- TODO: Add non existing links
             <div class="input-group-btn dropdown" is-open="status.isopen">
                 <button type="button" class="btn btn-default dropdown-toggle">
@@ -24,4 +25,5 @@
                 </ul>
             </div> -->
         </div>
+
 </div>

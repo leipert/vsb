@@ -7,7 +7,7 @@
      * which will be replaced with the contents of template/property.html
      */
 
-    angular.module('GSB.propertyType.object', ['GSB.arrowService'])
+    angular.module('GSB.propertyType.object', ['GSB.arrowService', 'GSB.connectionService'])
         .directive('objectPropertyDir', objectPropertyDir)
         .filter('objectPropertyFilter', objectPropertyFilter);
 
@@ -15,42 +15,43 @@
         return {
             restrict: 'A',
             replace: true,
+            scope: {
+                property: '='
+            },
+            controllerAs: 'vm',
             controller: ObjectPropertyCtrl,
             templateUrl: '/modules/propertyType/object.tpl.html'
         };
     }
 
-    function ObjectPropertyCtrl($scope, ArrowService) {
+    function ObjectPropertyCtrl($scope, SubjectService, connectionService) {
         //Observes and updates the values of linked partner of the choosen object properties
 
         var lastConnection = null;
+
+        var vm = this;
+
+        vm.subjects = SubjectService.subjects;
+
+        var property = $scope.property;
 
         function setLastConnection(connection) {
             lastConnection = connection;
         }
 
-        $scope.$watch('propertyInst.alias', function (nv) {
-            ArrowService.updateConnectionLabel(lastConnection, nv);
+        $scope.$watch('property.alias', function (nv) {
+            connectionService.updateConnectionLabel(lastConnection, nv);
         });
 
-        $scope.$watch('propertyInst.linkTo', function (nv) {
-            ArrowService.detach(lastConnection);
+        $scope.$watch('property.linkTo', function (nv) {
+            var source = angular.copy(property.$id),
+                target,
+                connectionLabel = property.alias,
+                inverse = (property.type === 'INVERSE_PROPERTY');
             if (nv !== undefined && nv !== null) {
-                $scope.propertyInst.linkTo = nv;
-                var source = angular.copy($scope.propertyInst.$id),
-                    target = angular.copy(nv.$id),
-                    connectionLabel = $scope.propertyInst.alias;
-                if ($scope.subjectInst.$id === target) {
-                    ArrowService.connectToSelf(source).then(setLastConnection);
-                } else {
-                    var inverse = false;
-                    if ($scope.propertyInst.type === 'INVERSE_PROPERTY') {
-                        inverse = true;
-                    }
-                    ArrowService.connect(source, target, connectionLabel, inverse).then(setLastConnection);
-                }
+                target = angular.copy(nv.$id);
             }
-
+            connectionService.connect(source, target, inverse, connectionLabel).then(setLastConnection);
         });
 
     }
@@ -76,4 +77,5 @@
     }
 
 
-})();
+})
+();

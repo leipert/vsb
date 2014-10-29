@@ -1,14 +1,14 @@
 <!-- WORKSPACE, this is where most of the magic happens -->
 <!-- See @js/controllers/main.js -->
-<div ng-mousedown="theMouseDown($event)" ng-mousemove="theMouseMove($event)" ng-mouseup="theMouseUp()"
+<div ng-mousedown="vm.workspaceMouseDown($event)" ng-mousemove="vm.workspaceMouseMove($event)" ng-mouseup="vm.workspaceMouseUp()"
      class="bg-scroll"></div>
 
 <!-- Row containing workspace -->
-<div ng-controller="SubjectCollectionCtrl" id="workspace">
+<div id="workspace">
     <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
-    <div class="box startPointCSS" start-point-dir>
+    <div class="box startPointCSS" id="startpoint">
         <b>{{ 'LIST_ALL' | translate }}</b>
-        <select ng-model="mainSubjectSelected" ng-options="s.alias for s in subjects" title="Main Subject Select"
+        <select ng-show="vm.groups.length > 0" ng-model="vm.x.mainSubject" ng-options="s.alias for s in vm.groups | orderBy : 'alias'" title="Main Subject Select"
                 class="pull-right">
             <option style="display:none" value="">{{ 'PICK_MAIN_SUBJECT' | translate }}</option>
         </select>
@@ -18,28 +18,24 @@
     <div class="addSubjectBox form-group pull-right">
         <div class="input-group">
             <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
-            <ui-select ng-model="$parent.selectedSubjectClass">
+            <ui-select ng-model="vm.selectedSubject">
                 <ui-select-match placeholder="{{ 'CHOOSE_A_SUBJECT' | translate }}">
                     {{$select.selected.uri + '.$label' | translate}}
                 </ui-select-match>
                 <!-- IMPORTANT: it has to be item in 'repeat="item in...',
-                as ui-select defines it internally.	Anything else wont work!
-                    TODO: Order by localized label
-                    TODO: Only show comment if existing
-                    -->
-                <ui-select-choices repeat="item in availableSubjectClasses |
+                as ui-select defines it internally.	Anything else wont work!-->
+                <ui-select-choices repeat="item.uri as item in vm.availableSubjectClasses |
                         filter: $select.search |
-                        orderBy:'type' |
                         limitTo: 50">
                     <!-- TODO: VERTICAL ALIGN INFO SIGN AND REMOVE IN-HTML-STYLE -->
                     <p style="margin: 0">
                         <i class="fa fa-info-circle pull-right"
-                           ng-if="(item.uri + '.$comment' | translate) !== item.uri + '.$comment'"
-                           popover="{{item.uri + '.$comment' | translate}}"
+                           ng-if="(item.comment | translate) !== item.comment"
+                           popover="{{item.comment | translate}}"
                            popover-trigger="mouseenter"
                            popover-placement="left"
                            popover-append-to-body="true"></i>
-                        <strong ng-bind-html="item.uri + '.$label' | translate | highlight: $select.search"></strong>
+                        <strong ng-bind-html="item.label | highlight: $select.search"></strong>
                         <small>
                             <small ng-bind-html="item.uri | replaceURIsWithPrefixes"></small>
                         </small>
@@ -47,7 +43,7 @@
                 </ui-select-choices>
             </ui-select>
 	        <span class="input-group-btn">
-		        <button ng-click="uiAddSubject()" class="btn btn-success">
+		        <button ng-click="vm.addSubject(vm.selectedSubject)" class="btn btn-success">
                     <span class="fa fa-plus"></span>
                 </button>
           </span>
@@ -56,5 +52,5 @@
     </div>
 
     <!-- Inserts all existing subjects in workspace, See @js/directives/subject.js -->
-    <subject-dir ng-repeat="subjectInst in subjects"></subject-dir>
+    <subject-dir subject="subjectInst" offset="offset" ng-repeat="subjectInst in vm.subjects"></subject-dir>
 </div>

@@ -1,4 +1,4 @@
 (function () {
     'use strict';
-    angular.module('GSB.property', ['GSB.property.collection', 'GSB.property.instance', 'GSB.propertyType']);
+    angular.module('GSB.property', ['GSB.property.model', 'GSB.property.instance', 'GSB.propertyType']);
 })();

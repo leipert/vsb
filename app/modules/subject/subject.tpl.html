@@ -1,107 +1,114 @@
-<div class="subjectCSS box" id="{{subjectInst.$id}}">
-  <!-- Template for subject directive -->
+<div class="subjectCSS box" id="{{$id}}">
+    <!-- Template for subject directive -->
+    <!--Head of a subject includes the label, the alias and some controls -->
+    <div class="subjectHeadCSS">
+        <p>
+            <span class="pull-right icon-list">
+                <mover><i class="fa fa-fw fa-arrows"></i></mover>
 
-  <!--Head of a subject includes the label, the alias and some controls -->
-  <div class="subjectHeadCSS">
-      <p>
-    <span class="pull-right icon-list">
-     <mover><i class="fa fa-fw fa-arrows"></i></mover>
+                <!-- Button (Info-Sign) to show more infos of subject on hover -->
+                <i class="fa fa-fw fa-info-circle"
+                   ng-if="(vm.comment | translate) !== vm.comment"
+                   popover="{{vm.comment | translate}}"
+                   popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
+                   popover-placement="right"
+                   popover-append-to-body="true"></i>
 
 
-      <!-- Button (Info-Sign) to show more Infos of subjectInst on hover -->
-      <i class="fa fa-fw fa-info-circle" ng-if="(subjectInst.uri + '.$comment' | translate) !== subjectInst.uri + '.$comment'"
-         popover="{{subjectInst.uri + '.$comment' | translate}}"
-         popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
-         popover-placement="right"
-         popover-append-to-body="true"></i>
+                <!-- Button (Eyes) to show whether a subject will be visible in the result or not. -->
+                <i class="fa fa-fw fa-eye" ng-show="subject.view" ng-click="subject.view = !subject.view"></i>
+                <i class="fa fa-fw fa-eye-slash" ng-hide="subject.view" ng-click="subject.view = !subject.view"></i>
 
+                <!--Button (Trash-ICON) to remove subject from list @js/controller/main.js-->
+                <i class="fa fa-fw fa-trash-o" ng-click="vm.removeSubject()"></i>
 
-      <!-- Button (Eyes) to show whether a subjectInst will be visible in the result or not. -->
-        <i class="fa fa-fw fa-eye" ng-show="subjectInst.view" ng-click="toggleSubjectView()"></i>
-        <i class="fa fa-fw fa-eye-slash" ng-hide="subjectInst.view" ng-click="toggleSubjectView()"></i>
-
-      <!--Button (Trash-ICON) to remove subjectInst from list @js/controller/main.js-->
-      <i class="fa fa-fw fa-trash-o" ng-click="removeSubject(subjectInst)"></i>
-
-    </span>
-    <!-- Label/URI of subjectInst -->
-      <b>
-          <span class="h4" >{{subjectInst.alias}}</span>
-          <i class="fa fa-edit pointer" ng-click="subjectInst.editAlias = true"></i>
-          <!-- TODO: just show if necessary -->
-          <small><small>({{ subjectInst.uri | replaceURIsWithPrefixes}})</small></small>
-      </b>
-</p>
-    <!--Input for changing the Alias:-->
-    <p class="input-group pull-left"ng-show="subjectInst.editAlias">
-      <input type="text" size="30" maxlength="40"
-             class="form-control" placeholder="Alias"
-             ng-model="subjectInst.alias">
-        <span class="btn input-group-addon btn-success" ng-click="subjectInst.editAlias = false">
+            </span>
+            <!-- Label/URI of subject -->
+            <b>
+                <span class="h4">{{subject.alias}}</span>
+                <i class="fa fa-edit pointer" ng-click="vm.editAlias = !vm.editAlias"></i>
+                <!-- TODO: just show if necessary -->
+                <small>
+                    <small>({{ subject.uri | replaceURIsWithPrefixes}})</small>
+                </small>
+            </b>
+        </p>
+        <!--Input for changing the Alias:-->
+        <p class="input-group pull-left" ng-show="vm.editAlias">
+            <input type="text" size="30" maxlength="40"
+                   class="form-control" placeholder="Alias"
+                   ng-model="subject.alias">
+        <span class="btn input-group-addon btn-success" ng-click="vm.editAlias = false">
         <i class="fa fa-check-square-o"></i>
         </span>
-    </p>
-  </div>
-
-  <!-- Here there will be the properties of the subjectInst, see @js/controller/property.js -->
-  <div class="subjectBodyCSS" ng-controller="PropertyCollectionCtrl">
-    <div class="clearfix"></div>
-
-    <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
-    <property-dir ng-repeat="propertyInst in subjectInst.$selectedProperties"></property-dir>
-
-    <aggregate-property-dir ng-repeat="propertyInst in subjectInst.$selectedAggregates"></aggregate-property-dir>
-
-      <div ng-hide="subjectInst.showAddProperty" class="text-center">
-          <div class="btn btn-sm btn-success" ng-click="subjectInst.showAddProperty = true" >
-              <span class="fa fa-plus"></span> {{ 'PROPERTY' | translate }}
-          </div>
-      </div>
-
-    <div ng-show="subjectInst.showAddProperty" style="margin: 0px 25px">
-      <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js -->
-      <div class="row">
-        <div class="input-group">
-          <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
-          <ui-select ng-model="$parent.propertySelected">
-            <ui-select-match placeholder="{{ 'CHOOSE_A_PROPERTY' | translate }}">
-              {{$select.selected.uri + '.$label' | translate}}
-            </ui-select-match>
-            <!-- IMPORTANT: it has to be item in 'repeat="item in...',
-            as ui-select defines it internally.	Anything else wont work!
-                TODO: Order by localized label
-            	TODO: Only show comment if existing
-            	-->
-            <ui-select-choices
-                group-by="'type'"
-                repeat="item in subjectInst.$availableProperties |
-                        filter: $select.search |
-                        orderBy:'type' |
-                        limitTo: 50">
-                <p style="margin: 0">
-                    <i class="fa fa-info-circle pull-right" ng-if="(item.uri + '.$comment' | translate) !== item.uri + '.$comment'"
-                       popover="{{item.uri + '.$comment' | translate}}"
-                       popover-trigger="mouseenter"
-                       popover-append-to-body="true"></i>
-                    <strong ng-bind-html="item.uri + '.$label' | translate | highlight: $select.search"></strong>
-                    <small><small ng-bind-html="item.uri | replaceURIsWithPrefixes"></small></small>
-                </p>
-            </ui-select-choices>
-          </ui-select>
-	        <span class="input-group-btn">
-		        <button ng-click="addProperty()" class="btn btn-success">
-              <span class="fa fa-plus"></span>
-            </button>
-          </span>
-
-        </div>
-      </div>
-      <!--<div class="row">-->
-        <!--<button ng-click="addAggregate()" class="btn btn-success">{{ 'ADD_A_AGGREGATE' | translate }}</button>-->
-      <!--</div>-->
+        </p>
     </div>
 
+     <!--Here there will be the properties of the subject, see @js/controller/property.js-->
+    <div class="subjectBodyCSS">
+        <div class="clearfix"></div>
 
-  </div>
+        <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
+        <property-dir property="property" ng-repeat="property in subject.$selectedProperties"></property-dir>
+
+        <!-- TODO: Readd Aggregates once their working -->
+        <!--<aggregate-property-dir ng-repeat="propertyInst in vm.$selectedAggregates"></aggregate-property-dir>-->
+
+        <div ng-hide="vm.showAddProperty" class="text-center">
+            <div class="btn btn-sm btn-success" ng-click="vm.showAddProperty = true">
+                <span class="fa fa-plus"></span> {{ 'PROPERTY' | translate }}
+            </div>
+        </div>
+
+
+        <div ng-show="vm.showAddProperty" style="margin: 0 25px">
+            <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js
+            -->
+            <div class="row">
+                <div class="input-group">
+                    <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
+                    <ui-select ng-model="vm.propertySelected">
+                        <ui-select-match placeholder="{{ 'CHOOSE_A_PROPERTY' | translate }}">
+                            {{$select.selected.uri + '.$label' | translate}}
+                        </ui-select-match>
+                        <!-- IMPORTANT: it has to be item in 'repeat="item in...',
+                        as ui-select defines it internally.	Anything else wont work!
+                        TODO: Order by localized label
+                        TODO: Only show comment if existing
+                        -->
+                        <ui-select-choices
+                                group-by="'type'"
+                                repeat="item in vm.$availableProperties |
+                                        filter: $select.search |
+                                        limitTo: 50">
+                            <p style="margin: 0">
+                                <i class="fa fa-info-circle pull-right"
+                                   ng-if="(item.comment | translate) !== item.comment"
+                                   popover="{{item.comment | translate}}"
+                                   popover-trigger="mouseenter"
+                                   popover-append-to-body="true"></i>
+                                <strong ng-bind-html="item.label | highlight: $select.search "></strong>
+                                <small>
+                                    <small ng-bind-html="item.uri | replaceURIsWithPrefixes"></small>
+                                </small>
+                            </p>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                    <button ng-click="vm.addProperty()" class="btn btn-success">
+                        <span class="fa fa-plus"></span>
+                    </button>
+                    </span>
+
+
+
+                </div>
+            </div>
+            <!--<div class="row">-->
+            <!--<button ng-click="addAggregate()" class="btn btn-success">{{ 'ADD_A_AGGREGATE' | translate }}</button>-->
+            <!--</div>-->
+        </div>
+
+    </div>
 
 </div>

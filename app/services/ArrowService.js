@@ -17,7 +17,7 @@
             } else {
                 return $q.when(jsPlumb.ready(function () {
                     instance = jsPlumb.getInstance({
-                        Endpoint: ['Dot', {cssClass:'hidden'}],
+                        Endpoint: ['Dot', {cssClass: 'hidden'}],
                         ConnectionOverlays: [
                             ['Arrow', {
                                 location: 1,
@@ -32,9 +32,9 @@
                     });
                     instance.bind('connection', function (info) {
                         var label = info.connection.getParameter('label');
-                        if(label === null){
+                        if (label === null) {
                             info.connection.removeOverlay('label');
-                        }else{
+                        } else {
                             info.connection.getOverlay('label').setLabel(label);
                         }
                     });
@@ -46,44 +46,37 @@
 
         }
 
-        var factory = {
-
-            addEndpoint: function (id) {
-                return getInstance().then(function (instance) {
-                    //instance.draggable(id, {filter: 'mover'});
-                    return instance.addEndpoint(id, {});
-                });
-            },
+        return {
             connectToSelf: function (source) {
                 return getInstance().then(function (instance) {
                     return instance.connect({
                         source: source,
                         target: source,
                         connector: ['Bezier',
-                        {
-                            showLoopback: false,
-                            curviness:50,
-                            proximityLimit:0
-                        }],
+                            {
+                                showLoopback: false,
+                                curviness: 50,
+                                proximityLimit: 0
+                            }],
                         cssClass: 'connector',
-                        anchors: [[1, 0.25, 1, 0],[1, 0.75, 1, 0]],
-                        parameters:{
-                            label:null
+                        anchors: [[1, 0.25, 1, 0], [1, 0.75, 1, 0]],
+                        parameters: {
+                            label: null
                         }
                     });
                 });
             },
             connect: function (source, target, label, inverse) {
                 return getInstance().then(function (instance) {
-                    if(inverse){
+                    if (inverse) {
                         return instance.connect({
                             source: target,
                             target: source,
                             cssClass: 'connector',
                             anchors: ['Continuous', ['Continuous', {faces: ['left', 'right']}]],
                             connector: 'Bezier',
-                            parameters:{
-                                label:label
+                            parameters: {
+                                label: label
                             }
                         });
                     }
@@ -93,8 +86,8 @@
                         cssClass: 'connector',
                         anchors: [['Continuous', {faces: ['left', 'right']}], 'Continuous'],
                         connector: 'Bezier',
-                        parameters:{
-                            label:label
+                        parameters: {
+                            label: label
                         }
                     });
                 });
@@ -116,30 +109,31 @@
                     }
                 });
             },
-            setVisibilityForAllConnection: function(visibility){
-                return getInstance().then(function(instance){
-                    angular.forEach(instance.getAllConnections(),function(connection){
+            setVisibilityForAllConnection: function (visibility) {
+                return getInstance().then(function (instance) {
+                    angular.forEach(instance.getAllConnections(), function (connection) {
                         connection.setVisible(visibility);
                     });
                 });
             },
-            deleteAllConnections: function(id){
+            deleteAllConnections: function (id) {
                 return getInstance().then(function (instance) {
-                    angular.forEach(instance.getEndpoints(id),function(endpoint){
-                        endpoint.detachAll();
-                    });
+                    if(id !== null){
+                        instance.removeAllEndpoints(id);
+                    }
                     return instance.repaintEverything();
                 });
             },
-            updateConnectionLabel: function(connection,label){
-                if(connection !== null){
+            updateConnectionLabel: function (connection, label) {
+                if (connection !== null) {
                     return connection.getOverlay('label').setLabel(label);
                 }
+            },
+            resetService: function () {
+                instance = null;
             }
 
 
         };
-
-        return factory;
     }
 })();

@@ -14,22 +14,31 @@
             restrict: 'A',
             replace: true,
             controller: DatePropertyCtrl,
+            controllerAs: 'vm',
+            scope: {
+                property: '='
+            },
             templateUrl: '/modules/propertyType/date.tpl.html'
         };
     }
 
     function DatePropertyCtrl($scope) {
 
-        $scope.open = function ($event) {
+        var property = $scope.property;
+
+        var vm = this;
+
+        vm.open = function ($event) {
             $event.preventDefault();
             $event.stopPropagation();
-            $scope.opened = true;
+            vm.opened = true;
         };
 
-        var start = angular.copy($scope.propertyInst.compareRaw);
+
+        var start = angular.copy(property.compareRaw);
 
         //Rules for date comparisons
-        $scope.allowedDateComparisons = [
+        vm.allowedDateComparisons = [
             {
                 label: 'EQUALS',
                 f: 'xsd:dateTime(%after_arithmetic%) >= "%input_start_of_day%"^^xsd:dateTime' +
@@ -50,37 +59,39 @@
             }
         ];
 
-        $scope.getDateComparisonLabel = function (key) {
-            return $scope.allowedDateComparisons[key].label;
+        vm.getDateComparisonLabel = function (key) {
+            return vm.allowedDateComparisons[key].label;
         };
 
-        $scope.changeDateComparison = function (key) {
-            $scope.dateComparison = key;
+        vm.changeDateComparison = function (key) {
+            vm.dateComparison = key;
         };
 
-        $scope.dateComparison = 0;
-        $scope.comparisonInput = new Date();
+        vm.dateComparison = 0;
+        vm.comparisonInput = new Date();
 
 
         if (start !== null && start !== undefined) {
             if (start.dateComparison !== null && start.dateComparison !== undefined) {
-                $scope.dateComparison = start.dateComparison;
+                vm.dateComparison = start.dateComparison;
             }
             if (start.comparisonInput !== null && start.comparisonInput !== undefined) {
-                $scope.comparisonInput = new Date(start.comparisonInput);
+                vm.comparisonInput = new Date(start.comparisonInput);
             }
         }
 
         //Observers for date comparison
 
-        $scope.$watch('dateComparison', function (newValue) {
-            $scope.propertyInst.compareRaw.dateComparison = newValue;
+        $scope.$watch('vm.dateComparison', function (newValue) {
+            property.compareRaw.dateComparison = newValue;
+            property.compare = '';
             renderDate();
         });
 
 
-        $scope.$watch('comparisonInput', function (newValue) {
-            $scope.propertyInst.compareRaw.comparisonInput = newValue;
+        $scope.$watch('vm.comparisonInput', function (newValue) {
+            property.compareRaw.comparisonInput = newValue;
+            property.compare = '';
             renderDate();
         });
 
@@ -89,15 +100,15 @@
          */
 
         function renderDate() {
-            if ($scope.dateComparison !== null && $scope.comparisonInput instanceof Date) {
-                var date = $scope.comparisonInput;
-                $scope.propertyInst.compare =
-                    $scope.allowedDateComparisons[$scope.dateComparison].f
+            if (vm.dateComparison !== null && vm.comparisonInput instanceof Date) {
+                var date = vm.comparisonInput;
+                property.compare =
+                    vm.allowedDateComparisons[vm.dateComparison].f
                         .replace(/%input_start_of_day%/g, moment(date).hour(0).minute(0).second(0).format())
                         .replace(/%input_end_of_day%/g, moment(date).hour(23).minute(59).second(59).format());
 
             } else {
-                $scope.propertyInst.compare = null;
+                property.compare = null;
             }
         }
 

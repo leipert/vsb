@@ -1,10 +1,34 @@
 (function () {
     'use strict';
 
-    angular.module('GSB.languageService', ['GSB.config', 'pascalprecht.translate'])
+    angular.module('GSB.language', ['GSB.config', 'pascalprecht.translate'])
         .config(translationProviderConfig)
         .factory('languageStorage', languageStorage)
-        .factory('languageLoader', languageLoader);
+        .factory('languageLoader', languageLoader)
+        .filter('translateAndSortLocalizedObjectArrayByKey', translateAndSortLocalizedObjectArrayByKey);
+
+    function translateAndSortLocalizedObjectArrayByKey($translate) {
+        return function (array, key, prefix) {
+            if (!key) {
+                return array;
+            }
+            if (!prefix) {
+                prefix = '';
+            }
+
+            var result = angular.copy(array);
+
+            return result.map(function (c) {
+                c[key] = $translate.instant(prefix + c[key]);
+                return c;
+            }).sort(function (a, b) {
+                if (typeof a[key] === 'string' && typeof b[key] === 'string') {
+                    return a[key].toLowerCase().localeCompare(b[key].toLowerCase());
+                }
+            });
+
+        };
+    }
 
     function translationProviderConfig($translateProvider, globalConfig) {
         globalConfig.fallBackLanguages.push('default');

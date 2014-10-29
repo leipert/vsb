@@ -18,113 +18,97 @@
         return {
             restrict: 'E',
             replace: true,
+            scope: {
+                subject: '=',
+                offset: '='
+            },
             controller: SubjectInstanceCtrl,
+            controllerAs: 'vm',
             templateUrl: '/modules/subject/subject.tpl.html',
-            /**
-             * The link function is the function where you can interact with the DOM
-             *
-             * @param scope The current Scope, equivalent to the scope holding subjectInst
-             * @param element The current element
-             *
-             */
-            link: function (scope, element) {
-                var pos = scope.subjectInst.pos;
-                var startX = 0, startY = 0, x = pos.x || 150, y = pos.y || 250;
-
-                scope.$watch('offsetX', function (newValue) {
-                    moveX(newValue);
-                });
-
-                scope.$watch('offsetY', function (newValue) {
-                    moveY(newValue);
-                });
-
-                function moveX(offset) {
-                    x = x + offset;
-                    scope.subjectInst.pos.x = x;
-                    element.css({left: x + 'px'});
-                }
-
-                function moveY(offset) {
-                    y = y + offset;
-                    scope.subjectInst.pos.y = y;
-                    element.css({top: y + 'px'});
-                }
-
-
-                element.find('mover').on('mousedown', function (event) {
-                    // Prevent default dragging of selected content
-                    event.preventDefault();
-                    scope.dragging = true;
-                    scope.$digest();
-                    startX = event.pageX - x;
-                    startY = event.pageY - y;
-                    $document.on('mousemove', mousemove);
-                    $document.on('mouseup', mouseup);
-                });
-
-                function mousemove(event) {
-                    y = event.pageY - startY;
-                    x = event.pageX - startX;
-                    ArrowService.repaintEverything();
-                    scope.subjectInst.pos.x = x;
-                    scope.subjectInst.pos.y = y;
-
-                    element.css({
-                        top: y + 'px',
-                        left: x + 'px'
-                    });
-                }
-
-                function mouseup() {
-                    scope.dragging = false;
-                    scope.$digest();
-                    ArrowService.repaintEverything();
-                    $document.unbind('mousemove', mousemove);
-                    $document.unbind('mouseup', mouseup);
-                }
-
-            }
+            link: linkFunction($document, ArrowService)
         };
     }
 
-    function SubjectInstanceCtrl($scope, $log, $timeout, $translate, EndPointService, ArrowService) {
+    function SubjectInstanceCtrl($scope, connectionService, SubjectService) {
 
-        /**
-         * Change the View of the given Subject
-         */
-        $scope.toggleSubjectView = function () {
-            $scope.subjectInst.view = !$scope.subjectInst.view;
-        };
+        var subject = $scope.subject;
 
-        EndPointService.getSuperAndEqClasses($scope.subjectInst.uri)
-            .then(function (data) {
-                $log.debug('SUBJECT Additional Classes loaded for ' + $scope.subjectInst.uri, data);
-                $scope.subjectInst.$classURIs = data;
-            })
-            .catch(function (error) {
-                $log.error(error);
-            });
+        connectionService.addMapping(subject.$id, $scope.$id);
 
-        if (!$scope.subjectInst.alias) {
-            $translate($scope.subjectInst.uri + '.$label').then(function (label) {
-                var alias = label, c = 1;
-                while ($scope.doesAliasExist(alias)) {
-                    alias = label + '_' + c;
-                    c += 1;
-                }
-                $scope.subjectInst.alias = alias;
-                $scope.subjectInst.$id = alias.toLowerCase();
-                $timeout(function () {
-                    ArrowService.addEndpoint($scope.subjectInst.$id);
-                }, 50);
-            });
-        } else {
-            $scope.subjectInst.$id = $scope.subjectInst.alias.toLowerCase();
-            ArrowService.addEndpoint($scope.subjectInst.$id);
+        var vm = this;
+        vm.editAlias = false;
+        vm.comment = subject.uri + '.$comment';
+        vm.removeSubject = removeSubject;
+        vm.addProperty = addProperty;
+
+        function addProperty() {
+            subject.addProperty(vm.propertySelected);
+            vm.propertySelected = undefined;
+            vm.showAddProperty = false;
         }
 
+        function removeSubject() {
+            SubjectService.removeSubject(subject.$id);
+        }
+
+        $scope.$watch(subject.getAvailableProperties, function (nv) {
+            vm.$availableProperties = nv;
+        }, true);
+
     }
 
+
+    /**
+     * The Link Function enables Drag & Drop and saves position back to the VM
+     *
+     */
+    function linkFunction($document, ArrowService) {
+        return function (scope, element) {
+            var pos = scope.subject.pos;
+            var startX = 0, startY = 0, x = pos.x || 150, y = pos.y || 250;
+
+            function moveSubject(newX, newY) {
+                x = newX;
+                y = newY;
+                pos.x = newX;
+                pos.y = newY;
+                element.css({
+                    left: newX + 'px',
+                    top: newY + 'px'
+                });
+            }
+
+            scope.$watch('offset', function (offset) {
+                moveSubject(x + offset.x, y + offset.y);
+            }, true);
+
+            element.find('mover').on('mousedown', function (event) {
+                // Prevent default dragging of selected content
+                event.preventDefault();
+                scope.dragging = true;
+                startX = event.pageX - x;
+                startY = event.pageY - y;
+                // scope.$digest();
+                $document.on('mousemove', mousemove);
+                $document.on('mouseup', mouseup);
+            });
+
+            function mousemove(event) {
+                y = event.pageY - startY;
+                x = event.pageX - startX;
+                ArrowService.repaintEverything();
+                moveSubject(event.pageX - startX, event.pageY - startY);
+            }
+
+            function mouseup() {
+                scope.dragging = false;
+                scope.$digest();
+                ArrowService.repaintEverything();
+                $document.unbind('mousemove', mousemove);
+                $document.unbind('mouseup', mouseup);
+            }
+
+        };
+    }
 
 })();

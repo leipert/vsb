@@ -17,51 +17,57 @@
             restrict: 'A',
             replace: true,
             controller: NumberPropertyCtrl,
+            controllerAs: 'vm',
+            scope: {
+                property: '='
+            },
             templateUrl: '/modules/propertyType/number.tpl.html'
         };
     }
 
     function NumberPropertyCtrl($scope) {
-        $scope.numberArithmetic = '';
 
+        var property = $scope.property;
 
-        var start = angular.copy($scope.propertyInst.compareRaw);
+        var vm = this;
 
-        $scope.numberArithmetic = 'x';
-        $scope.numberComparison = 'y';
+        var start = angular.copy(property.compareRaw);
+
+        vm.numberArithmetic = 'x';
+        vm.numberComparison = 'y';
 
 
         if (start !== null && start !== undefined) {
             if (start.numberArithmetic !== null && start.numberArithmetic !== undefined) {
-                $scope.numberArithmetic = start.numberArithmetic;
+                vm.numberArithmetic = start.numberArithmetic;
             }
             if (start.numberComparison !== null && start.numberComparison !== undefined) {
-                $scope.numberComparison = start.numberComparison;
+                vm.numberComparison = start.numberComparison;
             }
         }
 
         //Observes and updates the values of the chosen number arithmetics
-        $scope.$watch('numberArithmetic', function (newValue) {
+        $scope.$watch('vm.numberArithmetic', function (newValue) {
             if (newValue === '' || newValue === null || newValue === undefined) {
                 newValue = 'x';
             }
-            $scope.propertyInst.compareRaw.numberArithmetic = newValue;
+            property.compareRaw.numberArithmetic = newValue;
             if (newValue === 'x') {
-                $scope.propertyInst.arithmetic = null;
+                property.arithmetic = null;
             } else {
-                $scope.propertyInst.arithmetic = newValue.replace(/x/g, '%before_arithmetic%');
+                property.arithmetic = newValue.replace(/x/g, '%before_arithmetic%');
             }
         });
 
-        $scope.$watch('numberComparison', function (newValue) {
+        $scope.$watch('vm.numberComparison', function (newValue) {
             if (newValue === '' || newValue === null || newValue === undefined) {
                 newValue = 'y';
             }
-            $scope.propertyInst.compareRaw.numberComparison = newValue;
+            property.compareRaw.numberComparison = newValue;
             if (newValue === 'x' || newValue === 'y') {
-                $scope.propertyInst.compare = null;
+                property.compare = null;
             } else {
-                $scope.propertyInst.compare = newValue
+                property.compare = newValue
                     .replace(/x/g, '%before_arithmetic%')
                     .replace(/y/g, '%after_arithmetic%');
             }

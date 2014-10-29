@@ -9,18 +9,18 @@
     angular.module('GSB.parser', ['GSB.config', 'GSB.parser.GSBL2JSON', 'GSB.parser.GSBL2SPARQL', 'GSB.parser.JSON2GSBL', 'LocalForageModule'])
         .factory('TranslatorManager', TranslatorManager);
 
-    function TranslatorManager($log, globalConfig, $rootScope, TranslatorToJSON, TranslatorToGSBL, TranslatorToSPARQL) {
+    function TranslatorManager($log, TranslatorToJSON, TranslatorToGSBL, TranslatorToSPARQL) {
         var factory = {};
 
 
         /**
          *  Function initiates JSON-saving
-         *  @param mainSubjectSelected
+         *  @param mainSubject
          *  @param subjects
          */
-        factory.prepareSaveLink = function (mainSubjectSelected, subjects) {
+        factory.prepareSaveLink = function (mainSubject, subjects) {
 
-            var json = TranslatorToJSON.translateGSBLToJSON(mainSubjectSelected, subjects);
+            var json = TranslatorToJSON.translateGSBLToJSON(mainSubject, subjects);
             var blob = new Blob([json], {type: 'application/json'});
             document.getElementById('saveLink').href = URL.createObjectURL(blob);
 
@@ -29,8 +29,6 @@
 
         /**
          *  Function will load JSON-file as query
-         *  @param mainSubjectSelected
-         *  @param subjects
          */
         factory.loadJSON = function () {
 
@@ -55,12 +53,7 @@
                     return;
                 }
 
-                /* newWorkspaceContent[0]  all subject-objects
-                 *  newWorkspaceContent[1]  from startpoint selected subject
-                 *
-                 * */
-                var newWorkspaceContent = TranslatorToGSBL.translateJSONToGSBL(json);
-                $rootScope.$broadcast('WorkspaceUpdateFromJSONEvent', newWorkspaceContent);
+                TranslatorToGSBL.translateJSONToGSBL(json);
             };
             reader.readAsBinaryString(selectedFile);
         };
@@ -68,14 +61,10 @@
 
         /**
          *  Function first calls the factory to translate GSBL to JSON, then the one to translate JSON to SPARQL
-         *  @param mainSubjectSelected
-         *  @param subjects
-         *  @param language
          */
-        factory.translateGSBLToSPARQL = function (mainSubjectSelected, subjects) {
+        factory.translateGSBLToSPARQL = function () {
 
-            var newJSON = TranslatorToJSON.translateGSBLToJSON(mainSubjectSelected, subjects);
-            $rootScope.$broadcast('JSONUpdateEvent', newJSON);
+            var newJSON = TranslatorToJSON.translateGSBLToJSON();
 
 
             if (newJSON === null) {
@@ -86,11 +75,13 @@
 
             var newSPARQL = TranslatorToSPARQL.translateJSONToSPARQL(JSON.parse(newJSON));
 
-            $rootScope.$broadcast('SPARQLQueryUpdateEvent', newSPARQL);
-
             var sponateMap = TranslatorToSPARQL.translateJSONToSponateMap(JSON.parse(newJSON));
 
-            $rootScope.$broadcast('SPARQLUpdateEvent', sponateMap);
+            return {
+                json: newJSON,
+                sparql: newSPARQL,
+                sponateMap: sponateMap
+            };
         };
 
         return factory;

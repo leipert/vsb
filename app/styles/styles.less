@@ -78,7 +78,7 @@ a {
   z-index: 5;
 
   .subjectHeadCSS {
-    padding: 5px 10px 0;
+    padding: 5px 15px 0;
     margin-top: 5px;
 
     b {
@@ -283,3 +283,22 @@ i.pointer, .icon-list i {
   cursor: all-scroll;
 }
 
+
+//Fixes for ui-bootstrap datepicker
+
+.glyphicon.glyphicon-chevron-right,
+.glyphicon.glyphicon-chevron-left {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.glyphicon.glyphicon-chevron-left:before {
+  content: "\f053";
+}
+.glyphicon.glyphicon-chevron-right:before {
+  content: "\f054";
+}

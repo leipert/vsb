@@ -21,7 +21,7 @@
 
     function StringPropertyCtrl($scope, $http, globalConfig) {
 
-        var start = angular.copy($scope.propertyInst.compareRaw);
+        var start = angular.copy($scope.vm.compareRaw);
 
         //Rules for String comparisons
         $scope.allowedStringComparisons = [
@@ -93,7 +93,7 @@
         //Observers for String comparisons
         $scope.$watch('stringComparison', function (newValue) {
             renderComparison(newValue, $scope.comparisonInput, $scope.comparisonRegexFlags);
-            $scope.propertyInst.compareRaw.stringComparison = newValue;
+            $scope.vm.compareRaw.stringComparison = newValue;
             if (newValue !== null) {
                 $scope.showFlags = $scope.allowedStringComparisons[newValue].showFlags;
             }
@@ -101,13 +101,13 @@
 
 
         $scope.$watch('comparisonInput', function (newValue) {
-            $scope.propertyInst.compareRaw.comparisonInput = newValue;
+            $scope.vm.compareRaw.comparisonInput = newValue;
             renderComparison($scope.stringComparison, newValue, $scope.comparisonRegexFlags);
         });
 
 
         $scope.$watch('comparisonRegexFlags', function (newValue) {
-            $scope.propertyInst.compareRaw.comparisonRegexFlags = newValue;
+            $scope.vm.compareRaw.comparisonRegexFlags = newValue;
             renderComparison($scope.stringComparison, $scope.comparisonInput, newValue);
         });
 
@@ -134,13 +134,13 @@
          * Updates comparison for String properties
          */
         function renderLangCompare() {
-            $scope.propertyInst.compareRaw.selectedLanguage = $scope.selectedLanguage;
+            $scope.vm.compareRaw.selectedLanguage = $scope.selectedLanguage;
             if ($scope.selectedLanguage === null || $scope.selectedLanguage === undefined || $scope.selectedLanguage === '') {
-                $scope.propertyInst.compare = $scope.compare;
+                $scope.vm.compare = $scope.compare;
             } else if ($scope.compare === null || $scope.compare === undefined) {
-                $scope.propertyInst.compare = 'langMatches(lang(%after_arithmetic%), "' + $scope.selectedLanguage + '")';
+                $scope.vm.compare = 'langMatches(lang(%after_arithmetic%), "' + $scope.selectedLanguage + '")';
             } else {
-                $scope.propertyInst.compare = 'langMatches(lang(%after_arithmetic%), "' + $scope.selectedLanguage + '") && ' + $scope.compare;
+                $scope.vm.compare = 'langMatches(lang(%after_arithmetic%), "' + $scope.selectedLanguage + '") && ' + $scope.compare;
             }
         }
 

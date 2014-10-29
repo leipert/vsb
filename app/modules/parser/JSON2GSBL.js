@@ -6,10 +6,10 @@
      *
      */
 
-    angular.module('GSB.parser.JSON2GSBL', ['GSB.config'])
+    angular.module('GSB.parser.JSON2GSBL', ['GSB.config', 'GSB.property.model', 'GSB.subject.model'])
         .factory('TranslatorToGSBL', TranslatorToGSBL);
 
-    function TranslatorToGSBL(globalConfig, $log) {
+    function TranslatorToGSBL(SubjectService, $q, $log) {
         var factory = {};
 
         /**
@@ -27,70 +27,40 @@
                 return null;
             }
 
-            /* Test output
-             for (var i = 0; i < json.SUBJECTS.length; i++) {
-             alert(json.SUBJECTS[i].alias);
-             }*/
+            var linkToPromises = [];
 
-            var allTheSubjects = [];
-            var workspaceContent = [];
+            json.SUBJECTS.forEach(function (subject) {
+                subject.$copied = true;
+                var properties = subject.properties;
+                delete subject.properties;
 
-            //Create object of all subjects
-            for (var i = 0; i < json.SUBJECTS.length; i++) {
-                var subjectsProperties = [],
-                    curSubj = json.SUBJECTS[i];
+                subject = SubjectService.addSubject(subject);
 
-                for (var p = 0; p < curSubj.properties.length; p++) {
+                properties.forEach(function (property) {
 
-                    var curProp = curSubj.properties[p];
-
-                    subjectsProperties.push(
-                        {
-                            $copied: true,
-                            $id: curSubj.alias.toLowerCase() + curProp.alias.toLowerCase(),
-                            alias: curProp.alias,
-                            uri: curProp.uri,
-                            type: curProp.type,
-                            view: curProp.view,
-                            optional: curProp.optional,
-                            filterExists: curProp.filterExists,
-                            hasFilter: curProp.hasFilter,
-                            linkTo: curProp.linkTo,
-                            arithmetic: curProp.arithmetic,
-                            compare: curProp.compare,
-                            compareRaw: curProp.compareRaw
-                        });
-
-                }
-
-                allTheSubjects.push(
-                    {
-                        alias: curSubj.alias,
-                        uri: curSubj.uri,
-                        pos: curSubj.pos,
-                        view: curSubj.view,
-                        $id: curSubj.alias.toLowerCase(),
-                        $selectedAggregates: [],
-                        $selectedProperties: subjectsProperties,
-                        $copied: true
+                    property.$copied = true;
+                    property = subject.addProperty(property);
+                    if(property.linkTo){
+                        linkToPromises.push(property);
                     }
-                );
-            }
+
+                });
+            });
+
+            linkToPromises.forEach(function(property){
+                SubjectService.linkSubjectWithProperty(property);
+            });
+
+            SubjectService.setMainSubjectWithAlias(json.START.linkTo);
 
             //Find the subject connected to the startpoint
-            var startSubject = allTheSubjects[0];
-            for (i = 0; i < allTheSubjects.length; i++) {
-                if (json.START.linkTo === allTheSubjects[i].alias) {
-                    startSubject = allTheSubjects[i];
-                }
-            }
+            //var startSubject = allTheSubjects[0];
+            //for (i = 0; i < allTheSubjects.length; i++) {
+            //    if (json.START.linkTo === allTheSubjects[i].alias) {
+            //        startSubject = allTheSubjects[i];
+            //    }
+            //}
 
-            //workspaceContent[0] all the subjects (as an object)
-            //worcspaceContent[1] with startpoint linked subject
-            workspaceContent.push(allTheSubjects);
-            workspaceContent.push(startSubject);
-
-            return workspaceContent;
         };
         return factory;
     }

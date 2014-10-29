@@ -8,9 +8,19 @@
         'GSB.filters',
         'GSB.subject',
         'GSB.mainCtrl',
-        'GSB.languageService',
+        'GSB.language',
         'ui.router'
     ])
+        .run(function ($localForage, globalConfig, TranslatorToGSBL) {
+            //Some drag and drop variables
+            //TODO: Move to own SaveStatusFactory
+            $localForage.getItem('current')
+                .then(function (data) {
+                    if (data !== null && data.CONFIG === globalConfig.name) {
+                        TranslatorToGSBL.translateJSONToGSBL(data);
+                    }
+                });
+        })
         .config(function (uiSelectConfig) {
             uiSelectConfig.theme = 'bootstrap';
         })
@@ -22,9 +32,13 @@
             url: '/workspace',
             views: {
                 content: {
+                    controller: 'WorkspaceCtrl',
+                    controllerAs: 'vm',
                     templateUrl: '/modules/layout/workspace/content.tpl.html'
                 },
                 navigation: {
+                    controller: 'WorkspaceNavigationCtrl',
+                    controllerAs: 'vm',
                     templateUrl: '/modules/layout/workspace/navigation.tpl.html'
                 }
             }
@@ -34,7 +48,17 @@
             url: '/result',
             views: {
                 content: {
-                    templateUrl: '/modules/layout/result/content.tpl.html'
+                    controller: 'ResultCtrl',
+                    controllerAs: 'vm',
+                    templateUrl: '/modules/layout/result/content.tpl.html',
+                    resolve: {
+                        /* @ngInject */
+                        JSON: function (TranslatorManager, $timeout) {
+                            return $timeout(function() {
+                                return TranslatorManager.translateGSBLToSPARQL();
+                            },300);
+                        }
+                    }
                 },
                 navigation: {
                     templateUrl: '/modules/layout/result/navigation.tpl.html'

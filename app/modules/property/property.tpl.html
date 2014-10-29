@@ -1,55 +1,56 @@
-<div class="propertyCSS" ng-class="propertyInst.filterExists ? '' : 'notExists'" id="{{propertyInst.$id}}">
+<div class="propertyCSS" ng-class="property.filterExists ? '' : 'notExists'" id="{{$id}}">
     <!-- Template for property directive -->
     <!-- Top of a property -->
     <div class="propertyHeadCSS">
         <p>
+
         <div class="dropdown pull-right icon-list" on-toggle="toggled(open)">
             &nbsp;<i class="fa fa-fw fa-ellipsis-h dropdown-toggle"></i>
             <ul class="dropdown-menu" role="menu">
-                <li ng-show="propertyInst.hasFilter">
-                    <a href="" ng-click="toggleHasFilter()">
+                <li ng-show="property.filterExists && property.hasFilter">
+                    <a href="" ng-click="vm.toggle('hasFilter')">
                         <i class="fa fa-fw fa-filter"></i> {{'REMOVE_FILTER' | translate}}
                     </a>
                 </li>
-                <li ng-hide="propertyInst.hasFilter">
-                    <a href="" ng-click="toggleHasFilter()">
+                <li ng-show="property.filterExists && !property.hasFilter">
+                    <a href="" ng-click="vm.toggle('hasFilter')">
                         <i class="fa fa-fw fa-filter"></i> {{'ADD_FILTER' | translate}}
                     </a>
                 </li>
-                <li ng-show="propertyInst.filterExists">
-                    <a href="" ng-click="togglePropertyExists()">
-                        <i class="fa fa-fw fa-square-o"></i>  {{'EXISTS_NOT' | translate}}
+                <li ng-show="property.filterExists">
+                    <a href="" ng-click="vm.toggle('filterExists')">
+                        <i class="fa fa-fw fa-square-o"></i> {{'EXISTS_NOT' | translate}}
                     </a>
                 </li>
-                <li ng-hide="propertyInst.filterExists">
-                    <a href="" ng-click="togglePropertyExists()">
-                        <i class="fa fa-fw fa-check-square-o"></i>  {{'EXISTS' | translate}}
+                <li ng-hide="property.filterExists">
+                    <a href="" ng-click="vm.toggle('filterExists')">
+                        <i class="fa fa-fw fa-check-square-o"></i> {{'EXISTS' | translate}}
                     </a>
                 </li>
-                <li ng-show="propertyInst.filterExists && !propertyInst.optional">
-                    <a href="" ng-click="togglePropertyOptional()">
-                        <i class="fa fa-fw fa-question-circle"></i>  {{'IS_OPTIONAL' | translate}}
+                <li ng-show="property.filterExists && !property.optional">
+                    <a href="" ng-click="vm.toggle('optional')">
+                        <i class="fa fa-fw fa-question-circle"></i> {{'IS_OPTIONAL' | translate}}
                     </a>
                 </li>
-                <li ng-show="propertyInst.filterExists && propertyInst.optional">
-                    <a href="" ng-click="togglePropertyOptional()">
-                        <i class="fa fa-fw fa-exclamation-circle"></i>  {{'IS_MANDATORY' | translate}}
+                <li ng-show="property.filterExists && property.optional">
+                    <a href="" ng-click="vm.toggle('optional')">
+                        <i class="fa fa-fw fa-exclamation-circle"></i> {{'IS_MANDATORY' | translate}}
                     </a>
                 </li>
-                <li ng-hide="propertyInst.view">
-                    <a href="" ng-click="togglePropertyView()">
-                        <i class="fa fa-fw fa-eye"></i>  {{'SHOW_PROPERTY' | translate}}
+                <li ng-hide="property.view">
+                    <a href="" ng-click="vm.toggle('view')">
+                        <i class="fa fa-fw fa-eye"></i> {{'SHOW_PROPERTY' | translate}}
                     </a>
                 </li>
-                <li ng-show="propertyInst.view">
-                    <a href="" ng-click="togglePropertyView()">
-                        <i class="fa fa-fw fa-eye-slash"></i>  {{'HIDE_PROPERTY' | translate}}
+                <li ng-show="property.view">
+                    <a href="" ng-click="vm.toggle('view')">
+                        <i class="fa fa-fw fa-eye-slash"></i> {{'HIDE_PROPERTY' | translate}}
                     </a>
                 </li>
-                <!-- Button (Trash-ICON) to remove propertyInst from list @js/controller/property.js -->
+                <!-- Button (Trash-ICON) to remove property from list @js/controller/property.js -->
                 <li>
-                    <a href="" ng-click="removeProperty(propertyInst)">
-                        <i class="fa fa-fw fa-trash-o"></i>  {{'DELETE_PROPERTY' | translate}}
+                    <a href="" ng-click="vm.removeProperty(property.$id)">
+                        <i class="fa fa-fw fa-trash-o"></i> {{'DELETE_PROPERTY' | translate}}
                     </a>
                 </li>
             </ul>
@@ -58,42 +59,42 @@
           <span class="pull-right icon-list">
 
         <i class="fa fa-square-o fa-fw"
-           ng-hide="propertyInst.filterExists"
-           ng-click="togglePropertyExists()"></i>
+           ng-hide="property.filterExists"
+           ng-click="vm.toggle('filterExists')"></i>
         <i class="fa fa-fw fa-question-circle"
-           ng-show="propertyInst.filterExists && propertyInst.optional"
-           ng-click="togglePropertyOptional()"></i>
+           ng-show="property.filterExists && property.optional"
+           ng-click="vm.toggle('optional')"></i>
 
-        <!-- Button (Eyes) to show whether a propertyInst will be visible in the result or not. -->
+        <!-- Button (Eyes) to show whether a property will be visible in the result or not. -->
         <i class="fa fa-fw fa-eye-slash"
-           ng-hide="propertyInst.view" ng-click="togglePropertyView()"></i>
+           ng-hide="property.view" ng-click="vm.toggle('view')"></i>
 
-      <!-- Button (Info-Sign) to show more Infos of propertyInst on hover -->
-        <i class="fa fa-fw fa-info-circle" ng-if="(propertyInst.uri + '.$comment' | translate) !== propertyInst.uri + '.$comment'"
-           popover="{{propertyInst.uri +'.$comment' | translate}}"
+      <!-- Button (Info-Sign) to show more Infos of property on hover -->
+        <i class="fa fa-fw fa-info-circle" ng-if="(property.uri + '.$comment' | translate) !== property.uri + '.$comment'"
+           popover="{{property.uri +'.$comment' | translate}}"
            popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
            popover-placement="top"
            popover-append-to-body="true"></i>
 
     </span>
-        <!-- Alias of propertyInst -->
+        <!-- Alias of property -->
         <b>
-            <span class="h5"><b>{{propertyInst.alias}}</b></span>
-            <i class="fa fa-edit pointer" ng-click="propertyInst.editAlias = true"></i>
+            <span class="h5"><b>{{property.alias}}</b></span>
+            <i class="fa fa-edit pointer" ng-click="vm.editAlias = true"></i>
             <small>
-                <small>({{ propertyInst.uri | replaceURIsWithPrefixes}})</small>
+                <small>({{ property.uri | replaceURIsWithPrefixes}})</small>
             </small>
         </b>
         </p>
         <!--Input for changing the Alias:-->
-        <div class="input-group" ng-show="propertyInst.editAlias">
+        <div class="input-group" ng-show="vm.editAlias">
 
             <input type="text" size="30" maxlength="40"
                    class="form-control" placeholder="Alias"
-                   ng-model="propertyInst.alias">
+                   ng-model="property.alias">
 
             <div class="input-group-btn">
-                <button class="btn btn-success" ng-click="propertyInst.editAlias = false">
+                <button class="btn btn-success" ng-click="vm.editAlias = false">
                     <i class="fa fa-check-square-o"></i>
                 </button>
             </div>
@@ -109,27 +110,15 @@
         you can use ng-include for direct insertion templates or
         a own directive with templates and controllers
         This is the place if you want to add new property Types.-->
-        <div class="propertyFilters" ng-show="propertyInst.filterExists && propertyInst.hasFilter"
-             ng-switch on="propertyInst.type">
+        <div class="propertyFilters" ng-show="property.filterExists && property.hasFilter"
+             ng-switch on="property.type">
 
-            <div ng-switch-when="OBJECT_PROPERTY">
-                <div object-property-dir></div>
-            </div>
-            <div ng-switch-when="NUMBER_PROPERTY">
-                <div number-property-dir></div>
-            </div>
-            <div ng-switch-when="STRING_PROPERTY">
-                <div string-property-dir></div>
-            </div>
-            <div ng-switch-when="STANDARD_PROPERTY">
-                <div string-property-dir></div>
-            </div>
-            <div ng-switch-when="INVERSE_PROPERTY">
-                <div object-property-dir></div>
-            </div>
-            <div ng-switch-when="DATE_PROPERTY">
-                <div date-property-dir></div>
-            </div>
+            <div ng-switch-when="OBJECT_PROPERTY" object-property-dir property="property"></div>
+            <div ng-switch-when="NUMBER_PROPERTY" number-property-dir property="property"></div>
+            <div ng-switch-when="STRING_PROPERTY" string-property-dir property="property"></div>
+            <div ng-switch-when="STANDARD_PROPERTY" string-property-dir property="property"></div>
+            <div ng-switch-when="INVERSE_PROPERTY" object-property-dir property="property"></div>
+            <div ng-switch-when="DATE_PROPERTY" date-property-dir property="property"></div>
 
             <div ng-switch-default></div>
         </div>

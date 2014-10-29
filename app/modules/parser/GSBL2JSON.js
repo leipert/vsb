@@ -9,11 +9,11 @@
     angular.module('GSB.parser.GSBL2JSON', ['GSB.config'])
         .factory('TranslatorToJSON', TranslatorToJSON);
 
-    function TranslatorToJSON(globalConfig, $log, $localForage) {
+    function TranslatorToJSON(globalConfig, $log, $localForage,SubjectService) {
 
         var cleanDollarValues = function (obj) {
             for (var key in obj) {
-                if (obj.hasOwnProperty(key) && _.startsWith(key,'$')) {
+                if (obj.hasOwnProperty(key) && _.startsWith(key, '$')) {
                     delete obj[key];
                 }
             }
@@ -25,28 +25,24 @@
         /**
          * Function that takes built query and creates a JSON Object for the translation to SPARQL, returns it as a String
          *
-         * @param mainSubjectSelected
+         * @param mainSubject
          * @param subjects
          * @return JSON object as String
          */
-        factory.translateGSBLToJSON = function (mainSubjectSelected, subjects) {
+        factory.translateGSBLToJSON = function () {
 
             $log.debug('Translate GSBL to JSON');
 
-            if (mainSubjectSelected === null) {
-                $log.error('Main Subject not connected');
-                return null;
-            }
             var json = {
                     CONFIG: globalConfig.name,
                     START: {
                         type: 'LIST_ALL',
-                        'linkTo': mainSubjectSelected.alias
+                        'linkTo': SubjectService.getMainSubject().mainSubject.alias
 
                     },
                     SUBJECTS: []
                 },
-                allSubjects = _.cloneDeep(subjects);
+                allSubjects = _.cloneDeep(SubjectService.getSubjects());
             allSubjects.map(function (currentSubject) {
                 currentSubject.properties = currentSubject.$selectedProperties.map(function (currentProperty) {
                     if (currentProperty.type !== 'STANDARD_PROPERTY') {
