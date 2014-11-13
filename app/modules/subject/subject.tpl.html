@@ -51,9 +51,6 @@
         <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
         <property-dir property="property" ng-repeat="property in subject.$selectedProperties"></property-dir>
 
-        <!-- TODO: Readd Aggregates once their working -->
-        <!--<aggregate-property-dir ng-repeat="propertyInst in vm.$selectedAggregates"></aggregate-property-dir>-->
-
         <div ng-hide="vm.showAddProperty" class="text-center">
             <div class="btn btn-sm btn-success" ng-click="vm.showAddProperty = true">
                 <span class="fa fa-plus"></span> {{ 'PROPERTY' | translate }}

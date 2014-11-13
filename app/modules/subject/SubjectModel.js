@@ -12,8 +12,7 @@
                 $availableProperties: [],
                 $classURIs: [],
                 $id: null,
-                $selectedProperties: [],
-                $selectedAggregates: []
+                $selectedProperties: []
             };
             _.extend(subject, data);
 

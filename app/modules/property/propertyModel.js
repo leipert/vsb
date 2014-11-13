@@ -1,9 +1,9 @@
 (function () {
     'use strict';
     angular.module('GSB.property.model', ['GSB.endPointService', 'pascalprecht.translate', 'GSB.connectionService'])
-        .factory('Property', SubjectConstructor);
+        .factory('Property', PropertyConstructor);
 
-    function SubjectConstructor(EndPointService, $log, $translate, $filter, $q, connectionService) {
+    function PropertyConstructor(EndPointService, $log, $translate, $q, connectionService) {
         return function (data) {
             var property = {
                 uri: null,
@@ -19,7 +19,6 @@
                 subject: {}
             };
             _.extend(property, data);
-
             property.$id = connectionService.generateID();
             connectionService.addPropertyToSubject(property.subject.$id, property.$id);
 
@@ -58,20 +57,22 @@
             };
 
             if (property.$copied) {
-                EndPointService.getPropertyDetails(property.subject.uri, property)
-                    .then(function (data) {
-                        data = data[0];
-                        if (data !== undefined) {
-                            property.$range = data.$range;
-                            property.type = data.type;
-                            return data.$range;
-
-                        }
-                    })
-                    .then(getSubClassesOfRange)
-                    .catch(function (error) {
-                        $log.error(error);
-                    });
+                if(!_.startsWith(property.uri,'$$')){
+                    EndPointService.getPropertyDetails(property.subject.uri, property)
+                        .then(function (data) {
+                            data = data[0];
+                            if (!_.isEmpty(data)) {
+                                property.$range = data.$range;
+                                property.type = data.type;
+                                return data.$range;
+                            }
+                            return null;
+                        })
+                        .then(getSubClassesOfRange)
+                        .catch(function (error) {
+                            $log.error(error);
+                        });
+                }
             } else {
                 getSubClassesOfRange(property.$range);
             }

@@ -8,14 +8,14 @@
         <div class="input-group-btn dropdown" is-open="dd2.isopen">
             <button type="button" class="btn dropdown-toggle btn-default"
                     style="border-radius: 0;border-right: 0">
-                {{getStringComparisonLabel() | translate}} <span class="caret"></span>
+                {{vm.getStringComparisonLabel() | translate}} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a href="" ng-click="changeStringComparison(null)">{{}}</a>
+                    <a href="" ng-click="vm.changeStringComparison(null)">{{}}</a>
                 </li>
                 <li ng-repeat="(idx,x) in vm.allowedStringComparisons">
-                    <a href="" ng-click="changeStringComparison(idx)">{{x.label | translate}}</a>
+                    <a href="" ng-click="vm.changeStringComparison(idx)">{{x.label | translate}}</a>
                 </li>
             </ul>
         </div>

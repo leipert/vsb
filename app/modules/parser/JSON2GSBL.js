@@ -9,7 +9,7 @@
     angular.module('GSB.parser.JSON2GSBL', ['GSB.config', 'GSB.property.model', 'GSB.subject.model'])
         .factory('TranslatorToGSBL', TranslatorToGSBL);
 
-    function TranslatorToGSBL(SubjectService, $q, $log) {
+    function TranslatorToGSBL(SubjectService, $log) {
         var factory = {};
 
         /**

@@ -20,7 +20,7 @@
             <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
             <ui-select ng-model="vm.selectedSubject">
                 <ui-select-match placeholder="{{ 'CHOOSE_A_SUBJECT' | translate }}">
-                    {{$select.selected.uri + '.$label' | translate}}
+                    {{$select.selected.label}}
                 </ui-select-match>
                 <!-- IMPORTANT: it has to be item in 'repeat="item in...',
                 as ui-select defines it internally.	Anything else wont work!-->

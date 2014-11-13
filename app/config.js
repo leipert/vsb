@@ -75,7 +75,7 @@
                         id: 'default',
                         value: 'This is the label of this subject.'
                     }],
-                    $type: 'STRING_PROPERTY'
+                    type: 'STRING_PROPERTY'
                 },
                 {
                     id: '$$uri',
@@ -87,7 +87,7 @@
                         id: 'default',
                         value: 'The uri of this subject.'
                     }],
-                    $type: 'STRING_PROPERTY'
+                    type: 'STRING_PROPERTY'
                 }
             ],
             defaultGraphURIs: ['http://xmlns.com/foaf/0.1/', 'http://gsb.leipert.io/ns/'],

@@ -72,15 +72,16 @@
         vm.stringComparison = null;
         vm.comparisonInput = '';
         vm.comparisonRegexFlags = 'i';
+        vm.selectedLanguage = null;
 
-        $scope.getStringComparisonLabel = function () {
+        vm.getStringComparisonLabel = function () {
             if (vm.stringComparison === null) {
                 return 'NO_COMPARISON';
             }
             return vm.allowedStringComparisons[vm.stringComparison].label;
         };
 
-        $scope.changeStringComparison = function (key) {
+        vm.changeStringComparison = function (key) {
             vm.stringComparison = key;
         };
 
@@ -120,6 +121,11 @@
             renderComparison(vm.stringComparison, vm.comparisonInput, newValue);
         });
 
+        $scope.$watch('vm.selectedLanguage', function () {
+            renderLangCompare();
+        });
+
+
         /*
          * Handles updates comparison for String properties
          */
@@ -133,11 +139,6 @@
             renderLangCompare();
         }
 
-        vm.selectedLanguage = null;
-
-        $scope.$watch('vm.selectedLanguage', function () {
-            renderLangCompare();
-        });
 
         /*
          * Updates comparison for String properties
@@ -145,7 +146,7 @@
         function renderLangCompare() {
             property.compareRaw.selectedLanguage = vm.selectedLanguage;
             if (vm.selectedLanguage === null || vm.selectedLanguage === undefined || vm.selectedLanguage === '') {
-                property.compare = property.compare;
+                return;
             } else if (property.compare === null || property.compare === undefined) {
                 property.compare = 'langMatches(lang(%after_arithmetic%), "' + vm.selectedLanguage + '")';
             } else {

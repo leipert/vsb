@@ -201,10 +201,13 @@
                         property.$range = _.pluck(property.$range, 'id');
                         property.uri = cleanURI(property.id);
                         fillTranslationStorage(property.uri, property.$labels, property.$comments);
+
                         if (inverse) {
                             property.type = 'INVERSE_PROPERTY';
                         } else {
-                            property.type = factory.getPropertyType(property);
+                            if (!property.type) {
+                                property.type = factory.getPropertyType(property);
+                            }
                         }
                     });
                     return propertyCollection;
