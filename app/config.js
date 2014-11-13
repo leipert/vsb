@@ -20,6 +20,50 @@
                 'owl': 'http://www.w3.org/2002/07/owl#',
                 'gsb': 'http://gsb.leipert.io/ns/'
             },
+            resultFormats: [
+                {
+                    name: 'HTML',
+                    format: 'text/html'
+                },                {
+                    name: 'editable Query',
+                    format: 'text/html',
+                    qtxt: true
+                },
+                {
+                    name: 'XML',
+                    format: 'application/sparql-results+xml'
+                },
+                {
+                    name: 'JSON',
+                    format: 'application/sparql-results+json'
+                }, {
+                    name: 'CSV',
+                    format: 'text/csv'
+                }, {
+                    name: 'TSV',
+                    format: 'text/tab-separated-values'
+                },
+                {
+                    name: 'Excel',
+                    format: 'application/vnd.ms-excel'
+                },
+                {
+                    name: 'Turtle',
+                    format: 'text/turtle'
+                },
+                {
+                    name: 'RDF XML',
+                    format: 'application/rdf+xml'
+                },
+                {
+                    name: 'N-TRIPLE',
+                    format: 'text/plain'
+                },
+                {
+                    name: 'Javascript',
+                    format: 'application/javascript'
+                }
+            ],
             defaultProperties: [
                 {
                     id: 'http://www.w3.org/2000/01/rdf-schema#label',
@@ -48,7 +92,7 @@
             ],
             defaultGraphURIs: ['http://xmlns.com/foaf/0.1/', 'http://gsb.leipert.io/ns/'],
             baseURL: 'https://ssl.leipert.io/sparql',
-            resultURL: 'https://ssl.leipert.io/sparql?default-graph-uri=&format=text%2Fhtml&timeout=5000&debug=on&query=',
+            resultURL: 'https://ssl.leipert.io/sparql?timeout=5000&debug=on',
             allowedLanguages: ['*', 'de', 'en'],
             fallBackLanguages: ['en'],
             aggregateFunctions: [

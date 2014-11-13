@@ -4,16 +4,56 @@
         .filter('deepOrderBy', deepOrderBy)
         .controller('ResultCtrl', ResultCtrl);
 
-    function ResultCtrl($scope, ngTableParams, EndPointService, JSON) {
+    function ResultCtrl($scope, JSON, globalConfig, $filter) {
+        //ngTableParams, EndPointService
         //var vm = this;
         $scope.resultHead = [];
 
         $scope.resultData = [];
 
-        $scope.showQueries = true;
+        $scope.showQueries = false;
+
+        $scope.resultFormats = globalConfig.resultFormats;
+        $scope.currentFormat = globalConfig.resultFormats[0];
 
         $scope.translatedJSON = JSON.json;
-        $scope.translatedSPARQL = JSON.sparql.toString();
+        var prefixes = '';
+        _.forEach(globalConfig.prefixes, function (uri, prefix) {
+            prefixes += 'prefix ' + prefix + ': <' + uri + '> \n';
+        });
+        $scope.translatedSPARQL = prefixes + '\n' + beautifySPARQL(JSON.sparql.toString());
+
+        function beautifySPARQL(query){
+            query = $filter('beautifySPARQL')(query);
+            query = $filter('replaceURIsWithPrefixes')(query);
+            return query;
+        }
+
+        /**
+         * Open the SPARQL Query in a new dbpedia tab
+         */
+
+
+        $scope.openInNewTab = function () {
+            var win = window.open(createQueryURL(), '_blank');
+            win.focus();
+        };
+
+        function createQueryURL() {
+            var format = '&format=' + encodeURIComponent($scope.currentFormat.format);
+            var query = '&query=' + encodeURIComponent($scope.translatedSPARQL);
+            var defaultGraphs = '';
+            globalConfig.defaultGraphURIs.forEach(function (graph) {
+                defaultGraphs += '&default-graph-uri=' + encodeURIComponent(graph);
+            });
+
+            if ($scope.currentFormat.qtxt) {
+                query = '&qtxt=' + encodeURIComponent($scope.translatedSPARQL);
+                defaultGraphs = '';
+            }
+
+            return globalConfig.resultURL + format + defaultGraphs + query;
+        }
 
         //TODO: Refactor
 

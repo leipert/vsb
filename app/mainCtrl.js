@@ -103,13 +103,7 @@
 
         /** FOLGENDES MUSS AUS DIESEM CONTROLLER RAUS! **/
 
-        /**
-         * Open the SPARQL Query in a new dbpedia tab
-         */
-        $scope.openInNewTab = function () {
-            var win = window.open(globalConfig.resultURL + encodeURIComponent($scope.translatedSPARQL), '_blank');
-            win.focus();
-        };
+
 
 
     }

@@ -12,7 +12,7 @@
         </div>
         <div class="col-sm-6">
             <p> {{ 'SPARQL' | translate }}</p>
-            <pre id="sparql-query">{{translatedSPARQL | beautifySPARQL | replaceURIsWithPrefixes}}</pre>
+            <pre id="sparql-query">{{translatedSPARQL}}</pre>
         </div>
     </div>
     <div class="col-sm-12 text-center">
@@ -22,7 +22,9 @@
     <div class="col-sm-12">
         <h3>{{ 'RESULTS' | translate }}</h3>
 
-        <p><a href="" ng-click="openInNewTab()">Show results!</a></p>
+        <p>Format results as
+            <select ng-model="currentFormat" ng-options="format.name for format in resultFormats"></select>
+            and <a href="" ng-click="openInNewTab()">show results!</a></p>
         <table ng-table="tableParams" show-filter="true" class="table table-responsive table-striped">
             <thead>
             <tr>
