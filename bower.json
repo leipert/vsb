@@ -5,7 +5,7 @@
     "dependencies": {
         "angular": "1.2.19",
         "bootstrap": "~3.2.0",
-        "angular-bootstrap": "~0.11.0",
+        "angular-bootstrap": "~0.11.2",
         "angular-sanitize": "1.2.19",
         "angular-ui-select": "~0.6.0",
         "momentjs": "~2.8.1",
@@ -16,7 +16,11 @@
         "lodash": "#master",
         "ng-table": "~0.3.3",
         "jsplumb": "~1.6.4",
-        "fontawesome":"~4.2.0"
+        "fontawesome": "~4.2.0",
+        "ui-router": "~0.2.11",
+        "angular-toggle-switch": "~1.0.0",
+        "angular-intro.js": "~1.1.3",
+        "intro.js": "~1.0.0"
     },
     "overrides": {
         "angular-bootstrap": {
@@ -38,5 +42,8 @@
         "jsplumb": {
             "main": "dist/js/dom.jsPlumb-1.6.4.js"
         }
+    },
+    "resolutions": {
+        "intro.js": "~1.0.0"
     }
 }

@@ -1,0 +1,320 @@
+@import "variables";
+
+/* No need to think about the following */
+
+body {
+  background: url('../images/background.png');
+}
+
+* {
+  -webkit-touch-callout: none;
+  user-select: none;
+  cursor: default;
+}
+
+pre {
+  -webkit-touch-callout: default;
+  user-select: text;
+  cursor: text;
+
+}
+
+table.table td {
+  cursor: text;
+}
+
+table.table td span {
+  -webkit-touch-callout: default;
+  user-select: text;
+  cursor: inherit;
+}
+
+a {
+  cursor: pointer !important;
+}
+
+/* Set height and color of workspace and result area */
+
+#sparql-query, #json-query {
+  border: 1px solid black;
+  font-family: Monospace;
+  min-height: 300px;
+}
+
+.box {
+  border-radius: @border-radius-base;
+  border: 1px solid black;
+  padding: 5px;
+  margin: 5px 0;
+  width: 250px;
+}
+
+.startPointCSS {
+  background: @startpoint-bg-color;
+  border-color: @startpoint-border-color;
+  color: @startpoint-heading-color;
+  z-index: 10;
+  position: fixed;
+  top: 66px;
+  left: 150px;
+}
+
+
+.addSubjectBox {
+  .box();
+  padding: 0;
+  border-color: transparent;
+  z-index: 10;
+  position: fixed;
+  top: 66px;
+  right: 25px;
+}
+
+.subjectCSS {
+  background-color: @subject-bg-color;
+  border-color: @subject-border-color;
+  width: 400px;
+  position: absolute;
+  z-index: 5;
+
+  .subjectHeadCSS {
+    padding: 5px 15px 0;
+    margin-top: 5px;
+
+    b {
+      color: @subject-heading-color;
+    }
+
+  }
+
+  .subjectBodyCSS {
+    padding: 5px;
+    margin: 0;
+  }
+
+}
+
+i.pointer, .icon-list i {
+  cursor: pointer;
+  color: @icon-color;
+  text-decoration: none;
+  &:hover {
+    color: @icon-color-hover;
+  }
+}
+
+.propertyCSS {
+  position: relative;
+  background: @property-bg-color;
+  color: @property-text-color;
+  padding: 5px 15px;
+  margin: 0 10px 5px;
+  border: none;
+
+  b {
+    color: @property-heading-color;
+  }
+
+  &.notExists {
+    background: @property-danger-bg-color;
+
+    b {
+      color: @property-danger-heading-color;
+
+    }
+  }
+}
+
+.propertyFilters {
+  padding-bottom: 10px;
+
+}
+
+.ui-select-bootstrap {
+  > input.ui-select-search.form-control {
+    border-radius: 0;
+  }
+  > .ui-select-choices {
+    width: 350px;
+    max-height: 300px;
+    right: 0;
+    left: auto;
+  }
+}
+
+.connector {
+  z-index: 10;
+  &-label {
+    background-color: white;
+    opacity: 0.95;
+    padding: 0.3em;
+    border-radius: 0.5em;
+    border: 1px solid @arrow-color;
+    z-index: 15;
+  }
+  path {
+    stroke: @arrow-color;
+    stroke-width: 2px;
+    outline: transparent 4px;
+    &.arrow {
+      fill: @arrow-color;
+    }
+  }
+}
+
+.navigation {
+  z-index: 10;
+  position: fixed;
+  background: @navigation-bg;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-right: 2px solid darken(@navigation-bg, 10%);
+
+  .line-height-mixin() {
+    line-height: 44px;
+    vertical-align: middle;
+    height: 44px;
+    cursor: inherit;
+  }
+
+  .list-group {
+
+    width: 100%;
+
+    &.fix-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      margin: 0;
+    }
+
+  }
+
+  .list-group-item {
+
+    background: @navigation-bg;
+    border: 1px solid darken(@navigation-bg, 10%);
+    border-right: none;
+    color: @navigation-color;
+    height: 66px;
+    vertical-align: middle;
+
+    &-heading {
+      line-height: 44px;
+      vertical-align: middle;
+    }
+
+    &-text, &-heading {
+      text-align: center;
+      width: 100%;
+    }
+    &-text, &-description {
+      display: none;
+    }
+
+    .fa {
+      .line-height-mixin();
+      color: @navigation-icon-color;
+    }
+
+    &-description {
+      .line-height-mixin();
+      font-size: 16px;
+    }
+
+    .fa-toggle-on {
+      color: @green;
+    }
+
+    .fa-toggle-off {
+      color: @red;
+    }
+
+  }
+
+  & a.list-group {
+    &-item:hover {
+      color: @navigation-color;
+      background: darken(@navigation-bg, 10%);
+      .fa-toggle-on:before {
+        color: @red;
+        content: "\f204";
+      }
+      .fa-toggle-off:before {
+        color: @green;
+        content: "\f205";
+      }
+    }
+  }
+
+  &.fixed-width {
+    width: 300px;
+    .list-group-item-heading {
+      line-height: 1.1;
+    }
+    .list-group-item-text,
+    .list-group-item-description {
+      display: inline-block;
+    }
+
+    & + .content {
+      margin-left: 350px;
+      .startPointCSS {
+        left: 350px;
+      }
+    }
+
+  }
+
+  & + .content {
+    margin-top: 66px;
+    margin-left: 150px;
+  }
+
+}
+
+.bg-scroll {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: all-scroll;
+}
+
+
+//Fixes for ui-bootstrap datepicker
+
+.glyphicon.glyphicon-chevron-right,
+.glyphicon.glyphicon-chevron-left {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.glyphicon.glyphicon-chevron-left:before {
+  content: "\f053";
+}
+.glyphicon.glyphicon-chevron-right:before {
+  content: "\f054";
+
+}
+
+
+//Tooltip for introjs
+
+.introjs-tooltip {
+  &.wide {
+    width:650px;
+    max-width: 650px;
+    min-width: 650px;
+  }
+  .introjs-button {
+    .btn();
+    .btn-default();
+  }
+}

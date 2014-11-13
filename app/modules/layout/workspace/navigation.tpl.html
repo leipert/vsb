@@ -1,0 +1,26 @@
+<!-- Row containing top controls -->
+<div class="list-group">
+    <a class="list-group-item" ng-click="vm.translate()">
+        <i class="fa fa-fw fa-3x fa-play-circle "></i>
+        <span class="list-group-item-description">{{ 'RUN_QUERY' | translate }}</span>
+    </a>
+    <a class="list-group-item" ng-click="vm.resetWorkspace()">
+        <i class="fa fa-fw fa-3x fa-undo"></i>
+        <span class="list-group-item-description">{{ 'RESET_WORKSPACE' | translate }}</span>
+    </a>
+    <a class="list-group-item" ng-click="vm.loadJSON()">
+        <i class="fa fa-fw fa-3x fa-upload"></i>
+        <span class="list-group-item-description">{{ 'LOAD_JSON' | translate }}</span>
+    </a>
+    <a class="list-group-item" ng-click="CallMe(2)">
+        <i class="fa fa-fw fa-3x fa-question"></i>
+        <span class="list-group-item-description">{{ 'HELP' | translate }}</span>
+    </a>
+    <a class="list-group-item">
+        <i class="fa fa-fw fa-3x fa-language"></i>
+        <span class="list-group-item-description">
+            <button ng-click="vm.changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+            <button ng-click="vm.changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+        </span>
+    </a>
+</div>

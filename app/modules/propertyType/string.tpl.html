@@ -1,0 +1,44 @@
+<div>
+    <!-- if a property is selected, it will be linked with the subject -->
+
+    <div class="input-group input-group-sm">
+        <div class="input-group-addon">
+            {{'COMPARISON' | translate}}
+        </div>
+        <div class="input-group-btn dropdown" is-open="dd2.isopen">
+            <button type="button" class="btn dropdown-toggle btn-default"
+                    style="border-radius: 0;border-right: 0">
+                {{vm.getStringComparisonLabel() | translate}} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a href="" ng-click="vm.changeStringComparison(null)">{{}}</a>
+                </li>
+                <li ng-repeat="(idx,x) in vm.allowedStringComparisons">
+                    <a href="" ng-click="vm.changeStringComparison(idx)">{{x.label | translate}}</a>
+                </li>
+            </ul>
+        </div>
+        <input ng-disabled="vm.stringComparison === null" type="text" class="form-control input-sm"
+               ng-model="vm.comparisonInput">
+        <span ng-show="vm.showFlags" class="input-group-btn" style="width:0; "></span>
+        <input ng-show="vm.showFlags"
+               type="text" class="form-control input-sm"
+               ng-model="vm.comparisonRegexFlags"
+               style="border-left:0"
+                />
+    </div>
+
+    <div class="input-group input-group-sm" style="margin-top: 5px" ng-if="!hideLanguageFilter">
+        <div class="input-group-addon">
+            {{'LANGUAGE' | translate}}
+        </div>
+        <select ng-model="vm.selectedLanguage"
+                ng-options="x as x for x in vm.allowedLanguages"
+                title="Select Language"
+                class="form-control input-sm">
+            <option value="">{{'SELECT_LANGUAGE' | translate}}</option>
+        </select>
+    </div>
+
+</div>
