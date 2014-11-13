@@ -12,5 +12,5 @@ angular.module('GSB.config')
             'mo': 'http://purl.org/ontology/mo/'
         });
         globalConfig.defaultGraphURIs = ['http://purl.org/ontology/mo/'];
-        globalConfig.resultURL = globalConfig.baseURL + '?query=';
+        globalConfig.resultURL = globalConfig.baseURL;
     });

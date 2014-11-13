@@ -15,6 +15,6 @@ angular.module('GSB.config')
         });
         globalConfig.defaultGraphURIs = [''];
         globalConfig.baseURL = 'https://alpha.oerli.eu/sparql-vt';
-        globalConfig.resultURL = globalConfig.baseURL + '?query=';
+        globalConfig.resultURL = globalConfig.baseURL;
 
     });
