@@ -3,18 +3,6 @@
 
     <div class="input-group input-group-sm">
         <div class="input-group-addon">
-            {{'LANGUAGE' | translate}}
-        </div>
-        <select ng-model="selectedLanguage"
-                ng-options="x as x for x in allowedLanguages"
-                title="Select"
-                class="form-control input-sm">
-            <option value="">{{'SELECT_LANGUAGE' | translate}}</option>
-        </select>
-    </div>
-
-    <div class="input-group input-group-sm" style="margin-top: 5px">
-        <div class="input-group-addon">
             {{'COMPARISON' | translate}}
         </div>
         <div class="input-group-btn dropdown" is-open="dd2.isopen">
@@ -26,19 +14,31 @@
                 <li>
                     <a href="" ng-click="changeStringComparison(null)">{{}}</a>
                 </li>
-                <li ng-repeat="(idx,x) in allowedStringComparisons">
+                <li ng-repeat="(idx,x) in vm.allowedStringComparisons">
                     <a href="" ng-click="changeStringComparison(idx)">{{x.label | translate}}</a>
                 </li>
             </ul>
         </div>
-        <input ng-disabled="stringComparison === null" type="text" class="form-control input-sm"
-               ng-model="comparisonInput">
-        <span ng-show="showFlags" class="input-group-btn" style="width:0; "></span>
-        <input ng-show="showFlags"
+        <input ng-disabled="vm.stringComparison === null" type="text" class="form-control input-sm"
+               ng-model="vm.comparisonInput">
+        <span ng-show="vm.showFlags" class="input-group-btn" style="width:0; "></span>
+        <input ng-show="vm.showFlags"
                type="text" class="form-control input-sm"
-               ng-model="comparisonRegexFlags"
+               ng-model="vm.comparisonRegexFlags"
                style="border-left:0"
                 />
+    </div>
+
+    <div class="input-group input-group-sm" style="margin-top: 5px" ng-if="!hideLanguageFilter">
+        <div class="input-group-addon">
+            {{'LANGUAGE' | translate}}
+        </div>
+        <select ng-model="vm.selectedLanguage"
+                ng-options="x as x for x in vm.allowedLanguages"
+                title="Select Language"
+                class="form-control input-sm">
+            <option value="">{{'SELECT_LANGUAGE' | translate}}</option>
+        </select>
     </div>
 
 </div>

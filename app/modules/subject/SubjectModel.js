@@ -35,7 +35,7 @@
             }
 
             function removeProperty(id) {
-                connectionService.remove(id).then(function(){
+                connectionService.remove(id).then(function () {
                     _.remove(subject.$selectedProperties, {$id: id});
                 });
             }

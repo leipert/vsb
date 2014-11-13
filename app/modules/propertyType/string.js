@@ -15,16 +15,25 @@
             restrict: 'A',
             replace: true,
             controller: StringPropertyCtrl,
+            controllerAs: 'vm',
+            scope: {
+                property: '=',
+                hideLanguageFilter : '=hideLanguage'
+            },
             templateUrl: '/modules/propertyType/string.tpl.html'
         };
     }
 
     function StringPropertyCtrl($scope, $http, globalConfig) {
 
-        var start = angular.copy($scope.vm.compareRaw);
+        var property = $scope.property;
+
+        var vm = this;
+
+        var start = angular.copy(property.compareRaw);
 
         //Rules for String comparisons
-        $scope.allowedStringComparisons = [
+        vm.allowedStringComparisons = [
             {
                 label: 'CONTAINS',
                 f: 'regex(%after_arithmetic%, "%input%", "i")',
@@ -58,57 +67,57 @@
             }
         ];
 
-        $scope.allowedLanguages = globalConfig.allowedLanguages;
+        vm.allowedLanguages = globalConfig.allowedLanguages;
 
-        $scope.stringComparison = null;
-        $scope.comparisonInput = '';
-        $scope.comparisonRegexFlags = 'i';
+        vm.stringComparison = null;
+        vm.comparisonInput = '';
+        vm.comparisonRegexFlags = 'i';
 
         $scope.getStringComparisonLabel = function () {
-            if ($scope.stringComparison === null) {
+            if (vm.stringComparison === null) {
                 return 'NO_COMPARISON';
             }
-            return $scope.allowedStringComparisons[$scope.stringComparison].label;
+            return vm.allowedStringComparisons[vm.stringComparison].label;
         };
 
         $scope.changeStringComparison = function (key) {
-            $scope.stringComparison = key;
+            vm.stringComparison = key;
         };
 
         if (start !== null && start !== undefined) {
             if (start.selectedLanguage !== null && start.selectedLanguage !== undefined) {
-                $scope.selectedLanguage = start.selectedLanguage;
+                vm.selectedLanguage = start.selectedLanguage;
             }
             if (start.stringComparison !== null && start.stringComparison !== undefined) {
-                $scope.stringComparison = start.stringComparison;
+                vm.stringComparison = start.stringComparison;
             }
             if (start.comparisonInput !== null && start.comparisonInput !== undefined) {
-                $scope.comparisonInput = start.comparisonInput;
+                vm.comparisonInput = start.comparisonInput;
             }
             if (start.comparisonRegexFlags !== null && start.comparisonRegexFlags !== undefined) {
-                $scope.comparisonRegexFlags = start.comparisonRegexFlags;
+                vm.comparisonRegexFlags = start.comparisonRegexFlags;
             }
         }
 
         //Observers for String comparisons
-        $scope.$watch('stringComparison', function (newValue) {
-            renderComparison(newValue, $scope.comparisonInput, $scope.comparisonRegexFlags);
-            $scope.vm.compareRaw.stringComparison = newValue;
+        $scope.$watch('vm.stringComparison', function (newValue) {
+            renderComparison(newValue, vm.comparisonInput, vm.comparisonRegexFlags);
+            property.compareRaw.stringComparison = newValue;
             if (newValue !== null) {
-                $scope.showFlags = $scope.allowedStringComparisons[newValue].showFlags;
+                vm.showFlags = vm.allowedStringComparisons[newValue].showFlags;
             }
         });
 
 
-        $scope.$watch('comparisonInput', function (newValue) {
-            $scope.vm.compareRaw.comparisonInput = newValue;
-            renderComparison($scope.stringComparison, newValue, $scope.comparisonRegexFlags);
+        $scope.$watch('vm.comparisonInput', function (newValue) {
+            property.compareRaw.comparisonInput = newValue;
+            renderComparison(vm.stringComparison, newValue, vm.comparisonRegexFlags);
         });
 
 
-        $scope.$watch('comparisonRegexFlags', function (newValue) {
-            $scope.vm.compareRaw.comparisonRegexFlags = newValue;
-            renderComparison($scope.stringComparison, $scope.comparisonInput, newValue);
+        $scope.$watch('vm.comparisonRegexFlags', function (newValue) {
+            property.compareRaw.comparisonRegexFlags = newValue;
+            renderComparison(vm.stringComparison, vm.comparisonInput, newValue);
         });
 
         /*
@@ -116,17 +125,17 @@
          */
         function renderComparison(method, input, flags) {
             if (input === null || input === undefined || input === '' || method === undefined || method === null) {
-                $scope.compare = null;
+                property.compare = null;
                 renderLangCompare();
                 return;
             }
-            $scope.compare = $scope.allowedStringComparisons[method].f.replace(/%input%/, input).replace(/%flags%/, flags);
+            property.compare = vm.allowedStringComparisons[method].f.replace(/%input%/, input).replace(/%flags%/, flags);
             renderLangCompare();
         }
 
-        $scope.selectedLanguage = null;
+        vm.selectedLanguage = null;
 
-        $scope.$watch('selectedLanguage', function () {
+        $scope.$watch('vm.selectedLanguage', function () {
             renderLangCompare();
         });
 
@@ -134,13 +143,13 @@
          * Updates comparison for String properties
          */
         function renderLangCompare() {
-            $scope.vm.compareRaw.selectedLanguage = $scope.selectedLanguage;
-            if ($scope.selectedLanguage === null || $scope.selectedLanguage === undefined || $scope.selectedLanguage === '') {
-                $scope.vm.compare = $scope.compare;
-            } else if ($scope.compare === null || $scope.compare === undefined) {
-                $scope.vm.compare = 'langMatches(lang(%after_arithmetic%), "' + $scope.selectedLanguage + '")';
+            property.compareRaw.selectedLanguage = vm.selectedLanguage;
+            if (vm.selectedLanguage === null || vm.selectedLanguage === undefined || vm.selectedLanguage === '') {
+                property.compare = property.compare;
+            } else if (property.compare === null || property.compare === undefined) {
+                property.compare = 'langMatches(lang(%after_arithmetic%), "' + vm.selectedLanguage + '")';
             } else {
-                $scope.vm.compare = 'langMatches(lang(%after_arithmetic%), "' + $scope.selectedLanguage + '") && ' + $scope.compare;
+                property.compare = 'langMatches(lang(%after_arithmetic%), "' + vm.selectedLanguage + '") && ' + property.compare;
             }
         }
 

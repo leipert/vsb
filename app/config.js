@@ -20,6 +20,32 @@
                 'owl': 'http://www.w3.org/2002/07/owl#',
                 'gsb': 'http://gsb.leipert.io/ns/'
             },
+            defaultProperties: [
+                {
+                    id: 'http://www.w3.org/2000/01/rdf-schema#label',
+                    $labels: [{
+                        id: 'default',
+                        value: 'Label'
+                    }],
+                    $comments: [{
+                        id: 'default',
+                        value: 'This is the label of this subject.'
+                    }],
+                    $type: 'STRING_PROPERTY'
+                },
+                {
+                    id: '$$uri',
+                    $labels: [{
+                        id: 'default',
+                        value: 'uri'
+                    }],
+                    $comments: [{
+                        id: 'default',
+                        value: 'The uri of this subject.'
+                    }],
+                    $type: 'STRING_PROPERTY'
+                }
+            ],
             defaultGraphURIs: ['http://xmlns.com/foaf/0.1/', 'http://gsb.leipert.io/ns/'],
             baseURL: 'https://ssl.leipert.io/sparql',
             resultURL: 'https://ssl.leipert.io/sparql?default-graph-uri=&format=text%2Fhtml&timeout=5000&debug=on&query=',

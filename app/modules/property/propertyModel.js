@@ -40,7 +40,7 @@
             }
 
             var getSubClassesOfRange = function (range) {
-                if (range !== undefined) {
+                if (!_.isEmpty(range)) {
                     var originalPropertyRange = angular.copy(range);
                     var promises = [];
                     originalPropertyRange.forEach(function (rangeItem) {

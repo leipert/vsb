@@ -48,6 +48,13 @@
             var o = rdf.NodeFactory.createVar(alias);
             var b = o;
             var view = subjectView && property.view;
+            if(uri === '$$uri'){
+                if (property.compare !== null) {
+                    property.compare = property.compare.replace(/%before_arithmetic%/g, s).replace(/%after_arithmetic%/g, s);
+                    triples.addTriples([new sparql.ElementFilter(property.compare)]);
+                }
+                return triples;
+            }
             if (type === 'INVERSE_PROPERTY') {
                 r = translateObjectProperty(s, p, o, property.linkTo, view);
                 s = r.o;

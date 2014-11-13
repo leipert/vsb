@@ -69,10 +69,14 @@
 
         //TODO: Deprecate
         var fillTranslationStorage = function (uri, labels, comments) {
+            var defaultSet = false;
             labels.forEach(function (label) {
                 languageStorage.setItem(label.id, uri + '.$label', label.value);
+                defaultSet = defaultSet || label.id === 'default';
             });
-            languageStorage.setItem('default', uri + '.$label', factory.extractLabelFromURI(uri));
+            if (!defaultSet) {
+                languageStorage.setItem('default', uri + '.$label', factory.extractLabelFromURI(uri));
+            }
             comments.forEach(function (comment) {
                 languageStorage.setItem(comment.id, uri + '.$comment', comment.value);
             });
@@ -188,7 +192,10 @@
                 .then(function (propertyCollection) {
                     propertyCollection = _.pluck(propertyCollection, 'val');
                     if (filterURI) {
-                        propertyCollection = _.filter(propertyCollection, {id: cleanURI(filterURI) });
+                        propertyCollection = _.filter(propertyCollection, {id: cleanURI(filterURI)});
+                    }
+                    if (!inverse) {
+                        propertyCollection = _.union(propertyCollection, globalConfig.defaultProperties);
                     }
                     propertyCollection.forEach(function (property) {
                         property.$range = _.pluck(property.$range, 'id');

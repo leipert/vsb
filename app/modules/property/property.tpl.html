@@ -70,7 +70,8 @@
            ng-hide="property.view" ng-click="vm.toggle('view')"></i>
 
       <!-- Button (Info-Sign) to show more Infos of property on hover -->
-        <i class="fa fa-fw fa-info-circle" ng-if="(property.uri + '.$comment' | translate) !== property.uri + '.$comment'"
+        <i class="fa fa-fw fa-info-circle"
+           ng-if="(property.uri + '.$comment' | translate) !== property.uri + '.$comment'"
            popover="{{property.uri +'.$comment' | translate}}"
            popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
            popover-placement="top"
@@ -79,7 +80,8 @@
     </span>
         <!-- Alias of property -->
         <b>
-            <span class="h5"><b>{{property.alias}}</b></span>
+            <span class="h5"><b>{{property.alias}}<span ng-if="property.type === 'INVERSE_PROPERTY'"
+                                                        class="text-danger">&#x207b;&#x00b9;</span> </b></span>
             <i class="fa fa-edit pointer" ng-click="vm.editAlias = true"></i>
             <small>
                 <small>({{ property.uri | replaceURIsWithPrefixes}})</small>
@@ -115,14 +117,15 @@
 
             <div ng-switch-when="OBJECT_PROPERTY" object-property-dir property="property"></div>
             <div ng-switch-when="NUMBER_PROPERTY" number-property-dir property="property"></div>
-            <div ng-switch-when="STRING_PROPERTY" string-property-dir property="property"></div>
-            <div ng-switch-when="STANDARD_PROPERTY" string-property-dir property="property"></div>
+            <div ng-switch-when="STRING_PROPERTY" string-property-dir property="property"
+                 hide-language="property.uri === '$$uri'"></div>
+            <div ng-switch-when="STANDARD_PROPERTY" string-property-dir property="property"
+                 hide-language="property.uri === '$$uri'"></div>
             <div ng-switch-when="INVERSE_PROPERTY" object-property-dir property="property"></div>
             <div ng-switch-when="DATE_PROPERTY" date-property-dir property="property"></div>
 
             <div ng-switch-default></div>
         </div>
-
         <!-- CSS Trick, because pull-right does not make the container higher -->
         <div class="clearfix"></div>
 
