@@ -52,6 +52,10 @@
                 defaultGraphs = '';
             }
 
+            if(globalConfig.resultURL.indexOf('?') === -1){
+                return globalConfig.resultURL + '?' + format + defaultGraphs + query;
+            }
+
             return globalConfig.resultURL + format + defaultGraphs + query;
         }
 
