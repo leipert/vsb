@@ -20,7 +20,9 @@
         var rdf = jassa.rdf;
         var vocab = jassa.vocab;
         var shownVariables;
+        var blockList;
         var objects = new sparql.VarExprList(), main = '';
+        var aggregates;
 
         function sanitizeAlias(string) {
 
@@ -37,6 +39,22 @@
             return {s: s, p: p, o: o, view: view};
         }
 
+        function translateAggregate(aggregate, subjectAlias, view) {
+            var propertyAlias = sanitizeAlias(subjectAlias + ' ' + aggregate.linkTo);
+            var alias = sanitizeAlias(propertyAlias +  ' ' + aggregate.uri);
+            var s = rdf.NodeFactory.createVar(alias);
+            var p = rdf.NodeFactory.createVar(propertyAlias);
+            var triples = new sparql.ElementTriplesBlock();
+            aggregate.operator = aggregate.operator.replace(/%alias%/g, p);
+            triples.addTriples([new sparql.ElementBind(s, aggregate.operator)]);
+            if (view && !shownVariables.contains(s)) {
+                shownVariables.add(s);
+            }
+            blockList.add(p);
+            //aggregates.addTriples(triples);
+            return triples;
+        }
+
         function translateProperty(property, subjectAlias, subjectView) {
             var alias = sanitizeAlias(subjectAlias + ' ' + property.alias),
                 uri = property.uri,
@@ -48,13 +66,17 @@
             var o = rdf.NodeFactory.createVar(alias);
             var b = o;
             var view = subjectView && property.view;
-            if(uri === '$$uri'){
+            if (type === 'AGGREGATE_PROPERTY') {
+                return translateAggregate(property, subjectAlias, view);
+            }
+            if (uri === '$$uri') {
                 if (property.compare !== null) {
                     property.compare = property.compare.replace(/%before_arithmetic%/g, s).replace(/%after_arithmetic%/g, s);
                     triples.addTriples([new sparql.ElementFilter(property.compare)]);
                 }
                 return triples;
             }
+
             if (type === 'INVERSE_PROPERTY') {
                 r = translateObjectProperty(s, p, o, property.linkTo, view);
                 s = r.o;
@@ -130,6 +152,15 @@
             return ElementTriplesBlock;
         }
 
+        function getProjectVars(){
+            var pVars = new sparql.VarExprList();
+            shownVariables.getVars().forEach(function(pv){
+                if(!blockList.contains(pv)){
+                    pVars.add(pv);
+                }
+            });
+            return pVars;
+        }
 
         /**
          * Function to start translation process, with call to changeURIs for the mockup data
@@ -137,7 +168,9 @@
          * @param json
          */
         factory.translateJSONToSPARQL = function (json) {
+            aggregates = new sparql.ElementTriplesBlock();
             shownVariables = new sparql.VarExprList();
+            blockList = new sparql.VarExprList();
             var query = new sparql.Query(),
                 ElementTriplesBlock = new sparql.ElementTriplesBlock();
             if (json.hasOwnProperty('SUBJECTS')) {
@@ -145,25 +178,29 @@
                     ElementTriplesBlock.addTriples(translateSubject(subject));
                 });
             }
+            //ElementTriplesBlock.addTriples(aggregates);
             query.setQueryPattern(ElementTriplesBlock);
-            query.setProjectVars(shownVariables);
+            query.setProjectVars(getProjectVars());
             query.setDistinct(true);
 
             return query;
         };
 
         factory.translateJSONToSponateMap = function (json) {
-
+            aggregates = new sparql.ElementTriplesBlock();
             objects = new sparql.VarExprList();
             main = '';
 
             shownVariables = new sparql.VarExprList();
+            blockList = new sparql.VarExprList();
             var ElementTriplesBlock = new sparql.ElementTriplesBlock(), r;
             if (json.hasOwnProperty('SUBJECTS')) {
                 json.SUBJECTS.forEach(function (subject) {
                     ElementTriplesBlock.addTriples(translateSubject(subject));
                 });
             }
+
+            //ElementTriplesBlock.addTriples(aggregates);
 
             r = {
                 name: new Date().toISOString(),
@@ -176,7 +213,7 @@
                 from: ElementTriplesBlock.toString()
             };
 
-            shownVariables.getVars().forEach(function (Var) {
+            getProjectVars().getVars().forEach(function (Var) {
                 var key = Var.toString().replace(/^\?/, '');
                 if (objects.contains(Var)) {
                     key = '$' + key;

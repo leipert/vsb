@@ -21,6 +21,9 @@
         factory.getAvailableClasses = getAvailableClasses;
         factory.getMainSubject = getMainSubject;
         factory.getSubjects = getSubjects;
+        factory.getSubjectById = function(id){
+            return _.first(factory.subjects,{$id:id});
+        };
         factory.setMainSubjectWithAlias = setMainSubjectWithAlias;
         factory.linkSubjectWithProperty = linkSubjectWithProperty;
         factory.getGroups = getGroups;

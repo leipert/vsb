@@ -27,12 +27,14 @@
                 return null;
             }
 
-            var linkToPromises = [];
+            var linkSubjectToProperty = [];
 
             json.SUBJECTS.forEach(function (subject) {
                 subject.$copied = true;
                 var properties = subject.properties;
                 delete subject.properties;
+
+                var linkPropertyToAggregate = [];
 
                 subject = SubjectService.addSubject(subject);
 
@@ -41,13 +43,23 @@
                     property.$copied = true;
                     property = subject.addProperty(property);
                     if(property.linkTo){
-                        linkToPromises.push(property);
+                        if(property.type !== 'AGGREGATE_PROPERTY'){
+                            linkSubjectToProperty.push(property);
+                        }else{
+                            linkPropertyToAggregate.push(property);
+                        }
                     }
 
                 });
+                linkPropertyToAggregate.forEach(function(aggregate){
+                    var matching = _.where(subject.$selectedProperties,{alias:aggregate.linkTo});
+                    if(matching.length > 0){
+                        aggregate.linkTo = matching[0];
+                    }
+                });
             });
 
-            linkToPromises.forEach(function(property){
+            linkSubjectToProperty.forEach(function(property){
                 SubjectService.linkSubjectWithProperty(property);
             });
 

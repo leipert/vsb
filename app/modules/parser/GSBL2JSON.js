@@ -57,10 +57,6 @@
                     }
                     return cleanDollarValues(currentProperty);
                 });
-                currentSubject.$selectedAggregates = currentSubject.$selectedAggregates.map(function (currentAggregate) {
-                    return cleanDollarValues(currentAggregate);
-                });
-                currentSubject.properties = currentSubject.properties.concat(currentSubject.$selectedAggregates);
 
                 return cleanDollarValues(currentSubject);
             });

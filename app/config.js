@@ -97,35 +97,58 @@
             fallBackLanguages: ['en'],
             aggregateFunctions: [
                 {
-                    alias: 'cnt',
+                    id: '$$count',
+                    $labels: [{
+                        id: 'default',
+                        value: 'Count'
+                    }],
+                    $comments: [{
+                        id: 'default',
+                        value: 'Counts how often a subject has a certain property.'
+                    }],
                     operator: 'COUNT(%alias%)',
+                    type: 'AGGREGATE_PROPERTY',
                     restrictTo: null
                 },
                 {
-                    alias: 'sum',
-                    operator: 'SUM(%alias%)',
-                    restrictTo: 'NUMBER_PROPERTY'
-                },
-                {
-                    alias: 'min',
-                    operator: 'MIN(%alias%)',
-                    restrictTo: 'NUMBER_PROPERTY'
-                },
-                {
-                    alias: 'max',
-                    operator: 'MAX(%alias%)',
-                    restrictTo: 'NUMBER_PROPERTY'
-                },
-                {
-                    alias: 'avg',
-                    operator: 'AVG(%alias%)',
-                    restrictTo: 'NUMBER_PROPERTY'
-                },
-                {
-                    alias: 'gct',
+                    id: '$$concat',
+                    $labels: [{
+                        id: 'default',
+                        value: 'Concat'
+                    }],
+                    $comments: [{
+                        id: 'default',
+                        value: 'Concats all values of the same property URI.'
+                    }],
                     operator: 'GROUP_CONCAT(%alias%,",")',
+                    type: 'AGGREGATE_PROPERTY',
                     restrictTo: 'STRING_PROPERTY'
-                }
+                },
+                //{
+                //    alias: 'sum',
+                //    operator: 'SUM(%alias%)',
+                //    restrictTo: 'NUMBER_PROPERTY'
+                //},
+                //{
+                //    alias: 'min',
+                //    operator: 'MIN(%alias%)',
+                //    restrictTo: 'NUMBER_PROPERTY'
+                //},
+                //{
+                //    alias: 'max',
+                //    operator: 'MAX(%alias%)',
+                //    restrictTo: 'NUMBER_PROPERTY'
+                //},
+                //{
+                //    alias: 'avg',
+                //    operator: 'AVG(%alias%)',
+                //    restrictTo: 'NUMBER_PROPERTY'
+                //},
+                //{
+                //    alias: 'gct',
+                //    operator: 'GROUP_CONCAT(%alias%,",")',
+                //    restrictTo: 'STRING_PROPERTY'
+                //}
             ],
             endPointQueries: {
                 getDirectProperties: '<%uri%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?class .' +
