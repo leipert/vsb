@@ -1,6 +1,15 @@
 # Graphical SPARQL Builder
 
-TODO: Description
+The Graphical SPARQL Builder (GSB) is a tool which allows users to create and run SPARQL queries with a graphical interface within the browser.
+For the creation of a query basic understanding of linked data is needed.
+
+## Deployment
+
+1. Clone this repository and checkout the `dist` branch (or download a release).
+1. Serve the GSB with an webserver like apache or nginx.
+1. You probably want to configure the GSB for your own endpoint.
+   Therefore you need to create a file named `overwrite.js` in the root folder of your GSB copy.
+   For documentation of the structure of the file, please have a look [here](docs/overwrite.js.md)
 
 ## Development
 
@@ -11,9 +20,3 @@ TODO: Description
 1. Run `bower install`
 1. Run `gulp develop` to see the app running on `http://localhost:8123/`
 1. Happy Development!
-
-## Deployment
-
-1. Run every Development step from above.
-1. If everything is working as expected, run `gulp build` and copy the files from the `/dist` path to your webserver.
-1. Shine and sparkle in joy!

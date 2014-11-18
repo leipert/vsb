@@ -1,12 +1,9 @@
-box: olger/box-yeoman
+box: leipert/ubuntu14.04-webessentials@2.0.1
 # Build definition
 build:
   # The steps that will be executed on build
   steps:
     # A step that executes `npm install` command
-    - script:
-        name: Make sure gulp is installed
-        code: sudo npm install gulp -g
     - script:
         name: Copying config
         code: cp $CONFIG_FILE app/overwrite.js
@@ -33,3 +30,4 @@ deploy:
          repo: leipert/gsb
          branch: dist
          basedir: dist
+         tag: bower
