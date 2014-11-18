@@ -21,6 +21,11 @@
                     }
                 });
         })
+
+        .config(function ($compileProvider) {
+            $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
+        })
+
         .config(function (uiSelectConfig) {
             uiSelectConfig.theme = 'bootstrap';
         })
@@ -54,9 +59,9 @@
                     resolve: {
                         /* @ngInject */
                         JSON: function (TranslatorManager, $timeout) {
-                            return $timeout(function() {
+                            return $timeout(function () {
                                 return TranslatorManager.translateGSBLToSPARQL();
-                            },300);
+                            }, 300);
                         }
                     }
                 },

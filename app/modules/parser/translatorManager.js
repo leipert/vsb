@@ -12,21 +12,6 @@
     function TranslatorManager($log, TranslatorToJSON, TranslatorToGSBL, TranslatorToSPARQL) {
         var factory = {};
 
-
-        /**
-         *  Function initiates JSON-saving
-         *  @param mainSubject
-         *  @param subjects
-         */
-        factory.prepareSaveLink = function (mainSubject, subjects) {
-
-            var json = TranslatorToJSON.translateGSBLToJSON(mainSubject, subjects);
-            var blob = new Blob([json], {type: 'application/json'});
-            document.getElementById('saveLink').href = URL.createObjectURL(blob);
-
-        };
-
-
         /**
          *  Function will load JSON-file as query
          */
