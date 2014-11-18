@@ -23,7 +23,7 @@ deploy:
          gh_token: $GH_TOKEN
          gh_pages: true
          basedir: dist
-         discard_history: true
+         discard_history: false
     - leipert/git-push:
          gh_token: $GH_TOKEN
          host: github.com
@@ -31,3 +31,4 @@ deploy:
          branch: dist
          basedir: dist
          tag: bower
+         tag_overwrite: true
