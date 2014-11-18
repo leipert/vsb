@@ -9,7 +9,7 @@
     angular.module('GSB.parser.GSBL2JSON', ['GSB.config'])
         .factory('TranslatorToJSON', TranslatorToJSON);
 
-    function TranslatorToJSON(globalConfig, $log, $localForage,SubjectService) {
+    function TranslatorToJSON($rootScope, $log, globalConfig, $localForage, SubjectService) {
 
         var cleanDollarValues = function (obj) {
             for (var key in obj) {
@@ -66,6 +66,8 @@
             $localForage.set('current', json).then(function () {
                 $log.debug('Current Workspace saved into localForage');
             });
+
+            $rootScope.$emit('updateJSON', JSON.stringify(json, null, 2));
 
             return JSON.stringify(json, null, 2);
         };

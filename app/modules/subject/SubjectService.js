@@ -106,8 +106,12 @@
         }
 
         function reset() {
-            factory.subjects = [];
+            factory.subjects.forEach(function(subject){
+                removeSubject(subject.$id);
+            });
             factory.x.mainSubject = null;
+            factory.x.groups = [];
+            $log.debug('Workspace reset');
         }
 
         function isAliasUnique(alias) {

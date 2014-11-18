@@ -12,11 +12,9 @@
         "prepush": "gulp"
     },
     "devDependencies": {
-        "husky": "^0.6.1"
-    },
-    "dependencies": {
+        "husky": "^0.6.1",
         "bower": "~1.3.5",
-        "gulp": "~3.8.6",
+        "gulp": "~3.8.10",
         "gulp-less": "^1.3.6",
         "gulp-stack": "~0.0.8"
     }
