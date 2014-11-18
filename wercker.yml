@@ -33,3 +33,4 @@ deploy:
          repo: leipert/gsb
          branch: dist
          basedir: dist
+         tag: bower
