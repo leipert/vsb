@@ -19,14 +19,14 @@ angular.module('GSB.config')
 The `globalConfig.name` property must be set. You can replace `//...` with other config properties you want to overwrite.
 
 ## List of properties
-- `globalConfig.name`name: **mandatory** This name is used for saving queries in the localStorage of the user.
-- `globalConfig.baseURL`: URL for meta queries, where the GSB gets its classes and properties. Default: `https://ssl.leipert.io/sparql`
-- `globalConfig.resultURL`: URL for result queries. (Default): `https://ssl.leipert.io/sparql?timeout=5000&debug=on`
-- (`globalConfig.defaultGraphURIs`)[#defaultGraphURIs]
-- (`globalConfig.prefixes`)[#prefixes]
-- (`globalConfig.endPointQueries`)[#endPointQueries]
-- (`globalConfig.propertyTypeByRange`)[#propertyTypeByRange]
-- (`globalConfig.propertyTypeByType`)[#propertyTypeByType]
+- globalConfig.name: **mandatory** This name is used for saving queries in the localStorage of the user.
+- globalConfig.baseURL: URL for meta queries, where the GSB gets its classes and properties. Default: `https://ssl.leipert.io/sparql`
+- globalConfig.resultURL: URL for result queries. (Default): `https://ssl.leipert.io/sparql?timeout=5000&debug=on`
+- (globalConfig.defaultGraphURIs)[#defaultGraphURIs]
+- (globalConfig.prefixes)[#prefixes]
+- (globalConfig.endPointQueries)[#endPointQueries]
+- (globalConfig.propertyTypeByRange)[#propertyTypeByRange]
+- (globalConfig.propertyTypeByType)[#propertyTypeByType]
 - TODO: defaultProperties, resultFormats, allowedLanguages, fallBackLanguages
 
 
