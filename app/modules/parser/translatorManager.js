@@ -7,42 +7,29 @@
      */
 
     angular.module('GSB.parser', ['GSB.config', 'GSB.parser.GSBL2JSON', 'GSB.parser.GSBL2SPARQL', 'GSB.parser.JSON2GSBL', 'LocalForageModule'])
-        .factory('TranslatorManager', TranslatorManager);
+        .factory('TranslatorManager', TranslatorManager)
+        .directive('jsonreader', jsonreader);
 
-    function TranslatorManager($log, TranslatorToJSON, TranslatorToGSBL, TranslatorToSPARQL) {
-        var factory = {};
-
-        /**
-         *  Function will load JSON-file as query
-         */
-        factory.loadJSON = function () {
-
-            var selectedFile = document.getElementById('uploadJSON').files[0];
-            // Only process JSON-files.
-//        if (!selectedFile.type.match('json.*')) {
-//            alert('Please choose a JSON File.');
-//            return;
-//        }
-
-            var json;
-            var reader = new FileReader();
-            var bfile;
-            reader.onloadend = function (e) {
-                bfile = e.target.result;
-                bfile.trim();
-                json = JSON.parse(bfile);
-
-
-                if (json === null) {
-                    $log.error('JSON is not valid / empty');
-                    return;
-                }
-
-                TranslatorToGSBL.translateJSONToGSBL(json);
-            };
-            reader.readAsBinaryString(selectedFile);
+    function jsonreader(TranslatorToGSBL, SubjectService) {
+        return {
+            link: function (scope, element) {
+                element.bind('change', function (changeEvent) {
+                    var reader = new FileReader();
+                    reader.onload = function (loadEvent) {
+                        element.val(null);
+                        var parsedJSON = JSON.parse(loadEvent.target.result);
+                        SubjectService.reset();
+                        TranslatorToGSBL.translateJSONToGSBL(parsedJSON);
+                    };
+                    reader.readAsText(changeEvent.target.files[0]);
+                });
+            }
         };
 
+    }
+
+    function TranslatorManager($log, TranslatorToJSON, TranslatorToSPARQL) {
+        var factory = {};
 
         /**
          *  Function first calls the factory to translate GSBL to JSON, then the one to translate JSON to SPARQL

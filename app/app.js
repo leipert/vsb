@@ -30,6 +30,7 @@
             uiSelectConfig.theme = 'bootstrap';
         })
         .config(stateProviderConfig);
+
     /* @ngInject */
     function stateProviderConfig($stateProvider, $urlRouterProvider) {
 

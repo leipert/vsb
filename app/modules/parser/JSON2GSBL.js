@@ -15,21 +15,21 @@
         /**
          * Function that takes an uploaded JSON and creates a GSBL query for the representation in GSB
          *
-         * @param json
+         * @param parsedJSON
          * @return Array of all the workspace Content
          */
-        factory.translateJSONToGSBL = function (json) {
+        factory.translateJSONToGSBL = function (parsedJSON) {
 
             $log.debug('Translate JSON to GSBL');
 
-            if (json === null) {
+            if (parsedJSON === null) {
                 $log.error('Empty JSON File');
                 return null;
             }
 
             var linkToPromises = [];
 
-            json.SUBJECTS.forEach(function (subject) {
+            parsedJSON.SUBJECTS.forEach(function (subject) {
                 subject.$copied = true;
                 var properties = subject.properties;
                 delete subject.properties;
@@ -51,7 +51,7 @@
                 SubjectService.linkSubjectWithProperty(property);
             });
 
-            SubjectService.setMainSubjectWithAlias(json.START.linkTo);
+            SubjectService.setMainSubjectWithAlias(parsedJSON.START.linkTo);
 
 
         };

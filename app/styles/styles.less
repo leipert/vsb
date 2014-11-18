@@ -59,7 +59,6 @@ a {
   left: 150px;
 }
 
-
 .addSubjectBox {
   .box();
   padding: 0;
@@ -171,6 +170,16 @@ i.pointer, .icon-list i {
   height: 100%;
   border-right: 2px solid darken(@navigation-bg, 10%);
 
+  #JSONReader {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
   .line-height-mixin() {
     line-height: 44px;
     vertical-align: middle;
@@ -199,6 +208,7 @@ i.pointer, .icon-list i {
     color: @navigation-color;
     height: 66px;
     vertical-align: middle;
+    cursor: pointer;
 
     &-heading {
       line-height: 44px;
@@ -283,7 +293,6 @@ i.pointer, .icon-list i {
   cursor: all-scroll;
 }
 
-
 //Fixes for ui-bootstrap datepicker
 
 .glyphicon.glyphicon-chevron-right,
@@ -299,17 +308,17 @@ i.pointer, .icon-list i {
 .glyphicon.glyphicon-chevron-left:before {
   content: "\f053";
 }
+
 .glyphicon.glyphicon-chevron-right:before {
   content: "\f054";
 
 }
 
-
 //Tooltip for introjs
 
 .introjs-tooltip {
   &.wide {
-    width:650px;
+    width: 650px;
     max-width: 650px;
     min-width: 650px;
   }

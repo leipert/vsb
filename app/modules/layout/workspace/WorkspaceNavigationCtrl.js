@@ -3,22 +3,13 @@
     angular.module('GSB.layout.workspace.navigation', [])
         .controller('WorkspaceNavigationCtrl', WorkspaceNavigationCtrl);
 
-    function WorkspaceNavigationCtrl($scope, $state, $translate, $log, TranslatorManager, SubjectService) {
+    function WorkspaceNavigationCtrl($scope, $state, $translate, $log, SubjectService) {
         var vm = this;
         vm.changeLanguage = function (langKey) {
             $translate.use(langKey);
         };
         vm.translate = function () {
             $state.go('result');
-        };
-
-        /**
-         * Triggers load JSON event
-         */
-        vm.loadJSON = function () {
-            SubjectService.reset();
-            //TODO: Make it work again
-            //TranslatorManager.loadJSON($scope.mainSubject, SubjectService.subjects);
         };
 
         /**
