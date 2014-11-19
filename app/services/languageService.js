@@ -84,6 +84,7 @@
                     RESET_WORKSPACE: 'Reset Workspace',
                     RESULTS: 'Results',
                     RUN_QUERY: 'Run Query',
+                    SEARCH_RELATION: 'To Search a Relation between {{alias}} and another subject, please click on the plug button of this subject.',
                     SELECT_LANGUAGE: 'Select a language',
                     SHOW_PROPERTY: 'show property',
                     SHOW_QUERIES: 'show queries',

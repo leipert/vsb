@@ -233,6 +233,30 @@
             }
         };
 
+        factory.getPossibleRelations = function(uri1,uri2){
+            var storeKey = uri1+uri2;
+            if (!store.hasOwnProperty(storeKey)) {
+                store.addMap({
+                    name: storeKey,
+                    template: [
+                        {
+                            id: '?uri'
+                        }
+                    ],
+                    from: globalConfig.endPointQueries.getPossibleRelation.replace('%uri1%', uri1).replace('%uri2%', uri2)
+                });
+            }
+            var flow = store[storeKey].find();
+            return flow.list()
+                .then(function (propertyCollection) {
+                    propertyCollection =  _(propertyCollection).pluck('val').pluck('id').value();
+                    return propertyCollection;
+                })
+                .catch(function (err) {
+                    $log.error('An error occurred: ', err);
+                });
+        };
+
         return factory;
 
     }

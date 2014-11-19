@@ -1,17 +1,23 @@
 <!-- WORKSPACE, this is where most of the magic happens -->
 <!-- See @js/controllers/main.js -->
-<div ng-mousedown="vm.workspaceMouseDown($event)" ng-mousemove="vm.workspaceMouseMove($event)" ng-mouseup="vm.workspaceMouseUp()"
+<div ng-mousedown="vm.workspaceMouseDown($event)" ng-mousemove="vm.workspaceMouseMove($event)"
+     ng-mouseup="vm.workspaceMouseUp()"
      class="bg-scroll"></div>
 
 <!-- Row containing workspace -->
 <div id="workspace">
     <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
-    <div class="box startPointCSS" id="startpoint">
+    <div class="startPointCSS" id="startpoint">
         <b>{{ 'LIST_ALL' | translate }}</b>
-        <select ng-show="vm.groups.length > 0" ng-model="vm.x.mainSubject" ng-options="s.alias for s in vm.groups | orderBy : 'alias'" title="Main Subject Select"
+        <select ng-show="vm.groups.length > 0" ng-model="vm.x.mainSubject"
+                ng-options="s.alias for s in vm.groups | orderBy : 'alias'" title="Main Subject Select"
                 class="pull-right">
             <option style="display:none" value="">{{ 'PICK_MAIN_SUBJECT' | translate }}</option>
         </select>
+    </div>
+
+    <div class="connectNotification" ng-if="vm.searchSubject">
+        <b> {{'SEARCH_RELATION' | translate:vm.searchSubject}}</b>
     </div>
 
     <!-- See @js/controllers/addSubject.js -->

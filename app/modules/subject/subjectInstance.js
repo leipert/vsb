@@ -40,6 +40,7 @@
         vm.comment = subject.uri + '.$comment';
         vm.removeSubject = removeSubject;
         vm.addProperty = addProperty;
+        vm.searchRelation = searchRelation;
 
         function addProperty() {
             subject.addProperty(vm.propertySelected);
@@ -49,6 +50,10 @@
 
         function removeSubject() {
             SubjectService.removeSubject(subject.$id);
+        }
+
+        function searchRelation(){
+            SubjectService.searchRelation(subject);
         }
 
         $scope.$watch(subject.getAvailableProperties, function (nv) {

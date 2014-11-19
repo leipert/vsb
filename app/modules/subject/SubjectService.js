@@ -13,6 +13,7 @@
         };
         factory.groups = [];
         factory.availableSubjectClasses = [];
+        var searchRelationSubjects = [];
         factory.addSubjectByURI = addSubjectByURI;
         factory.addSubject = addSubject;
         factory.removeSubject = removeSubject;
@@ -21,12 +22,27 @@
         factory.getAvailableClasses = getAvailableClasses;
         factory.getMainSubject = getMainSubject;
         factory.getSubjects = getSubjects;
-        factory.getSubjectById = function(id){
-            return _.first(factory.subjects,{$id:id});
+        factory.getSearchRelationSubjects = getSearchRelationSubjects;
+        factory.getSubjectById = function (id) {
+            return _.where(factory.subjects, {$id: id})[0];
         };
         factory.setMainSubjectWithAlias = setMainSubjectWithAlias;
         factory.linkSubjectWithProperty = linkSubjectWithProperty;
         factory.getGroups = getGroups;
+        factory.searchRelation = searchRelation;
+
+        function getSearchRelationSubjects() {
+            return searchRelationSubjects;
+        }
+
+        function searchRelation(subject) {
+            if (searchRelationSubjects.length === 2) {
+                searchRelationSubjects = [];
+            }
+            if(subject !== null){
+                searchRelationSubjects.push(subject);
+            }
+        }
 
         function getGroups() {
             var groups = connectionService.getGroups();
@@ -109,7 +125,7 @@
         }
 
         function reset() {
-            factory.subjects.forEach(function(subject){
+            factory.subjects.forEach(function (subject) {
                 removeSubject(subject.$id);
             });
             factory.x.mainSubject = null;

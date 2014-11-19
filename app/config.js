@@ -203,7 +203,16 @@
                 getAvailableClasses: '{?uri a rdfs:Class .} UNION {?uri a owl:Class .} .' +
                 'FILTER ( !isBlank(?uri) )' +
                 'OPTIONAL { ?uri rdfs:label ?label . BIND(LANG(?label) AS ?label_loc) } .' +
-                'OPTIONAL { ?uri rdfs:comment ?comment . BIND(LANG(?comment) AS ?comment_loc)} '
+                'OPTIONAL { ?uri rdfs:comment ?comment . BIND(LANG(?comment) AS ?comment_loc)} ',
+                getPossibleRelation: '<%uri1%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?class1 .' +
+                '<%uri2%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?class2 .' +
+                '{ ' +
+                '?uri rdfs:domain ?class1 . ' +
+                '?uri rdfs:range ?class2  .' +
+                '} UNION { ' +
+                '?uri rdfs:domain ?class2 . ' +
+                '?uri rdfs:range ?class1  .' +
+                '}'
             }
         });
 })();

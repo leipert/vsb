@@ -50,6 +50,7 @@ a {
 }
 
 .startPointCSS {
+  .box();
   background: @startpoint-bg-color;
   border-color: @startpoint-border-color;
   color: @startpoint-heading-color;
@@ -57,6 +58,16 @@ a {
   position: fixed;
   top: 66px;
   left: 150px;
+}
+
+.connectNotification {
+  .box();
+  position: fixed;
+  z-index: 10;
+  bottom: 66px;
+  left: 50%;
+  width: 300px;
+  margin-left: -150px;
 }
 
 .addSubjectBox {

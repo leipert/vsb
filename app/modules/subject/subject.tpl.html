@@ -14,10 +14,17 @@
                    popover-placement="right"
                    popover-append-to-body="true"></i>
 
-
                 <!-- Button (Eyes) to show whether a subject will be visible in the result or not. -->
-                <i class="fa fa-fw fa-eye" ng-show="subject.view" ng-click="subject.view = !subject.view"></i>
-                <i class="fa fa-fw fa-eye-slash" ng-hide="subject.view" ng-click="subject.view = !subject.view"></i>
+                <i class="fa fa-fw fa-eye"
+                   ng-click="subject.view = !subject.view"
+                   ng-class="(subject.view)?'fa-eye':'fa-eye-slash'"
+                   popover="{{(subject.view)?'HIDE_SUBJECT':'SHOW_SUBJECT' | translate}}"
+                   popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
+                   popover-placement="right"
+                   popover-append-to-body="true"></i>
+
+                <i class="fa fa-fw fa-plug"
+                        ng-click="vm.searchRelation()"></i>
 
                 <!--Button (Trash-ICON) to remove subject from list @js/controller/main.js-->
                 <i class="fa fa-fw fa-trash-o" ng-click="vm.removeSubject()"></i>
@@ -44,7 +51,7 @@
         </p>
     </div>
 
-     <!--Here there will be the properties of the subject, see @js/controller/property.js-->
+    <!--Here there will be the properties of the subject, see @js/controller/property.js-->
     <div class="subjectBodyCSS">
         <div class="clearfix"></div>
 
@@ -96,7 +103,6 @@
                         <span class="fa fa-plus"></span>
                     </button>
                     </span>
-
 
 
                 </div>
