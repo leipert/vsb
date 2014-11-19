@@ -195,7 +195,7 @@
                         propertyCollection = _.filter(propertyCollection, {id: cleanURI(filterURI)});
                     }
                     if (!inverse) {
-                        propertyCollection = _.union(propertyCollection, globalConfig.defaultProperties);
+                        propertyCollection = _.union([],propertyCollection, globalConfig.defaultProperties,globalConfig.aggregateFunctions);
                     }
                     propertyCollection.forEach(function (property) {
                         property.$range = _.pluck(property.$range, 'id');

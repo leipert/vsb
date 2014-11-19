@@ -11,7 +11,7 @@
 
         $scope.resultData = [];
 
-        $scope.showQueries = false;
+        $scope.showQueries = true;
 
         $scope.resultFormats = globalConfig.resultFormats;
         $scope.currentFormat = globalConfig.resultFormats[0];

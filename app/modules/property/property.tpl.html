@@ -115,6 +115,7 @@
         <div class="propertyFilters" ng-show="property.filterExists && property.hasFilter"
              ng-switch on="property.type">
 
+            <div ng-switch-when="AGGREGATE_PROPERTY" aggregate-property-dir property="property"></div>
             <div ng-switch-when="OBJECT_PROPERTY" object-property-dir property="property"></div>
             <div ng-switch-when="NUMBER_PROPERTY" number-property-dir property="property"></div>
             <div ng-switch-when="STRING_PROPERTY" string-property-dir property="property"
