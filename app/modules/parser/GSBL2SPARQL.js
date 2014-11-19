@@ -41,18 +41,15 @@
 
         function translateAggregate(aggregate, subjectAlias, view) {
             var propertyAlias = sanitizeAlias(subjectAlias + ' ' + aggregate.linkTo);
-            var alias = sanitizeAlias(propertyAlias +  ' ' + aggregate.uri);
+            var alias = sanitizeAlias(propertyAlias + ' ' + aggregate.uri);
             var s = rdf.NodeFactory.createVar(alias);
             var p = rdf.NodeFactory.createVar(propertyAlias);
-            var triples = new sparql.ElementTriplesBlock();
             aggregate.operator = aggregate.operator.replace(/%alias%/g, p);
-            triples.addTriples([new sparql.ElementBind(s, aggregate.operator)]);
             if (view && !shownVariables.contains(s)) {
-                shownVariables.add(s);
+                aggregates.add(s, aggregate.operator);
             }
             blockList.add(p);
-            //aggregates.addTriples(triples);
-            return triples;
+            return [];
         }
 
         function translateProperty(property, subjectAlias, subjectView) {
@@ -152,13 +149,20 @@
             return ElementTriplesBlock;
         }
 
-        function getProjectVars(){
+        function getProjectVars(withoutAggregates) {
             var pVars = new sparql.VarExprList();
-            shownVariables.getVars().forEach(function(pv){
-                if(!blockList.contains(pv)){
-                    pVars.add(pv);
+            shownVariables.entries().forEach(function (pv) {
+                if (!blockList.contains(pv.v)) {
+                    pVars.add(pv.v, pv.expr);
                 }
             });
+            if (!withoutAggregates) {
+                aggregates.entries().forEach(function (pv) {
+                    if (!blockList.contains(pv.v)) {
+                        pVars.add(pv.v, pv.expr);
+                    }
+                });
+            }
             return pVars;
         }
 
@@ -168,7 +172,7 @@
          * @param json
          */
         factory.translateJSONToSPARQL = function (json) {
-            aggregates = new sparql.ElementTriplesBlock();
+            aggregates = new sparql.VarExprList();
             shownVariables = new sparql.VarExprList();
             blockList = new sparql.VarExprList();
             var query = new sparql.Query(),
@@ -178,16 +182,18 @@
                     ElementTriplesBlock.addTriples(translateSubject(subject));
                 });
             }
-            //ElementTriplesBlock.addTriples(aggregates);
             query.setQueryPattern(ElementTriplesBlock);
             query.setProjectVars(getProjectVars());
             query.setDistinct(true);
+            if(aggregates.entries().length > 0){
+                query.groupBy = getProjectVars(true).vars;
+            }
 
             return query;
         };
 
         factory.translateJSONToSponateMap = function (json) {
-            aggregates = new sparql.ElementTriplesBlock();
+            aggregates = new sparql.VarExprList();
             objects = new sparql.VarExprList();
             main = '';
 

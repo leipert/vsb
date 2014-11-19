@@ -24,7 +24,7 @@
                 {
                     name: 'HTML',
                     format: 'text/html'
-                },                {
+                }, {
                     name: 'editable Query',
                     format: 'text/html',
                     qtxt: true
@@ -100,7 +100,7 @@
                     id: '$$count',
                     $labels: [{
                         id: 'default',
-                        value: 'Count'
+                        value: 'Count property'
                     }],
                     $comments: [{
                         id: 'default',
@@ -114,41 +114,72 @@
                     id: '$$concat',
                     $labels: [{
                         id: 'default',
-                        value: 'Concat'
+                        value: 'Concat property'
                     }],
                     $comments: [{
                         id: 'default',
                         value: 'Concats all values of the same property URI.'
                     }],
-                    operator: 'GROUP_CONCAT(%alias%,",")',
+                    operator: 'GROUP_CONCAT(%alias%,", ")',
                     type: 'AGGREGATE_PROPERTY',
-                    restrictTo: 'STRING_PROPERTY'
+                    restrictTo: null
                 },
-                //{
-                //    alias: 'sum',
-                //    operator: 'SUM(%alias%)',
-                //    restrictTo: 'NUMBER_PROPERTY'
-                //},
-                //{
-                //    alias: 'min',
-                //    operator: 'MIN(%alias%)',
-                //    restrictTo: 'NUMBER_PROPERTY'
-                //},
-                //{
-                //    alias: 'max',
-                //    operator: 'MAX(%alias%)',
-                //    restrictTo: 'NUMBER_PROPERTY'
-                //},
-                //{
-                //    alias: 'avg',
-                //    operator: 'AVG(%alias%)',
-                //    restrictTo: 'NUMBER_PROPERTY'
-                //},
-                //{
-                //    alias: 'gct',
-                //    operator: 'GROUP_CONCAT(%alias%,",")',
-                //    restrictTo: 'STRING_PROPERTY'
-                //}
+                {
+                    id: '$$sum',
+                    $labels: [{
+                        id: 'default',
+                        value: 'Sum a property'
+                    }],
+                    $comments: [{
+                        id: 'default',
+                        value: 'Sums up all values a number property.'
+                    }],
+                    operator: 'SUM(%alias%)',
+                    type: 'AGGREGATE_PROPERTY',
+                    restrictTo: 'NUMBER_PROPERTY'
+                },
+                {
+                    id: '$$avg',
+                    $labels: [{
+                        id: 'default',
+                        value: 'Average a property'
+                    }],
+                    $comments: [{
+                        id: 'default',
+                        value: 'Returns the average of a number property.'
+                    }],
+                    operator: 'AVG(%alias%)',
+                    type: 'AGGREGATE_PROPERTY',
+                    restrictTo: 'NUMBER_PROPERTY'
+                },
+                {
+                    id: '$$min',
+                    $labels: [{
+                        id: 'default',
+                        value: 'Get minimum of a property'
+                    }],
+                    $comments: [{
+                        id: 'default',
+                        value: 'Returns the minimum of a number property.'
+                    }],
+                    operator: 'MIN(%alias%)',
+                    type: 'AGGREGATE_PROPERTY',
+                    restrictTo: 'NUMBER_PROPERTY'
+                },
+                {
+                    id: '$$max',
+                    $labels: [{
+                        id: 'default',
+                        value: 'Get maximum of a property'
+                    }],
+                    $comments: [{
+                        id: 'default',
+                        value: 'Returns the maximum of a number property.'
+                    }],
+                    operator: 'MAX(%alias%)',
+                    type: 'AGGREGATE_PROPERTY',
+                    restrictTo: 'NUMBER_PROPERTY'
+                }
             ],
             endPointQueries: {
                 getDirectProperties: '<%uri%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?class .' +
