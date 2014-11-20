@@ -48,6 +48,18 @@
             });
         };
 
+        vm.castProperty = function () {
+            $modal.open({
+                templateUrl: '/modules/modals/castProperty.tpl.html',
+                controller: 'castPropertyCtrl',
+                resolve: {
+                    property: function () {
+                        return property;
+                    }
+                }
+            });
+        };
+
         vm.toggle = function (key) {
             if (property.hasOwnProperty(key)) {
                 property[key] = !property[key];

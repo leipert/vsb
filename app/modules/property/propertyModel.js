@@ -49,7 +49,7 @@
                         $range = _.uniq(_.flatten($range));
                         property.$range = $range;
                     }).then(function () {
-                        if (property.type !== 'INVERSE_PROPERTY' && property.type !== 'AGGREGATE_PROPERTY') {
+                        if (!property.typeCasted && property.type !== 'INVERSE_PROPERTY' && property.type !== 'AGGREGATE_PROPERTY') {
                             property.type = EndPointService.getPropertyType(property);
                         }
                     });
@@ -63,7 +63,9 @@
                             data = data[0];
                             if (!_.isEmpty(data)) {
                                 property.$range = data.$range;
-                                property.type = data.type;
+                                if(!property.typeCasted){
+                                    property.type = data.type;
+                                }
                                 return data.$range;
                             }
                             return null;

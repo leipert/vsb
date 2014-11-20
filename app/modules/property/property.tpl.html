@@ -52,6 +52,11 @@
                         <i class="fa fa-fw fa-plug"></i> {{'ADD_APPROPRIATE_CLASS' | translate}}
                     </a>
                 </li>
+                <li ng-show="property.type !== 'OBJECT_PROPERTY' && property.type !== 'INVERSE_PROPERTY' && property.type !== 'AGGREGATE_PROPERTY'">
+                    <a href="" ng-click="vm.castProperty()">
+                        <i class="fa fa-fw fa-magic"></i> {{'CAST_PROPERTY' | translate}}
+                    </a>
+                </li>
                 <!-- Button (Trash-ICON) to remove property from list @js/controller/property.js -->
                 <li>
                     <a href="" ng-click="vm.removeProperty(property.$id)">
