@@ -23,7 +23,7 @@
         };
     }
 
-    function PropertyInstanceCtrl($scope, SubjectService, connectionService) {
+    function PropertyInstanceCtrl($scope, SubjectService, connectionService, $modal) {
 
         var property = $scope.property;
 
@@ -33,9 +33,21 @@
 
         vm.editAlias = false;
 
-        /**
-         * Changes visibility of a given propertyInst
-         */
+        vm.addAppropriateClass = function () {
+            $modal.open({
+                templateUrl: '/modules/modals/addAppropriateClass.tpl.html',
+                controller: 'addAppropriateClassCtrl',
+                resolve: {
+                    subject: function () {
+                        return SubjectService.getSubjectById(property.subject.$id);
+                    },
+                    property: function () {
+                        return property;
+                    }
+                }
+            });
+        };
+
         vm.toggle = function (key) {
             if (property.hasOwnProperty(key)) {
                 property[key] = !property[key];
@@ -43,7 +55,7 @@
         };
 
         vm.removeProperty = function (id) {
-            _.where(SubjectService.subjects, {$id: property.subject.$id}).forEach(function (subject) {
+            SubjectService.getSubjectById(property.subject.$id).forEach(function (subject) {
                 subject.removeProperty(id);
             });
         };

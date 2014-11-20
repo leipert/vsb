@@ -1,0 +1,41 @@
+<div class="modal-header">
+    <h1 class="modal-title h4">Possible {{property.alias}} of {{subject.alias}}:</h1>
+</div>
+<div class="modal-body">
+    <h2 class="h5">
+        {{subject.alias}}
+        <i class="fa fa-fw " ng-class="arrowClass"></i>
+        {{property.alias}}
+        <i class="fa fa-fw " ng-class="arrowClass"></i>
+        ???
+    </h2>
+
+    <div class="list-group">
+        <a class="list-group-item" ng-class="(selected === subject)?'active':''"
+           ng-repeat="subject in availableSubjects"
+           ng-click="select(subject)">
+            <i class="fa fa-fw fa-question-circle pull-right" style="line-height: 20px"
+               ng-if="(subject.comment | translate) !== subject.comment"
+               popover="{{subject.comment | translate}}"
+               popover-trigger="mouseenter"
+               popover-append-to-body="true"
+                    ></i>
+            {{ subject.label | translate }}
+            <small>({{subject.uri | replaceURIsWithPrefixes}})</small>
+
+        </a>
+    </div>
+    <div ng-if="selected">
+        Do you want to create the class:<br>
+        {{subject.alias}}
+        <i class="fa fa-fw " ng-class="arrowClass"></i>
+        {{property.alias}}
+        <i class="fa fa-fw " ng-class="arrowClass"></i>
+        <b>{{selected.label | translate}}</b>
+        ?
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">Create Class</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

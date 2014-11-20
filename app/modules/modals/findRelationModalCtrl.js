@@ -5,7 +5,7 @@
      * Controller for all subjects.
      */
 
-    angular.module('GSB.modals', ['ui.bootstrap', 'GSB.subject.service'])
+    angular.module('GSB.modals')
         .controller('findRelationModalCtrl', findRelationModalCtrl);
 
     function findRelationModalCtrl($scope, subjects, possibleRelations, SubjectService, $modalInstance) {
@@ -32,11 +32,13 @@
             }
         };
         $scope.ok = function () {
-            var subject = SubjectService.getSubjectById(subjects[$scope.fromIDX].$id);
-            var target = SubjectService.getSubjectById(subjects[$scope.toIDX].$id);
-            var newProperty = subject.addProperty(angular.copy($scope.selected));
-            newProperty.hasFilter = true;
-            newProperty.linkTo = target;
+            if ($scope.selected !== null) {
+                var subject = SubjectService.getSubjectById(subjects[$scope.fromIDX].$id);
+                var target = SubjectService.getSubjectById(subjects[$scope.toIDX].$id);
+                var newProperty = subject.addProperty(angular.copy($scope.selected));
+                newProperty.hasFilter = true;
+                newProperty.linkTo = target;
+            }
             $modalInstance.dismiss();
         };
 

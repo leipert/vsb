@@ -92,7 +92,7 @@
             }
             if (nv.length === 2) {
                 var modalInstance = $modal.open({
-                    templateUrl: 'modules/modals/findRelationModal.tpl.html',
+                    templateUrl: '/modules/modals/findRelationModal.tpl.html',
                     controller: 'findRelationModalCtrl',
                     resolve: {
                         subjects: function () {
