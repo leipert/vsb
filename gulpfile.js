@@ -40,7 +40,6 @@ var bowerCSS = function () {
 
 var gulp = require('gulp-stack').gulp([
         'clean',
-        'test',
         'app',
         'vendor',
         'static',
@@ -50,8 +49,6 @@ var gulp = require('gulp-stack').gulp([
     {
         files: {
             js: ['app/**/*.js', '!app/overwrite.js'],
-            vendor: [],
-            test: [],
             static: staticFiles
         },
         injectInto: {
@@ -74,15 +71,14 @@ gulp.newTask('build', ['html', 'app', 'static', 'vendor']);
 
 gulp.task('dev', ['develop','watch.less','less']);
 
-gulp.task('watch.less',function(){
-    $.watch('app/**/*.less',function(files,cb){
-        gulp.start('less',cb);
+gulp.task('watch.less', ['less'], function(){
+    $.watch('app/**/*.less',function(){
+        gulp.start('less');
     })
 });
 
 gulp.task('less',function(){
-    gulp.src('app/styles/styles.less')
-        .pipe($.plumber())
+    return gulp.src('app/styles/styles.less')
         .pipe($.less())
         .pipe(gulp.dest('app/styles/'));
 });
