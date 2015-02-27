@@ -6,14 +6,14 @@
      *
      */
 
-    angular.module('GSB.parser.GSBL2JSON', ['GSB.config'])
+    angular.module('GSB.parser.GSBL2JSON', ['GSB.config', 'LocalForageModule'])
         .factory('TranslatorToJSON', TranslatorToJSON);
 
     function TranslatorToJSON($rootScope, $log, globalConfig, $localForage, SubjectService) {
 
         var cleanDollarValues = function (obj) {
             for (var key in obj) {
-                if (obj.hasOwnProperty(key) && _.startsWith(key, '$')) {
+                if (obj.hasOwnProperty(key) && (_.startsWith(key, '$') || typeof obj[key] === 'function')) {
                     delete obj[key];
                 }
             }
@@ -63,8 +63,10 @@
 
             json.SUBJECTS = allSubjects;
 
-            $localForage.set('current', json).then(function () {
+            $localForage.setItem('current', json).then(function () {
                 $log.debug('Current Workspace saved into localForage');
+            }, function () {
+                $log.debug('Saving to localForage failed', arguments);
             });
 
             $rootScope.$emit('updateJSON', JSON.stringify(json, null, 2));

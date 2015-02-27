@@ -16,7 +16,7 @@
             //TODO: Move to own SaveStatusFactory
             $localForage.getItem('current')
                 .then(function (data) {
-                    if (data !== null && data.CONFIG === globalConfig.name) {
+                    if (data !== null && data !== undefined && data.CONFIG === globalConfig.name) {
                         TranslatorToGSBL.translateJSONToGSBL(data);
                     }
                 });
