@@ -14,20 +14,20 @@ build:
         code: gulp
     - script:
         name: Copying config
-        code: mkdir -p dist/config && cp -r config/* dist/config/
-
+        code: mkdir -p dist/config && cp -r config/* dist/config/ && cp bower.json dist/
+    - script:
+        name: Delete unneeded files
+        code: ls -A | grep -v dist | xargs rm -rf
 
 deploy:
   steps:
     - leipert/git-push:
-         gh_token: $GH_TOKEN
+         gh_oauth: $GH_TOKEN
          gh_pages: true
          basedir: dist
          discard_history: false
     - leipert/git-push:
-         gh_token: $GH_TOKEN
-         host: github.com
-         repo: leipert/gsb
+         gh_oauth: $GH_TOKEN
          branch: dist
          basedir: dist
          tag: bower
