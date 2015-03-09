@@ -1,6 +1,7 @@
 (function () {
     'use strict';
-    angular.module('VSB.layout.result', [])
+
+    angular.module('VSB.layout.result', [ 'VSB.config'])
         .filter('deepOrderBy', deepOrderBy)
         .controller('ResultCtrl', ResultCtrl);
 

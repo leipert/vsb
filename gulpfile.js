@@ -57,6 +57,8 @@ gulp = require('gulp-stack').gulp(gulp, [
         files: {
             js: ['app/**/*.js', '!app/overwrite.js'],
             watch: '!app/styles/styles.css',
+            vendor: [],
+            test: ['app/**/*.spec.js'],
             static: staticFiles
         },
         injectInto: {
@@ -83,6 +85,10 @@ gulp = require('gulp-stack').gulp(gulp, [
  */
 
 gulp.task('default', ['build', 'jshint']);
+
+gulp.task('build', ['rev']);
+
+gulp.task('dev', ['develop', 'watch.less']);
 
 gulp.task('watch.less', ['less'], function () {
     $.watch('app/**/*.less', function () {
@@ -120,17 +126,17 @@ gulp.task('generateMockPersons', function () {
     var ptemplate = _.template(
         '<%= uri %> a :Person ;rdfs:label "<%= label %>"@de ;' +
         ':name "<%= name %>"; :birthDate "<%= birthDate.format("YYYY-MM-DD") %>>"^^xsd:date ;' +
-        '<%= scion %>'+
-        '<% _.forEach(parents, function(parent) { %>:ancestor <%- parent.uri %>;<% }); %>'+
+        '<%= scion %>' +
+        '<% _.forEach(parents, function(parent) { %>:ancestor <%- parent.uri %>;<% }); %>' +
         ':age <%= age %> .'
     );
-    var persons = _.reduce(generatePeople(3, 3),reducePerson,'');
+    var persons = _.reduce(generatePeople(3, 3), reducePerson, '');
 
     console.warn(persons);
 
 
-    function reducePerson(result,person){
-        return result + '\n' + person.toString() + _.reduce(person.parents,reducePerson,'');
+    function reducePerson(result, person) {
+        return result + '\n' + person.toString() + _.reduce(person.parents, reducePerson, '');
     }
 
     function generatePeople(amount, generations, scion) {
@@ -146,9 +152,9 @@ gulp.task('generateMockPersons', function () {
 
         var birthDate = (scion) ?
             moment(scion.birthDate)
-                .subtract(_.random(16,40),'years')
-                .subtract(_.random(1,12), 'months')
-                .subtract(_.random(0,30), 'days')
+                .subtract(_.random(16, 40), 'years')
+                .subtract(_.random(1, 12), 'months')
+                .subtract(_.random(0, 30), 'days')
             :
             moment(faker.date.past()).subtract(1, 'year');
         var firstName = faker.name.firstName();
@@ -160,7 +166,7 @@ gulp.task('generateMockPersons', function () {
             birthDate: birthDate,
             age: moment().diff(birthDate, 'years'),
             parents: [],
-            scion: (scion) ? ':scion ' + scion.uri+';' : ''
+            scion: (scion) ? ':scion ' + scion.uri + ';' : ''
         };
 
         if (generation > 0) {
@@ -176,3 +182,39 @@ gulp.task('generateMockPersons', function () {
 
 });
 
+var karma = require('karma').server;
+
+
+gulp.task('inject-karma', function () {
+    return gulp.src('./config/karma.conf.js')
+        .pipe($.inject(
+            gulp.src(gulp.options.files.vendor).pipe($.filter('**/*.js')),
+            createKarmaInjectConfig('vendor')
+        ))
+        .pipe($.inject(
+            gulp.src(gulp.options.files.jsNoVendor).pipe($.angularFilesort()),
+            createKarmaInjectConfig('app')
+        ))
+        .pipe(gulp.dest('./'));
+});
+
+
+gulp.task('test', ['inject-karma'], function (done) {
+    karma.start({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true,
+        autoWatch: true
+    }, done);
+});
+
+function createKarmaInjectConfig(suffix) {
+    return {
+        starttag: '//start-' + suffix,
+        endtag: '//end-' + suffix,
+        addRootSlash: false,
+        transform: function (filepath) {
+            return '  "' + filepath + '",';
+
+        }
+    };
+}
