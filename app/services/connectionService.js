@@ -3,7 +3,7 @@
     angular.module('GSB.connectionService', ['GSB.arrowService'])
         .factory('connectionService', connectionService);
 
-    function connectionService($q, ArrowService) {
+    function connectionService($q, ArrowService, $timeout, $rootScope) {
 
         var counter = -1;
 
@@ -16,6 +16,8 @@
 
         var groups = {};
 
+        var destroyWatchers = {};
+
         var factory = {};
         factory.getConnections = getConnections;
         factory.addSubject = addSubject;
@@ -24,11 +26,17 @@
         factory.addPropertyToSubject = addPropertyToSubject;
         factory.generateID = generateID;
         factory.remove = remove;
+        factory.disconnect = disconnect;
         factory.connect = connect;
         factory.updateConnectionLabel = updateConnectionLabel;
         factory.getGroups = getGroups;
+        factory.resetService = function () {
+            ArrowService.resetService();
+            idToScopeMap = {};
+        };
 
         function getGroups() {
+            generateGroups();
             return groups;
         }
 
@@ -43,6 +51,13 @@
 
         function cleanFromMaps(id) {
             return function () {
+                _.forEach(_.invert(connectionMap, true)[id], function (x) {
+                    if (_.isFunction(destroyWatchers[x])) {
+                        destroyWatchers[x](id);
+                    }
+                    delete connectionMap[x];
+                });
+                delete destroyWatchers[id];
                 delete subjectToPropertyMap[id];
                 delete idToScopeMap[id];
                 delete propertyToSubjectMap[id];
@@ -51,12 +66,17 @@
             };
         }
 
+        factory.registerDestroyWatcher = function (id, fn) {
+            destroyWatchers[id] = fn;
+        };
+
         function remove(id) {
+
             var promises = [];
             if (subjectToPropertyMap.hasOwnProperty(id)) {
                 promises = _.map(subjectToPropertyMap[id], function (x) {
                     return disconnect(x).then(cleanFromMaps(x));
-                }).push(disconnect(id).then(cleanFromMaps(id)));
+                }).push(disconnect(id));
             } else {
                 promises.push(disconnect(id).then(cleanFromMaps(id)));
                 subjectToPropertyMap = _.mapValues(subjectToPropertyMap, function (x) {
@@ -70,6 +90,7 @@
             return $q.when(getScopeID(source)).then(function (id) {
                 return ArrowService.deleteAllConnections(id);
             }).then(function (data) {
+
                 delete connectionMap[source];
                 generateGroups();
                 return data;
@@ -77,23 +98,36 @@
         }
 
         function connect(source, target, inverse, label) {
-            return disconnect(source).then(function () {
-                return $q.all({
-                    source: getScopeID(source),
-                    target: getScopeID(target)
-                });
-            })
+
+            var idMap = [];
+
+            return Promise.all([
+                getScopeID(source),
+                getScopeID(target)
+            ])
+                .cancellable()
                 .then(function (ids) {
-                    if (ids.target) {
+                    idMap = ids;
+                    return disconnect(source);
+                })
+                .then(function () {
+                    if (idMap[1]) {
                         connectionMap[source] = target;
                         generateGroups();
                         if (propertyToSubjectMap[source] === target) {
-                            return ArrowService.connectToSelf(ids.source);
+                            return ArrowService.connectToSelf(idMap[0]);
                         } else {
-                            return ArrowService.connect(ids.source, ids.target, label, inverse);
+                            return ArrowService.connect(idMap[0], idMap[1], label, inverse).then(function (connection) {
+                                ArrowService.recalculateOffsets(idMap[0]);
+                                return connection;
+                            });
                         }
                     }
+                })
+                .catch(Promise.CancellationError, function () {
+                    return disconnect(source);
                 });
+
 
         }
 
@@ -137,6 +171,8 @@
 
             var visited = {};
 
+            var oldKeys = _.keys(groups);
+
             groups = {};
 
             neighborMap.forEach(function (n) {
@@ -148,6 +184,14 @@
                     })] = newGroup;
                 }
             });
+
+
+            var diff = _.xor(oldKeys, _.keys(groups));
+
+            if (diff.length > 0) {
+                $rootScope.$emit('connectionGroupsChanged');
+            }
+
 
         }
 
@@ -161,10 +205,17 @@
         }
 
         function getScopeID(id) {
+
             if (id === 'startpoint') {
-                return id;
+                return $q.when(id);
             }
-            return idToScopeMap[id];
+            if (idToScopeMap[id]) {
+                return $q.when(idToScopeMap[id]);
+            } else {
+                return $timeout(function () {
+                    return getScopeID(id);
+                }, 150);
+            }
         }
 
         function addPropertyToSubject(subjectID, propertyID) {

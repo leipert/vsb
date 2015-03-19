@@ -114,8 +114,9 @@
                 }
 
             } else {
+
                 /*jshint camelcase: false */
-                triples.addTriples([new sparql.ElementFilter(new sparql.E_NotExists(new rdf.Triple(s, p, o)))]);
+                triples.addTriples([new sparql.ElementFilter( 'NOT EXISTS {' + (new rdf.Triple(s, p, o).toString() + '}'))]);
                 /*jshint camelcase: true */
             }
 

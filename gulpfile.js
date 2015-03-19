@@ -18,7 +18,7 @@ var staticFiles = [
         name: 'fonts',
         folder: 'dist/fonts',
         src: '$vendor',
-        filter: ['{f,F}ont*.{otf,eot,svg,ttf,woff}']
+        filter: ['{f,F}ont*.{otf,eot,svg,ttf,woff,woff2}']
     },
     {
         name: 'images',

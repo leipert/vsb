@@ -42,24 +42,24 @@
 
                     property.$copied = true;
                     property = subject.addProperty(property);
-                    if(property.linkTo){
-                        if(property.type !== 'AGGREGATE_PROPERTY'){
+                    if (property.linkTo) {
+                        if (property.type !== 'AGGREGATE_PROPERTY') {
                             linkSubjectToProperty.push(property);
-                        }else{
+                        } else {
                             linkPropertyToAggregate.push(property);
                         }
                     }
 
                 });
-                linkPropertyToAggregate.forEach(function(aggregate){
-                    var matching = _.where(subject.$selectedProperties,{alias:aggregate.linkTo});
-                    if(matching.length > 0){
+                linkPropertyToAggregate.forEach(function (aggregate) {
+                    var matching = _.where(subject.$selectedProperties, {alias: aggregate.linkTo});
+                    if (matching.length > 0) {
                         aggregate.linkTo = matching[0];
                     }
                 });
             });
 
-            linkSubjectToProperty.forEach(function(property){
+            linkSubjectToProperty.forEach(function (property) {
                 SubjectService.linkSubjectWithProperty(property);
             });
 

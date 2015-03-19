@@ -11,7 +11,7 @@
                 filterExists: true,
                 hasFilter: false,
                 compareRaw: {},
-                link: null,
+                linkTo: null,
                 view: true,
                 optional: false,
                 arithmetic: null,
@@ -24,16 +24,8 @@
 
 
             if (!property.alias) {
-                $translate(property.uri + '.$label').then(function (label) {
-                    var alias = label;
-
-                    /* TODO: Make subject alias unique
-                     var  c = 1;
-                     while ($scope.doesAliasExist(alias)) {
-                     alias = label + '_' + c;
-                     c += 1;
-                     }
-                     */
+                //TODO: Unique
+                $translate(property.uri + '.$label').then(function (alias) {
                     property.alias = alias;
                 });
             }

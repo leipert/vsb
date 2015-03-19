@@ -3,13 +3,12 @@
     angular.module('GSB.subject.model', ['GSB.endPointService', 'pascalprecht.translate', 'GSB.connectionService'])
         .factory('Subject', SubjectConstructor);
 
-    function SubjectConstructor(EndPointService, $log, $translate, $filter, Property, connectionService) {
+    function SubjectConstructor(EndPointService, $log, $translate, helperFunctions, $q, Property, connectionService, translationCacheService) {
         return function (data) {
             var subject = {
                 uri: null,
                 pos: {},
                 view: true,
-                $availableProperties: [],
                 $classURIs: [],
                 $id: null,
                 $selectedProperties: []
@@ -39,14 +38,45 @@
                 });
             }
 
-            function getAvailableProperties() {
-                var newValues = [];
-                subject.$availableProperties.forEach(function (c) {
-                    c.comment = c.uri + '.$comment';
-                    c.label = c.uri + '.$label';
-                    newValues.push(c);
+            function getAvailableProperties(filter, limit) {
+
+
+                var customFilters = {
+                    pre: function (array, searchTerm) {
+
+                        if (!_.isArray(array) || !_.isString(searchTerm) || _.isEmpty(searchTerm)) {
+                            return {};
+                        }
+
+                        var types = _(array).pluck('type').uniq()
+                            .map(function (type) {
+                                return type.toLowerCase().replace('_property', '');
+                            }).value();
+
+                        var searchRegex = new RegExp(':(' + _.map(types, _.escapeRegExp).join('|') + ')(?=\\s+|$)', 'ig');
+
+                        if (!searchTerm.match(searchRegex)) {
+                            return {};
+                        }
+
+                        var classToken = _.words(searchTerm, searchRegex)[0]
+                                .toUpperCase().replace(':', '') + '_PROPERTY';
+
+                        return {
+                            array: _.where(array, {type: classToken}),
+                            filter: searchTerm.replace(searchRegex,'')
+                        };
+                    },
+                    post: function (array) {
+                        return {
+                            array: _.sortBy(array, 'type')
+                        };
+                    }
+                };
+
+                return translationCacheService.getFromCache('availableProperties' + subject.$id).then(function (classes) {
+                    return helperFunctions.filterByTokenStringWithLimit(classes, filter, limit, customFilters);
                 });
-                return $filter('translateAndSortLocalizedObjectArrayByKey')(newValues, 'label');
             }
 
             EndPointService.getSuperAndEqClasses(subject.uri)
@@ -58,37 +88,33 @@
                     $log.error(error);
                 });
 
-            EndPointService.getDirectProperties(subject.uri)
-                .then(function (properties) {
-                    $log.debug('PROPERTIES (direkt) loaded for ' + subject.uri, properties);
-                    $translate.refresh();
-                    subject.$availableProperties = _.union(subject.$availableProperties, properties);
-                })
+            var getDirectProperties = EndPointService.getDirectProperties(subject.uri)
+                //.then(function (properties) {
+                //    $log.debug('PROPERTIES (direkt) loaded for ' + subject.uri, properties);
+                //    subject.$availableProperties = _.union(subject.$availableProperties, properties);
+                //})
                 .catch(function (err) {
                     $log.error('An error occurred: ', err);
+                    return [];
                 });
 
-            EndPointService.getInverseProperties(subject.uri)
-                .then(function (properties) {
-                    $log.debug('PROPERTIES (inverse) loaded for ' + subject.uri, properties);
-                    $translate.refresh();
-                    subject.$availableProperties = _.union(subject.$availableProperties, properties);
-                })
+            var getInverseProperties = EndPointService.getInverseProperties(subject.uri)
+                //.then(function (properties) {
+                //    $log.debug('PROPERTIES (inverse) loaded for ' + subject.uri, properties);
+                //    subject.$availableProperties = _.union(subject.$availableProperties, properties);
+                //})
                 .catch(function (err) {
                     $log.error('An error occurred: ', err);
+                    return [];
                 });
+
+            subject.loading = $q.all([getDirectProperties, getInverseProperties]).then(function (properties) {
+                properties = _.flatten(properties);
+                translationCacheService.putInCache('availableProperties' + subject.$id, 'property', properties);
+            });
 
             if (!subject.alias) {
-                $translate(subject.uri + '.$label').then(function (label) {
-                    var alias = label;
-
-                    /* TODO: Make subject alias unique
-                     var  c = 1;
-                     while ($scope.doesAliasExist(alias)) {
-                     alias = label + '_' + c;
-                     c += 1;
-                     }
-                     */
+                $translate(subject.uri + '.$label').then(function (alias) {
                     subject.alias = alias;
                 });
             }

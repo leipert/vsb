@@ -31,27 +31,50 @@
 
         var vm = this;
 
+        var property = $scope.property;
+
+        var inverse = (property.type === 'INVERSE_PROPERTY');
+
         vm.subjects = SubjectService.subjects;
 
-        var property = $scope.property;
+
+        connectionService.registerDestroyWatcher(property.$id,function(id){
+            if(property.linkTo.$id.toString() === id.toString()){
+                property.linkTo = undefined;
+            }
+        });
 
         function setLastConnection(connection) {
             lastConnection = connection;
         }
 
         $scope.$watch('property.alias', function (nv) {
+            if(inverse){
+                nv = angular.copy(nv) + '⁻¹';
+            }
             connectionService.updateConnectionLabel(lastConnection, nv);
+        });
+
+        $scope.$watch('property.hasFilter', function (nv) {
+            if (lastConnection !== null) {
+                if (!nv) {
+                    property.linkTo = undefined;
+                }
+            }
         });
 
         $scope.$watch('property.linkTo', function (nv) {
             var source = angular.copy(property.$id),
                 target,
-                connectionLabel = property.alias,
-                inverse = (property.type === 'INVERSE_PROPERTY');
+                connectionLabel = inverse? property.alias + '⁻¹' : property.alias;
+
             if (nv !== undefined && nv !== null) {
                 target = angular.copy(nv.$id);
+                connectionService.connect(source, target, inverse, connectionLabel).then(setLastConnection);
+            } else {
+                connectionService.disconnect(source);
+                lastConnection = null;
             }
-            connectionService.connect(source, target, inverse, connectionLabel).then(setLastConnection);
         });
 
     }

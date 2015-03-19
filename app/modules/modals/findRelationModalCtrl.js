@@ -9,14 +9,37 @@
         .controller('findRelationModalCtrl', findRelationModalCtrl);
 
     function findRelationModalCtrl($scope, subjects, possibleRelations, SubjectService, $modalInstance) {
+
+        $scope.search = {};
+
         $scope.subjects = _.cloneDeep(subjects);
-        $scope.subjects[0].$availableProperties = filterPropertyCollection(subjects[0].$availableProperties);
-        $scope.subjects[1].$availableProperties = filterPropertyCollection(subjects[1].$availableProperties);
+        $scope.subjects[0].$availableProperties = [];
+        // filterPropertyCollection(subjects[0].$availableProperties);
+        $scope.subjects[1].$availableProperties = [];
+        // filterPropertyCollection(subjects[1].$availableProperties);
+
+        subjects[0].getAvailableProperties(':object', null)
+            .then(filterPropertyCollection)
+            .then(function (availableProperties) {
+                $scope.subjects[0].$availableProperties = availableProperties;
+            });
+
+        subjects[1].getAvailableProperties(':object', null)
+            .then(filterPropertyCollection)
+            .then(function (availableProperties) {
+                $scope.subjects[1].$availableProperties = availableProperties;
+            });
+
+
         if ($scope.subjects[0].$id === $scope.subjects[1].$id) {
             $scope.dontShowSecond = true;
         }
         $scope.subject1 = subjects[0].alias;
         $scope.subject2 = subjects[1].alias;
+
+        subjects[0].$searchRelation = false;
+        subjects[1].$searchRelation = false;
+
 
         $scope.selected = null;
         $scope.fromIDX = null;
@@ -44,9 +67,9 @@
 
         $scope.cancel = $modalInstance.dismiss;
 
-        function filterPropertyCollection(propertyCollection) {
-            return _(propertyCollection)
-                .where({type: 'OBJECT_PROPERTY'})
+        function filterPropertyCollection(data) {
+
+            return _(data.items)
                 .filter(function (value) {
                     return _.contains(possibleRelations, value.uri);
                 })

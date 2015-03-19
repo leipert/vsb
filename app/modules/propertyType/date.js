@@ -7,7 +7,7 @@
      * which will be replaced with the contents of template/date.html
      */
 
-    angular.module('GSB.propertyType.date', ['ui.bootstrap'])
+    angular.module('GSB.propertyType.date', ['zenubu.ngStrap'])
         .directive('datePropertyDir', datePropertyDir);
     function datePropertyDir() {
         return {
@@ -58,6 +58,15 @@
                 f: 'xsd:dateTime(%after_arithmetic%) < "%input_start_of_day%"^^xsd:dateTime'
             }
         ];
+
+        vm.dropdown = _.map(vm.allowedDateComparisons,function(comp,key){
+            return {
+                click: function () {
+                    vm.changeDateComparison(key);
+                },
+                template: '{{ "'+ comp.label + '" | translate}}'
+            };
+        });
 
         vm.getDateComparisonLabel = function (key) {
             return vm.allowedDateComparisons[key].label;

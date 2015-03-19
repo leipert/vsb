@@ -1,0 +1,13 @@
+<ul tabindex="-1" class="dropdown-menu" role="menu" ng-controller="DropdownCtrl as vm">
+    <li role="presentation"
+        ng-repeat="item in content"
+        ng-class="{divider: item.divider}"
+        ng-click="vm.execute(item)"
+        ng-hide="vm.hide(item)"
+        ng-show="vm.show(item)"
+            >
+        <a ng-if="item.template" compile="item.template"></a>
+        <a ng-if="item.templateArray && !vm.model[item.field]" compile="item.templateArray[0]"></a>
+        <a ng-if="item.templateArray && vm.model[item.field]" compile="item.templateArray[1]"> </a>
+    </li>
+</ul>

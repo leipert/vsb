@@ -18,8 +18,9 @@
                     reader.onload = function (loadEvent) {
                         element.val(null);
                         var parsedJSON = JSON.parse(loadEvent.target.result);
-                        SubjectService.reset();
-                        TranslatorToGSBL.translateJSONToGSBL(parsedJSON);
+                        SubjectService.reset().then(function(){
+                            TranslatorToGSBL.translateJSONToGSBL(parsedJSON);
+                        });
                     };
                     reader.readAsText(changeEvent.target.files[0]);
                 });

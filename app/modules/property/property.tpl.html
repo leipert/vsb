@@ -1,105 +1,47 @@
 <div class="propertyCSS" ng-class="property.filterExists ? '' : 'notExists'" id="{{$id}}">
     <!-- Template for property directive -->
     <!-- Top of a property -->
-    <div class="propertyHeadCSS">
-        <p>
+    <div class="propertyHeadCSS" style="padding-top: 10px;padding-bottom: 10px">
+        <span class="pull-right icon-list">
 
-        <div class="dropdown pull-right icon-list" on-toggle="toggled(open)">
-            &nbsp;<i class="fa fa-fw fa-ellipsis-h dropdown-toggle"></i>
-            <ul class="dropdown-menu" role="menu">
-                <li ng-show="property.filterExists && property.hasFilter">
-                    <a href="" ng-click="vm.toggle('hasFilter')">
-                        <i class="fa fa-fw fa-filter"></i> {{'REMOVE_FILTER' | translate}}
-                    </a>
-                </li>
-                <li ng-show="property.filterExists && !property.hasFilter">
-                    <a href="" ng-click="vm.toggle('hasFilter')">
-                        <i class="fa fa-fw fa-filter"></i> {{'ADD_FILTER' | translate}}
-                    </a>
-                </li>
-                <li ng-show="property.filterExists">
-                    <a href="" ng-click="vm.toggle('filterExists')">
-                        <i class="fa fa-fw fa-square-o"></i> {{'EXISTS_NOT' | translate}}
-                    </a>
-                </li>
-                <li ng-hide="property.filterExists">
-                    <a href="" ng-click="vm.toggle('filterExists')">
-                        <i class="fa fa-fw fa-check-square-o"></i> {{'EXISTS' | translate}}
-                    </a>
-                </li>
-                <li ng-show="property.filterExists && !property.optional">
-                    <a href="" ng-click="vm.toggle('optional')">
-                        <i class="fa fa-fw fa-question-circle"></i> {{'IS_OPTIONAL' | translate}}
-                    </a>
-                </li>
-                <li ng-show="property.filterExists && property.optional">
-                    <a href="" ng-click="vm.toggle('optional')">
-                        <i class="fa fa-fw fa-exclamation-circle"></i> {{'IS_MANDATORY' | translate}}
-                    </a>
-                </li>
-                <li ng-hide="property.view">
-                    <a href="" ng-click="vm.toggle('view')">
-                        <i class="fa fa-fw fa-eye"></i> {{'SHOW_PROPERTY' | translate}}
-                    </a>
-                </li>
-                <li ng-show="property.view">
-                    <a href="" ng-click="vm.toggle('view')">
-                        <i class="fa fa-fw fa-eye-slash"></i> {{'HIDE_PROPERTY' | translate}}
-                    </a>
-                </li>
-                <li ng-show="property.type === 'OBJECT_PROPERTY' || property.type === 'INVERSE_PROPERTY'">
-                    <a href="" ng-click="vm.addAppropriateClass()">
-                        <i class="fa fa-fw fa-plug"></i> {{'ADD_APPROPRIATE_CLASS' | translate}}
-                    </a>
-                </li>
-                <li ng-show="property.type !== 'OBJECT_PROPERTY' && property.type !== 'INVERSE_PROPERTY' && property.type !== 'AGGREGATE_PROPERTY'">
-                    <a href="" ng-click="vm.castProperty()">
-                        <i class="fa fa-fw fa-magic"></i> {{'CAST_PROPERTY' | translate}}
-                    </a>
-                </li>
-                <!-- Button (Trash-ICON) to remove property from list @js/controller/property.js -->
-                <li>
-                    <a href="" ng-click="vm.removeProperty(property.$id)">
-                        <i class="fa fa-fw fa-trash-o"></i> {{'DELETE_PROPERTY' | translate}}
-                    </a>
-                </li>
-            </ul>
+            <i class="fa fa-square-o fa-fw"
+               ng-if="!property.filterExists"
+               ng-click="vm.toggle('filterExists')"></i>
 
-        </div>
-          <span class="pull-right icon-list">
+            <i class="fa fa-fw fa-question-circle"
+               ng-if="property.filterExists && property.optional"
+               ng-click="vm.toggle('optional')"></i>
 
-        <i class="fa fa-square-o fa-fw"
-           ng-hide="property.filterExists"
-           ng-click="vm.toggle('filterExists')"></i>
-        <i class="fa fa-fw fa-question-circle"
-           ng-show="property.filterExists && property.optional"
-           ng-click="vm.toggle('optional')"></i>
+            <!-- Button (Eyes) to show whether a property will be visible in the result or not. -->
+            <i class="fa fa-fw fa-eye-slash"
+               ng-if="!property.view" ng-click="vm.toggle('view')"></i>
 
-        <!-- Button (Eyes) to show whether a property will be visible in the result or not. -->
-        <i class="fa fa-fw fa-eye-slash"
-           ng-hide="property.view" ng-click="vm.toggle('view')"></i>
+            <!-- Button (Info-Sign) to show more Infos of property on hover -->
+             <popover-wrap ng-if="property.comment"
+                           data-settings="{ class: 'fa fa-fw fa-info-circle', content: property.comment }"
+                     ></popover-wrap>
 
-      <!-- Button (Info-Sign) to show more Infos of property on hover -->
-        <i class="fa fa-fw fa-info-circle"
-           ng-if="(property.uri + '.$comment' | translate) !== property.uri + '.$comment'"
-           popover="{{property.uri +'.$comment' | translate}}"
-           popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
-           popover-placement="top"
-           popover-append-to-body="true"></i>
+               <i class="fa fa-fw fa-ellipsis-h"
+                  data-container="body"
+                  bs-dropdown="vm.dropdownConfig"
+                  bs-model="property">
+               </i>
 
-    </span>
+        </span>
         <!-- Alias of property -->
         <b>
-            <span class="h5"><b>{{property.alias}}<span ng-if="property.type === 'INVERSE_PROPERTY'"
-                                                        class="text-danger">&#x207b;&#x00b9;</span> </b></span>
+            <span class="h5"><b>{{property.alias}}
+                <span ng-if="property.type === 'INVERSE_PROPERTY'"
+                      class="text-danger">&#x207b;&#x00b9;</span> </b>
+            </span>
             <i class="fa fa-edit pointer" ng-click="vm.editAlias = true"></i>
             <small>
-                <small>({{ property.uri | replaceURIsWithPrefixes}})</small>
+                <small>({{ ::property.uri | replaceURIsWithPrefixes}})</small>
             </small>
         </b>
-        </p>
+
         <!--Input for changing the Alias:-->
-        <div class="input-group" ng-show="vm.editAlias">
+        <div class="input-group" ng-show="vm.editAlias" style="padding-top: 10px">
 
             <input type="text" size="30" maxlength="40"
                    class="form-control" placeholder="Alias"

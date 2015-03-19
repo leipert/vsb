@@ -24,7 +24,7 @@
         };
     }
 
-    function StringPropertyCtrl($scope, $http, globalConfig) {
+    function StringPropertyCtrl($scope, globalConfig) {
 
         var property = $scope.property;
 
@@ -66,6 +66,22 @@
                 showFlags: true
             }
         ];
+
+        vm.dropdown = _.map(vm.allowedStringComparisons,function(comp,key){
+            return {
+                click: function () {
+                    vm.changeStringComparison(key);
+                },
+                template: '{{ "'+ comp.label + '" | translate}}'
+            };
+        });
+
+        vm.dropdown.unshift({
+            click: function () {
+                vm.changeStringComparison(null);
+            },
+            template: '{{ "NO_COMPARISON" | translate }}'
+        });
 
         vm.allowedLanguages = globalConfig.allowedLanguages;
 

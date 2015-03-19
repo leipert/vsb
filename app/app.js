@@ -9,6 +9,7 @@
         'GSB.subject',
         'GSB.mainCtrl',
         'GSB.language',
+        'pascalprecht.translate',
         'ui.router'
     ])
         .run(function ($localForage, globalConfig, TranslatorToGSBL) {
@@ -25,11 +26,21 @@
         .config(function ($compileProvider) {
             $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
         })
+        .config(stateProviderConfig)
+        .run(function($rootScope, $state) {
 
-        .config(function (uiSelectConfig) {
-            uiSelectConfig.theme = 'bootstrap';
-        })
-        .config(stateProviderConfig);
+            var unRegisterEventWatch = $rootScope.$on( '$stateChangeStart', function(e, toState) {
+
+                if(toState.name === 'workspace'){
+                    unRegisterEventWatch();
+                    return;
+                }
+
+                e.preventDefault();
+                $state.go('workspace');
+
+            });
+        });
 
     /* @ngInject */
     function stateProviderConfig($stateProvider, $urlRouterProvider) {

@@ -3,7 +3,7 @@
     angular.module('GSB.arrowService', ['GSB.config'])
         .factory('ArrowService', ArrowService);
 
-    function ArrowService($q) {
+    function ArrowService($q, $log) {
 
         var instance = null;
 
@@ -18,6 +18,7 @@
                 return $q.when(jsPlumb.ready(function () {
                     instance = jsPlumb.getInstance({
                         Endpoint: ['Dot', {cssClass: 'hidden'}],
+                        //Endpoint: ['Dot', {}],
                         ConnectionOverlays: [
                             ['Arrow', {
                                 location: 1,
@@ -46,8 +47,30 @@
 
         }
 
+        var anchors = [];
+
+        for (var y = 0; y <= 1; y += 1) {
+            for (var x = 0; x <= 1; x += 0.125) {
+                var dx = 0;
+                var offset = 0;
+                dx = (x === 0) ? -1 : dx;
+                dx = (x === 1) ? 1 : dx;
+                if(dx !== 0){
+                    offset = (y === 0)? 20 : offset;
+                    offset = (y === 1)? -20 : offset;
+                }
+                anchors.push([x, y, dx, 0, 0, offset]);
+            }
+        }
+
         return {
+            makeDraggable: function (target, options) {
+                return getInstance().then(function (instance) {
+                    return instance.draggable(target, options);
+                });
+            },
             connectToSelf: function (source) {
+                source = source.toString();
                 return getInstance().then(function (instance) {
                     return instance.connect({
                         source: source,
@@ -66,40 +89,35 @@
                     });
                 });
             },
-            connect: function (source, target, label, inverse) {
+            connect: function (source, target, label) {
+                $log.debug('connect', source, target, label);
+                source = source.toString();
+                target = target.toString();
                 return getInstance().then(function (instance) {
-                    if (inverse) {
-                        return instance.connect({
-                            source: target,
-                            target: source,
-                            cssClass: 'connector',
-                            anchors: ['Continuous', ['Continuous', {faces: ['left', 'right']}]],
-                            connector: 'Bezier',
-                            parameters: {
-                                label: label
-                            }
-                        });
-                    }
-                    return instance.connect({
+                    var connection = instance.connect({
                         source: source,
                         target: target,
                         cssClass: 'connector',
-                        anchors: [['Continuous', {faces: ['left', 'right']}], 'Continuous'],
+                        endpoints: [['Dot', {cssClass: 'property-endpoint'}], ['Dot', {cssClass: 'hidden'}]],
+                        anchors: [['Continuous', {faces: ['left', 'right']}], anchors],
                         connector: 'Bezier',
                         parameters: {
                             label: label
                         }
                     });
+                    instance.repaintEverything();
+                    return connection;
                 });
-            },
-            repaint: function (id) {
-                return getInstance().then(function (instance) {
-                    return instance.repaint(id);
-                });
-            },
-            repaintEverything: function () {
+            }, repaintEverything: function () {
                 return getInstance().then(function (instance) {
                     return instance.repaintEverything();
+                });
+            },
+
+            repaint: function (id) {
+                id = id.toString();
+                return getInstance().then(function (instance) {
+                    return instance.repaint(id);
                 });
             },
             detach: function (connection) {
@@ -109,18 +127,14 @@
                     }
                 });
             },
-            setVisibilityForAllConnection: function (visibility) {
-                return getInstance().then(function (instance) {
-                    angular.forEach(instance.getAllConnections(), function (connection) {
-                        connection.setVisible(visibility);
-                    });
-                });
-            },
             deleteAllConnections: function (id) {
+                id = id.toString();
                 return getInstance().then(function (instance) {
-                    if(id !== null){
+                    instance.setSuspendDrawing(true);
+                    if (id !== null) {
                         instance.removeAllEndpoints(id);
                     }
+                    instance.setSuspendDrawing(false);
                     return instance.repaintEverything();
                 });
             },
@@ -129,7 +143,17 @@
                     return connection.getOverlay('label').setLabel(label);
                 }
             },
+            recalculateOffsets: function (id) {
+                id = id.toString();
+                return getInstance().then(function (instance) {
+                    instance.recalculateOffsets(id);
+                });
+            },
             resetService: function () {
+                if (instance !== null) {
+                    instance.cleanupListeners();
+                    instance.reset();
+                }
                 instance = null;
             }
 

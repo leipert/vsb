@@ -20,8 +20,8 @@
             steps:[
                 {
                     element: document.querySelector('sadnavigation'),
-                    intro: '<h1>Graphical SPARQL Builder Hilfe</h1>' +
-                    '<p>Der Graphical SPARQL Builder....</p>' +
+                    intro: '<h1>Visual SPARQL Builder Hilfe</h1>' +
+                    '<p>Der Visual SPARQL Builder....</p>' +
                     '<p>Zum Start der Tour, bitte auf weiter klicken.</p>',
                     tooltipClass: 'wide'
 
@@ -33,17 +33,12 @@
                 {
                     element: '#navigation',
                     intro: '<h2>Navigation</h2>' +
-                    '<p>Lorem IPSUM</p>',
+                    '<p>Here will be an explanation for the tour</p>',
                     position: 'right'
                 },
                 {
-                    element: '#step4',
-                    intro: 'Another step.',
-                    position: 'bottom'
-                },
-                {
-                    element: '#step5',
-                    intro: 'Get it, use it.'
+                    intro: 'This is it for now.',
+                    position: 'Future implementations will hold more helpful information'
                 }
             ],
             showBullets: true,

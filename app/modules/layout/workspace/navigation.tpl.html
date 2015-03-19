@@ -13,15 +13,15 @@
         <input type="file" id="JSONReader" name="JSONReader" jsonreader/>
         <span class="list-group-item-description">{{ 'LOAD_JSON' | translate }}</span>
     </span>
-    <a class="list-group-item" ng-click="CallMe(2)">
+    <a class="list-group-item" ng-click="CallMe(1)">
         <i class="fa fa-fw fa-3x fa-question"></i>
         <span class="list-group-item-description">{{ 'HELP' | translate }}</span>
     </a>
     <a class="list-group-item">
         <i class="fa fa-fw fa-3x fa-language"></i>
         <span class="list-group-item-description">
-            <button ng-click="vm.changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
-            <button ng-click="vm.changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+            <button ng-click="vm.changeLanguage('de')" translate="BUTTON_LANG_DE" class="btn btn-sm btn-primary"></button>
+            <button ng-click="vm.changeLanguage('en')" translate="BUTTON_LANG_EN" class="btn btn-sm btn-primary"></button>
         </span>
     </a>
 </div>

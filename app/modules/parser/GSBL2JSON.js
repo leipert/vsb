@@ -46,8 +46,7 @@
             allSubjects.map(function (currentSubject) {
                 currentSubject.properties = currentSubject.$selectedProperties.map(function (currentProperty) {
                     if (currentProperty.type !== 'STANDARD_PROPERTY') {
-                        if (currentProperty.hasOwnProperty('linkTo') &&
-                            currentProperty.linkTo !== null && currentProperty.linkTo.hasOwnProperty('alias')) {
+                        if (_.isObject(currentProperty.linkTo) && currentProperty.linkTo.hasOwnProperty('alias')) {
                             currentProperty.linkTo = currentProperty.linkTo.alias;
                         } else {
                             currentProperty.linkTo = null;

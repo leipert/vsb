@@ -1,33 +1,37 @@
-<div class="subjectCSS box" id="{{$id}}">
+<div class="subjectCSS" id="{{ ::$id }}" >
     <!-- Template for subject directive -->
     <!--Head of a subject includes the label, the alias and some controls -->
-    <div class="subjectHeadCSS">
+    <div class="subjectHeadCSS" >
         <p>
             <span class="pull-right icon-list">
-                <mover><i class="fa fa-fw fa-arrows"></i></mover>
+                <span class="mover"><i class="fa fa-fw fa-arrows"></i></span>
 
                 <!-- Button (Info-Sign) to show more infos of subject on hover -->
-                <i class="fa fa-fw fa-info-circle"
-                   ng-if="(vm.comment | translate) !== vm.comment"
-                   popover="{{vm.comment | translate}}"
-                   popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
-                   popover-placement="right"
-                   popover-append-to-body="true"></i>
+                <popover-wrap ng-if="vm.comment"
+                              data-settings="{ class: 'fa fa-fw fa-info-circle', content: vm.comment }"
+                        ></popover-wrap>
 
                 <!-- Button (Eyes) to show whether a subject will be visible in the result or not. -->
-                <i class="fa fa-fw fa-eye"
-                   ng-click="subject.view = !subject.view"
-                   ng-class="(subject.view)?'fa-eye':'fa-eye-slash'"
-                   popover="{{(subject.view)?'HIDE_SUBJECT':'SHOW_SUBJECT' | translate}}"
-                   popover-trigger="{{dragging ? 'none' : 'mouseenter'}}"
-                   popover-placement="right"
-                   popover-append-to-body="true"></i>
+                <popover-wrap
+                        data-click="subject.view = !subject.view"
+                        data-settings="{ class: 'fa fa-fw', content: (subject.view)?'HIDE_SUBJECT':'SHOW_SUBJECT' }"
+                        data-conditional-class="{{(subject.view)?'fa-eye':'fa-eye-slash' }}"
+                        >
+                </popover-wrap>
 
-                <i class="fa fa-fw fa-plug"
-                        ng-click="vm.searchRelation()"></i>
+              <popover-wrap
+                      data-click="vm.searchRelation()"
+                      data-settings="{ class: 'fa fa-fw fa-plug', content: 'CONNECT_SUBJECT' }"
+                      data-conditional-class="{{(subject.$searchRelation)?'text-info':'' }}"
+                      >
+              </popover-wrap>
 
-                <!--Button (Trash-ICON) to remove subject from list @js/controller/main.js-->
-                <i class="fa fa-fw fa-trash-o" ng-click="vm.removeSubject()"></i>
+                <popover-wrap
+                        data-click="vm.removeSubject()"
+                        data-settings="{ class: 'fa fa-fw fa-trash-o', content: 'DELETE_SUBJECT' }"
+                        >
+                </popover-wrap>
+
 
             </span>
             <!-- Label/URI of subject -->
@@ -36,66 +40,69 @@
                 <i class="fa fa-edit pointer" ng-click="vm.editAlias = !vm.editAlias"></i>
                 <!-- TODO: just show if necessary -->
                 <small>
-                    <small>({{ subject.uri | replaceURIsWithPrefixes}})</small>
+                    <small>({{ ::subject.uri | replaceURIsWithPrefixes}})</small>
                 </small>
             </b>
         </p>
         <!--Input for changing the Alias:-->
-        <p class="input-group pull-left" ng-show="vm.editAlias">
+        <div class="input-group pull-left" ng-show="vm.editAlias" style="margin-top:5px;">
             <input type="text" size="30" maxlength="40"
                    class="form-control" placeholder="Alias"
                    ng-model="subject.alias">
         <span class="btn input-group-addon btn-success" ng-click="vm.editAlias = false">
         <i class="fa fa-check-square-o"></i>
         </span>
-        </p>
+        </div>
+        <div class="clearfix"></div>
     </div>
 
-    <!--Here there will be the properties of the subject, see @js/controller/property.js-->
-    <div class="subjectBodyCSS">
-        <div class="clearfix"></div>
+    <div style="position: relative;">
+
+        <div class="subjectCSS-left"></div>
+        <div class="subjectCSS-right"></div>
 
         <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
-        <property-dir property="property" ng-repeat="property in subject.$selectedProperties"></property-dir>
+        <div ng-repeat="property in subject.$selectedProperties">
+            <property-dir property="property"></property-dir>
+            <div class="property-after"></div>
+        </div>
 
-        <div ng-hide="vm.showAddProperty" class="text-center">
+    </div>
+
+    <div class="subjectFooter">
+        <div ng-if="!vm.showAddProperty" class="text-center">
             <div class="btn btn-sm btn-success" ng-click="vm.showAddProperty = true">
-                <span class="fa fa-plus"></span> {{ 'PROPERTY' | translate }}
+                <span class="fa fa-plus"></span> {{'PROPERTY' | translate }}
             </div>
         </div>
 
 
-        <div ng-show="vm.showAddProperty" style="margin: 0 25px">
+        <div ng-if="vm.showAddProperty" style="margin: 0 25px">
             <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js
             -->
             <div class="row">
-                <div class="input-group">
+                <div ng-if="vm.loading" class="btn btn-success btn-sm">
+                    <i class="fa fa-spinner fa-spin"></i> {{ 'CLASSES_LOADING' | translate }}
+                </div>
+                <div class="input-group" ng-if="!vm.loading">
                     <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
-                    <ui-select ng-model="vm.propertySelected">
-                        <ui-select-match placeholder="{{ 'CHOOSE_A_PROPERTY' | translate }}">
-                            {{$select.selected.uri + '.$label' | translate}}
+                    <ui-select ng-model="vm.propertySelected" append-to-body="true">
+                        <ui-select-match
+                                allow-clear="true"
+                                placeholder="{{ 'CHOOSE_A_PROPERTY' | translate }}">
+                            {{$select.selected.label}}
                         </ui-select-match>
-                        <!-- IMPORTANT: it has to be item in 'repeat="item in...',
-                        as ui-select defines it internally.	Anything else wont work!
-                        TODO: Order by localized label
-                        TODO: Only show comment if existing
-                        -->
                         <ui-select-choices
+                                repeat="item in vm.$availableProperties"
                                 group-by="'type'"
-                                repeat="item in vm.$availableProperties |
-                                        filter: $select.search |
-                                        limitTo: 50">
-                            <p style="margin: 0">
-                                <i class="fa fa-info-circle pull-right"
-                                   ng-if="(item.comment | translate) !== item.comment"
-                                   popover="{{item.comment | translate}}"
-                                   popover-trigger="mouseenter"
-                                   popover-append-to-body="true"></i>
-                                <strong ng-bind-html="item.label | highlight: $select.search "></strong>
-                                <small>
-                                    <small ng-bind-html="item.uri | replaceURIsWithPrefixes"></small>
-                                </small>
-                            </p>
+                                refresh="vm.refreshProperties($select.search,50)"
+                                refresh-delay="0"
+                                total-items="{{vm.totalItems}}"
+                                matching-items="{{vm.matchingItems}}"
+                                footer-zero="PROPERTIES_FOUND_ZERO"
+                                footer-no-search="PROPERTIES_FOUND_NO_SEARCH"
+                                footer-found="PROPERTIES_FOUND_X">
+                            <ui-select-choices-row-inner></ui-select-choices-row-inner>
                         </ui-select-choices>
                     </ui-select>
                     <span class="input-group-btn">

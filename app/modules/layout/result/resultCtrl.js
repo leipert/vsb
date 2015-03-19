@@ -4,7 +4,7 @@
         .filter('deepOrderBy', deepOrderBy)
         .controller('ResultCtrl', ResultCtrl);
 
-    function ResultCtrl($scope, JSON, globalConfig, $filter) {
+    function ResultCtrl($scope, TranslatorManager, globalConfig, $filter) {
         //ngTableParams, EndPointService
         //var vm = this;
         $scope.resultHead = [];
@@ -15,6 +15,8 @@
 
         $scope.resultFormats = globalConfig.resultFormats;
         $scope.currentFormat = globalConfig.resultFormats[0];
+
+        var JSON = TranslatorManager.translateGSBLToSPARQL();
 
         $scope.translatedJSON = JSON.json;
         var prefixes = '';

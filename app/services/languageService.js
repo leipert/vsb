@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('GSB.language', ['GSB.config', 'pascalprecht.translate'])
+    angular.module('GSB.language', ['GSB.config', 'GSB.language.translationCacheService', 'pascalprecht.translate'])
         .config(translationProviderConfig)
         .factory('languageStorage', languageStorage)
         .factory('languageLoader', languageLoader)
@@ -55,6 +55,14 @@
                     BEFORE: 'before',
                     BUTTON_LANG_DE: 'german',
                     BUTTON_LANG_EN: 'english',
+                    CLASSES_FOUND_ZERO: 'No classes found.<br>Please try another search term.',
+                    CLASSES_FOUND_X: 'Found {{matching}} classes.<br>Total classes: {{total}}',
+                    CLASSES_FOUND_X_MORE: 'Showing {{x}} of {{matching}} found classes.<br>Total classes: {{total}}',
+                    CLASSES_FOUND_NO_SEARCH: 'Showing {{matching}} of {{total}} classes<br>Please enter a search term.',
+                    PROPERTIES_FOUND_ZERO: 'No properties found.<br>Please try another search term.',
+                    PROPERTIES_FOUND_X: 'Found {{matching}} properties.<br>Total properties: {{total}}',
+                    PROPERTIES_FOUND_X_MORE: 'Showing {{x}} of {{matching}} found properties.<br>Total properties: {{total}}',
+                    PROPERTIES_FOUND_NO_SEARCH: 'Showing {{matching}} of {{total}} properties<br>Please enter a search term.',
                     CHOOSE_A_PROPERTY: 'Choose a property',
                     CHOOSE_A_SUBJECT: 'Choose a subject',
                     COMPARISON: 'comparison',
@@ -66,11 +74,19 @@
                     EQUALS_NOT: 'equals not',
                     EXISTS: 'exists',
                     EXISTS_NOT: 'exists not',
+                    HELP: 'Help',
                     HIDE_PROPERTY: 'hide property',
                     HIDE_QUERIES: 'hide queries',
                     IS_MANDATORY: 'is mandatory',
                     IS_OPTIONAL: 'is optional',
                     JSON: 'JSON',
+                    KEEP_OPEN: 'Keep open',
+                    HIDE_SUBJECT: 'Hide Subject',
+                    SHOW_SUBJECT: 'Show Subject',
+                    DELETE_SUBJECT: 'Delete Subject',
+                    CONNECT_SUBJECT: 'Connect Subject to another Subject',
+                    ADD_APPROPRIATE_CLASS: 'Add appropriate Subject',
+                    CAST_PROPERTY: 'Change property type',
                     LANGUAGE: 'language',
                     LINK_WITH_SUBJECT: 'Link with a subject',
                     LIST_ALL: 'List all',
@@ -78,6 +94,7 @@
                     NO_COMPARISON: 'no comparison',
                     PICK_MAIN_SUBJECT: 'Pick a main subject',
                     PROPERTY: 'property',
+                    OBJECT_PROPERTY: 'object property',
                     QUERIES: 'Queries',
                     REGEX: 'regex',
                     REMOVE_FILTER: 'remove filter',
@@ -91,7 +108,7 @@
                     SPARQL: 'SPARQL',
                     STARTS_WITH: 'starts with',
                     WORKSPACE: 'Workspace',
-                    TITLE: 'Graphical SPARQL Builder'
+                    TITLE: 'Visual SPARQL Builder'
                 }
             },
             factory = {};
@@ -105,6 +122,7 @@
                 storage[lang] = {};
             }
             storage[lang][key] = value;
+            return $q.when(value);
         };
         factory.getItem = function (key) {
             var deferred = $q.defer();

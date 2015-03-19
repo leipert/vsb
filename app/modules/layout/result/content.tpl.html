@@ -1,5 +1,10 @@
 <!-- Result area -->
 <div class="container">
+    <h3>{{ 'RESULTS' | translate }}</h3>
+
+    <p>Format results as
+        <select ng-model="currentFormat" ng-options="format.name for format in resultFormats"></select>
+        and <a href="" ng-click="openInNewTab()">show results!</a></p>
     <div ng-show="showQueries" class="col-sm-12">
         <div class="col-sm-12 text-center">
             <a href="" ng-click="showQueries = false"> {{ 'HIDE_QUERIES' | translate }}</a>
@@ -20,11 +25,6 @@
         <a href="" ng-hide="showQueries" ng-click="showQueries = true"> {{ 'SHOW_QUERIES' | translate }}</a>
     </div>
     <div class="col-sm-12">
-        <h3>{{ 'RESULTS' | translate }}</h3>
-
-        <p>Format results as
-            <select ng-model="currentFormat" ng-options="format.name for format in resultFormats"></select>
-            and <a href="" ng-click="openInNewTab()">show results!</a></p>
         <table ng-table="tableParams" show-filter="true" class="table table-responsive table-striped">
             <thead>
             <tr>

@@ -7,7 +7,6 @@
      * @namespace data.results.bindings
      *
      */
-    /* global $*/
 
     angular.module('GSB.endPointService', ['GSB.config'])
         .factory('EndPointService', EndPointService);
@@ -15,7 +14,27 @@
     function EndPointService($http, $q, $log, globalConfig, languageStorage) {
         var factory = {};
 
-        var jassa = new Jassa(Promise, $.ajax);
+
+var jassa = new Jassa(Promise, function (options) {
+
+    var cancelPendingRequest = Promise.defer();
+
+    var httpRequest = jassa.util.PromiseUtils.createDeferred(true);
+
+    options.timeout = cancelPendingRequest.promise;
+    options.params = options.data;
+    delete (options.data);
+
+    $http(options).success(httpRequest.resolve).error(httpRequest.reject);
+
+    return httpRequest.promise()
+        .catch(Promise.TimeoutError, Promise.CancellationError, function (e) {
+            cancelPendingRequest.resolve();
+            throw e;
+        });
+});
+
+
         var sparql = jassa.sparql;
         var service = jassa.service;
         var sponate = jassa.sponate;
@@ -70,16 +89,18 @@
         //TODO: Deprecate
         var fillTranslationStorage = function (uri, labels, comments) {
             var defaultSet = false;
+            var promises = [];
             labels.forEach(function (label) {
-                languageStorage.setItem(label.id, uri + '.$label', label.value);
+                promises.push(languageStorage.setItem(label.id, uri + '.$label', label.value));
                 defaultSet = defaultSet || label.id === 'default';
             });
             if (!defaultSet) {
-                languageStorage.setItem('default', uri + '.$label', factory.extractLabelFromURI(uri));
+                promises.push(languageStorage.setItem('default', uri + '.$label', factory.extractLabelFromURI(uri)));
             }
             comments.forEach(function (comment) {
-                languageStorage.setItem(comment.id, uri + '.$comment', comment.value);
+                promises.push(languageStorage.setItem(comment.id, uri + '.$comment', comment.value));
             });
+            return $q.all(promises);
         };
 
         /**
@@ -106,6 +127,7 @@
         };
 
         factory.getAvailableClasses = function (uri) {
+
             if (!store.hasOwnProperty('classes')) {
 
                 store.addMap({
@@ -124,19 +146,22 @@
             var flow = store.classes.find();
             return flow.list()
                 .then(function (classCollection) {
+                    var promises = [];
                     classCollection = _.pluck(classCollection, 'val');
                     if (uri) {
                         classCollection = _.filter(classCollection, {id: cleanURI(uri)});
                     }
                     classCollection.forEach(function (doc) {
                         doc.uri = cleanURI(doc.id);
-                        fillTranslationStorage(doc.uri, doc.$labels, doc.$comments);
+                        promises.push(fillTranslationStorage(doc.uri, doc.$labels, doc.$comments));
                     });
-                    return classCollection;
-                })
-                .catch(function (error) {
-                    $log.error('Getting Classes:', error);
-                });
+                    return $q.all(promises).then(function () {
+                        return classCollection;
+                    });
+                },function (err) {
+                $log.error('An error occurred: ', err);
+                return [];
+            });
         };
 
         var getOtherClasses = function (uri, query, key) {
@@ -155,9 +180,9 @@
             return flow.list()
                 .then(function (docs) {
                     return _.pluck(_.pluck(docs, 'val'), 'id');
-                })
-                .catch(function (err) {
+                },function (err) {
                     $log.error('An error occurred: ', err);
+                    return [];
                 });
 
         };
@@ -195,7 +220,7 @@
                         propertyCollection = _.filter(propertyCollection, {id: cleanURI(filterURI)});
                     }
                     if (!inverse) {
-                        propertyCollection = _.union([],propertyCollection, globalConfig.defaultProperties,globalConfig.aggregateFunctions);
+                        propertyCollection = _.union([], propertyCollection, globalConfig.defaultProperties, globalConfig.aggregateFunctions);
                     }
                     propertyCollection.forEach(function (property) {
                         property.$range = _.pluck(property.$range, 'id');
@@ -211,9 +236,9 @@
                         }
                     });
                     return propertyCollection;
-                })
-                .catch(function (err) {
+                },function (err) {
                     $log.error('An error occurred: ', err);
+                    return [];
                 });
         };
 
@@ -233,8 +258,8 @@
             }
         };
 
-        factory.getPossibleRelations = function(uri1,uri2){
-            var storeKey = uri1+uri2;
+        factory.getPossibleRelations = function (uri1, uri2) {
+            var storeKey = uri1 + uri2;
             if (!store.hasOwnProperty(storeKey)) {
                 store.addMap({
                     name: storeKey,
@@ -249,11 +274,11 @@
             var flow = store[storeKey].find();
             return flow.list()
                 .then(function (propertyCollection) {
-                    propertyCollection =  _(propertyCollection).pluck('val').pluck('id').value();
+                    propertyCollection = _(propertyCollection).pluck('val').pluck('id').value();
                     return propertyCollection;
-                })
-                .catch(function (err) {
+                },function (err) {
                     $log.error('An error occurred: ', err);
+                    return [];
                 });
         };
 

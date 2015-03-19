@@ -5,18 +5,20 @@
      * Controller for all subjects.
      */
 
-    angular.module('GSB.modals', ['ui.bootstrap', 'GSB.subject.service'])
+    angular.module('GSB.modals', ['zenubu.ngStrap', 'GSB.subject.service'])
         .controller('addAppropriateClassCtrl', addAppropriateClassCtrl);
 
-    function addAppropriateClassCtrl($scope, property, SubjectService, subject, $modalInstance) {
+    function addAppropriateClassCtrl($scope, property, SubjectService, subject, $modalInstance, translationCacheService) {
 
         $scope.property = property;
 
         $scope.subject = subject;
 
-        $scope.availableSubjects = filterSubjectCollection(SubjectService.getAvailableClasses());
+        $scope.search = {};
 
-        $scope.arrowClass = (property.type === 'OBJECT_PROPERTY')?'fa-long-arrow-right':'fa-long-arrow-left';
+        $scope.availableSubjects = [];
+
+        $scope.arrowClass = (property.type === 'OBJECT_PROPERTY') ? 'fa-long-arrow-right' : 'fa-long-arrow-left';
 
         $scope.selected = null;
 
@@ -28,8 +30,8 @@
             }
         };
         $scope.ok = function () {
-            if($scope.selected !== null){
-                var newSubject = SubjectService.addSubject($scope.selected);
+            if ($scope.selected !== null) {
+                var newSubject = SubjectService.addSubjectByURI(angular.copy($scope.selected.uri));
                 property.hasFilter = true;
                 property.linkTo = newSubject;
             }
@@ -38,13 +40,15 @@
 
         $scope.cancel = $modalInstance.dismiss;
 
-        function filterSubjectCollection(propertyCollection) {
-            return _(propertyCollection)
+        translationCacheService.getFromCache('availableClasses').then(function (classes) {
+            $scope.availableSubjects = _(classes)
                 .filter(function (value) {
                     return _.contains(property.$range, value.uri);
                 })
                 .value();
-        }
+        });
+
+
     }
 
 })();

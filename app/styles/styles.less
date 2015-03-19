@@ -1,3 +1,4 @@
+@import "imports";
 @import "variables";
 
 /* No need to think about the following */
@@ -54,7 +55,7 @@ a {
   background: @startpoint-bg-color;
   border-color: @startpoint-border-color;
   color: @startpoint-heading-color;
-  z-index: 10;
+  z-index: 200;
   position: fixed;
   top: 66px;
   left: 150px;
@@ -70,38 +71,24 @@ a {
   margin-left: -150px;
 }
 
-.addSubjectBox {
-  .box();
-  padding: 0;
-  border-color: transparent;
-  z-index: 10;
-  position: fixed;
-  top: 66px;
-  right: 25px;
+.ui-draggable-dragging {
+
+  .show-while-dragging {
+    display: inline;
+  }
+
+  .hide-while-dragging {
+    display: none;
+  }
+
 }
 
-.subjectCSS {
-  background-color: @subject-bg-color;
-  border-color: @subject-border-color;
-  width: 400px;
-  position: absolute;
-  z-index: 5;
+.show-while-dragging {
+  display: none;
+}
 
-  .subjectHeadCSS {
-    padding: 5px 15px 0;
-    margin-top: 5px;
-
-    b {
-      color: @subject-heading-color;
-    }
-
-  }
-
-  .subjectBodyCSS {
-    padding: 5px;
-    margin: 0;
-  }
-
+.hide-while-dragging {
+  display: inline;
 }
 
 i.pointer, .icon-list i {
@@ -111,52 +98,23 @@ i.pointer, .icon-list i {
   &:hover {
     color: @icon-color-hover;
   }
-}
 
-.propertyCSS {
-  position: relative;
-  background: @property-bg-color;
-  color: @property-text-color;
-  padding: 5px 15px;
-  margin: 0 10px 5px;
-  border: none;
+  &.text-info{
+    color: @state-info-text;
 
-  b {
-    color: @property-heading-color;
-  }
-
-  &.notExists {
-    background: @property-danger-bg-color;
-
-    b {
-      color: @property-danger-heading-color;
-
+    &.hover{
+      color: darken(@state-info-text,10%);
     }
-  }
-}
 
-.propertyFilters {
-  padding-bottom: 10px;
-
-}
-
-.ui-select-bootstrap {
-  > input.ui-select-search.form-control {
-    border-radius: 0;
   }
-  > .ui-select-choices {
-    width: 350px;
-    max-height: 300px;
-    right: 0;
-    left: auto;
-  }
+
 }
 
 .connector {
   z-index: 10;
   &-label {
     background-color: white;
-    opacity: 0.95;
+    opacity: 0.98;
     padding: 0.3em;
     border-radius: 0.5em;
     border: 1px solid @arrow-color;
@@ -172,8 +130,15 @@ i.pointer, .icon-list i {
   }
 }
 
+.property-endpoint {
+  z-index: 150;
+  circle {
+    fill: @arrow-color;
+  }
+}
+
 .navigation {
-  z-index: 10;
+  z-index: 2000;
   position: fixed;
   background: @navigation-bg;
   top: 0;
@@ -338,3 +303,8 @@ i.pointer, .icon-list i {
     .btn-default();
   }
 }
+
+
+@import "../modules/ui.select/ui-select";
+
+@import "subjectBox";

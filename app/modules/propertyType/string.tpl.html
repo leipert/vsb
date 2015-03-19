@@ -6,18 +6,11 @@
             {{'COMPARISON' | translate}}
         </div>
         <div class="input-group-btn dropdown" is-open="dd2.isopen">
-            <button type="button" class="btn dropdown-toggle btn-default"
+            <button type="button" class="btn btn-default"
+                    bs-dropdown="vm.dropdown"
                     style="border-radius: 0;border-right: 0">
                 {{vm.getStringComparisonLabel() | translate}} <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a href="" ng-click="vm.changeStringComparison(null)">{{}}</a>
-                </li>
-                <li ng-repeat="(idx,x) in vm.allowedStringComparisons">
-                    <a href="" ng-click="vm.changeStringComparison(idx)">{{x.label | translate}}</a>
-                </li>
-            </ul>
         </div>
         <input ng-disabled="vm.stringComparison === null" type="text" class="form-control input-sm"
                ng-model="vm.comparisonInput">
