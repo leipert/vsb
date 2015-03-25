@@ -69,16 +69,20 @@ gulp.newTask('default', ['build', 'jshint']);
 
 gulp.newTask('build', ['html', 'app', 'static', 'vendor']);
 
-gulp.task('dev', ['develop','watch.less','less']);
+gulp.task('dev', ['develop', 'watch.less', 'less']);
 
-gulp.task('watch.less', ['less'], function(){
-    $.watch('app/**/*.less',function(){
+gulp.task('watch.less', ['less'], function () {
+    $.watch('app/**/*.less', function () {
         gulp.start('less');
     })
 });
 
-gulp.task('less',function(){
+gulp.task('less', function () {
     return gulp.src('app/styles/styles.less')
         .pipe($.less())
+        .pipe($.autoprefixer({
+            browsers: ['> 1%', 'last 4 versions', 'Firefox ESR', 'Opera 12.1'],
+            cascade: true
+        }))
         .pipe(gulp.dest('app/styles/'));
 });

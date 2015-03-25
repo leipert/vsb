@@ -3,7 +3,7 @@
     angular.module('GSB.subject.model', ['GSB.endPointService', 'pascalprecht.translate', 'GSB.connectionService'])
         .factory('Subject', SubjectConstructor);
 
-    function SubjectConstructor(EndPointService, $log, $translate, helperFunctions, $q, Property, connectionService, translationCacheService) {
+    function SubjectConstructor(EndPointService, $log, $translate, helperFunctions, $q, Property, connectionService, translationCacheService, MessageService) {
         return function (data) {
             var subject = {
                 uri: null,
@@ -40,7 +40,6 @@
 
             function getAvailableProperties(filter, limit) {
 
-
                 var customFilters = {
                     pre: function (array, searchTerm) {
 
@@ -66,11 +65,6 @@
                             array: _.where(array, {type: classToken}),
                             filter: searchTerm.replace(searchRegex,'')
                         };
-                    },
-                    post: function (array) {
-                        return {
-                            array: _.sortBy(array, 'type')
-                        };
                     }
                 };
 
@@ -89,26 +83,23 @@
                 });
 
             var getDirectProperties = EndPointService.getDirectProperties(subject.uri)
-                //.then(function (properties) {
-                //    $log.debug('PROPERTIES (direkt) loaded for ' + subject.uri, properties);
-                //    subject.$availableProperties = _.union(subject.$availableProperties, properties);
-                //})
                 .catch(function (err) {
-                    $log.error('An error occurred: ', err);
+                    var message = '<span> An error occured while loading direct properties for '+subject.uri+'<br>'+ _.escape(err)+'</span>';
+                    MessageService.addMessage({message: message, icon: 'times-circle-o', 'class': 'danger'});
+                    $log.error('PROPERTIES (direct) loaded for ' + subject.uri, 'An error occurred: ', err);
                     return [];
                 });
+
 
             var getInverseProperties = EndPointService.getInverseProperties(subject.uri)
-                //.then(function (properties) {
-                //    $log.debug('PROPERTIES (inverse) loaded for ' + subject.uri, properties);
-                //    subject.$availableProperties = _.union(subject.$availableProperties, properties);
-                //})
                 .catch(function (err) {
+                    var message = '<span> An error occured while loading indirect properties for '+subject.uri+'<br>'+ _.escape(err)+'</span>';
+                    MessageService.addMessage({message: message, icon: 'times-circle-o', 'class': 'danger'});
                     $log.error('An error occurred: ', err);
                     return [];
                 });
 
-            subject.loading = $q.all([getDirectProperties, getInverseProperties]).then(function (properties) {
+            subject.$loading = $q.all([getDirectProperties, getInverseProperties]).then(function (properties) {
                 properties = _.flatten(properties);
                 translationCacheService.putInCache('availableProperties' + subject.$id, 'property', properties);
             });

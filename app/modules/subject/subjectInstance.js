@@ -14,7 +14,7 @@
 
         .directive('subjectDir', subjectDir);
 
-    function subjectDir(ArrowService, connectionService) {
+    function subjectDir(ArrowService, connectionService, zIndexService, $rootScope) {
         return {
             restrict: 'E',
             replace: true,
@@ -24,7 +24,7 @@
             controller: SubjectInstanceCtrl,
             controllerAs: 'vm',
             templateUrl: '/modules/subject/subject.tpl.html',
-            link: linkFunction(ArrowService, connectionService)
+            link: linkFunction(ArrowService, connectionService, zIndexService, $rootScope)
         };
     }
 
@@ -57,12 +57,13 @@
 
         vm.loading = true;
 
-        $q.when(subject.loading).then(function () {
+        $q.when(subject.$loading).then(function () {
             vm.loading = false;
+            vm.refreshProperties('', 50);
         });
 
         $rootScope.$on('translateEverything', function () {
-            if(vm.showAddProperty){
+            if (vm.showAddProperty) {
                 vm.refreshProperties('', 50);
             }
         });
@@ -88,7 +89,7 @@
      * The Link Function enables Drag & Drop and saves position back to the VM
      *
      */
-    function linkFunction(ArrowService, connectionService) {
+    function linkFunction(ArrowService, connectionService, zIndexService, $rootScope) {
         return function (scope, element) {
 
             var pos = angular.copy(scope.subject.pos);
@@ -100,19 +101,43 @@
                 top: y + 'px'
             });
 
+            $rootScope.$on('moveSubjectDrag', function (event, offset, oneTimeMove) {
+                x = x + offset.x;
+                y = y + offset.y;
+                element.css({
+                    left: x + 'px',
+                    top: y + 'px'
+                });
+                if(oneTimeMove){
+                    scope.subject.pos.x = angular.copy(x);
+                    scope.subject.pos.y = angular.copy(y);
+                }
+            });
+
+            $rootScope.$on('moveSubjectEnd', function () {
+                scope.subject.pos.x = angular.copy(x);
+                scope.subject.pos.y = angular.copy(y);
+            });
+
+
+            zIndexService.registerSubject(scope.$id, element);
+
             //Todo: Handle Vsibibility with CSS
             ArrowService.makeDraggable(element,
                 {
                     handle: '.mover',
-                    start: function(){
+                    start: function () {
                         scope.$evalAsync(function () {
+                            zIndexService.increaseIndex(scope.$id);
                             scope.vm.showAddProperty = false;
                         });
                     },
                     stop: function (event, ui) {
+                        x = angular.copy(ui.position.left);
+                        y = angular.copy(ui.position.top);
                         scope.$evalAsync(function () {
-                            scope.subject.pos.x = angular.copy(ui.position.left);
-                            scope.subject.pos.y = angular.copy(ui.position.top);
+                            scope.subject.pos.x = angular.copy(x);
+                            scope.subject.pos.y = angular.copy(y);
                         });
                     }
                 }

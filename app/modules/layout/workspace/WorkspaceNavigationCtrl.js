@@ -12,6 +12,10 @@
             $state.go('result');
         };
 
+        vm.print = function(){
+            window.print();
+        } ;
+
         /**
          * Calls the function for resetting workspace
          */

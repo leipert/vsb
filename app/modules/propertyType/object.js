@@ -70,7 +70,7 @@
 
             if (nv !== undefined && nv !== null) {
                 target = angular.copy(nv.$id);
-                connectionService.connect(source, target, inverse, connectionLabel).then(setLastConnection);
+                connectionService.connect(source, target, connectionLabel).then(setLastConnection);
             } else {
                 connectionService.disconnect(source);
                 lastConnection = null;

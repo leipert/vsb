@@ -1,79 +1,54 @@
-.subjectCSS {
+@import "variables";
 
-  p {
-    margin: 0;
-  }
-  background-color: @subject-bg-color;
-  width: 400px;
-  position: absolute;
-  padding: 0;
+@subject-padding: 15px;
+@property-padding: 10px;
+@minor-gap: 5px;
 
-  &-top, &-bottom,
-  &-right, &-left {
-    position: absolute;
-    content: '';
-    z-index: 100;
-    background: fadeout(@subject-bg-color, 10%);
-  }
+.subject {
+  &-container {
 
-  &-right, &-left {
-    height: 100%;
-    width: 10px;
-    top: 0;
-  }
-
-  &-left {
-    left: 0;
-    border-left: 1px solid @subject-border-color;
-  }
-
-  &-right {
-    right: 0;
-    border-right: 1px solid @subject-border-color;
-
-  }
-
-  .property-after {
-    position: relative;
-    height: 5px;
-    content: '';
-    z-index: 100;
-    margin: 0 10px;
-    background: fadeout(@subject-bg-color, 10%);
-  }
-
-  .subjectHeadCSS {
+    p {
+      margin: 0;
+    }
+    background: fadeout(@subject-bg-color, 5%);
     border: 1px solid @subject-border-color;
-    border-bottom: none;
-    padding: 15px 10px 5px;
-    z-index: 100;
-    position: relative;
-    background: fadeout(@subject-bg-color, 10%);
+    width: 400px;
+    position: absolute;
+    padding: @subject-padding @subject-padding (@subject-padding - @minor-gap);
+    box-shadow: 3px 3px 4px fadeout(#333,70%);
+  }
 
+  &-head {
+    margin-bottom: @minor-gap;
+    position: relative;
     b {
       color: @subject-heading-color;
     }
 
+    .input-group {
+      margin-bottom: @minor-gap;
+    }
+
   }
 
-  .subjectFooter {
-    border: 1px solid @subject-border-color;
-    border-top: none;
+  &-footer {
     position: relative;
-    background: fadeout(@subject-bg-color, 10%);
-    z-index: 100;
-    padding: 5px 10px;
+    margin-bottom: @minor-gap;
   }
 
-  .propertyCSS {
+}
+
+.property {
+
+  &-container {
+
     position: relative;
     background: @property-bg-color;
     color: @property-text-color;
+    border: 1px solid @property-bg-color;
 
-    padding: 5px 10px;
-    margin: 0 10px;
-    border: none;
-    z-index: 200;
+    padding: @property-padding @property-padding @minor-gap;
+    margin: 0 0 (@property-padding - @minor-gap);
 
     b {
       color: @property-heading-color;
@@ -81,22 +56,45 @@
 
     &.notExists {
       background: @property-danger-bg-color;
+      border: 1px solid @property-danger-bg-color;
 
       b {
         color: @property-danger-heading-color;
-
       }
     }
 
-    & .dropdown-menu {
-      right: 0;
+  }
+
+  &-body {
+    position: relative;
+    margin-bottom: @minor-gap;
+  }
+
+  &-head {
+    margin-bottom: @minor-gap;
+    position: relative;
+
+    b {
+      color: @property-heading-color;
+    }
+
+    .input-group {
+      margin-bottom: @minor-gap;
     }
 
   }
 
-  .propertyFilters {
-    padding-bottom: 10px;
+}
+
+.messageContainer {
+  z-index: 5000;position:relative;top:0;left:0;width:100%;
+  .alert {
+    margin: 0;
+    line-height: 19px;
+
+    .fa {
+      line-height: 19px;
+    }
 
   }
-
 }

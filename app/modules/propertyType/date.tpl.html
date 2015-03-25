@@ -1,21 +1,19 @@
-<div>
-    <!-- if a property is selected, it will be linked with the subject -->
-    <div class="input-group input-group-sm">
-        <div class="input-group-btn dropdown" is-open="status.isopen">
-            <button type="button" class="btn btn-default dropdown-toggle"
-                    bs-dropdown="vm.dropdown"
-                    >
-                {{ vm.getDateComparisonLabel(vm.dateComparison) | translate}} <span class="caret"></span>
-            </button>
+<div class="property-body" on-before-print="printed = true" on-after-print="printed = false">
+    <div ng-if="!printed">
+        <div class="input-group input-group-sm">
+            <div class="input-group-btn dropdown" is-open="status.isopen">
+                <button type="button" class="btn btn-default dropdown-toggle"
+                        bs-dropdown="vm.dropdown"
+                        >
+                    {{ vm.getDateComparisonLabel(vm.dateComparison) | translate}} <span class="caret"></span>
+                </button>
+            </div>
+            <input type="text" class="form-control" ng-model="vm.comparisonInput" name="date"
+                   data-date-format="yyyy-MM-dd" bs-datepicker>
         </div>
-        <input type="text" class="form-control" ng-model="vm.comparisonInput" name="date" data-date-format="yyyy-MM-dd" bs-datepicker>
-        <!--<input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="vm.comparisonInput"-->
-               <!--is-open="vm.opened"-->
-               <!--datepicker-options="{ formatYear: 'yy', startingDay: 1}" ng-required="true" close-text="Close"/>-->
-              <!--<span class="input-group-btn">-->
-                <!--<button type="button" class="btn btn-default" ng-click="vm.open($event)"><i-->
-                        <!--class="fa fa-calendar"></i></button>-->
-              <!--</span>-->
     </div>
-
+    <small ng-if="printed">
+        {{ vm.getDateComparisonLabel(vm.dateComparison) | translate}}
+        "{{vm.comparisonInput | date:'yyyy-MM-dd' }}"
+    </small>
 </div>

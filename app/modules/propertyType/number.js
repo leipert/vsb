@@ -9,6 +9,19 @@
 
     angular.module('GSB.propertyType.number', ['GSB.config'])
         .directive('numberPropertyDir', numberPropertyDir)
+        .filter('replace',function(){
+            return function(string,replacementObject){
+                if(!_.isString(string) || !_.isObject(replacementObject)){
+                    return string;
+                }
+
+                _.forEach(replacementObject,function(value, key){
+                    string = string.replace(key,value);
+                });
+
+                return string;
+            };
+        })
         //limitates the input characters on a number input field
         .directive('limitInput', limitInput);
 

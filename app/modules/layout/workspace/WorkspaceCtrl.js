@@ -1,16 +1,20 @@
 (function () {
     'use strict';
-    function WorkspaceCtrl(SubjectService, connectionService, $rootScope, $q) {
+    function WorkspaceCtrl(SubjectService, ArrowService, connectionService, zIndexService, $rootScope, $q) {
 
         var vm = this;
         vm.groups = [];
+        vm.availableSubjectClasses = [];
         vm.selectedSubject = undefined;
         vm.subjects = SubjectService.subjects;
         vm.addSubject = addSubject;
+        vm.workspaceMouseDown = workspaceMouseDown;
+        vm.workspaceMouseMove = workspaceMouseMove;
+        vm.workspaceMouseUp = workspaceMouseUp;
         vm.searchSubject = null;
 
         connectionService.resetService();
-
+        zIndexService.reset();
 
         function addSubject(uri) {
             if (uri) { // If the selected option is undefined no subject will be added.
@@ -21,11 +25,48 @@
 
         vm.loading = true;
 
-        $q.when(SubjectService.loading).then(function(){
+        $q.when(SubjectService.loading).then(function () {
             vm.loading = false;
+            vm.refreshClasses('');
         });
 
-        $rootScope.$on('translateEverything',function(){
+        var startX = 0;
+        var startY = 0;
+        vm.mouseDown = false;
+
+        function workspaceMouseDown($event) {
+            //$scope.offset.x = 0;
+            //$scope.offset.y = 0;
+            startX = $event.pageX;
+            startY = $event.pageY;
+            vm.mouseDown = true;
+            //ArrowService.setVisibilityForAllConnection(false);
+        }
+
+        function workspaceMouseMove($event) {
+            if (vm.mouseDown) {
+                var offset = {
+                    x: ($event.pageX - startX),
+                    y: ($event.pageY - startY)
+                };
+                $rootScope.$emit('moveSubjectDrag', offset);
+                startX = $event.pageX;
+                startY = $event.pageY;
+                ArrowService.repaintEverything();
+            }
+        }
+
+        function workspaceMouseUp() {
+            //$scope.offset.x = 0;
+            //$scope.offset.y = 0;
+            $rootScope.$emit('moveSubjectEnd');
+            vm.mouseDown = false;
+            //ArrowService.setVisibilityForAllConnection(true);
+            //ArrowService.repaintEverything();
+            ArrowService.repaintEverything();
+        }
+
+        $rootScope.$on('translateEverything', function () {
             vm.refreshClasses('');
         });
 

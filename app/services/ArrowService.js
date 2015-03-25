@@ -1,9 +1,9 @@
 (function () {
     'use strict';
-    angular.module('GSB.arrowService', ['GSB.config'])
+    angular.module('GSB.arrowService', ['GSB.config', 'GSB.zIndex'])
         .factory('ArrowService', ArrowService);
 
-    function ArrowService($q, $log) {
+    function ArrowService($q, $log, zIndexService) {
 
         var instance = null;
 
@@ -31,12 +31,17 @@
                         ],
                         Container: 'workspace'
                     });
+                    //instance.draggable('workspace', {containment: "body"});
                     instance.bind('connection', function (info) {
                         var label = info.connection.getParameter('label');
                         if (label === null) {
                             info.connection.removeOverlay('label');
                         } else {
-                            info.connection.getOverlay('label').setLabel(label);
+                            var overlay = info.connection.getOverlay('label');
+
+                            zIndexService.registerEndpoint(info.connection.getParameter('sourceParent'), overlay);
+
+                            overlay.setLabel(label);
                         }
                     });
 
@@ -47,7 +52,7 @@
 
         }
 
-        var anchors = [];
+        var targetAnchors = [];
 
         for (var y = 0; y <= 1; y += 1) {
             for (var x = 0; x <= 1; x += 0.125) {
@@ -55,13 +60,18 @@
                 var offset = 0;
                 dx = (x === 0) ? -1 : dx;
                 dx = (x === 1) ? 1 : dx;
-                if(dx !== 0){
-                    offset = (y === 0)? 20 : offset;
-                    offset = (y === 1)? -20 : offset;
+                if (dx !== 0) {
+                    offset = (y === 0) ? 20 : offset;
+                    offset = (y === 1) ? -20 : offset;
                 }
-                anchors.push([x, y, dx, 0, 0, offset]);
+                targetAnchors.push([x, y, dx, 0, 0, offset]);
             }
         }
+
+        var sourceAnchors = [
+            [1, 0.5, 1, 0, 0, 0, 'right'],
+            [0, 0.5, -1, 0, 0, 0, 'left']
+        ];
 
         return {
             makeDraggable: function (target, options) {
@@ -69,10 +79,10 @@
                     return instance.draggable(target, options);
                 });
             },
-            connectToSelf: function (source) {
+            connectToSelf: function (source, sourceParent) {
                 source = source.toString();
                 return getInstance().then(function (instance) {
-                    return instance.connect({
+                    var connection = instance.connect({
                         source: source,
                         target: source,
                         connector: ['Bezier',
@@ -81,30 +91,40 @@
                                 curviness: 50,
                                 proximityLimit: 0
                             }],
-                        cssClass: 'connector',
+                        cssClass: 'connector connector-self',
                         anchors: [[1, 0.25, 1, 0], [1, 0.75, 1, 0]],
                         parameters: {
                             label: null
                         }
                     });
+
+                    zIndexService.registerEndpoint(sourceParent, connection);
+
+                    return connection;
                 });
             },
-            connect: function (source, target, label) {
+            connect: function (source, target, label, sourceParent) {
                 $log.debug('connect', source, target, label);
                 source = source.toString();
                 target = target.toString();
                 return getInstance().then(function (instance) {
+
                     var connection = instance.connect({
                         source: source,
                         target: target,
                         cssClass: 'connector',
-                        endpoints: [['Dot', {cssClass: 'property-endpoint'}], ['Dot', {cssClass: 'hidden'}]],
-                        anchors: [['Continuous', {faces: ['left', 'right']}], anchors],
+                        endpoints: ['Blank', 'Blank'],
+                        anchors: [sourceAnchors, targetAnchors],
                         connector: 'Bezier',
                         parameters: {
-                            label: label
+                            label: label,
+                            sourceParent: sourceParent
                         }
                     });
+
+                    zIndexService.registerEndpoint(sourceParent, connection);
+
+
                     instance.repaintEverything();
                     return connection;
                 });

@@ -158,10 +158,7 @@ var jassa = new Jassa(Promise, function (options) {
                     return $q.all(promises).then(function () {
                         return classCollection;
                     });
-                },function (err) {
-                $log.error('An error occurred: ', err);
-                return [];
-            });
+                });
         };
 
         var getOtherClasses = function (uri, query, key) {
@@ -236,9 +233,6 @@ var jassa = new Jassa(Promise, function (options) {
                         }
                     });
                     return propertyCollection;
-                },function (err) {
-                    $log.error('An error occurred: ', err);
-                    return [];
                 });
         };
 

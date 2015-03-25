@@ -7,6 +7,12 @@ body {
   background: url('../images/background.png');
 }
 
+html, body, #root, #content, #workspace {
+  height: 100%;
+  overflow: hidden;
+
+}
+
 * {
   -webkit-touch-callout: none;
   user-select: none;
@@ -34,11 +40,15 @@ a {
   cursor: pointer !important;
 }
 
+.mouse-down {
+  z-index: 10000;
+}
+
 /* Set height and color of workspace and result area */
 
 #sparql-query, #json-query {
   border: 1px solid black;
-  font-family: Monospace;
+  font-family: monospace;
   min-height: 300px;
 }
 
@@ -55,7 +65,7 @@ a {
   background: @startpoint-bg-color;
   border-color: @startpoint-border-color;
   color: @startpoint-heading-color;
-  z-index: 200;
+  z-index: 10;
   position: fixed;
   top: 66px;
   left: 150px;
@@ -99,11 +109,11 @@ i.pointer, .icon-list i {
     color: @icon-color-hover;
   }
 
-  &.text-info{
+  &.text-info {
     color: @state-info-text;
 
-    &.hover{
-      color: darken(@state-info-text,10%);
+    &.hover {
+      color: darken(@state-info-text, 10%);
     }
 
   }
@@ -113,8 +123,7 @@ i.pointer, .icon-list i {
 .connector {
   z-index: 10;
   &-label {
-    background-color: white;
-    opacity: 0.98;
+    background-color: fadeout(white, 10%) !important;
     padding: 0.3em;
     border-radius: 0.5em;
     border: 1px solid @arrow-color;
@@ -128,13 +137,40 @@ i.pointer, .icon-list i {
       fill: @arrow-color;
     }
   }
+
 }
 
 .property-endpoint {
-  z-index: 150;
-  circle {
+
+  &._jsPlumb_endpoint_anchor_left svg {
+    left: -5px !important;
+  }
+
+  &._jsPlumb_endpoint_anchor_right svg {
+    left: 5px !important;
+  }
+
+  circle, rect {
     fill: @arrow-color;
   }
+}
+
+.generate-z-index(40);
+
+.generate-z-index(@n, @i: 0) when (@i =< @n) {
+  .z-index-@{i} {
+    z-index: 100 + @i * 10;
+    &.property-endpoint {
+      z-index: 105 + @i * 10;
+    }
+    &.connector {
+      z-index: 105 + @i * 10;
+      &-label {
+        z-index: 107 + @i * 10;
+      }
+    }
+  }
+  .generate-z-index(@n, (@i + 1));
 }
 
 .navigation {
@@ -244,20 +280,34 @@ i.pointer, .icon-list i {
       display: inline-block;
     }
 
-    & + .content {
-      margin-left: 350px;
-      .startPointCSS {
-        left: 350px;
-      }
+  }
+
+}
+
+.navigation + .content {
+  margin-left: 87px;
+
+  #result{
+    padding-left: 50px;
+  }
+
+}
+
+.navigation.fixed-width + .content {
+  margin-left: 300px;
+
+  #workspace {
+
+    .startPointCSS {
+      left: 350px;
     }
 
   }
+}
 
-  & + .content {
-    margin-top: 66px;
-    margin-left: 150px;
-  }
-
+#result {
+  overflow: scroll;
+  max-height: 100%;
 }
 
 .bg-scroll {
@@ -267,27 +317,6 @@ i.pointer, .icon-list i {
   width: 100%;
   height: 100%;
   cursor: all-scroll;
-}
-
-//Fixes for ui-bootstrap datepicker
-
-.glyphicon.glyphicon-chevron-right,
-.glyphicon.glyphicon-chevron-left {
-  display: inline-block;
-  font: normal normal normal 14px/1 FontAwesome;
-  font-size: inherit;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.glyphicon.glyphicon-chevron-left:before {
-  content: "\f053";
-}
-
-.glyphicon.glyphicon-chevron-right:before {
-  content: "\f054";
-
 }
 
 //Tooltip for introjs
@@ -304,7 +333,8 @@ i.pointer, .icon-list i {
   }
 }
 
-
 @import "../modules/ui.select/ui-select";
 
 @import "subjectBox";
+
+@import "globals/print";

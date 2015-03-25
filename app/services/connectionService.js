@@ -10,7 +10,9 @@
         var idToScopeMap = {};
 
         var subjectToPropertyMap = {};
-        var propertyToSubjectMap = {};
+        var propertyToSubjectMap = {
+            'startpoint': 'startpoint'
+        };
 
         var connectionMap = {};
 
@@ -97,13 +99,14 @@
             });
         }
 
-        function connect(source, target, inverse, label) {
+        function connect(source, target, label) {
 
             var idMap = [];
 
             return Promise.all([
                 getScopeID(source),
-                getScopeID(target)
+                getScopeID(target),
+                getScopeID(propertyToSubjectMap[source])
             ])
                 .cancellable()
                 .then(function (ids) {
@@ -114,10 +117,10 @@
                     if (idMap[1]) {
                         connectionMap[source] = target;
                         generateGroups();
-                        if (propertyToSubjectMap[source] === target) {
-                            return ArrowService.connectToSelf(idMap[0]);
+                        if (idMap[1] === idMap[2]) {
+                            return ArrowService.connectToSelf(idMap[0], idMap[2]);
                         } else {
-                            return ArrowService.connect(idMap[0], idMap[1], label, inverse).then(function (connection) {
+                            return ArrowService.connect(idMap[0], idMap[1], label, idMap[2]).then(function (connection) {
                                 ArrowService.recalculateOffsets(idMap[0]);
                                 return connection;
                             });

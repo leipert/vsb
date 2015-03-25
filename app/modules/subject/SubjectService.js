@@ -19,7 +19,7 @@
         };
     }
 
-    function SubjectService(Subject, $log, connectionService, helperFunctions, EndPointService, $q, $translate, $modal, translationCacheService, $rootScope) {
+    function SubjectService(Subject, $log, connectionService, helperFunctions, EndPointService, $q, $translate, $modal, translationCacheService, $rootScope, MessageService) {
 
         var factory = {};
         factory.subjects = [];
@@ -51,7 +51,7 @@
 
             if (_.isObject(mainSubject)) {
 
-                var promise = connectionService.connect('startpoint', mainSubject.$id, false, 'Start').then(function () {
+                var promise = connectionService.connect('startpoint', mainSubject.$id, 'Start').then(function () {
                     currentDraw = null;
                     factory.x.mainSubject = mainSubject;
                     $rootScope.$emit('mainSubjectChanged');
@@ -242,15 +242,18 @@
         }
 
         factory.loading = EndPointService.getAvailableClasses()
+            .catch(function (err) {
+                $log.error('An error occurred while loading available Classes: ', err);
+                var message = '<span> An error occured while loading available classes <br>'+ _.escape(err)+'</span>';
+                MessageService.addMessage({message: message, icon: 'times-circle-o', 'class': 'danger'});
+            })
             .then(function (classes) {
                 $log.debug('Classes loaded ', classes);
                 return translationCacheService.putInCache('availableClasses', 'class', classes);
             }).then(function () {
                 factory.loading = false;
             })
-            .catch(function (err) {
-                $log.error('An error occurred: ', err);
-            });
+            ;
 
         var c = 0;
 

@@ -10,9 +10,9 @@
     <!-- endinject -->
 </head>
 
-<body ng-controller="MainCtrl" >
+<body ng-controller="MainCtrl"  on-before-print="printed = true" on-after-print="printed = false">
 
-<div ng-intro-options="IntroOptions" ng-intro-method="CallMe" ng-intro-onchange="ChangeEvent">
+<div ng-intro-options="IntroOptions" ng-intro-method="CallMe" ng-intro-onchange="ChangeEvent" id="root" ng-class="{'beingPrinted': printed}">
     <div id="navigation" class="navigation" ng-controller="NavigationCtrl"
          ng-class="switchStatus?'fixed-width':'';">
         <div class="list-group header">
@@ -31,7 +31,7 @@
             </a>
         </div>
     </div>
-    <div ui-view="content" class="content"></div>
+    <div ui-view="content" class="content" id="content"></div>
 
 </div>
 
