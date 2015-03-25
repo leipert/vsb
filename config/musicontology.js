@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('GSB.config')
+angular.module('VSB.config')
     .config(function (globalConfig) {
         globalConfig.name = 'MO_CONFIG';
         globalConfig.propertyTypeByRange['http://purl.org/ontology/mo/'] = 'OBJECT_PROPERTY';

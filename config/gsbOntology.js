@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('GSB.config')
+angular.module('VSB.config')
     .config(function (globalConfig) {
-        globalConfig.name = 'GSB_CONFIG';
+        globalConfig.name = 'VSB_CONFIG';
     });

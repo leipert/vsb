@@ -55,7 +55,7 @@ var gulp = require('gulp-stack').gulp([
             css: bowerCSS
         },
         bower: 'app/bower_components/**', // String of bower directory string
-        templateCacheOptions: {root: '/', module: 'GSB'}
+        templateCacheOptions: {root: '/', module: 'VSB'}
     }
 );
 

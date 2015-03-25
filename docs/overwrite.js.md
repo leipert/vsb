@@ -10,7 +10,7 @@ The `overwrite.js is a basic angular.js file, which gets executed before the app
 ```javascript
 'use strict';
 
-angular.module('GSB.config')
+angular.module('VSB.config')
     .config(function (globalConfig) {
         globalConfig.name = 'FOO';
         //...

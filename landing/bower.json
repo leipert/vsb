@@ -1,0 +1,20 @@
+{
+  "name": "vsb-landing",
+  "version": "1.1.0-SNAPSHOT",
+  "homepage": "https://github.com/leipert/vsb",
+  "authors": [
+    "Lukas Eipert <git@leipert.io>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootswatch": "~3.3.4+1"
+  }
+}

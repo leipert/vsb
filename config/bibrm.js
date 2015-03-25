@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('GSB.config')
+angular.module('VSB.config')
     .config(function (globalConfig) {
         globalConfig.name = 'BIBRM_CONFIG';
         globalConfig.propertyTypeByRange['http://vocab.ub.uni-leipzig.de/bibrm/'] ='OBJECT_PROPERTY';

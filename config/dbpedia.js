@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('GSB.config')
+angular.module('VSB.config')
     .config(function (globalConfig) {
         globalConfig.name = 'DBPEDIA_CONFIG';
         globalConfig.propertyTypeByRange['http://dbpedia.org/ontology/'] = 'OBJECT_PROPERTY';
