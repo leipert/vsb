@@ -6,7 +6,7 @@
      * Controller that controls mainly everything.
      */
 
-    angular.module('GSB.mainCtrl', ['GSB.config', 'ngTable','angular-intro'])
+    angular.module('VSB.mainCtrl', ['VSB.config', 'ngTable','angular-intro'])
 //Inject $scope, $log and globalConfig (see @ js/config.js) into controller
         .controller('MainCtrl', MainCtrl);
     function MainCtrl($scope, $log, globalConfig, $http, $translate, languageStorage) {
@@ -28,7 +28,7 @@
                 },
                 {
                     intro: '<h2>Arbeitsfläche</h2>' +
-                    '<p>Im Hintergrund sehen Sie die Arbeitsfläche, das Kernstück des GSB.... </p>'
+                    '<p>Im Hintergrund sehen Sie die Arbeitsfläche, das Kernstück des VSB.... </p>'
                 },
                 {
                     element: '#navigation',

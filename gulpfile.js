@@ -7,11 +7,16 @@ var staticFiles = [
     {
         name: 'locales',
         folder: 'dist/',
-        src: ['app/locale.json']
+        src: 'app/locale.json'
+    },
+    {
+        name: 'overwrite',
+        folder: 'dist/',
+        src: 'app/overwrite.js'
     },
     {
         name: 'jassa',
-        folder: 'dist/bower_components/jassa',
+        folder: 'dist/scripts',
         src: 'app/bower_components/jassa/*.min.js'
     },
     {
@@ -23,15 +28,10 @@ var staticFiles = [
     {
         name: 'images',
         folder: 'dist/images',
-        src: ['app/images/*'],
+        src: 'app/images/*',
         pipe: $.lazypipe().pipe($.imagemin)
     }
 ];
-
-var overWriteJS = function () {
-    return gulp.src('app/overwrite.js');
-};
-
 
 var bowerCSS = function () {
     return gulp.src('app/styles/styles.less')
@@ -48,12 +48,11 @@ var gulp = require('gulp-stack').gulp([
     ],
     {
         files: {
-            js: ['app/**/*.js', '!app/overwrite.js'],
+            js: ['app/**/*.js'],
             static: staticFiles
         },
         injectInto: {
-            css: bowerCSS,
-            js: overWriteJS
+            css: bowerCSS
         },
         bower: 'app/bower_components/**', // String of bower directory string
         templateCacheOptions: {root: '/', module: 'GSB'}
@@ -69,7 +68,7 @@ gulp.newTask('default', ['build', 'jshint']);
 
 gulp.newTask('build', ['html', 'app', 'static', 'vendor']);
 
-gulp.task('dev', ['develop', 'watch.less', 'less']);
+gulp.task('dev', ['develop', 'watch.less', 'less', 'jassa']);
 
 gulp.task('watch.less', ['less'], function () {
     $.watch('app/**/*.less', function () {
@@ -85,4 +84,9 @@ gulp.task('less', function () {
             cascade: true
         }))
         .pipe(gulp.dest('app/styles/'));
+});
+
+gulp.task('jassa', function(){
+    return gulp.src('app/bower_components/jassa/*.min.js')
+        .pipe(gulp.dest('.tmp/scripts/'))
 });

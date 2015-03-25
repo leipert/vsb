@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('GSB.config')
+angular.module('VSB.config')
     .config(function (globalConfig) {
         globalConfig.name = 'DBPEDIA_CONFIG';
         globalConfig.propertyTypeByRange['http://dbpedia.org/ontology/'] = 'OBJECT_PROPERTY';
@@ -23,5 +23,4 @@ angular.module('GSB.config')
         'OPTIONAL { ?uri rdfs:comment ?comment . BIND(LANG(?comment) AS ?comment_loc) } .' +
         'FILTER ( !isBlank(?class) && !isBlank(?uri) && !isBlank(?range) ) ' +
         '} UNION { ?uri rdfs:range <http://dbpedia.org/ontology/City> . ?uri rdfs:range ?range . OPTIONAL { ?uri rdf:type ?type }   }';
-
     });

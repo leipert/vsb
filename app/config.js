@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('GSB.config', [])
+    angular.module('VSB.config', [])
         .constant('globalConfig', {
             name: 'STANDARD_CONFIG',
             propertyTypeByType: {

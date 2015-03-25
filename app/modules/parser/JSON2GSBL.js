@@ -1,26 +1,26 @@
 (function () {
     'use strict';
     /**
-     * GSBL Translator Factory
-     * A factory to handle translation of JSON -> GSBL
+     * VSBL Translator Factory
+     * A factory to handle translation of JSON -> VSBL
      *
      */
 
-    angular.module('GSB.parser.JSON2GSBL', ['GSB.config', 'GSB.property.model', 'GSB.subject.model'])
-        .factory('TranslatorToGSBL', TranslatorToGSBL);
+    angular.module('VSB.parser.JSON2VSBL', ['VSB.config', 'VSB.property.model', 'VSB.subject.model'])
+        .factory('TranslatorToVSBL', TranslatorToVSBL);
 
-    function TranslatorToGSBL(SubjectService, $log) {
+    function TranslatorToVSBL(SubjectService, $log) {
         var factory = {};
 
         /**
-         * Function that takes an uploaded JSON and creates a GSBL query for the representation in GSB
+         * Function that takes an uploaded JSON and creates a VSBL query for the representation in VSB
          *
          * @param parsedJSON
          * @return Array of all the workspace Content
          */
-        factory.translateJSONToGSBL = function (parsedJSON) {
+        factory.translateJSONToVSBL = function (parsedJSON) {
 
-            $log.debug('Translate JSON to GSBL');
+            $log.debug('Translate JSON to VSBL');
 
             if (parsedJSON === null) {
                 $log.error('Empty JSON File');
