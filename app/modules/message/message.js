@@ -18,12 +18,16 @@
                         message.icon = 'fa-' + message.icon;
                     }
                     messages.push(message);
+                    return message;
                 },
-                dismiss: function (message) {
-                    if (_.isFunction(message.dismiss)) {
-                        message.dismiss();
+                dismiss: function (message, doNotRunCallback) {
+                    if (_.isObject(message)) {
+                        if (!doNotRunCallback && _.isFunction(message.dismiss)) {
+                            message.dismiss();
+                        }
+                        _.remove(messages, message);
                     }
-                    _.remove(messages, message);
+                    return null;
                 }
             };
         })

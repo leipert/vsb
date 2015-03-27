@@ -12,10 +12,12 @@
     }
     background: fadeout(@subject-bg-color, 5%);
     border: 1px solid @subject-border-color;
-    width: 400px;
+    width: 400px !important;
     position: absolute;
     padding: @subject-padding @subject-padding (@subject-padding - @minor-gap);
-    box-shadow: 3px 3px 4px fadeout(#333,70%);
+    box-shadow: 3px 3px 4px fadeout(#333, 70%);
+    //Fixes bug in FF:
+    height: auto !important;
   }
 
   &-head {
@@ -87,7 +89,11 @@
 }
 
 .messageContainer {
-  z-index: 5000;position:relative;top:0;left:0;width:100%;
+  z-index: 750;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
   .alert {
     margin: 0;
     line-height: 19px;

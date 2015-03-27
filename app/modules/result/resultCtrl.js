@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angular.module('VSB.layout.result',[])
+    angular.module('VSB.layout.result', [])
         .filter('deepOrderBy', deepOrderBy)
         .controller('ResultCtrl', ResultCtrl);
 
@@ -25,7 +25,7 @@
         });
         $scope.translatedSPARQL = prefixes + '\n' + beautifySPARQL(JSON.sparql.toString());
 
-        function beautifySPARQL(query){
+        function beautifySPARQL(query) {
             query = $filter('beautifySPARQL')(query);
             query = $filter('replaceURIsWithPrefixes')(query);
             return query;
@@ -54,7 +54,7 @@
                 defaultGraphs = '';
             }
 
-            if(globalConfig.resultURL.indexOf('?') === -1){
+            if (globalConfig.resultURL.indexOf('?') === -1) {
                 return globalConfig.resultURL + '?' + format + defaultGraphs + query;
             }
 

@@ -18,7 +18,7 @@
 
         $scope.availableSubjects = [];
 
-        $scope.arrowClass = (property.type === 'OBJECT_PROPERTY') ? 'fa-long-arrow-right' : 'fa-long-arrow-left';
+        $scope.arrowClass = (property.type === 'RELATION_PROPERTY') ? 'fa-long-arrow-right' : 'fa-long-arrow-left';
 
         $scope.selected = null;
 

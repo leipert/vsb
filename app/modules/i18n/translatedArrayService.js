@@ -20,6 +20,10 @@
                     values: values
                 };
                 return getFromCache(key);
+            },
+            removeFromCache: function (key) {
+                delete translatedCache[key];
+                delete untranslatedCache[key];
             }
         };
 
@@ -37,11 +41,11 @@
                         var p = $translate([labelKey, commentKey]).then(function (translations) {
                             var comment = (translations[commentKey] === commentKey) ? false : translations[commentKey];
 
-                            if(untranslatedCache[key].type === 'class'){
+                            if (untranslatedCache[key].type === 'class') {
                                 return translateClass(c, comment, translations[labelKey]);
                             } else {
-                                c.comment = comment;
-                                c.label =  translations[labelKey];
+                                c.$comment = comment;
+                                c.$label = translations[labelKey];
                                 return c;
                             }
                         });
@@ -51,7 +55,7 @@
                     return $q.all(promises);
                 }).then(function (data) {
                     data = _.sortBy(data, function (x) {
-                        return x.label.toLocaleLowerCase();
+                        return x.$label.toLocaleLowerCase();
                     });
                     translatedCache[key] = data;
                     return $q.when(data);
@@ -66,8 +70,8 @@
         function translateClass(c, comment, label) {
             return {
                 uri: c.uri,
-                comment: comment,
-                label: label
+                $comment: comment,
+                $label: label
             };
         }
 
@@ -75,7 +79,7 @@
 
         $rootScope.$on('$translateChangeSuccess', function (event, data) {
             if (data.language !== currentLanguage && !_.isEmpty(translatedCache)) {
-                $log.debug ('changed Language to', data.language);
+                $log.debug('changed Language to', data.language);
                 currentLanguage = data.language;
                 translatedCache = {};
                 $rootScope.$emit('translateEverything');

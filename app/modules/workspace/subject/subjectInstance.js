@@ -34,6 +34,7 @@
 
         var vm = this;
         vm.editAlias = false;
+        //TODO:asdasd
         vm.comment = subject.uri + '.$comment';
         vm.removeSubject = removeSubject;
         vm.addProperty = addProperty;
@@ -72,8 +73,8 @@
 
             return subject.getAvailableProperties(search, limit)
                 .then(function (data) {
-                    var diff = _.xor(_.pluck(data.items, 'id'),
-                        _.pluck(vm.$availableProperties, 'id'));
+                    var diff = _.xor(_.pluck(data.items, 'uri'),
+                        _.pluck(vm.$availableProperties, 'uri'));
                     if (diff.length > 0) {
                         vm.$availableProperties = data.items;
                         vm.totalItems = data.total;
@@ -93,7 +94,7 @@
         return function (scope, element) {
 
             var pos = angular.copy(scope.subject.pos);
-
+            //Todo: Move Positions to Service
             var x = pos.x || 150, y = pos.y || 250;
 
             element.css({
@@ -108,7 +109,7 @@
                     left: x + 'px',
                     top: y + 'px'
                 });
-                if(oneTimeMove){
+                if (oneTimeMove) {
                     scope.subject.pos.x = angular.copy(x);
                     scope.subject.pos.y = angular.copy(y);
                 }
@@ -119,10 +120,8 @@
                 scope.subject.pos.y = angular.copy(y);
             });
 
-
             zIndexService.registerSubject(scope.$id, element);
 
-            //Todo: Handle Vsibibility with CSS
             ArrowService.makeDraggable(element,
                 {
                     handle: '.mover',
@@ -130,6 +129,7 @@
                         scope.$evalAsync(function () {
                             zIndexService.increaseIndex(scope.$id);
                             scope.vm.showAddProperty = false;
+                            connectionService.recalculateOffsets(scope.subject.$id);
                         });
                     },
                     stop: function (event, ui) {
@@ -142,14 +142,6 @@
                     }
                 }
             );
-
-            //Todo: Move Positions to Service
-            //scope.$on('$destroy', function () {
-            //    scope.subject.pos = angular.copy({
-            //        x: x,
-            //        y: y
-            //    });
-            //});
 
             connectionService.addMapping(scope.subject.$id, scope.$id);
 

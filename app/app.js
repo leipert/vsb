@@ -41,7 +41,7 @@
 
         if ($window.location.protocol !== parser.protocol) {
 
-            $http.get(globalConfig.baseURL + '?query=select+%3Fs+where+%7B%5B%5D+a+%3Fs%7D+LIMIT+1&format=text%2Fhtml')
+            $http.get(globalConfig.baseURL + '?query=select+%3Fs+where+%7B%5B%5D+a+%3Fs%7D+LIMIT+1&format=json')
                 .success(function () {
                     hideMessage = true;
                 });
@@ -55,13 +55,13 @@
             if (hideMessage) {
                 return;
             }
-            //TODO:
-            var message = 'You are trying to view mixed content.<br>' +
-                'Your browser may be blocking data from the endpoint. (The Visual SPARQL Builder is running on ' + $window.location.protocol + ', your SPARQL endpoint on ' + parser.protocol + ')<br>' +
-                'In <b>Firefox</b> you need to navigate to <a class="alert-link" href="' +
-                parser.protocol + $window.location.host + $window.location.pathname + $window.location.hash +
-                '">the ' + parser.protocol + ' version of this site.</a><br>' +
-                'In <b>Chrome</b> you could click on the little armor in the URL bar and \'Load unsafe scripts\' or also navigate to the Firefox link.';
+            var params = {
+                VSBProtocol: $window.location.protocol,
+                EndpointProtocol: parser.protocol,
+                VSBLink: parser.protocol + '//' + $window.location.host + $window.location.pathname + $window.location.hash
+            };
+
+            var message = '<span translate="MIXED_CONTENT_WARNING" translate-values=\'' + JSON.stringify(params) + '\'></span>';
 
             MessageService.addMessage({message: message, 'class': 'warning', icon: 'exclamation-triangle'});
         }

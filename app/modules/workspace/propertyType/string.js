@@ -18,7 +18,7 @@
             controllerAs: 'vm',
             scope: {
                 property: '=',
-                hideLanguageFilter : '=hideLanguage'
+                hideLanguageFilter: '=hideLanguage'
             },
             templateUrl: '/modules/workspace/propertyType/string.tpl.html'
         };
@@ -67,12 +67,12 @@
             }
         ];
 
-        vm.dropdown = _.map(vm.allowedStringComparisons,function(comp,key){
+        vm.dropdown = _.map(vm.allowedStringComparisons, function (comp, key) {
             return {
                 click: function () {
                     vm.changeStringComparison(key);
                 },
-                template: '{{ "'+ comp.label + '" | translate}}'
+                template: '{{ "' + comp.label + '" | translate}}'
             };
         });
 

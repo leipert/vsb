@@ -43,10 +43,10 @@
         };
     }
 
-    function languageStorage($q) {
+    function languageStorage($q, $http, $log) {
+
         var storage = {
                 default: {
-                    ADD_A_AGGREGATE: 'Add an aggregate',
                     ADD_FILTER: 'add filter',
                     AFTER: 'after',
                     ARITHMETICS: 'arithmetics',
@@ -55,6 +55,7 @@
                     BEFORE: 'before',
                     BUTTON_LANG_DE: 'german',
                     BUTTON_LANG_EN: 'english',
+                    MIXED_CONTENT_WARNING: 'You are trying to view mixed content.<br>Your browser may be blocking data from the endpoint. (The Visual SPARQL Builder is running on {{ VSBProtocol }}, your SPARQL endpoint on {{EndpointProtocol}})<br>In <b>Firefox</b> you need to navigate to <a class=\'alert-link\' href=\'{{VSBLink}}\'>the {{EndpointProtocol}} version of this site.</a><br>In <b>Chrome</b> you could click on the little armor in the URL bar and \'Load unsafe scripts\' or also navigate to the Firefox link.',
                     CLASSES_FOUND_ZERO: 'No classes found.<br>Please try another search term.',
                     CLASSES_FOUND_X: 'Found {{matching}} classes.<br>Total classes: {{total}}',
                     CLASSES_FOUND_X_MORE: 'Showing {{x}} of {{matching}} found classes.<br>Total classes: {{total}}',
@@ -79,7 +80,6 @@
                     HIDE_QUERIES: 'hide queries',
                     IS_MANDATORY: 'is mandatory',
                     IS_OPTIONAL: 'is optional',
-                    JSON: 'JSON',
                     KEEP_OPEN: 'Keep open',
                     HIDE_SUBJECT: 'Hide Subject',
                     SHOW_SUBJECT: 'Show Subject',
@@ -94,26 +94,29 @@
                     NO_COMPARISON: 'no comparison',
                     PICK_MAIN_SUBJECT: 'Pick a main subject',
                     PROPERTY: 'property',
-                    OBJECT_PROPERTY: 'object property',
                     QUERIES: 'Queries',
                     REGEX: 'regex',
                     REMOVE_FILTER: 'remove filter',
                     RESET_WORKSPACE: 'Reset Workspace',
                     RESULTS: 'Results',
                     RUN_QUERY: 'Run Query',
-                    SEARCH_RELATION: 'To Search a Relation between {{alias}} and another subject, please click on the plug button of this subject.',
+                    SEARCH_RELATION: 'To Search a Relation between {{alias}} and another subject, please click on the <i class="fa fa-plug fa-fw"></i> plug button of this subject.',
                     SELECT_LANGUAGE: 'Select a language',
                     SHOW_PROPERTY: 'show property',
                     SHOW_QUERIES: 'show queries',
-                    SPARQL: 'SPARQL',
                     STARTS_WITH: 'starts with',
                     WORKSPACE: 'Workspace',
-                    TITLE: 'Visual SPARQL Builder'
+                    TITLE: 'Visual SPARQL Builder',
+                    TITLE_SHORT: 'VSB'
                 }
             },
             factory = {};
 
+        var promise;
+
         factory.mergeLanguages = function (data) {
+            $log.debug('Missing de translations', _.difference(_.keys(data.en), _.keys(data.de)));
+            $log.debug('Missing en tranlsations', _.difference(_.keys(data.de), _.keys(data.en)));
             storage = _.merge(storage, data);
         };
 
@@ -124,6 +127,7 @@
             storage[lang][key] = value;
             return $q.when(value);
         };
+
         factory.getItem = function (key) {
             var deferred = $q.defer();
             if (storage.hasOwnProperty(key)) {
@@ -131,8 +135,16 @@
             } else {
                 deferred.resolve({});
             }
-            return deferred.promise;
+
+            return $q.when(promise).then(function () {
+                return deferred.promise;
+            });
         };
+
+        promise = $http.get('locale.json').success(function (data) {
+            factory.mergeLanguages(data);
+        });
+
         return factory;
     }
 

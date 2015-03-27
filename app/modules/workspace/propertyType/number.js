@@ -9,14 +9,14 @@
 
     angular.module('VSB.propertyType.number', ['VSB.config'])
         .directive('numberPropertyDir', numberPropertyDir)
-        .filter('replace',function(){
-            return function(string,replacementObject){
-                if(!_.isString(string) || !_.isObject(replacementObject)){
+        .filter('replace', function () {
+            return function (string, replacementObject) {
+                if (!_.isString(string) || !_.isObject(replacementObject)) {
                     return string;
                 }
 
-                _.forEach(replacementObject,function(value, key){
-                    string = string.replace(key,value);
+                _.forEach(replacementObject, function (value, key) {
+                    string = string.replace(key, value);
                 });
 
                 return string;

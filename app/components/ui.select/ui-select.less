@@ -14,13 +14,13 @@
   right: 50px;
   width: @add-subject-width;
 
-  & .loading{
+  & .loading {
     .startPointCSS();
     background: @btn-success-bg;
     border-color: darken(spin(@btn-success-bg, -10), 10%);
     color: @startpoint-heading-color;
     position: fixed;
-    left:auto;
+    left: auto;
     top: 66px;
     right: 50px;
   }
@@ -34,6 +34,22 @@
     width: @add-subject-btn-width;
   }
 
+}
+
+.ui-select-toggle {
+  .ui-select-clear {
+    top: 50%;
+    position: absolute;
+    right: 20px;
+    margin-top: -10.5px;
+    background: @btn-default-bg;
+
+  }
+  &:hover {
+    .ui-select-clear {
+      background: darken(@btn-default-bg, 10%);
+    }
+  }
 }
 
 span.ui-select-highlight {
@@ -50,7 +66,7 @@ div.ui-select-choices-row-inner {
   .content {
 
     &.has-comment {
-    max-width: 190px;
+      max-width: 190px;
     }
 
     p {

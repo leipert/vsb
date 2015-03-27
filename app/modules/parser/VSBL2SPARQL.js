@@ -79,8 +79,8 @@
                 s = r.o;
                 b = r.s;
                 view = r.view;
-                type = 'OBJECT_PROPERTY';
-            } else if (type === 'OBJECT_PROPERTY') {
+                type = 'RELATION_PROPERTY';
+            } else if (type === 'RELATION_PROPERTY') {
                 r = translateObjectProperty(s, p, o, property.linkTo, view);
                 b = r.o;
                 view = r.view;
@@ -108,7 +108,7 @@
 
                 if (view && !shownVariables.contains(rdf.NodeFactory.createVar(alias))) {
                     shownVariables.add(rdf.NodeFactory.createVar(alias));
-                    if (type === 'OBJECT_PROPERTY') {
+                    if (type === 'RELATION_PROPERTY') {
                         objects.add(rdf.NodeFactory.createVar(alias));
                     }
                 }
@@ -116,7 +116,7 @@
             } else {
 
                 /*jshint camelcase: false */
-                triples.addTriples([new sparql.ElementFilter( 'NOT EXISTS {' + (new rdf.Triple(s, p, o).toString() + '}'))]);
+                triples.addTriples([new sparql.ElementFilter('NOT EXISTS {' + (new rdf.Triple(s, p, o).toString() + '}'))]);
                 /*jshint camelcase: true */
             }
 
@@ -186,7 +186,7 @@
             query.setQueryPattern(ElementTriplesBlock);
             query.setProjectVars(getProjectVars());
             query.setDistinct(true);
-            if(aggregates.entries().length > 0){
+            if (aggregates.entries().length > 0) {
                 query.groupBy = getProjectVars(true).vars;
             }
 

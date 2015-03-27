@@ -18,13 +18,13 @@
         $scope.subjects[1].$availableProperties = [];
         // filterPropertyCollection(subjects[1].$availableProperties);
 
-        subjects[0].getAvailableProperties(':object', null)
+        subjects[0].getAvailableProperties(':relation', null)
             .then(filterPropertyCollection)
             .then(function (availableProperties) {
                 $scope.subjects[0].$availableProperties = availableProperties;
             });
 
-        subjects[1].getAvailableProperties(':object', null)
+        subjects[1].getAvailableProperties(':relation', null)
             .then(filterPropertyCollection)
             .then(function (availableProperties) {
                 $scope.subjects[1].$availableProperties = availableProperties;
@@ -58,9 +58,11 @@
             if ($scope.selected !== null) {
                 var subject = SubjectService.getSubjectById(subjects[$scope.fromIDX].$id);
                 var target = SubjectService.getSubjectById(subjects[$scope.toIDX].$id);
-                var newProperty = subject.addProperty(angular.copy($scope.selected));
+                var newProperty = angular.copy($scope.selected);
                 newProperty.hasFilter = true;
                 newProperty.linkTo = target;
+                newProperty.$copied = true;
+                subject.addProperty(newProperty);
             }
             $modalInstance.dismiss();
         };

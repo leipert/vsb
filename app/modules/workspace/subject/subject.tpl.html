@@ -7,8 +7,8 @@
                 <span class="mover"><i class="fa fa-fw fa-arrows"></i></span>
 
                 <!-- Button (Info-Sign) to show more infos of subject on hover -->
-                <popover-wrap ng-if="vm.comment"
-                              data-settings="{ class: 'fa fa-fw fa-info-circle hidden-print', content: vm.comment }"
+                <popover-wrap ng-if="subject.$comment"
+                              data-settings="{ class: 'fa fa-fw fa-info-circle hidden-print', content: subject.$comment }"
                         ></popover-wrap>
 
                 <!-- Button (Eyes) to show whether a subject will be visible in the result or not. -->
@@ -58,7 +58,8 @@
 
     <div class="subjectBody">
         <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
-        <property-dir property="property" ng-repeat="property in subject.$selectedProperties"></property-dir>
+        <property-dir property="property"
+                      ng-repeat="property in subject.$selectedProperties track by property.$id"></property-dir>
     </div>
 
     <div class="subject-footer">
@@ -85,7 +86,7 @@
                         <ui-select-match
                                 allow-clear="true"
                                 placeholder="{{ 'CHOOSE_A_PROPERTY' | translate }}">
-                            {{$select.selected.label}}
+                            {{$select.selected.$label}}
                         </ui-select-match>
                         <ui-select-choices
                                 repeat="item in vm.$availableProperties"

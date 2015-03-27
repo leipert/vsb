@@ -5,6 +5,7 @@
     <p>Format results as
         <select ng-model="currentFormat" ng-options="format.name for format in resultFormats"></select>
         and <a href="" ng-click="openInNewTab()">show results!</a></p>
+
     <div ng-show="showQueries" class="col-sm-12">
         <div class="col-sm-12 text-center">
             <a href="" ng-click="showQueries = false"> {{ 'HIDE_QUERIES' | translate }}</a>
@@ -24,48 +25,50 @@
         <a href="" ng-show="showQueries" ng-click="showQueries = false"> {{ 'HIDE_QUERIES' | translate }}</a>
         <a href="" ng-hide="showQueries" ng-click="showQueries = true"> {{ 'SHOW_QUERIES' | translate }}</a>
     </div>
-    <div class="col-sm-12">
-        <table ng-table="tableParams" show-filter="true" class="table table-responsive table-striped">
-            <thead>
-            <tr>
-                <th ng-repeat="column in resultHead" ng-show="column.visible"
-                    class="text-center sortable" ng-class="{
-                    'sort-asc': tableParams.isSortBy(column.sortable, 'asc'),
-                    'sort-desc': tableParams.isSortBy(column.sortable, 'desc')
-                  }"
-                    ng-click="tableParams.sorting(column.sortable, tableParams.isSortBy(column.sortable, 'asc') ? 'desc' : 'asc')">
-                    {{column.title}}
-                </th>
-            </tr>
-            <tr style="background-color: #fff">
-                <th ng-repeat="column in resultHead" ng-show="column.visible" class="filter">
-                    <input type="text" ng-show="column.visible" ng-model="params.filter()[column.field]"
-                           class="input-filter form-control">
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="user in $data">
-                <td ng-repeat="column in resultHead" ng-show="column.visible" sortable="column.sortable">
-                      <span ng-switch="resultType(user[column.field])">
-                          <span ng-switch-when="uri">
-                              <a ng-href="{{user[column.field].id}}">
-                                  <span ng-if="user[column.field].label">{{user[column.field].label}}</span>
-                                  <span ng-if="!user[column.field].label">{{extractLabelFromURI(user[column.field].id)}}</span>
-                              </a>
+    <!-- TODO: Refactor
+        <div class="col-sm-12">
+            <table ng-table="tableParams" show-filter="true" class="table table-responsive table-striped">
+                <thead>
+                <tr>
+                    <th ng-repeat="column in resultHead" ng-show="column.visible"
+                        class="text-center sortable" ng-class="{
+                        'sort-asc': tableParams.isSortBy(column.sortable, 'asc'),
+                        'sort-desc': tableParams.isSortBy(column.sortable, 'desc')
+                      }"
+                        ng-click="tableParams.sorting(column.sortable, tableParams.isSortBy(column.sortable, 'asc') ? 'desc' : 'asc')">
+                        {{column.title}}
+                    </th>
+                </tr>
+                <tr style="background-color: #fff">
+                    <th ng-repeat="column in resultHead" ng-show="column.visible" class="filter">
+                        <input type="text" ng-show="column.visible" ng-model="params.filter()[column.field]"
+                               class="input-filter form-control">
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in $data">
+                    <td ng-repeat="column in resultHead" ng-show="column.visible" sortable="column.sortable">
+                          <span ng-switch="resultType(user[column.field])">
+                              <span ng-switch-when="uri">
+                                  <a ng-href="{{user[column.field].id}}">
+                                      <span ng-if="user[column.field].label">{{user[column.field].label}}</span>
+                                      <span ng-if="!user[column.field].label">{{extractLabelFromURI(user[column.field].id)}}</span>
+                                  </a>
+                              </span>
+                            <span ng-switch-when="lexicalValue">
+                                {{user[column.field].lexicalValue}}
+                                <small>
+                                    <small class="ng-binding">({{user[column.field].datatypeUri}})</small>
+                                </small>
+                                </span>
+                            <span ng-switch-default>{{user[column.field]}}</span>
                           </span>
-                        <span ng-switch-when="lexicalValue">
-                            {{user[column.field].lexicalValue}}
-                            <small>
-                                <small class="ng-binding">({{user[column.field].datatypeUri}})</small>
-                            </small>
-                            </span>
-                        <span ng-switch-default>{{user[column.field]}}</span>
-                      </span>
 
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    -->
 </div>

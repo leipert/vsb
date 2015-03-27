@@ -59,12 +59,12 @@
             }
         ];
 
-        vm.dropdown = _.map(vm.allowedDateComparisons,function(comp,key){
+        vm.dropdown = _.map(vm.allowedDateComparisons, function (comp, key) {
             return {
                 click: function () {
                     vm.changeDateComparison(key);
                 },
-                template: '{{ "'+ comp.label + '" | translate}}'
+                template: '{{ "' + comp.label + '" | translate}}'
             };
         });
 

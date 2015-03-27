@@ -3,22 +3,25 @@
 
 <head>
     <meta charset="utf-8">
-    <title>VSB: Prototyp</title>
+    <title>{{'TITLE_SHORT' | translate}}: Prototyp</title>
     <!-- inject:vendor:css -->
     <!-- endinject -->
     <!-- inject:css -->
     <!-- endinject -->
 </head>
 
-<body ng-controller="MainCtrl"  on-before-print="printed = true" on-after-print="printed = false">
+<body ng-controller="MainCtrl" on-before-print="printed = true" on-after-print="printed = false">
 
-<div ng-intro-options="IntroOptions" ng-intro-method="CallMe" ng-intro-onchange="ChangeEvent" id="root" ng-class="{'beingPrinted': printed}">
+<div ng-intro-options="IntroOptions" ng-intro-method="CallMe" ng-intro-onchange="ChangeEvent" id="root"
+     ng-class="{'beingPrinted': printed}">
     <div id="navigation" class="navigation" ng-controller="NavigationCtrl"
          ng-class="switchStatus?'fixed-width':'';">
         <div class="list-group header">
             <div class="list-group-item">
-                <div class="list-group-item-heading" ng-class="switchStatus?'h4':'h3';">VSB</div>
-                <span class="list-group-item-text">Visual SPARQL Builder</span>
+                <div class="list-group-item-heading" ng-class="switchStatus?'h4':'h3';">
+                    {{'TITLE_SHORT' | translate}}
+                </div>
+                <span class="list-group-item-text">{{ 'TITLE' | translate}}</span>
             </div>
         </div>
 

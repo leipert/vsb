@@ -17,8 +17,8 @@
                ng-if="!property.view" ng-click="vm.toggle('view')"></i>
 
             <!-- Button (Info-Sign) to show more Infos of property on hover -->
-             <popover-wrap ng-if="property.comment"
-                           data-settings="{ class: 'fa fa-fw fa-info-circle hidden-print', content: property.comment }"
+             <popover-wrap ng-if="property.$comment"
+                           data-settings="{ class: 'fa fa-fw fa-info-circle hidden-print', content: property.$comment }"
                      ></popover-wrap>
 
                <i class="fa fa-fw fa-ellipsis-h hidden-print"
@@ -65,7 +65,7 @@
          ng-switch on="property.type">
 
         <div ng-switch-when="AGGREGATE_PROPERTY" aggregate-property-dir property="property"></div>
-        <div ng-switch-when="OBJECT_PROPERTY" object-property-dir property="property"></div>
+        <div ng-switch-when="RELATION_PROPERTY" object-property-dir property="property"></div>
         <div ng-switch-when="NUMBER_PROPERTY" number-property-dir property="property"></div>
         <div ng-switch-when="STRING_PROPERTY" string-property-dir property="property"
              hide-language="property.uri === '$$uri'"></div>

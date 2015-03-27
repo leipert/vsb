@@ -5,11 +5,11 @@
         .constant('globalConfig', {
             name: 'STANDARD_CONFIG',
             propertyTypeByType: {
-                'http://www.w3.org/2002/07/owl#ObjectProperty': 'OBJECT_PROPERTY'
+                'http://www.w3.org/2002/07/owl#ObjectProperty': 'RELATION_PROPERTY'
             },
             propertyTypeByRange: {
-                'http://gsb.leipert.io/ns/': 'OBJECT_PROPERTY',
-                'http://xmlns.com/foaf/0.1/': 'OBJECT_PROPERTY',
+                'http://gsb.leipert.io/ns/': 'RELATION_PROPERTY',
+                'http://xmlns.com/foaf/0.1/': 'RELATION_PROPERTY',
                 'http://www.w3.org/2001/XMLSchema#(integer|float|double|decimal|positiveInteger|nonNegativeInteger)': 'NUMBER_PROPERTY',
                 'http://www.w3.org/2001/XMLSchema#(string|literal)': 'STRING_PROPERTY',
                 'http://www.w3.org/2001/XMLSchema#date': 'DATE_PROPERTY'

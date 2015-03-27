@@ -37,45 +37,40 @@
 
         vm.subjects = SubjectService.subjects;
 
+        var source = angular.copy(property.$id);
 
-        connectionService.registerDestroyWatcher(property.$id,function(id){
-            if(property.linkTo.$id.toString() === id.toString()){
+        connectionService.registerDestroyWatcher(property.$id, function (id) {
+            if (property.linkTo.$id.toString() === id.toString()) {
                 property.linkTo = undefined;
             }
         });
 
-        function setLastConnection(connection) {
-            lastConnection = connection;
-        }
-
         $scope.$watch('property.alias', function (nv) {
-            if(inverse){
+            if (inverse) {
                 nv = angular.copy(nv) + '⁻¹';
             }
             connectionService.updateConnectionLabel(lastConnection, nv);
         });
 
-        $scope.$watch('property.hasFilter', function (nv) {
-            if (lastConnection !== null) {
-                if (!nv) {
-                    property.linkTo = undefined;
-                }
-            }
-        });
-
         $scope.$watch('property.linkTo', function (nv) {
-            var source = angular.copy(property.$id),
-                target,
-                connectionLabel = inverse? property.alias + '⁻¹' : property.alias;
-
             if (nv !== undefined && nv !== null) {
-                target = angular.copy(nv.$id);
+                var target = angular.copy(nv.$id);
+                var connectionLabel = inverse ? property.alias + '⁻¹' : property.alias;
                 connectionService.connect(source, target, connectionLabel).then(setLastConnection);
             } else {
                 connectionService.disconnect(source);
-                lastConnection = null;
+                setLastConnection(null);
             }
         });
+
+        $scope.$on('$destroy', function () {
+            connectionService.disconnect(source);
+            setLastConnection(null);
+        });
+
+        function setLastConnection(connection) {
+            lastConnection = connection;
+        }
 
     }
 

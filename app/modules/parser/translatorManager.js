@@ -18,7 +18,7 @@
                     reader.onload = function (loadEvent) {
                         element.val(null);
                         var parsedJSON = JSON.parse(loadEvent.target.result);
-                        SubjectService.reset().then(function(){
+                        SubjectService.reset().then(function () {
                             TranslatorToVSBL.translateJSONToVSBL(parsedJSON);
                         });
                     };

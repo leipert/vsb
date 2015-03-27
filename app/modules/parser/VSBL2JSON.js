@@ -37,8 +37,7 @@
                     CONFIG: globalConfig.name,
                     START: {
                         type: 'LIST_ALL',
-                        'linkTo': SubjectService.getMainSubject().mainSubject.alias
-
+                        'linkTo': SubjectService.getMainSubject().alias
                     },
                     SUBJECTS: []
                 },

@@ -23,7 +23,7 @@
         };
     }
 
-    function PropertyInstanceCtrl($scope, SubjectService, connectionService, $modal, ArrowService, $timeout) {
+    function PropertyInstanceCtrl($scope, SubjectService, connectionService, $modal) {
 
         var property = $scope.property;
 
@@ -94,7 +94,7 @@
             },
             {
                 hide: function () {
-                    return !(property.type === 'OBJECT_PROPERTY' || property.type === 'INVERSE_PROPERTY');
+                    return !(property.type === 'RELATION_PROPERTY' || property.type === 'INVERSE_PROPERTY');
                 },
                 click: function () {
                     addAppropriateClass();
@@ -103,7 +103,7 @@
             },
             {
                 hide: function () {
-                    return !(property.type !== 'OBJECT_PROPERTY' && property.type !== 'INVERSE_PROPERTY' && property.type !== 'AGGREGATE_PROPERTY');
+                    return !(property.type !== 'RELATION_PROPERTY' && property.type !== 'INVERSE_PROPERTY' && property.type !== 'AGGREGATE_PROPERTY');
                 },
                 click: function () {
                     castProperty();
@@ -126,7 +126,7 @@
                 controller: 'addAppropriateClassCtrl',
                 resolve: {
                     subject: function () {
-                        return SubjectService.getSubjectById(property.subject.$id);
+                        return SubjectService.getSubjectById(property.$subject.$id);
                     },
                     property: function () {
                         return property;
@@ -149,20 +149,23 @@
 
         function toggle(key) {
             if (property.hasOwnProperty(key)) {
-                property[key] = !property[key];
-                $timeout(function () {
-                    connectionService.getScopeID(property.subject.$id).then(function (id) {
-                        ArrowService.repaintEverything(id);
-                    });
+                property[key] = angular.copy(!property[key]);
+                $scope.$evalAsync(function () {
+                    connectionService.recalculateOffsets(property.$subject.$id);
                 });
             }
         }
 
         vm.removeProperty = function (id) {
-            SubjectService.getSubjectById(property.subject.$id)
+            SubjectService.getSubjectById(property.$subject.$id)
                 .removeProperty(id);
-
         };
+
+        $scope.$on('$destroy', function () {
+            $scope.$evalAsync(function () {
+                connectionService.recalculateOffsets(property.$subject.$id);
+            });
+        });
 
     }
 })();

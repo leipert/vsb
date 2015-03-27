@@ -1,0 +1,115 @@
+@import "../variables";
+
+.navigation {
+  z-index: 600;
+  position: fixed;
+  background: @navigation-bg;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-right: 2px solid darken(@navigation-bg, 10%);
+
+  #JSONReader {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .line-height-mixin() {
+    line-height: 44px;
+    vertical-align: middle;
+    height: 44px;
+    cursor: inherit;
+  }
+
+  .list-group {
+
+    width: 100%;
+
+    &.fix-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      margin: 0;
+    }
+
+  }
+
+  .list-group-item {
+
+    &, &:focus {
+      background: @navigation-bg;
+      border: 1px solid darken(@navigation-bg, 10%);
+      border-right: none;
+      color: @navigation-color;
+      height: 66px;
+      vertical-align: middle;
+      cursor: pointer;
+    }
+
+    &-heading {
+      line-height: 44px;
+      vertical-align: middle;
+    }
+
+    &-text, &-heading {
+      text-align: center;
+      width: 100%;
+    }
+
+    &-text, &-description {
+      display: none;
+    }
+
+    .fa {
+      .line-height-mixin();
+      color: @navigation-icon-color;
+    }
+
+    &-description {
+      .line-height-mixin();
+      font-size: 16px;
+    }
+
+    .fa-toggle-on {
+      color: @green;
+    }
+
+    .fa-toggle-off {
+      color: @red;
+    }
+
+  }
+
+  & .list-group {
+    &-item:hover {
+      color: @navigation-color;
+      background: darken(@navigation-bg, 10%);
+      .fa-toggle-on:before {
+        color: @red;
+        content: "\f204";
+      }
+      .fa-toggle-off:before {
+        color: @green;
+        content: "\f205";
+      }
+    }
+  }
+
+  &.fixed-width {
+    width: 300px;
+    .list-group-item-heading {
+      line-height: 1.1;
+    }
+    .list-group-item-text,
+    .list-group-item-description {
+      display: inline-block;
+    }
+
+  }
+
+}

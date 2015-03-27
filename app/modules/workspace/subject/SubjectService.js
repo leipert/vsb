@@ -23,10 +23,7 @@
 
         var factory = {};
         factory.subjects = [];
-        factory.x = {
-            mainSubject: null,
-            groups: []
-        };
+        factory.mainSubject = null;
         factory.groups = [];
         var searchRelationSubjects = [];
         factory.addSubjectByURI = addSubjectByURI;
@@ -53,7 +50,7 @@
 
                 var promise = connectionService.connect('startpoint', mainSubject.$id, 'Start').then(function () {
                     currentDraw = null;
-                    factory.x.mainSubject = mainSubject;
+                    factory.mainSubject = mainSubject;
                     $rootScope.$emit('mainSubjectChanged');
                 });
                 if (currentDraw === null) {
@@ -72,14 +69,28 @@
             return searchRelationSubjects;
         }
 
+        var searchRelationMessage;
+
         function searchRelation(subject) {
-            if (searchRelationSubjects.length === 2) {
-                searchRelationSubjects = [];
+            if (!_.isObject(subject)) {
+                return;
             }
-            if (subject !== null) {
-                searchRelationSubjects.push(subject);
-            }
-            if (searchRelationSubjects.length === 2) {
+            searchRelationSubjects.push(subject);
+            if (searchRelationSubjects.length === 1) {
+
+                MessageService.dismiss(searchRelationMessage);
+
+                var params = {
+                    alias: '"' + searchRelationSubjects[0].alias + '"'
+                };
+
+                searchRelationMessage = MessageService.addMessage({
+                    message: '<span translate=\'SEARCH_RELATION\' translate-values=\'' + JSON.stringify(params) + '\'></span>',
+                    'class': 'info',
+                    dismiss: resetSearchRelation,
+                    icon: 'info-circle'
+                });
+            } else {
                 $modal.open({
                     template: '/modules/workspace/modals/findRelationModal.tpl.html',
                     controller: 'findRelationModalCtrl',
@@ -97,19 +108,25 @@
                     }
                 }).then(function (modalInstance) {
                     return modalInstance.result;
-                })
-                    .then(null, function () {
-                        searchRelation(null);
-                    });
+                }).then(resetSearchRelation, resetSearchRelation);
             }
 
+        }
+
+        function resetSearchRelation() {
+            _.forEach(searchRelationSubjects, function (subject) {
+                subject.$searchRelation = false;
+            });
+            searchRelationSubjects = [];
+            searchRelationMessage = MessageService.dismiss(searchRelationMessage, true);
         }
 
         $rootScope.$on('connectionGroupsChanged', refreshGroups);
 
         function refreshGroups() {
-            var groups = connectionService.getGroups();
-            var oldBossID = (!_.isEmpty(factory.x.mainSubject)) ? angular.copy(factory.x.mainSubject.$id) : null;
+
+            var groups = connectionService.getGroups(false);
+            var oldBossID = (!_.isEmpty(factory.mainSubject)) ? angular.copy(factory.mainSubject.$id) : null;
             var newBossIDs = _.keys(groups);
 
             var oldGroups = factory.groups;
@@ -129,20 +146,17 @@
                 }
             }
 
-
             if (factory.groups.length === 1) {
                 newMainSubject = factory.groups[0];
             }
-
 
             if (_.isObject(newMainSubject) && newMainSubject.$id !== oldBossID) {
                 factory.redrawMainConnection(newMainSubject);
             }
 
-            if(_.xor(oldGroups, factory.groups).length> 0){
+            if (_.xor(oldGroups, factory.groups).length > 0) {
                 $rootScope.$emit('availableGroupsChanged');
             }
-
 
 
         }
@@ -160,7 +174,7 @@
         }
 
         function getMainSubject() {
-            return factory.x;
+            return factory.mainSubject;
         }
 
         function getSubjects() {
@@ -186,7 +200,7 @@
 
             data.pos = data.pos ? data.pos : generatePosition();
 
-            data.alias = createUniqueAlias(data.alias, data.label, data.uri);
+            data.alias = createUniqueAlias(data.alias, data.$label, data.uri);
 
             var newSubject = new Subject(data);
             factory.subjects.push(newSubject);
@@ -198,7 +212,9 @@
             return connectionService.remove(id)
                 .then(function () {
                     _.remove(factory.subjects, {$id: id});
-                    refreshGroups();
+                    if (factory.subjects.length === 0) {
+                        reset();
+                    }
                 });
         }
 
@@ -209,13 +225,14 @@
                 promises.push(
                     removeSubject(subject.$id).then(function () {
                         //TODO: removePropertyTranslations
+                        translationCacheService.removeFromCache(subject.$id);
                     })
                 );
             });
 
             return $q.all(promises).then(function () {
-                factory.x.mainSubject = null;
-                factory.x.groups = [];
+                factory.mainSubject = null;
+                factory.groups = [];
                 $log.debug('Workspace reset');
 
             });
@@ -228,6 +245,7 @@
             if (!alias) {
                 alias = $translate.instant(uri + '.$label');
             }
+            alias = _.trunc(alias, 35);
             var newAlias = alias;
             var c = 1;
             while (!isAliasUnique(newAlias)) {
@@ -244,7 +262,7 @@
         factory.loading = EndPointService.getAvailableClasses()
             .catch(function (err) {
                 $log.error('An error occurred while loading available Classes: ', err);
-                var message = '<span> An error occured while loading available classes <br>'+ _.escape(err)+'</span>';
+                var message = '<span> An error occured while loading available classes <br>' + _.escape(err) + '</span>';
                 MessageService.addMessage({message: message, icon: 'times-circle-o', 'class': 'danger'});
             })
             .then(function (classes) {
@@ -253,15 +271,21 @@
             }).then(function () {
                 factory.loading = false;
             })
-            ;
+        ;
 
         var c = 0;
 
-        function generatePosition(){
-            var offset = 150 + c*30;
-                c = (c+1)%5;
+        var mainOffset = 0;
 
-            return  {x:offset,y:offset};
+        $rootScope.$on('mainOffset', function (event, status) {
+            mainOffset = status ? 200 : 0;
+        });
+
+        function generatePosition() {
+            var offset = 150 + c * 40;
+            c = (c + 1) % 5;
+
+            return {x: offset + mainOffset, y: offset};
         }
 
         return factory;

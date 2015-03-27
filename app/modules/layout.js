@@ -94,6 +94,7 @@
             }
             return $localForage.setItem('switchStatus', [newStatus]).then(function () {
                 $scope.switchStatus = newStatus;
+                $rootScope.$emit('mainOffset', newStatus);
                 $timeout(function () {
                     ArrowService.repaintEverything();
                 }, 0);

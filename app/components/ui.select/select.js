@@ -137,7 +137,7 @@
         var contains = new RegExp(filterTokens, 'i');
 
         return _.sortBy(array, function (c) {
-            var label = _.deburr(c.label);
+            var label = _.deburr(c.$label);
             if (_.isString(label)) {
                 if (label.match(startsWith)) {
                     return 10;

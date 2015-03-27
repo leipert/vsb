@@ -36,9 +36,14 @@
             ArrowService.resetService();
             idToScopeMap = {};
         };
+        factory.recalculateOffsets = function (id) {
+            getScopeID(id).then(function (id) {
+                ArrowService.recalculateOffsets(id);
+            });
+        };
 
-        function getGroups() {
-            generateGroups();
+        function getGroups(emitEvent) {
+            generateGroups(emitEvent);
             return groups;
         }
 
@@ -158,7 +163,7 @@
             return group;
         };
 
-        function generateGroups() {
+        function generateGroups(emitEvent) {
             var neighborMap = [];
             _.forEach(subjectToPropertyMap, function (p, subject) {
                 neighborMap.push([subject, subject]);
@@ -188,10 +193,9 @@
                 }
             });
 
-
             var diff = _.xor(oldKeys, _.keys(groups));
 
-            if (diff.length > 0) {
+            if (emitEvent && diff.length > 0) {
                 $rootScope.$emit('connectionGroupsChanged');
             }
 

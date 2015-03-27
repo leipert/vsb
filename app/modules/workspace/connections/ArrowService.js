@@ -133,13 +133,6 @@
                     return instance.repaintEverything();
                 });
             },
-
-            repaint: function (id) {
-                id = id.toString();
-                return getInstance().then(function (instance) {
-                    return instance.repaint(id);
-                });
-            },
             detach: function (connection) {
                 return getInstance().then(function (instance) {
                     if (connection !== null) {
@@ -167,6 +160,7 @@
                 id = id.toString();
                 return getInstance().then(function (instance) {
                     instance.recalculateOffsets(id);
+                    instance.repaintEverything();
                 });
             },
             resetService: function () {

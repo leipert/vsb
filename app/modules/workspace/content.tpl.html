@@ -31,16 +31,16 @@
             <i class="fa fa-spinner fa-spin"></i> {{ 'CLASSES_LOADING' | translate }}
         </div>
         <div ng-if="!vm.loading">
-            <div  ng-if="vm.availableSubjectClasses.length === 0" class="loading">
+            <div ng-if="vm.totalItems === 0" class="loading">
                 <i class="fa fa-exclamation-triangle"></i> {{ 'NO_CLASSES_FOUND' | translate }}
             </div>
-            <div class="input-group" ng-if="vm.availableSubjectClasses.length > 0">
+            <div class="input-group" ng-if="vm.totalItems > 0">
                 <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
                 <ui-select ng-model="vm.selectedSubject" append-to-body="true">
                     <ui-select-match
                             allow-clear="true"
                             placeholder="{{ 'CHOOSE_A_SUBJECT' | translate }}">
-                        {{$select.selected.label}}
+                        {{$select.selected.$label}}
                     </ui-select-match>
                     <!-- IMPORTANT: it has to be item in 'repeat="item in...',
                     as ui-select defines it internally.	Anything else wont work!-->
@@ -67,5 +67,5 @@
     </div>
 
     <!-- Inserts all existing subjects in workspace, See @js/directives/subject.js -->
-    <subject-dir subject="subjectInst" ng-repeat="subjectInst in vm.subjects"></subject-dir>
+    <subject-dir subject="subjectInst" ng-repeat="subjectInst in vm.subjects track by subjectInst.$id"></subject-dir>
 </div>

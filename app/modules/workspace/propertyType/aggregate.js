@@ -32,7 +32,7 @@
         vm.availableProperties = [];
 
         $scope.$watchCollection(function () {
-            return SubjectService.getSubjectById(property.subject.$id).$selectedProperties;
+            return SubjectService.getSubjectById(property.$subject.$id).$selectedProperties;
         }, function (nv) {
             vm.availableProperties = _.reject(nv, {type: 'AGGREGATE_PROPERTY'});
         });

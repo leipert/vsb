@@ -15,24 +15,24 @@
         var factory = {};
 
 
-var jassa = new Jassa(Promise, function (options) {
+        var jassa = new Jassa(Promise, function (options) {
 
-    var cancelPendingRequest = Promise.defer();
+            var cancelPendingRequest = Promise.defer();
 
-    var httpRequest = jassa.util.PromiseUtils.createDeferred(true);
+            var httpRequest = jassa.util.PromiseUtils.createDeferred(true);
 
-    options.timeout = cancelPendingRequest.promise;
-    options.params = options.data;
-    delete (options.data);
+            options.timeout = cancelPendingRequest.promise;
+            options.params = options.data;
+            delete (options.data);
 
-    $http(options).success(httpRequest.resolve).error(httpRequest.reject);
+            $http(options).success(httpRequest.resolve).error(httpRequest.reject);
 
-    return httpRequest.promise()
-        .catch(Promise.TimeoutError, Promise.CancellationError, function (e) {
-            cancelPendingRequest.resolve();
-            throw e;
+            return httpRequest.promise()
+                .catch(Promise.TimeoutError, Promise.CancellationError, function (e) {
+                    cancelPendingRequest.resolve();
+                    throw e;
+                });
         });
-});
 
 
         var sparql = jassa.sparql;
@@ -177,7 +177,7 @@ var jassa = new Jassa(Promise, function (options) {
             return flow.list()
                 .then(function (docs) {
                     return _.pluck(_.pluck(docs, 'val'), 'id');
-                },function (err) {
+                }, function (err) {
                     $log.error('An error occurred: ', err);
                     return [];
                 });
@@ -222,6 +222,7 @@ var jassa = new Jassa(Promise, function (options) {
                     propertyCollection.forEach(function (property) {
                         property.$range = _.pluck(property.$range, 'id');
                         property.uri = cleanURI(property.id);
+                        delete property.id;
                         fillTranslationStorage(property.uri, property.$labels, property.$comments);
 
                         if (inverse) {
@@ -270,7 +271,7 @@ var jassa = new Jassa(Promise, function (options) {
                 .then(function (propertyCollection) {
                     propertyCollection = _(propertyCollection).pluck('val').pluck('id').value();
                     return propertyCollection;
-                },function (err) {
+                }, function (err) {
                     $log.error('An error occurred: ', err);
                     return [];
                 });

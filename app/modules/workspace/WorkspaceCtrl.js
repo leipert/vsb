@@ -100,13 +100,13 @@
          */
 
         vm.groups = SubjectService.groups;
-        if (SubjectService.x.mainSubject !== null) {
-            vm.mainSubject = SubjectService.x.mainSubject;
-            SubjectService.redrawMainConnection(SubjectService.x.mainSubject);
+        if (SubjectService.mainSubject !== null) {
+            vm.mainSubject = SubjectService.mainSubject;
+            SubjectService.redrawMainConnection(SubjectService.mainSubject);
         }
 
         $rootScope.$on('mainSubjectChanged', function () {
-            vm.mainSubject = SubjectService.x.mainSubject;
+            vm.mainSubject = SubjectService.mainSubject;
         });
 
         $rootScope.$on('availableGroupsChanged', function () {

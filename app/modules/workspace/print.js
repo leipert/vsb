@@ -3,13 +3,22 @@
     'use strict';
 
     angular.module('VSB.print', [])
-        .directive('onBeforePrint', function onBeforePrint($window, $rootScope, $timeout, ArrowService, $q, MessageService) {
-            var beforePrintDirty = false;
+        .factory('PrintService', function ($window, $rootScope, $timeout, ArrowService, $q, MessageService) {
             var listeners = {};
+            var beforePrintDirty = false;
 
-            var promise;
+            return {
+                beforePrint: beforePrint,
+                registerListener: function (key, value) {
+                    listeners[key] = value;
+                },
+                unregisterListener: function (key) {
+                    delete listeners[key];
+                }
+            };
 
-            var beforePrint = function () {
+
+            function beforePrint() {
 
                 if (beforePrintDirty) {
                     return;
@@ -28,45 +37,41 @@
                     $rootScope.$digest();
                 }
 
-                promise = $timeout(function () {
+                return $timeout(function () {
                     ArrowService.repaintEverything();
                     // This is used for Webkit. For some reason this gets called twice there.
                     beforePrintDirty = false;
                     MessageService.addMessage({
-                        message: '<span>{{ "PRINT_PREVIEW_MESSAGE" | translate}}</span>',
+                        message: '<span translate="PRINT_PREVIEW_MESSAGE"></span>',
                         dismiss: afterPrint,
                         dismissText: 'CLOSE_PREVIEW',
                         icon: 'print',
                         'class': 'success'
                     });
                 }, 100, false);
-                return promise;
-            };
+            }
 
             function afterPrint() {
 
-                $q.when(promise).then(function () {
-
-                    _.forEach(listeners, function (listener) {
-                        listener.triggerHandler('afterPrint');
-                    });
-
-                    var scopePhase = $rootScope.$$phase;
-
-                    // This must be synchronious so we call digest here.
-                    if (scopePhase !== '$apply' && scopePhase !== '$digest') {
-                        $rootScope.$digest();
-                    }
-                    $timeout(function () {
-                        ArrowService.repaintEverything();
-                    }, 0);
+                _.forEach(listeners, function (listener) {
+                    listener.triggerHandler('afterPrint');
                 });
+
+                var scopePhase = $rootScope.$$phase;
+
+                // This must be synchronious so we call digest here.
+                if (scopePhase !== '$apply' && scopePhase !== '$digest') {
+                    $rootScope.$digest();
+                }
+                $timeout(function () {
+                    ArrowService.repaintEverything();
+                }, 0);
 
             }
 
-            window.print = function () {
-                beforePrint();
-            };
+
+        })
+        .directive('onBeforePrint', function (PrintService) {
 
             return function (scope, iElement, iAttrs) {
                 function onBeforePrint() {
@@ -77,7 +82,7 @@
                     scope.$eval(iAttrs.onAfterPrint);
                 }
 
-                listeners[scope.$id] = iElement;
+                PrintService.registerListener(scope.$id, iElement);
                 iElement.on('beforePrint', onBeforePrint);
                 iElement.on('afterPrint', onAfterPrint);
 
@@ -85,7 +90,7 @@
                     iElement.off('beforePrint', onBeforePrint);
                     iElement.off('afterPrint', onAfterPrint);
 
-                    delete listeners[scope.$id];
+                    PrintService.unregisterListener(scope.$id);
                 });
             };
         });

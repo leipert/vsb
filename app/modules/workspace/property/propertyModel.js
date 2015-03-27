@@ -3,7 +3,7 @@
     angular.module('VSB.property.model', ['VSB.endPointService', 'pascalprecht.translate', 'VSB.connectionService'])
         .factory('Property', PropertyConstructor);
 
-    function PropertyConstructor(EndPointService, $log, $translate, $q, connectionService) {
+    function PropertyConstructor(EndPointService, $log, $translate, $q, connectionService, $rootScope) {
         return function (data) {
             var property = {
                 uri: null,
@@ -16,19 +16,11 @@
                 optional: false,
                 arithmetic: null,
                 compare: null,
-                subject: {}
+                $subject: {}
             };
             _.extend(property, data);
             property.$id = connectionService.generateID();
-            connectionService.addPropertyToSubject(property.subject.$id, property.$id);
-
-
-            if (!property.alias) {
-                //TODO: Unique
-                $translate(property.uri + '.$label').then(function (alias) {
-                    property.alias = alias;
-                });
-            }
+            connectionService.addPropertyToSubject(property.$subject.$id, property.$id);
 
             var getSubClassesOfRange = function (range) {
                 if (!_.isEmpty(range)) {
@@ -49,13 +41,13 @@
             };
 
             if (property.$copied) {
-                if(!_.startsWith(property.uri,'$$')){
-                    EndPointService.getPropertyDetails(property.subject.uri, property)
+                if (!_.startsWith(property.uri, '$$')) {
+                    EndPointService.getPropertyDetails(property.$subject.uri, property)
                         .then(function (data) {
                             data = data[0];
                             if (!_.isEmpty(data)) {
                                 property.$range = data.$range;
-                                if(!property.typeCasted){
+                                if (!property.typeCasted) {
                                     property.type = data.type;
                                 }
                                 return data.$range;
@@ -70,6 +62,28 @@
             } else {
                 getSubClassesOfRange(property.$range);
             }
+
+            var currentLanguage = null;
+
+            $rootScope.$on('$translateChangeSuccess', function (event, data) {
+
+                if (!property.$label || currentLanguage !== data.language) {
+                    var $comment = property.uri + '.$comment';
+                    var $label = property.uri + '.$label';
+
+                    $translate([$comment, $label]).then(function (translated) {
+                        if ($label !== translated[$label]) {
+                            currentLanguage = data.language;
+                            property.$label = translated[$label];
+
+                            property.$comment = ($comment !== translated[$comment]) ? translated[$comment] : false;
+
+
+                        }
+                    });
+                }
+
+            });
 
 
             return property;

@@ -3,11 +3,13 @@
 var $ = require('gulp-stack').plugins;
 
 $.less = require('gulp-less');
+$.yaml = require('gulp-yaml');
 var staticFiles = [
     {
         name: 'locales',
         folder: 'dist/',
-        src: 'app/locale.json'
+        src: 'app/locales/**.yml',
+        pipe: $.lazypipe().pipe($.concat, 'locale.json').pipe($.yaml)
     },
     {
         name: 'overwrite',
@@ -48,7 +50,7 @@ var gulp = require('gulp-stack').gulp([
     ],
     {
         files: {
-            js: ['app/**/*.js'],
+            js: ['app/**/*.js', '!app/overwrite.js'],
             static: staticFiles
         },
         injectInto: {
@@ -68,9 +70,9 @@ gulp.newTask('default', ['build', 'jshint']);
 
 gulp.newTask('build', ['html', 'app', 'static', 'vendor']);
 
-gulp.task('dev', ['develop', 'watch.less', 'less', 'jassa']);
+gulp.task('dev', ['develop', 'watch.less', 'jassa', 'locale']);
 
-gulp.task('watch.less', ['less'], function () {
+gulp.task('watch.less', function () {
     $.watch('app/**/*.less', function () {
         gulp.start('less');
     })
@@ -86,7 +88,14 @@ gulp.task('less', function () {
         .pipe(gulp.dest('app/styles/'));
 });
 
-gulp.task('jassa', function(){
+gulp.task('jassa', function () {
     return gulp.src('app/bower_components/jassa/*.min.js')
         .pipe(gulp.dest('.tmp/scripts/'))
+});
+
+gulp.task('locale', function () {
+    return gulp.src('app/locales/**.yml')
+        .pipe($.concat('locale.json'))
+        .pipe($.yaml({space: 2}))
+        .pipe(gulp.dest('.tmp'))
 });
