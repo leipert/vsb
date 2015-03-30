@@ -6,7 +6,7 @@
      * Controller that controls mainly everything.
      */
 
-    angular.module('VSB.mainCtrl', ['VSB.config', 'ngTable', 'angular-intro'])
+    angular.module('VSB.mainCtrl', ['VSB.config', 'angular-intro'])
         .controller('MainCtrl', MainCtrl);
     function MainCtrl($scope, $log, $compile, $interpolate, $rootScope) {
 

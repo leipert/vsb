@@ -4,8 +4,11 @@
 <head>
     <meta charset="utf-8">
     <title>{{'TITLE_SHORT' | translate}}: Prototyp</title>
+    <!--  <%= vendorCSS %> -->
     <!-- inject:vendor:css -->
     <!-- endinject -->
+
+    <!--  <%= appCSS %> -->
     <!-- inject:css -->
     <!-- endinject -->
 </head>
@@ -38,11 +41,13 @@
 
 </div>
 
+<!--  <%= vendorJS %> -->
 <!-- inject:vendor:js -->
 <!-- endinject -->
-<!-- ref:js js/jassa.min.js -->
+
 <script src="scripts/jassa.min.js"></script>
-<!-- endref -->
+
+<!--  <%= appJS %> -->
 <!-- inject:js -->
 <!-- endinject -->
 <script src="overwrite.js"></script>
