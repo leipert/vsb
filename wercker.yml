@@ -1,11 +1,11 @@
-box: jorgenfb/nginx-nodejs-bower-gulp
+box: leipert/webapp-test
 # Build definition
 build:
   # The steps that will be executed on build
   steps:
     # A step that executes `npm install` command
     - npm-install
-    - leipert/yeoman-bower-install
+    - olger/yeoman-bower-install
     - script:
         name: Test and build gsb
         code: gulp
