@@ -4,6 +4,7 @@ var gulp = require('gulp');
 
 var $ = require('gulp-stack').plugins(gulp);
 
+$.imagemin = require('gulp-imagemin');
 $.less = require('gulp-less');
 $.yaml = require('gulp-yaml');
 

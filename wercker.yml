@@ -8,7 +8,10 @@ build:
 #    - plasticine/bower-install
     - script:
         name: Bower
-        code: bower install
+        code: >-
+          export BOWER_STORAGE__CACHE="${WERCKER_CACHE_DIR}/wercker/bower" &&
+          mkdir -p $BOWER_STORAGE__CACHE &&
+          bower --allow-root install
     - script:
         name: Test and build gsb
         code: gulp
