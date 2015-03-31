@@ -35,15 +35,15 @@ deploy:
           cp config/exampleOntology.js example/overwrite.js &&
           cp config/dbpedia.js dbpedia/overwrite.js
     - leipert/git-push:
-      gh_oauth: $GH_TOKEN
-      gh_pages: true
-      basedir: landing
+        gh_oauth: $GH_TOKEN
+        gh_pages: true
+        basedir: landing
     - script:
         name: Copy config to dist
         code: mkdir -p dist/config && cp -r config/* dist/config && cp bower.json dist/
     - leipert/git-push:
-      gh_oauth: $GH_TOKEN
-      branch: dist
-      basedir: dist
-      tag: bower
-      tag_overwrite: true
+        gh_oauth: $GH_TOKEN
+        branch: dist
+        basedir: dist
+        tag: bower
+        tag_overwrite: true
