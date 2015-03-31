@@ -5,7 +5,10 @@ build:
   steps:
     # A step that executes `npm install` command
     - npm-install
-    - plasticine/bower-install
+#    - plasticine/bower-install
+    - script:
+        name: Bower
+        code: bower install
     - script:
         name: Test and build gsb
         code: gulp
