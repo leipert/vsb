@@ -1,5 +1,5 @@
 {
-  "name": "GSB",
+  "name": "VSB",
   "version": "1.1.0-SNAPSHOT",
   "main": "dist/",
   "dependencies": {
@@ -12,7 +12,6 @@
     "jassa": "0.9.0-SNAPSHOT",
     "lodash": "~3.5.0",
     "bluebird": "~2.3.5",
-    "ng-table": "~0.5.4",
     "ui-router": "~0.2.13",
     "angular-toggle-switch": "~1.2.1",
     "angular-intro.js": "~1.2.2",
