@@ -40,6 +40,7 @@ deploy:
         gh_oauth: $GH_TOKEN
         gh_pages: true
         basedir: landing
+        clean_removed_files: true
     - script:
         name: Copy config to dist
         code: mkdir -p dist/config && cp -r config/* dist/config && cp bower.json dist/
@@ -49,3 +50,4 @@ deploy:
         basedir: dist
         tag: bower
         tag_overwrite: true
+        clean_removed_files: true
