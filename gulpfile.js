@@ -55,6 +55,7 @@ gulp = require('gulp-stack').gulp(gulp, [
     {
         files: {
             js: ['app/**/*.js', '!app/overwrite.js'],
+            watch : '!app/styles/styles.css',
             static: staticFiles
         },
         injectInto: {
@@ -67,6 +68,10 @@ gulp = require('gulp-stack').gulp(gulp, [
         templateCacheOptions: {root: '/', module: 'VSB'},
         deps: {
             develop: ['watch.less', 'jassa', 'locale']
+        },
+        webserver:{
+            ghostMode: false,
+            notify: false
         }
     }
 );
@@ -84,16 +89,15 @@ gulp.task('watch.less', ['less'], function () {
     });
 });
 
-gulp.task('less', ['develop.inject'], function () {
-    return gulp.src('app/styles/styles.less')
-        .pipe($.plumber())
+gulp.task('less', function () {
+    return gulp.src(['app/styles/styles.less','app/styles/develop.less'])
+        .pipe($.plumber($.errorHandler))
+        .pipe($.concat('styles.less'))
         .pipe($.less())
-        .pipe($.plumber.stop())
-        .pipe($.autoprefixer({
-            browsers: ['> 1%', 'last 4 versions', 'Firefox ESR', 'Opera 12.1'],
-            cascade: true
-        }))
-        .pipe(gulp.dest('app/styles/'));
+        .pipe($.cssMinify())
+        .pipe(gulp.dest('app/styles/'))
+        .pipe($.reload({stream: true}))
+
 });
 
 gulp.task('jassa', function () {

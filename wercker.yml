@@ -13,21 +13,37 @@ build:
         name: Test and build gsb
         code: gulp
     - script:
-        name: Copying config
-        code: mkdir -p dist/config && cp -r config/* dist/config/ && cp bower.json dist/
-    - script:
         name: Delete unneeded files
-        code: ls -A | grep -v dist | grep -v landing | xargs rm -rf
+        code: ls -A | grep -v dist | grep -v landing | grep -v config | grep -v bower.json | xargs rm -rf
 
 deploy:
   steps:
+    - script:
+        name: Create Examples
+        code: >-
+          cd landing &&
+          mkdir -p assets &&
+          mkdir -p example &&
+          mkdir -p dbpedia &&
+          mkdir -p config &&
+          cp -r ../config/* config &&
+          find ../dist/* -type d -exec cp -r "{}" assets \; &&
+          find ../dist -type f -depth 1 -exec cp "{}" example \; &&
+          cat example/index.html | sed -E 's#(src|href)(=")(styles|scripts)#\1\2../assets/\3#g' >foobar.html &&
+          mv foobar.html example/index.html &&
+          cp example/* dbpedia &&
+          cp config/exampleOntology.js example/overwrite.js &&
+          cp config/dbpedia.js dbpedia/overwrite.js
     - leipert/git-push:
-         gh_oauth: $GH_TOKEN
-         gh_pages: true
-         basedir: dist
+      gh_oauth: $GH_TOKEN
+      gh_pages: true
+      basedir: landing
+    - script:
+        name: Copy config to dist
+        code: mkdir -p dist/config && cp -r config/* dist/config && cp bower.json dist/
     - leipert/git-push:
-         gh_oauth: $GH_TOKEN
-         branch: dist
-         basedir: dist
-         tag: bower
-         tag_overwrite: true
+      gh_oauth: $GH_TOKEN
+      branch: dist
+      basedir: dist
+      tag: bower
+      tag_overwrite: true
