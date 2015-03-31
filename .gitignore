@@ -11,3 +11,4 @@ dist/
 app/vendor/lodash.build.js
 app/styles/styles.css
 landing/bower_components
+app/overwrite.js

@@ -33,6 +33,8 @@ en:
     DELETE_SUBJECT: Delete Subject
     CONNECT_SUBJECT: Connect Subject to another Subject
     PROPERTY: property
+    CLASSES_LOADING: Classes loading...
+    NO_CLASSES_FOUND: No classes found
 
 
 # Eigenschaften

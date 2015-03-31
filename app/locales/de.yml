@@ -32,7 +32,8 @@ de:
     DELETE_SUBJECT: Lösche Subjekt
     CONNECT_SUBJECT: Verbinde Subjekt mit anderem Subjekt
     PROPERTY: Eigenschaft
-
+    CLASSES_LOADING: Klassen laden...
+    NO_CLASSES_FOUND: Keine Klasse gefunden
 
 # Eigenschaften
     ADD_FILTER: Filter hinzufügen

@@ -124,6 +124,7 @@
 
             ArrowService.makeDraggable(element,
                 {
+                    containment: 'parent',
                     handle: '.mover',
                     start: function () {
                         scope.$evalAsync(function () {
@@ -131,6 +132,9 @@
                             scope.vm.showAddProperty = false;
                             connectionService.recalculateOffsets(scope.subject.$id);
                         });
+                    },
+                    drag: function(){
+                        connectionService.recalculateOffsets(scope.subject.$id,true);
                     },
                     stop: function (event, ui) {
                         x = angular.copy(ui.position.left);

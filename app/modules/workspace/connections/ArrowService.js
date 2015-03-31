@@ -75,6 +75,9 @@
 
         return {
             makeDraggable: function (target, options) {
+                if(_.isNumber(target)){
+                    target = target + '';
+                }
                 return getInstance().then(function (instance) {
                     return instance.draggable(target, options);
                 });
@@ -156,11 +159,13 @@
                     return connection.getOverlay('label').setLabel(label);
                 }
             },
-            recalculateOffsets: function (id) {
+            recalculateOffsets: function (id, repaint) {
                 id = id.toString();
                 return getInstance().then(function (instance) {
                     instance.recalculateOffsets(id);
-                    instance.repaintEverything();
+                    if(repaint){
+                        instance.repaintEverything();
+                    }
                 });
             },
             resetService: function () {

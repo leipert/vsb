@@ -1,7 +1,9 @@
 <div class="ui-select-choices-row-inner" style="">
     <div class="content"
          ng-class="{'has-comment':item.$comment}">
-        <p ng-bind-html="item.$label | highlightSearchTerm: $select.search"></p>
+        <p><span ng-bind-html="item.$label | highlightSearchTerm: $select.search"></span><b
+                ng-if="item.type === 'INVERSE_PROPERTY'"
+                class="text-danger">&#x207b;&#x00b9;</b></p>
 
         <p ng-bind-html="item.uri | replaceURIsWithPrefixes | highlightSearchTerm: $select.search"></p>
     </div>

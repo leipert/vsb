@@ -14,6 +14,8 @@
         var vm = this;
         vm.groups = [];
         vm.availableSubjectClasses = [];
+        vm.totalItems = 0;
+        vm.matchingItems = 0;
         vm.selectedSubject = undefined;
         vm.subjects = SubjectService.subjects;
         vm.addSubject = addSubject;

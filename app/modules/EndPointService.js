@@ -217,7 +217,12 @@
                         propertyCollection = _.filter(propertyCollection, {id: cleanURI(filterURI)});
                     }
                     if (!inverse) {
-                        propertyCollection = _.union([], propertyCollection, globalConfig.defaultProperties, globalConfig.aggregateFunctions);
+                        propertyCollection = _.union(
+                            [],
+                            propertyCollection,
+                            angular.copy(globalConfig.defaultProperties),
+                            angular.copy(globalConfig.aggregateFunctions)
+                        );
                     }
                     propertyCollection.forEach(function (property) {
                         property.$range = _.pluck(property.$range, 'id');

@@ -36,9 +36,9 @@
             ArrowService.resetService();
             idToScopeMap = {};
         };
-        factory.recalculateOffsets = function (id) {
+        factory.recalculateOffsets = function (id, repaint) {
             getScopeID(id).then(function (id) {
-                ArrowService.recalculateOffsets(id);
+                ArrowService.recalculateOffsets(id, repaint);
             });
         };
 

@@ -1,6 +1,6 @@
 # overwrite.js
 
-Without an `overwrite.js` file, the GSB is configured to take https://ssl.leipert.io/sparql as Endpoint.
+Without an `overwrite.js` file, the VSB is configured to take https://leipert.io/sparql as Endpoint.
 Examples of `overwrite.js` files can be found in the [config folder](../config/).
 
 ## Basic structure
@@ -20,8 +20,8 @@ The `globalConfig.name` property must be set. You can replace `//...` with other
 
 ## List of properties
 - `globalConfig.name`: **mandatory** This name is used for saving queries in the localStorage of the user.
-- `globalConfig.baseURL`: URL for meta queries, where the GSB gets its classes and properties. Default: `https://ssl.leipert.io/sparql`
-- `globalConfig.resultURL`: URL for result queries. (Default): `https://ssl.leipert.io/sparql?timeout=5000&debug=on`
+- `globalConfig.baseURL`: URL for meta queries, where the VSB gets its classes and properties. Default: `https://leipert.io/sparql`
+- `globalConfig.resultURL`: URL for result queries. (Default): `https://leipert.io/sparql?timeout=5000&debug=on`
 - [`globalConfig.defaultGraphURIs`](#defaultGraphURIs)
 - [`globalConfig.prefixes`](#prefixes)
 - [`globalConfig.endPointQueries`](#endPointQueries)
@@ -33,7 +33,7 @@ The `globalConfig.name` property must be set. You can replace `//...` with other
 ### defaultGraphURIs<a name="defaultGraphURIs"></a>
 Default Graph URIS, used in meta and result queries. Defaults to:
 ```javascript
-    globalConfig.defaultGraphURIs = ['http://xmlns.com/foaf/0.1/', 'http://gsb.leipert.io/ns/'];
+    globalConfig.defaultGraphURIs = ['http://xmlns.com/foaf/0.1/', 'http://vsb.leipert.io/ns/'];
 ```
 
 ### endPointQueries<a name="endPointQueries"></a>
@@ -182,7 +182,7 @@ Prefixes used in meta and result queries. Defaults to:
         'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
         'foaf': 'http://xmlns.com/foaf/0.1/',
         'owl': 'http://www.w3.org/2002/07/owl#',
-        'gsb': 'http://gsb.leipert.io/ns/'
+        'vsb': 'http://vsb.leipert.io/ns/'
     }
 ```
 
@@ -198,7 +198,7 @@ If you don't want to overwrite the default prefixes, you simply can add some usi
 Mapping from the range of a property to an internal property type. Defaults to
 ```javascript
     globalConfig.propertyTypeByRange = {
-      'http://gsb.leipert.io/ns/': 'RELATION_PROPERTY',
+      'http://vsb.leipert.io/ns/': 'RELATION_PROPERTY',
       'http://xmlns.com/foaf/0.1/': 'RELATION_PROPERTY',
       'http://www.w3.org/2001/XMLSchema#(integer|float|double|decimal|positiveInteger|nonNegativeInteger)': 'NUMBER_PROPERTY',
       'http://www.w3.org/2001/XMLSchema#(string|literal)': 'STRING_PROPERTY',

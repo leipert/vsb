@@ -42,7 +42,7 @@ describe('translatorToSPARQL tests', function (){
 
   beforeEach(function (){
 
-  module('myGSB');
+  module('vsb');
   
   inject(function(TranslatorToSPARQL) {
     translatorService = TranslatorToSPARQL;

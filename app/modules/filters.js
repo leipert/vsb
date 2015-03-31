@@ -6,6 +6,9 @@
 
     function replaceURIsWithPrefixes(globalConfig) {
         return function (string) {
+            if(!_.isString(string)){
+                return string;
+            }
             for (var key in globalConfig.prefixes) {
                 if (globalConfig.prefixes.hasOwnProperty(key)) {
                     var regex = new RegExp('<?' + globalConfig.prefixes[key] + '(\\w+)>?', 'ig');

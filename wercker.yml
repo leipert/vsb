@@ -13,11 +13,11 @@ build:
           mkdir -p $BOWER_STORAGE__CACHE &&
           bower --allow-root install
     - script:
-        name: Test and build gsb
+        name: Test and build vsb
         code: gulp
     - script:
         name: Delete unneeded files
-        code: ls -A | grep -v dist | grep -v landing | grep -v config | grep -v bower.json | xargs rm -rf
+        code: ls -A | grep -v dist | grep -v landing | grep -v config | xargs rm -rf
 
 deploy:
   steps:
@@ -43,7 +43,7 @@ deploy:
         clean_removed_files: true
     - script:
         name: Copy config to dist
-        code: mkdir -p dist/config && cp -r config/* dist/config && cp bower.json dist/
+        code: rm -rf dist/config && mv config/bower.json dist && cp -r config dist/config
     - leipert/git-push:
         gh_oauth: $GH_TOKEN
         branch: dist

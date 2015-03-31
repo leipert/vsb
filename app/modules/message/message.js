@@ -10,7 +10,8 @@
                 addMessage: function (message) {
                     if (_.isString(message)) {
                         message = {
-                            message: message
+                            message: message,
+                            'class': 'info'
                         };
                     }
                     message.class = 'alert-' + message.class;

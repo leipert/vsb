@@ -8,7 +8,7 @@
                 'http://www.w3.org/2002/07/owl#ObjectProperty': 'RELATION_PROPERTY'
             },
             propertyTypeByRange: {
-                'http://gsb.leipert.io/ns/': 'RELATION_PROPERTY',
+                'http://vsb.leipert.io/ns/': 'RELATION_PROPERTY',
                 'http://xmlns.com/foaf/0.1/': 'RELATION_PROPERTY',
                 'http://www.w3.org/2001/XMLSchema#(integer|float|double|decimal|positiveInteger|nonNegativeInteger)': 'NUMBER_PROPERTY',
                 'http://www.w3.org/2001/XMLSchema#(string|literal)': 'STRING_PROPERTY',
@@ -18,7 +18,7 @@
                 'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
                 'foaf': 'http://xmlns.com/foaf/0.1/',
                 'owl': 'http://www.w3.org/2002/07/owl#',
-                'gsb': 'http://gsb.leipert.io/ns/'
+                'vsb': 'http://vsb.leipert.io/ns/'
             },
             resultFormats: [
                 {
@@ -90,9 +90,9 @@
                     type: 'STRING_PROPERTY'
                 }
             ],
-            defaultGraphURIs: ['http://xmlns.com/foaf/0.1/', 'http://gsb.leipert.io/ns/'],
-            baseURL: 'https://ssl.leipert.io/sparql',
-            resultURL: 'https://ssl.leipert.io/sparql?timeout=5000&debug=on',
+            defaultGraphURIs: ['http://vsb.leipert.io/ns/'],
+            baseURL: 'https://leipert.io/sparql',
+            resultURL: 'https://leipert.io/sparql?timeout=5000&debug=on',
             allowedLanguages: ['*', 'de', 'en'],
             fallBackLanguages: ['en'],
             aggregateFunctions: [

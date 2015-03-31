@@ -40,7 +40,7 @@
         };
         factory.setMainSubjectWithAlias = setMainSubjectWithAlias;
         factory.linkSubjectWithProperty = linkSubjectWithProperty;
-        //factory.getGroups = getGroups;
+        factory.refreshGroups = refreshGroups;
 
         var currentDraw = null;
 
@@ -125,6 +125,7 @@
 
         function refreshGroups() {
 
+
             var groups = connectionService.getGroups(false);
             var oldBossID = (!_.isEmpty(factory.mainSubject)) ? angular.copy(factory.mainSubject.$id) : null;
             var newBossIDs = _.keys(groups);
@@ -153,6 +154,7 @@
             if (_.isObject(newMainSubject) && newMainSubject.$id !== oldBossID) {
                 factory.redrawMainConnection(newMainSubject);
             }
+
 
             if (_.xor(oldGroups, factory.groups).length > 0) {
                 $rootScope.$emit('availableGroupsChanged');
@@ -267,6 +269,10 @@
             })
             .then(function (classes) {
                 $log.debug('Classes loaded ', classes);
+                if (classes.length === 0) {
+                    var message = '<span>Your endpoint returned zero classes</span>';
+                    MessageService.addMessage({message: message, icon: 'times-circle-o', 'class': 'danger'});
+                }
                 return translationCacheService.putInCache('availableClasses', 'class', classes);
             }).then(function () {
                 factory.loading = false;

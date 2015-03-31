@@ -19,21 +19,6 @@ body {
     z-index: 20;
 }
 
-/* Flip around the padding for proper display in narrow viewports */
-/*.navbar-wrapper > .container {*/
-/*padding-right: 0;*/
-/*padding-left: 0;*/
-/*}*/
-
-/*.navbar-wrapper .navbar {*/
-/*padding-right: 15px;*/
-/*padding-left: 15px;*/
-/*}*/
-
-/*.navbar-wrapper .navbar .container {*/
-/*width: auto;*/
-/*}*/
-
 .navbar {
     margin: 0;
 }
@@ -68,9 +53,8 @@ body {
 }
 
 .carousel .item img {
-opacity: 0.05;
+    opacity: 0.05;
 }
-
 
 /* MARKETING CONTENT
 -------------------------------------------------- */
@@ -98,7 +82,9 @@ opacity: 0.05;
     margin-bottom: 11.5px;
 }
 
-
+.featurette-small img {
+    margin-bottom: 11.5px;
+}
 
 /* Featurettes
 ------------------------- */
@@ -109,6 +95,14 @@ opacity: 0.05;
     line-height: 1;
     font-size: 36px;
     letter-spacing: -1px;
+}
+
+.media-body{
+    padding-top: 11.5px;
+}
+
+.media{
+    height: 115px
 }
 
 /* RESPONSIVE CSS
@@ -125,12 +119,13 @@ opacity: 0.05;
 
 }
 
-    @media (min-width: 992px) {
+@media (min-width: 992px) {
 
-        .carousel-caption p {
-            font-size: 50px;
-        }
-        .featurette-heading {
+    .carousel-caption p {
+        font-size: 50px;
+    }
+
+    .featurette-heading {
         font-size: 50px;
         margin-top: 60px;
     }

@@ -151,20 +151,21 @@
             if (property.hasOwnProperty(key)) {
                 property[key] = angular.copy(!property[key]);
                 $scope.$evalAsync(function () {
-                    connectionService.recalculateOffsets(property.$subject.$id);
+                    connectionService.recalculateOffsets(property.$subject.$id,true);
                 });
             }
         }
 
         vm.removeProperty = function (id) {
-            SubjectService.getSubjectById(property.$subject.$id)
+            SubjectService.getSubjectById(property.$subject.$id,true)
                 .removeProperty(id);
+            $scope.$evalAsync(function () {
+                connectionService.recalculateOffsets(property.$subject.$id, true);
+            });
         };
 
         $scope.$on('$destroy', function () {
-            $scope.$evalAsync(function () {
-                connectionService.recalculateOffsets(property.$subject.$id);
-            });
+
         });
 
     }

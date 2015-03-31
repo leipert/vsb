@@ -32,9 +32,9 @@
          * Calls the function for resetting workspace
          */
         vm.resetWorkspace = function () {
+            $localForage.removeItem('current');
             $log.debug('Cleared Workspace');
             SubjectService.reset();
-            $localForage.removeItem('current');
             //TODO: Move to Result Ctrl
             $scope.translatedJSON = 'In the near future the translated JSON will be here.';
             $scope.translatedSPARQL = 'In the near future the translated SPARQL will be here.';
