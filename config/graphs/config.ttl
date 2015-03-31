@@ -25,10 +25,10 @@
     conf:projectName "Pubby Test";
 
     # Homepage with description of the project for the link in the page header
-    conf:projectHomepage <http://gsb.leipert.io/>;
+    conf:projectHomepage <http://vsb.leipert.io/>;
 
     # The Pubby root, where the webapp is running inside the servlet container.
-    conf:webBase <http://gsb.leipert.io/test/>;
+    conf:webBase <http://vsb.leipert.io/test/>;
     #conf:usePrefixesFrom <test.rdf>;
 
 # Dataset configuration section
@@ -36,9 +36,9 @@
         # SPARQL endpoint URL of the dataset
         conf:sparqlEndpoint <http://localhost:8890/sparql>;
         conf:supportsSPARQL11 true ;
-        conf:sparqlDefaultGraph <http://gsb.leipert.io/ns/>;
+        conf:sparqlDefaultGraph <http://vsb.leipert.io/ns/>;
         # Common URI prefix of all resource URIs in the SPARQL dataset
-        conf:datasetBase <http://gsb.leipert.io/ns/>;
+        conf:datasetBase <http://vsb.leipert.io/ns/>;
         #The unmatched part between conf:webBase and the request url will be appended with conf:datasetBase
     ];
     .

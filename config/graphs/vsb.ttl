@@ -1,0 +1,132 @@
+@prefix :         <http://vsb.leipert.io/ns/> .
+@prefix vsb:      <http://vsb.leipert.io/ns/> .
+@prefix doap:     <http://usefulinc.com/ns/doap#>.
+@prefix foaf:     <http://xmlns.com/foaf/0.1/> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann:     <http://purl.org/vocab/vann/>.
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+
+<http://vsb.leipert.io/ns/> a owl:Ontology;
+    foaf:maker <http://leipert.io>;
+    doap:maintainer <http://leipert.io>;
+    doap:homepage <http://leipert.io/vsb>;
+    vann:changes <https://github.com/leipert/vsb/commits/master/config/graphs/vsb.ttl>;
+    vann:preferredNamespacePrefix "vsb";
+    vann:preferredNamespaceUri "http://vsb.leipert.io/ns/";
+    rdfs:label "Visual SPARQL Builder Vocabulary.";
+    rdfs:isDefinedBy <> .
+
+# Start Class Agent
+:Agent a rdfs:Class ;
+    rdfs:label "Agent"@de, "Agent"@en ;
+    rdfs:comment "Analog zu foaf:Agent"@de, "Analogue to foaf:Agent"@en ;
+    rdfs:subClassOf owl:Thing ;
+    rdfs:isDefinedBy <http://vsb.leipert.io/ns/> ;
+    owl:equivalentClass foaf:Agent .
+
+    # Agent Properties
+
+    :name a owl:DataProperty ;
+        rdfs:label "Name"@de, "Name"@en ;
+        rdfs:comment "Name eines Agents"@de, "Name of an Agent"@en ;
+        rdfs:domain :Agent ;
+        rdfs:range xsd:string .
+
+    :founded a owl:ObjectProperty, owl:IrreflexiveProperty ;
+        rdfs:label "gründete"@de, "founded"@en ;
+        rdfs:comment "Gründer einer Organisation"@de, "Founder of an Organisation"@en ;
+        rdfs:domain foaf:Agent ;
+        rdfs:range :Organisation .
+
+    :owns a owl:ObjectProperty, owl:IrreflexiveProperty ;
+        rdfs:comment "Eigentümer einer Organisation"@de, "Owner of an Organisation"@en ;
+        rdfs:label "besitzt"@de, "owns"@en ;
+        rdfs:domain :Agent ;
+        rdfs:range foaf:Organization .
+# End Class Agent
+
+# Start Class Person
+:Person a rdfs:Class ;
+    rdfs:label "Person"@de, "Person"@en ;
+    rdfs:comment "Analog zu foaf:Person"@de, "Analogue to foaf:Person"@en ;
+    rdfs:subClassOf :Agent ;
+    owl:equivalentClass foaf:Person .
+
+    # Person Properties
+
+    :birthDate a owl:DataProperty ;
+        rdfs:label "Geburtstag"@de, "Birth Date"@en ;
+        rdfs:comment "Der Geburtstag einer Person"@de, "The birth date of a person"@en ;
+        rdfs:domain :Person ;
+        rdfs:range xsd:date .
+
+    :age a owl:DataProperty ;
+        rdfs:label "Alter"@de, "Age"@en ;
+        rdfs:comment "Das Alter einer Person"@de, "The age of a person"@en ;
+        rdfs:domain :Person ;
+        rdfs:range xsd:integer .
+
+    :ancestor a owl:ObjectProperty, owl:TransitiveProperty, owl:AsymmetricProperty, owl:IrreflexiveProperty ;
+        rdfs:label "Vorfahr"@de, "Ancestor"@en ;
+        rdfs:comment "Der Vorfahr einer Person"@de, "The Ancestor of a person"@en ;
+        rdfs:domain :Person ;
+        rdfs:range :Person ;
+        owl:inverseOf :scion .
+
+    :scion a owl:ObjectProperty, owl:TransitiveProperty, owl:AsymmetricProperty, owl:IrreflexiveProperty ;
+        rdfs:label "Nachfahr"@de, "Scion"@en ;
+        rdfs:comment "Der Nachfahr einer Person"@de, "The scion of a person"@en ;
+        rdfs:domain foaf:Person ;
+        rdfs:range foaf:Person ;
+        owl:inverseOf :ancestor .
+
+    :keeps a owl:ObjectProperty, owl:IrreflexiveProperty ;
+        rdfs:label "besitzt"@de, "owns"@en ;
+        rdfs:domain :Person ;
+        rdfs:range :Pet .
+
+    :title a owl:DataProperty ;
+        rdfs:label "Titel"@de, "Title"@en ;
+        rdfs:comment "Der Titel einer Person"@de, "The title of a person"@en ;
+        rdfs:domain :Person ;
+        rdfs:range xsd:string .
+
+
+# End Class Person
+
+:Organisation a rdfs:Class ;
+    rdfs:label "Organisation"@de, "Organisation"@en ;
+    rdfs:comment "Analog zu foaf:Organization"@de, "Analogue to foaf:Organisation"@en ;
+    rdfs:subClassOf :Agent ;
+    owl:equivalentClass foaf:Organization .
+
+:Pet a owl:Class ;
+    rdfs:label "Haustier"@de, "Pet"@en ;
+    rdfs:comment "Das Haustier einer Person"@de, "A Persons pet."@en ;
+    rdfs:subClassOf :Agent .
+
+### DATA:
+
+    :eliza-smitham a :Person ;rdfs:label "Eliza"@de ;:name "Eliza Smitham"; :birthDate "2013-05-24>"^^xsd:date ;:ancestor :mireya-kihn;:ancestor :zella-koepp;:age 1 .
+    :mireya-kihn a :Person ;rdfs:label "Mireya"@de ;:name "Mireya Kihn"; :birthDate "1975-09-03>"^^xsd:date ;:scion :eliza-smitham;:ancestor :rose-runolfsson;:ancestor :jaydon-williamson;:age 39 .
+    :rose-runolfsson a :Person ;rdfs:label "Rose"@de ;:name "Rose Runolfsson"; :birthDate "1947-07-01>"^^xsd:date ;:scion :mireya-kihn;:age 67 .
+    :jaydon-williamson a :Person ;rdfs:label "Jaydon"@de ;:name "Jaydon Williamson"; :birthDate "1946-02-03>"^^xsd:date ;:scion :mireya-kihn;:age 69 .
+    :zella-koepp a :Person ;rdfs:label "Zella"@de ;:name "Zella Koepp"; :birthDate "1992-03-14>"^^xsd:date ;:scion :eliza-smitham;:ancestor :estell-koss;:ancestor :alden-lockman;:age 23 .
+    :estell-koss a :Person ;rdfs:label "Estell"@de ;:name "Estell Koss"; :birthDate "1952-05-20>"^^xsd:date ;:scion :zella-koepp;:age 62 .
+    :alden-lockman a :Person ;rdfs:label "Alden"@de ;:name "Alden Lockman"; :birthDate "1968-08-08>"^^xsd:date ;:scion :zella-koepp;:age 46 .
+    :muriel-boehm a :Person ;rdfs:label "Muriel"@de ;:name "Muriel Boehm"; :birthDate "2013-04-14>"^^xsd:date ;:ancestor :felicia-white;:ancestor :geo-dickens;:age 1 .
+    :felicia-white a :Person ;rdfs:label "Felicia"@de ;:name "Felicia White"; :birthDate "1991-08-03>"^^xsd:date ;:scion :muriel-boehm;:ancestor :trisha-osinski;:ancestor :merle-sawayn;:age 23 .
+    :trisha-osinski a :Person ;rdfs:label "Trisha"@de ;:name "Trisha Osinski"; :birthDate "1962-09-15>"^^xsd:date ;:scion :felicia-white;:age 52 .
+    :merle-sawayn a :Person ;rdfs:label "Merle"@de ;:name "Merle Sawayn"; :birthDate "1962-03-15>"^^xsd:date ;:scion :felicia-white;:age 53 .
+    :geo-dickens a :Person ;rdfs:label "Geo"@de ;:name "Geo Dickens"; :birthDate "1972-07-02>"^^xsd:date ;:scion :muriel-boehm;:ancestor :sigmund-stark;:ancestor :velda-marks;:age 42 .
+    :sigmund-stark a :Person ;rdfs:label "Sigmund"@de ;:name "Sigmund Stark"; :birthDate "1937-10-03>"^^xsd:date ;:scion :geo-dickens;:age 77 .
+    :velda-marks a :Person ;rdfs:label "Velda"@de ;:name "Velda Marks"; :birthDate "1938-05-31>"^^xsd:date ;:scion :geo-dickens;:age 76 .
+    :shea-mertz a :Person ;rdfs:label "Shea"@de ;:name "Shea Mertz"; :birthDate "2013-08-15>"^^xsd:date ;:ancestor :elfrieda-lueilwitz;:ancestor :eulalia-cruickshank;:age 1 .
+    :elfrieda-lueilwitz a :Person ;rdfs:label "Elfrieda"@de ;:name "Elfrieda Lueilwitz"; :birthDate "1979-03-18>"^^xsd:date ;:scion :shea-mertz;:ancestor :jaquan-borer;:ancestor :thea-ruecker;:age 36 .
+    :jaquan-borer a :Person ;rdfs:label "Jaquan"@de ;:name "Jaquan Borer"; :birthDate "1962-05-22>"^^xsd:date ;:scion :elfrieda-lueilwitz;:age 52 .
+    :thea-ruecker a :Person ;rdfs:label "Thea"@de ;:name "Thea Ruecker"; :birthDate "1958-05-24>"^^xsd:date ;:scion :elfrieda-lueilwitz;:age 56 .
+    :eulalia-cruickshank a :Person ;rdfs:label "Eulalia"@de ;:name "Eulalia Cruickshank"; :birthDate "1992-07-04>"^^xsd:date ;:scion :shea-mertz;:ancestor :melvina-cronin;:ancestor :alva-haag;:age 22 .
+    :melvina-cronin a :Person ;rdfs:label "Melvina"@de ;:name "Melvina Cronin"; :birthDate "1971-04-10>"^^xsd:date ;:scion :eulalia-cruickshank;:age 43 .
+    :alva-haag a :Person ;rdfs:label "Alva"@de ;:name "Alva Haag"; :birthDate "1962-03-27>"^^xsd:date ;:scion :eulalia-cruickshank;:age 53 .
