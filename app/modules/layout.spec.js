@@ -4,7 +4,7 @@ describe('Unit Test:', function () {
         var scope;
         var ctrl;
 
-        beforeEach(module('GSB.layout'));
+        beforeEach(module('VSB.layout'));
 
         beforeEach(inject(function ($rootScope, $controller) {
             scope = $rootScope.$new();
@@ -17,13 +17,14 @@ describe('Unit Test:', function () {
         });
 
         it('should have the switchStatus set to false', function(){
-            expect(scope.switchStatus).to.equal(false);
+            expect(scope.switchStatus).to.equal(true);
         });
 
         it('should react to updateJSON event on $rootscope',function(){
             inject(function($rootScope){
                 $rootScope.$emit('updateJSON','{}');
             });
+            //console.warn(scope);
             expect(scope.blobURL).not.to.equal(undefined);
             expect(scope.blobURL).to.startsWith('blob:');
         });

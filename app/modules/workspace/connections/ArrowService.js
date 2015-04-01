@@ -174,9 +174,6 @@
                     instance.reset();
                 }
                 instance = null;
-                if(instance !== null){
-                    //console.warn(instance.getAllConnections());
-                }
             }
 
 

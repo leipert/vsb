@@ -2,7 +2,9 @@
 
 var gulp = require('gulp');
 
-var $ = require('gulp-stack').plugins(gulp);
+var gulpStack = require('gulp-stack');
+
+var $ = gulpStack.plugins(gulp);
 
 $.imagemin = require('gulp-imagemin');
 $.less = require('gulp-less');
@@ -45,7 +47,7 @@ var staticFiles = [
     }
 ];
 
-gulp = require('gulp-stack').gulp(gulp, [
+var options = gulpStack.options(gulp, $, [
         'app',
         'vendor',
         'static',
@@ -76,8 +78,9 @@ gulp = require('gulp-stack').gulp(gulp, [
             ghostMode: false,
             notify: false
         }
-    }
-);
+    } );
+
+gulp = gulpStack.gulp(gulp, options);
 
 
 /**
@@ -134,7 +137,6 @@ gulp.task('generateMockPersons', function () {
 
     console.warn(persons);
 
-
     function reducePerson(result, person) {
         return result + '\n' + person.toString() + _.reduce(person.parents, reducePerson, '');
     }
@@ -182,29 +184,30 @@ gulp.task('generateMockPersons', function () {
 
 });
 
-var karma = require('karma').server;
 
 
 gulp.task('inject-karma', function () {
     return gulp.src('./config/karma.conf.js')
         .pipe($.inject(
-            gulp.src(gulp.options.files.vendor).pipe($.filter('**/*.js')),
+            gulp.src(options.files.vendor).pipe($.filter('**/*.js')),
             createKarmaInjectConfig('vendor')
         ))
         .pipe($.inject(
-            gulp.src(gulp.options.files.jsNoVendor).pipe($.angularFilesort()),
+            gulp.src(options.files.jsNoVendor).pipe($.angularFilesort()),
             createKarmaInjectConfig('app')
         ))
         .pipe(gulp.dest('./'));
 });
 
 
-gulp.task('test', ['inject-karma'], function (done) {
+gulp.task('test', ['inject-karma'], function () {
+    var karma = require('karma').server;
     karma.start({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true,
         autoWatch: true
-    }, done);
+    });
+
 });
 
 function createKarmaInjectConfig(suffix) {

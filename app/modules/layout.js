@@ -67,6 +67,8 @@
 
     function NavigationCtrl($scope, $rootScope, $localForage, ArrowService, $timeout) {
 
+        $scope.switchStatus = true;
+
         $scope.setSwitchStatus = function (newStatus) {
             setSwitchStatus(newStatus).then(function (newStatus) {
                 if (newStatus) {
