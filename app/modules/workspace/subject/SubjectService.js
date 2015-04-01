@@ -126,7 +126,9 @@
         function refreshGroups() {
 
 
-            var groups = connectionService.getGroups(false);
+            var groups = connectionService.getGroups(true);
+
+
             var oldBossID = (!_.isEmpty(factory.mainSubject)) ? angular.copy(factory.mainSubject.$id) : null;
             var newBossIDs = _.keys(groups);
 

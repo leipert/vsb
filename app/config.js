@@ -90,7 +90,7 @@
                     type: 'STRING_PROPERTY'
                 }
             ],
-            defaultGraphURIs: ['http://vsb.leipert.io/ns/'],
+            defaultGraphURIs: [],
             baseURL: 'https://leipert.io/sparql',
             resultURL: 'https://leipert.io/sparql?timeout=5000&debug=on',
             allowedLanguages: ['*', 'de', 'en'],

@@ -42,9 +42,8 @@
             });
         };
 
-        function getGroups(emitEvent) {
-            generateGroups(emitEvent);
-            return groups;
+        function getGroups(omitEvent) {
+            return generateGroups(omitEvent);
         }
 
         function updateConnectionLabel(connection, label) {
@@ -163,7 +162,7 @@
             return group;
         };
 
-        function generateGroups(emitEvent) {
+        function generateGroups(omitEvent) {
             var neighborMap = [];
             _.forEach(subjectToPropertyMap, function (p, subject) {
                 neighborMap.push([subject, subject]);
@@ -195,10 +194,11 @@
 
             var diff = _.xor(oldKeys, _.keys(groups));
 
-            if (emitEvent && diff.length > 0) {
+            if (!omitEvent && diff.length > 0) {
                 $rootScope.$emit('connectionGroupsChanged');
             }
 
+            return groups;
 
         }
 
