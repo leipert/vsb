@@ -1,0 +1,106 @@
+@import "variables";
+
+@subject-padding: 15px;
+@property-padding: 10px;
+@minor-gap: 5px;
+
+.subject {
+  &-container {
+
+    p {
+      margin: 0;
+    }
+    background: fadeout(@subject-bg-color, 5%);
+    border: 1px solid @subject-border-color;
+    width: 400px !important;
+    position: absolute;
+    padding: @subject-padding @subject-padding (@subject-padding - @minor-gap);
+    box-shadow: 3px 3px 4px fadeout(#333, 70%);
+    //Fixes bug in FF:
+    height: auto !important;
+  }
+
+  &-head {
+    margin-bottom: @minor-gap;
+    position: relative;
+    b {
+      color: @subject-heading-color;
+    }
+
+    .input-group {
+      margin-bottom: @minor-gap;
+    }
+
+  }
+
+  &-footer {
+    position: relative;
+    margin-bottom: @minor-gap;
+  }
+
+}
+
+.property {
+
+  &-container {
+
+    position: relative;
+    background: @property-bg-color;
+    color: @property-text-color;
+    border: 1px solid @property-bg-color;
+
+    padding: @property-padding @property-padding @minor-gap;
+    margin: 0 0 (@property-padding - @minor-gap);
+
+    b {
+      color: @property-heading-color;
+    }
+
+    &.notExists {
+      background: @property-danger-bg-color;
+      border: 1px solid @property-danger-bg-color;
+
+      b {
+        color: @property-danger-heading-color;
+      }
+    }
+
+  }
+
+  &-body {
+    position: relative;
+    margin-bottom: @minor-gap;
+  }
+
+  &-head {
+    margin-bottom: @minor-gap;
+    position: relative;
+
+    b {
+      color: @property-heading-color;
+    }
+
+    .input-group {
+      margin-bottom: @minor-gap;
+    }
+
+  }
+
+}
+
+.messageContainer {
+  z-index: 750;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  .alert {
+    margin: 0;
+    line-height: 19px;
+
+    .fa {
+      line-height: 19px;
+    }
+
+  }
+}

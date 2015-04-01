@@ -1,0 +1,124 @@
+de:
+    TITLE: Visual SPARQL Builder
+    TITLE_SHORT: VSB
+
+# Navigation
+    BACK_TO_WORKSPACE: Arbeitsfläche
+    DOWNLOAD_JSON: Download JSON
+    LOAD_JSON: Lade JSON
+    KEEP_OPEN: Offen lassen
+    HELP: Hilfe
+    WORKSPACE: Arbeitsfläche
+    RUN_QUERY: Abfrage starten
+    PRINT_PREVIEW: Druckvorschau
+    RESET_WORKSPACE: Arbeitsfläche leeren
+
+
+# Result-Page
+    HIDE_QUERIES: Verstecke Abfragen
+    QUERIES: Abfragen
+    SHOW_QUERIES: Zeige Abfragen
+    RESULTS: Ergebnisse
+
+# Workspace
+    LIST_ALL: Liste alle
+    PICK_MAIN_SUBJECT: Hauptsubjekt wählen
+    CHOOSE_A_SUBJECT: Wählen Sie ein Subjekt
+
+# Klassen
+    CHOOSE_A_PROPERTY: Wählen Sie eine Eigenschaft
+    HIDE_SUBJECT: Zeige Subjekt
+    SHOW_SUBJECT: verstecke Subjekt
+    DELETE_SUBJECT: Lösche Subjekt
+    CONNECT_SUBJECT: Verbinde Subjekt mit anderem Subjekt
+    PROPERTY: Eigenschaft
+    CLASSES_LOADING: Klassen laden...
+    NO_CLASSES_FOUND: Keine Klasse gefunden
+
+# Eigenschaften
+    ADD_FILTER: Filter hinzufügen
+    REMOVE_FILTER: Filter löschen
+    CAST_PROPERTY: Eigenschaftsart ändern
+    DELETE_PROPERTY: Eigenschaft löschen
+    EXISTS: existiert
+    EXISTS_NOT: existiert nicht
+    HIDE_PROPERTY: Verstecke Eigenschaft
+    SHOW_PROPERTY: Zeige Eigenschaft
+
+    IS_MANDATORY: Ist obligatorisch
+    IS_OPTIONAL: Ist optional
+    AGGREGATE_PROPERTY: Aggregat
+
+## Objekte
+    RELATION_PROPERTY: Relation
+    INVERSE_PROPERTY: Inverse Relation
+
+    ADD_APPROPRIATE_CLASS: Füge passendes Subjekt hinzu
+    A_LINK_TO: ein Link zu
+    LINK_WITH_SUBJECT: Verlinken Sie mit einem Subjekt
+
+## Strings
+    STRING_PROPERTY: Zeichenkette
+
+    CONTAINS: enthält
+    STARTS_WITH: startet mit
+    ENDS_WITH: endet mit
+    EQUALS: gleich
+    EQUALS_NOT: ungleich
+    NO_COMPARISON: kein Vergleich
+    LANGUAGE: Sprache
+    REGEX: regex
+    SELECT_LANGUAGE: Eine Sprache auswählen
+
+## Zahlen
+    NUMBER_PROPERTY: Zahl
+
+    ARITHMETICS: Arithmetik
+    COMPARISON: Vergleich
+## Datum
+    DATE_PROPERTY: Datum
+
+    AFTER: nach dem
+    BEFORE: vor dem
+
+
+# Search Results
+
+    CLASSES_FOUND_ZERO: Keine Klassen gefunden.<br>Bitte versuchen Sie eine andere Suche.
+    CLASSES_FOUND_X: "{{matching}} Klassen gefunden.<br>Gesamtzahl an Klassen: {{total}}"
+    CLASSES_FOUND_X_MORE: "Zeige {{x}} von {{matching}} gefundenen Klassen.<br>Gesamtzahl an Klassen: {{total}}"
+    CLASSES_FOUND_NO_SEARCH: Zeige {{matching}} von {{total}} Klassen.<br>Bitte geben Sie einen Suchterm ein.
+    PROPERTIES_FOUND_ZERO: Keine Eigenschaften gefunden.<br>Bitte versuchen Sie eine andere Suche.
+    PROPERTIES_FOUND_X: "{{matching}} Eigenschaften gefunden.<br>Gesamtzahl an Eigenschaften: {{total}}"
+    PROPERTIES_FOUND_X_MORE: "Zeige {{x}} von {{matching}} gefundenen Eigenschaften.<br>Gesamtzahl an Eigenschaften: {{total}}"
+    PROPERTIES_FOUND_NO_SEARCH: Zeige {{matching}} von {{total}} Eigenschaften.<br>Bitte geben Sie einen Suchterm ein.
+
+# Messages
+    MINIMUM_SUBJECTS: Bitte wenigstens ein Subjekt zur Arbeitsfläche hinzufügen.
+    PRINT_PREVIEW_MESSAGE: >-
+        Dies ist die Druckvorschau. Sie können immernoch alles bewegen und für das Drucken anpassen.<br>
+        <a class='alert-link' href='javascript:window.print()'>Klicken Sie Hier um zu drucken.</a>
+    CLOSE_PREVIEW: Vorschau schließen
+    MIXED_CONTENT_WARNING: >-
+        Sie versuchen gemischte Inhalte anzusehen.<br>
+        Es kann sein, dass Ihr Browser den Endpunkt blockiert.
+        (Der Visual SPARQL Builder läuft mit {{ VSBProtocol }}, Ihr SPARQL-Endpunkt mit {{EndpointProtocol}})<br>
+        In <b>Firefox</b> müssen Sie
+        <a class='alert-link' href='{{VSBLink}}' target='_blank'>zur {{EndpointProtocol}}
+        Version des VSB wechseln.</a><br>
+        In <b>Chrome</b> können Sie das kleine Schild in der URL-Leiste anklicken und 'Unsicheres Skript laden' auswählen
+        oder ebenfalls die Firefox-Link versuchen.
+    SEARCH_RELATION: >-
+        Um eine Relation zwischen {{alias}} und einem anderen Subjekt zu finden,
+        klicken Sie das
+        <i class='fa fa-plug fa-fw'></i> Verbindungssymbol von letzterem an.
+
+# Hilfe
+    HELP_FIRST: >-
+      <h1>Visual SPARQL Builder Hilfe</h1>
+      <p>Der Visual SPARQL Builder....</p>
+      <p>Zum Start der Tour, bitte auf weiter klicken.</p>
+
+#TODO:
+    BUTTON_LANG_DE: Deutsch
+    BUTTON_LANG_EN: Englisch

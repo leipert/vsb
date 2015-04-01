@@ -1,0 +1,11 @@
+<span>
+    <i class="hide-while-dragging"
+       ng-class="settings.class + ' ' + conditionalClass"
+       ng-click="click()"
+       data-trigger="hover"
+       data-type="success"
+       data-container="body"
+       data-html="true"
+       data-content=" {{settings.content | translate}}" bs-popover></i>
+    <i class="show-while-dragging" ng-class="settings.class + ' ' + conditionalClass"></i>
+</span>

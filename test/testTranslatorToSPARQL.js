@@ -24,7 +24,7 @@ describe('translatorToSPARQL tests', function (){
           "alias": "birth place",
           "comment": "where the person was born",
           "uri": "http://dbpedia.org/ontology/birthPlace",
-          "type": "OBJECT_PROPERTY",
+          "type": "RELATION_PROPERTY",
           "propertyRange": [
             "http://dbpedia.org/ontology/Place"
           ],
@@ -42,7 +42,7 @@ describe('translatorToSPARQL tests', function (){
 
   beforeEach(function (){
 
-  module('myGSB');
+  module('vsb');
   
   inject(function(TranslatorToSPARQL) {
     translatorService = TranslatorToSPARQL;

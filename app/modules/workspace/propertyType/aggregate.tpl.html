@@ -1,0 +1,8 @@
+<div class="property-body">
+
+    <select ng-model="property.linkTo"
+            ng-options="x as x.alias for x in vm.availableProperties | aggregatePropertyFilter : property.restrictTo">
+        <option value="">Choose a Property</option>
+    </select>
+
+</div>

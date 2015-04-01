@@ -1,0 +1,46 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title h4">Possible relations between {{subject1}} and {{subject2}}</h1>
+
+                <div class="input-group" style="padding-top: 10px;width:100%">
+
+                    <input type="text"
+                           class="form-control" placeholder="Filter available properties"
+                           ng-model="search.$">
+
+                </div>
+            </div>
+            <div class="modal-body" style="max-height: 350px; overflow-y: scroll">
+                <div ng-repeat="(idx,subject) in subjects track by $index"
+                     ng-if="(!dontShowSecond || idx === 0) && subject.$availableProperties.length > 0">
+                    <div class="list-group">
+                        <h2 ng-if="idx === 0" class="h5">{{subject1}} -> ??? -> {{subject2}}</h2>
+
+                        <h2 ng-if="idx === 1" class="h5">{{subject2}} -> ??? -> {{subject1}}</h2>
+
+                        <a class="list-group-item" ng-class="(selected === property && fromIDX === idx)?'active':''"
+                           ng-repeat="property in subject.$availableProperties | filter : search"
+                           ng-click="select(property,idx)">
+                            <popover-wrap ng-if="property.$comment"
+                                          data-settings="{ class: 'fa fa-fw fa-info-circle pull-right', content: property.$comment }"
+                                    ></popover-wrap>
+                            {{ property.$label }}
+                            <small>({{property.uri | replaceURIsWithPrefixes}})</small>
+
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div ng-if="selected" class="pull-left text-left">
+                    Do you want to create the property:<br>
+                    {{subjects[fromIDX].alias}} -> <b>{{selected.$label }}</b> -> {{subjects[toIDX].alias}}?
+                </div>
+                <button class="btn btn-primary" ng-click="ok()">Create Property</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

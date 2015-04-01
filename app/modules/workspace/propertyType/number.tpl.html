@@ -1,0 +1,25 @@
+<div class="property-body" on-before-print="printed = true" on-after-print="printed = false">
+    <div ng-if="!printed">
+        <div class="input-group input-group-sm">
+            <div class="input-group-addon">
+                {{'ARITHMETICS' | translate}}
+            </div>
+            <input class="form-control" ng-model="vm.numberArithmetic" limit-input="[^\-\*\/\.\+()\d xe]">
+        </div>
+
+        <div class="input-group input-group-sm" style="margin-top: 5px;">
+            <div class="input-group-addon">
+                {{'COMPARISON' | translate}}
+            </div>
+            <input class="form-control" ng-model="vm.numberComparison" limit-input="[^\-\*\/\.\+()><=!\d xye]">
+        </div>
+    </div>
+    <small ng-if="printed">
+        <span ng-if="vm.numberComparison !== 'y'">
+    If {{vm.numberComparison}}<br>with: y = {{vm.numberArithmetic | replace : {x: property.alias} }}
+        </span>
+           <span ng-if="vm.numberComparison === 'y' && vm.numberArithmetic !== 'x'">
+    as: {{vm.numberArithmetic | replace : {x: property.alias} }}
+        </span>
+    </small>
+</div>

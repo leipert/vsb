@@ -1,0 +1,71 @@
+<div id="workspace">
+
+    <!-- WORKSPACE, this is where most of the magic happens -->
+    <!-- See @js/controllers/main.js -->
+    <div ng-mousedown="vm.workspaceMouseDown($event)" ng-mousemove="vm.workspaceMouseMove($event)"
+         ng-mouseup="vm.workspaceMouseUp()"
+         ng-class="{'mouse-down':vm.mouseDown}"
+         class="bg-scroll">
+    </div>
+    <div messages></div>
+    <!-- Start Point, with drop down for choosing the main class (= linked to startpoint) -->
+    <div class="startPointCSS" id="startpoint">
+        <b>{{ 'LIST_ALL' | translate }}</b>
+        <select ng-if="vm.groups.length > 1" ng-model="vm.mainSubject"
+                ng-change="vm.updateMainSubject()"
+                ng-options="s.alias for s in vm.groups | orderBy : 'alias'" title="Main Subject Select"
+                class="pull-right">
+            <option style="display:none" value="">{{ 'PICK_MAIN_SUBJECT' | translate }}</option>
+        </select>
+    </div>
+
+    <div class="connectNotification" ng-if="vm.searchSubject">
+        <b> {{'SEARCH_RELATION' | translate:vm.searchSubject}}</b>
+    </div>
+
+    <!-- See @js/controllers/addSubject.js -->
+    <div class="addSubjectBox form-group pull-right"
+         ng-class="{loading:vm.loading}"
+            >
+        <div ng-if="vm.loading" class="loading">
+            <i class="fa fa-spinner fa-spin"></i> {{ 'CLASSES_LOADING' | translate }}
+        </div>
+        <div ng-if="!vm.loading">
+            <div ng-if="vm.totalItems === 0" class="loading">
+                <i class="fa fa-exclamation-triangle"></i> {{ 'NO_CLASSES_FOUND' | translate }}
+            </div>
+            <div class="input-group" ng-if="vm.totalItems > 0">
+                <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
+                <ui-select ng-model="vm.selectedSubject" append-to-body="true">
+                    <ui-select-match
+                            allow-clear="true"
+                            placeholder="{{ 'CHOOSE_A_SUBJECT' | translate }}">
+                        {{$select.selected.$label}}
+                    </ui-select-match>
+                    <!-- IMPORTANT: it has to be item in 'repeat="item in...',
+                    as ui-select defines it internally.	Anything else wont work!-->
+                    <ui-select-choices
+                            repeat="item.uri as item in vm.availableSubjectClasses"
+                            refresh="vm.refreshClasses($select.search, 50)"
+                            refresh-delay="0"
+                            total-items="{{vm.totalItems}}"
+                            matching-items="{{vm.matchingItems}}"
+                            footer-zero="CLASSES_FOUND_ZERO"
+                            footer-no-search="CLASSES_FOUND_NO_SEARCH"
+                            footer-found="CLASSES_FOUND_X"
+                            >
+                        <ui-select-choices-row-inner></ui-select-choices-row-inner>
+                    </ui-select-choices>
+                </ui-select>
+	        <span class="input-group-btn">
+		        <button ng-click="vm.addSubject(vm.selectedSubject)" class="btn btn-success">
+                    <span class="fa fa-plus"></span>
+                </button>
+          </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inserts all existing subjects in workspace, See @js/directives/subject.js -->
+    <subject-dir subject="subjectInst" ng-repeat="subjectInst in vm.subjects track by subjectInst.$id"></subject-dir>
+</div>

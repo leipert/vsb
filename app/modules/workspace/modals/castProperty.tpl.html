@@ -1,0 +1,29 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title h4">Cast Type of {{property.alias}}</h1>
+            </div>
+            <div class="modal-body">
+                <h2 class="h5">
+                    Available types for casting:
+                </h2>
+
+                <div class="list-group">
+                    <a class="list-group-item" ng-class="(selected === type)?'active':''"
+                       ng-repeat="type in availableCasts"
+                       ng-click="select(type)">
+                        {{ type | translate }}
+                    </a>
+                </div>
+                <div ng-if="selected">
+                    Do you want to create to cast {{property.alias}} to {{selected | translate}}?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="ok()">Cast</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

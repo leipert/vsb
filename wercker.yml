@@ -1,34 +1,53 @@
-box: leipert/ubuntu14.04-webessentials@2.0.1
+box: leipert/webapp-test
 # Build definition
 build:
   # The steps that will be executed on build
   steps:
     # A step that executes `npm install` command
-    - script:
-        name: Copying config
-        code: cp $CONFIG_FILE app/overwrite.js
     - npm-install
-    - leipert/yeoman-bower-install
+#    - plasticine/bower-install
     - script:
-        name: Test and build gsb
+        name: Bower
+        code: >-
+          export BOWER_STORAGE__CACHE="${WERCKER_CACHE_DIR}/wercker/bower" &&
+          mkdir -p $BOWER_STORAGE__CACHE &&
+          bower --allow-root install
+    - script:
+        name: Test and build vsb
         code: gulp
     - script:
-        name: Copying config
-        code: mkdir -p dist/config && cp -r config/* dist/config/ && cp bower.json dist/
-    - script:
         name: Delete unneeded files
-        code: ls -A | grep -v dist | xargs rm -rf
+        code: ls -A | grep -v dist | grep -v landing | grep -v config | xargs rm -rf
 
 deploy:
   steps:
+    - script:
+        name: Create Examples
+        code: >-
+          cd landing &&
+          rm -rf  assets config dbpedia example &&
+          cp -r ../config config &&
+          cp -r ../dist assets &&
+          cp -r assets example &&
+          find example -type d ! -path example | xargs rm -rf &&
+          find assets -type f -maxdepth 1 | xargs rm -rf &&
+          cat example/index.html | sed -E 's#(src|href)(=["'"'"']?)(styles|scripts)#\1\2../assets/\3#g' >foobar.html &&
+          mv foobar.html example/index.html &&
+          cp -r example dbpedia &&
+          cp config/exampleOntology.js example/overwrite.js &&
+          cp config/dbpedia.js dbpedia/overwrite.js
     - leipert/git-push:
-         gh_oauth: $GH_TOKEN
-         gh_pages: true
-         basedir: dist
-         discard_history: false
+        gh_oauth: $GH_TOKEN
+        gh_pages: true
+        basedir: landing
+        clean_removed_files: true
+    - script:
+        name: Copy config to dist
+        code: rm -rf dist/config && mv config/bower.json dist && cp -r config dist/config
     - leipert/git-push:
-         gh_oauth: $GH_TOKEN
-         branch: dist
-         basedir: dist
-         tag: bower
-         tag_overwrite: true
+        gh_oauth: $GH_TOKEN
+        branch: dist
+        basedir: dist
+        tag: bower
+        tag_overwrite: true
+        clean_removed_files: true

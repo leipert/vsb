@@ -1,0 +1,115 @@
+<div class="subject-container" id="{{ ::$id }}">
+    <!-- Template for subject directive -->
+    <!--Head of a subject includes the label, the alias and some controls -->
+    <div class="subject-head">
+        <p>
+            <span class="pull-right icon-list">
+                <span class="mover"><i class="fa fa-fw fa-arrows"></i></span>
+
+                <!-- Button (Info-Sign) to show more infos of subject on hover -->
+                <popover-wrap ng-if="subject.$comment"
+                              data-settings="{ class: 'fa fa-fw fa-info-circle hidden-print', content: subject.$comment }"
+                        ></popover-wrap>
+
+                <!-- Button (Eyes) to show whether a subject will be visible in the result or not. -->
+                <popover-wrap
+                        data-click="subject.view = !subject.view"
+                        data-settings="{ class: 'fa fa-fw', content: (subject.view)?'HIDE_SUBJECT':'SHOW_SUBJECT' }"
+                        data-conditional-class="{{(subject.view)?'fa-eye hidden-print':'fa-eye-slash' }}"
+                        >
+                </popover-wrap>
+
+              <popover-wrap
+                      data-click="vm.searchRelation()"
+                      data-settings="{ class: 'fa fa-fw fa-plug hidden-print', content: 'CONNECT_SUBJECT' }"
+                      data-conditional-class="{{(subject.$searchRelation)?'text-info':'' }}"
+                      >
+              </popover-wrap>
+
+                <popover-wrap
+                        data-click="vm.removeSubject()"
+                        data-settings="{ class: 'fa fa-fw fa-trash-o hidden-print', content: 'DELETE_SUBJECT' }"
+                        >
+                </popover-wrap>
+
+
+            </span>
+            <!-- Label/URI of subject -->
+            <b>
+                <span class="h4">{{subject.alias}}</span>
+                <i class="fa fa-edit pointer hidden-print" ng-click="vm.editAlias = !vm.editAlias"></i>
+                <!-- TODO: just show if necessary -->
+                <small>
+                    <small>({{ ::subject.uri | replaceURIsWithPrefixes}})</small>
+                </small>
+            </b>
+        </p>
+        <!--Input for changing the Alias:-->
+        <div class="input-group pull-left hidden-print" ng-show="vm.editAlias">
+            <input type="text" size="30" maxlength="40"
+                   class="form-control" placeholder="Alias"
+                   ng-model="subject.alias">
+        <span class="btn input-group-addon btn-success" ng-click="vm.editAlias = false">
+        <i class="fa fa-check-square-o"></i>
+        </span>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="subjectBody">
+        <!-- Inserts all Properties of an Subject, See @js/directives/property.js -->
+        <property-dir property="property"
+                      ng-repeat="property in subject.$selectedProperties track by property.$id"></property-dir>
+    </div>
+
+    <div class="subject-footer">
+        <div ng-if="!vm.showAddProperty" class="text-center hidden-print">
+            <div class="btn btn-sm btn-success" ng-click="vm.showAddProperty = true">
+                <span class="fa fa-plus"></span> {{'PROPERTY' | translate }}
+            </div>
+        </div>
+
+
+        <div ng-if="vm.showAddProperty" class="hidden-print">
+            <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js
+            -->
+            <div ng-if="vm.loading" class="btn btn-success btn-sm">
+                <i class="fa fa-spinner fa-spin"></i> {{ 'PROPERTIES_LOADING' | translate }}
+            </div>
+            <div ng-if="!vm.loading">
+                <div ng-if="vm.totalItems === 0" class="btn btn-success btn-sm">
+                    <i class="fa fa-exclamation-triangle"></i> {{ 'NO_PROPERTIES_FOUND' | translate }}
+                </div>
+                <div class="input-group" ng-if="vm.totalItems > 0">
+                    <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
+                    <ui-select ng-model="vm.propertySelected" append-to-body="true">
+                        <ui-select-match
+                                allow-clear="true"
+                                placeholder="{{ 'CHOOSE_A_PROPERTY' | translate }}">
+                            {{$select.selected.$label}}
+                        </ui-select-match>
+                        <ui-select-choices
+                                repeat="item in vm.$availableProperties"
+                                group-by="'type'"
+                                refresh="vm.refreshProperties($select.search,50)"
+                                refresh-delay="0"
+                                total-items="{{vm.totalItems}}"
+                                matching-items="{{vm.matchingItems}}"
+                                footer-zero="PROPERTIES_FOUND_ZERO"
+                                footer-no-search="PROPERTIES_FOUND_NO_SEARCH"
+                                footer-found="PROPERTIES_FOUND_X">
+                            <ui-select-choices-row-inner></ui-select-choices-row-inner>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                    <button ng-click="vm.addProperty()" class="btn btn-success">
+                        <span class="fa fa-plus"></span>
+                    </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

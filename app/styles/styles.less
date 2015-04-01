@@ -1,9 +1,15 @@
+@import "imports";
 @import "variables";
 
 /* No need to think about the following */
 
 body {
   background: url('../images/background.png');
+}
+
+html, body, #root, #content, #workspace {
+  height: 100%;
+  overflow: hidden;
 }
 
 * {
@@ -33,11 +39,15 @@ a {
   cursor: pointer !important;
 }
 
+.mouse-down {
+  z-index: 2000;
+}
+
 /* Set height and color of workspace and result area */
 
 #sparql-query, #json-query {
   border: 1px solid black;
-  font-family: Monospace;
+  font-family: monospace;
   min-height: 300px;
 }
 
@@ -70,38 +80,24 @@ a {
   margin-left: -150px;
 }
 
-.addSubjectBox {
-  .box();
-  padding: 0;
-  border-color: transparent;
-  z-index: 10;
-  position: fixed;
-  top: 66px;
-  right: 25px;
+.ui-draggable-dragging {
+
+  .show-while-dragging {
+    display: inline;
+  }
+
+  .hide-while-dragging {
+    display: none;
+  }
+
 }
 
-.subjectCSS {
-  background-color: @subject-bg-color;
-  border-color: @subject-border-color;
-  width: 400px;
-  position: absolute;
-  z-index: 5;
+.show-while-dragging {
+  display: none;
+}
 
-  .subjectHeadCSS {
-    padding: 5px 15px 0;
-    margin-top: 5px;
-
-    b {
-      color: @subject-heading-color;
-    }
-
-  }
-
-  .subjectBodyCSS {
-    padding: 5px;
-    margin: 0;
-  }
-
+.hide-while-dragging {
+  display: inline;
 }
 
 i.pointer, .icon-list i {
@@ -111,52 +107,22 @@ i.pointer, .icon-list i {
   &:hover {
     color: @icon-color-hover;
   }
-}
 
-.propertyCSS {
-  position: relative;
-  background: @property-bg-color;
-  color: @property-text-color;
-  padding: 5px 15px;
-  margin: 0 10px 5px;
-  border: none;
+  &.text-info {
+    color: @state-info-text;
 
-  b {
-    color: @property-heading-color;
-  }
-
-  &.notExists {
-    background: @property-danger-bg-color;
-
-    b {
-      color: @property-danger-heading-color;
-
+    &.hover {
+      color: darken(@state-info-text, 10%);
     }
-  }
-}
 
-.propertyFilters {
-  padding-bottom: 10px;
-
-}
-
-.ui-select-bootstrap {
-  > input.ui-select-search.form-control {
-    border-radius: 0;
   }
-  > .ui-select-choices {
-    width: 350px;
-    max-height: 300px;
-    right: 0;
-    left: auto;
-  }
+
 }
 
 .connector {
   z-index: 10;
   &-label {
-    background-color: white;
-    opacity: 0.95;
+    background-color: fadeout(white, 10%) !important;
     padding: 0.3em;
     border-radius: 0.5em;
     border: 1px solid @arrow-color;
@@ -170,129 +136,66 @@ i.pointer, .icon-list i {
       fill: @arrow-color;
     }
   }
+
 }
 
-.navigation {
-  z-index: 10;
-  position: fixed;
-  background: @navigation-bg;
-  top: 0;
-  left: 0;
-  height: 100%;
-  border-right: 2px solid darken(@navigation-bg, 10%);
+.property-endpoint {
 
-  #JSONReader {
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
+  &._jsPlumb_endpoint_anchor_left svg {
+    left: -5px !important;
   }
 
-  .line-height-mixin() {
-    line-height: 44px;
-    vertical-align: middle;
-    height: 44px;
-    cursor: inherit;
+  &._jsPlumb_endpoint_anchor_right svg {
+    left: 5px !important;
   }
 
-  .list-group {
-
-    width: 100%;
-
-    &.fix-bottom {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      margin: 0;
-    }
-
+  circle, rect {
+    fill: @arrow-color;
   }
+}
 
-  .list-group-item {
+.generate-z-index(40);
 
-    background: @navigation-bg;
-    border: 1px solid darken(@navigation-bg, 10%);
-    border-right: none;
-    color: @navigation-color;
-    height: 66px;
-    vertical-align: middle;
-    cursor: pointer;
-
-    &-heading {
-      line-height: 44px;
-      vertical-align: middle;
+.generate-z-index(@n, @i: 0) when (@i =< @n) {
+  .z-index-@{i} {
+    z-index: 100 + @i * 10;
+    &.property-endpoint {
+      z-index: 105 + @i * 10;
     }
-
-    &-text, &-heading {
-      text-align: center;
-      width: 100%;
-    }
-    &-text, &-description {
-      display: none;
-    }
-
-    .fa {
-      .line-height-mixin();
-      color: @navigation-icon-color;
-    }
-
-    &-description {
-      .line-height-mixin();
-      font-size: 16px;
-    }
-
-    .fa-toggle-on {
-      color: @green;
-    }
-
-    .fa-toggle-off {
-      color: @red;
-    }
-
-  }
-
-  & a.list-group {
-    &-item:hover {
-      color: @navigation-color;
-      background: darken(@navigation-bg, 10%);
-      .fa-toggle-on:before {
-        color: @red;
-        content: "\f204";
-      }
-      .fa-toggle-off:before {
-        color: @green;
-        content: "\f205";
+    &.connector {
+      z-index: 105 + @i * 10;
+      &-label {
+        z-index: 107 + @i * 10;
       }
     }
   }
+  .generate-z-index(@n, (@i + 1));
+}
 
-  &.fixed-width {
-    width: 300px;
-    .list-group-item-heading {
-      line-height: 1.1;
-    }
-    .list-group-item-text,
-    .list-group-item-description {
-      display: inline-block;
-    }
+.navigation + .content {
+  margin-left: 87px;
 
-    & + .content {
-      margin-left: 350px;
-      .startPointCSS {
-        left: 350px;
-      }
+  #result {
+    padding-left: 50px;
+  }
+
+}
+
+.navigation.fixed-width + .content {
+  margin-left: 300px;
+
+  #workspace {
+
+    .startPointCSS {
+      left: 350px;
     }
 
   }
+}
 
-  & + .content {
-    margin-top: 66px;
-    margin-left: 150px;
-  }
-
+#result {
+  overflow: scroll;
+  max-height: 100%;
 }
 
 .bg-scroll {
@@ -302,27 +205,6 @@ i.pointer, .icon-list i {
   width: 100%;
   height: 100%;
   cursor: all-scroll;
-}
-
-//Fixes for ui-bootstrap datepicker
-
-.glyphicon.glyphicon-chevron-right,
-.glyphicon.glyphicon-chevron-left {
-  display: inline-block;
-  font: normal normal normal 14px/1 FontAwesome;
-  font-size: inherit;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.glyphicon.glyphicon-chevron-left:before {
-  content: "\f053";
-}
-
-.glyphicon.glyphicon-chevron-right:before {
-  content: "\f054";
-
 }
 
 //Tooltip for introjs
@@ -338,3 +220,11 @@ i.pointer, .icon-list i {
     .btn-default();
   }
 }
+
+@import "../components/ui.select/ui-select";
+
+@import "globals/print";
+@import "globals/navigation";
+
+@import "subjectBox";
+

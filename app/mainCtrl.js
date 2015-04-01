@@ -6,79 +6,73 @@
      * Controller that controls mainly everything.
      */
 
-    angular.module('GSB.mainCtrl', ['GSB.config', 'ngTable','angular-intro'])
-//Inject $scope, $log and globalConfig (see @ js/config.js) into controller
+    angular.module('VSB.mainCtrl', ['VSB.config', 'angular-intro'])
         .controller('MainCtrl', MainCtrl);
-    function MainCtrl($scope, $log, globalConfig, $http, $translate, languageStorage) {
+    function MainCtrl($scope, $log, $compile, $interpolate, $rootScope) {
 
-        $http.get('locale.json').success(function (data) {
-            languageStorage.mergeLanguages(data);
-            $translate.refresh();
-        });
-
-        $scope.IntroOptions = {
-            steps:[
+        var IntroOptionsTemplate = {
+            steps: [
                 {
-                    element: document.querySelector('sadnavigation'),
-                    intro: '<h1>Graphical SPARQL Builder Hilfe</h1>' +
-                    '<p>Der Graphical SPARQL Builder....</p>' +
-                    '<p>Zum Start der Tour, bitte auf weiter klicken.</p>',
+                    intro: '{{ "HELP_FIRST" | translate}}',
                     tooltipClass: 'wide'
-
                 },
                 {
-                    intro: '<h2>Arbeitsfläche</h2>' +
-                    '<p>Im Hintergrund sehen Sie die Arbeitsfläche, das Kernstück des GSB.... </p>'
+                    intro: '<div><h2>Arbeitsfläche</h2>' +
+                    '<p>Im Hintergrund sehen Sie die Arbeitsfläche, das Kernstück des VSB.... </p></div>'
                 },
                 {
                     element: '#navigation',
-                    intro: '<h2>Navigation</h2>' +
-                    '<p>Lorem IPSUM</p>',
+                    intro: '<div><h2>Navigation</h2>' +
+                    '<p>Here will be an explanation for the tour</p></div>',
                     position: 'right'
                 },
                 {
-                    element: '#step4',
-                    intro: 'Another step.',
-                    position: 'bottom'
-                },
-                {
-                    element: '#step5',
-                    intro: 'Get it, use it.'
+                    intro: '<div>This is it for now.</div>',
+                    position: 'Future implementations will hold more helpful information'
                 }
             ],
             showBullets: true,
             exitOnOverlayClick: true,
-            exitOnEsc:true,
-            showStepNumbers:false,
+            exitOnEsc: true,
+            showStepNumbers: false,
             nextLabel: 'Weiter <i class="fa fa-chevron-right"></i>',
             prevLabel: '<i class="fa fa-chevron-left"></i> Zurück',
             skipLabel: 'Abbruch',
             doneLabel: 'Fertig'
         };
 
-        $scope.CompletedEvent = function () {
-            //console.log('Completed Event called');
-        };
+        var currentLanguage = null;
 
-        $scope.ExitEvent = function () {
-            //console.log('Exit Event called');
-        };
+        $rootScope.$on('$translateChangeSuccess', function (event, data) {
+            if (data.language !== currentLanguage) {
 
-        $scope.ChangeEvent = function (targetElement) {
-            //console.log('Change Event called');
-            if(targetElement.id === 'navigation'){
-                //SubjectService.reset();
+                currentLanguage = data.language;
+
+                var IntroOptions = angular.copy(IntroOptionsTemplate);
+
+                IntroOptions.steps = _.map(IntroOptions.steps, function (step) {
+
+                    var cellScope = $rootScope.$new(false);
+
+                    var interpolated = $interpolate('<div>' + step.intro + '</div>')(cellScope);
+
+                    var linker = $compile(interpolated);
+
+                    step.intro = linker(cellScope)[0].outerHTML;
+                    return step;
+                });
+
+
+                $scope.IntroOptions = IntroOptions;
             }
-        };
+        });
 
-        //$scope.BeforeChangeEvent = function (targetElement) {
-            //console.log('Before Change Event called');
-            //console.warn(arguments);
-        //};
-
-        //$scope.AfterChangeEvent = function (targetElement) {
-            //console.log('After Change Event called');
-            //console.log(arguments);
+        //TODO: Implement IntroJS completely
+        //$scope.ChangeEvent = function (targetElement) {
+        //    console.log("Change Event called", targetElement.id);
+        //    if (targetElement.id === 'navigation') {
+        //        //SubjectService.reset();
+        //    }
         //};
 
         /**
@@ -102,8 +96,6 @@
         $scope.initializeWorkspace();
 
         /** FOLGENDES MUSS AUS DIESEM CONTROLLER RAUS! **/
-
-
 
 
     }

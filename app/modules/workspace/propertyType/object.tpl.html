@@ -1,0 +1,25 @@
+<div on-before-print="printed = true" on-after-print="printed = false">
+    <div ng-if="!printed" class="property-body">
+        <!-- if a property is selected, it will be linked with the subject -->
+        <div class="input-group input-group-sm" ng-show="vm.filtered.length > 0">
+            <div class="input-group-addon">
+                {{'A_LINK_TO' | translate}}
+            </div>
+            <select ng-model="property.linkTo"
+                    class="form-control input-sm"
+                    ng-options="x as x.alias for x in vm.filtered = (vm.subjects | objectPropertyFilter : '$classURIs' : property.$range)"
+                    title="Link with a subject">
+                <option value="">{{'LINK_WITH_SUBJECT' | translate}}</option>
+            </select>
+
+            <div class="input-group-addon">
+                {{'EXISTS' | translate}}
+            </div>
+        </div>
+        <div ng-show="vm.filtered.length === 0">
+            <div class="btn btn-sm btn-warning btn-block" ng-click="property.$addAppropriateClass()">
+                <i class="fa fa-fw fa-plug"></i> {{"ADD_APPROPRIATE_CLASS" | translate}}
+            </div>
+        </div>
+    </div>
+</div>
