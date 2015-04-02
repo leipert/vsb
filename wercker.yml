@@ -29,6 +29,7 @@ deploy:
         gh_pages: true
         basedir: landing
         clean_removed_files: true
+        debug: true
     - leipert/git-push:
         gh_oauth: $GH_TOKEN
         branch: dist
@@ -36,3 +37,4 @@ deploy:
         tag: bower
         tag_overwrite: true
         clean_removed_files: true
+        debug: true
