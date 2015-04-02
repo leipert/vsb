@@ -22,28 +22,13 @@ build:
 deploy:
   steps:
     - script:
-        name: Create Examples
-        code: >-
-          cd landing &&
-          rm -rf  assets config dbpedia example &&
-          cp -r ../config config &&
-          cp -r ../dist assets &&
-          cp -r assets example &&
-          find example -type d ! -path example | xargs rm -rf &&
-          find assets -type f -maxdepth 1 | xargs rm -rf &&
-          cat example/index.html | sed -E 's#(src|href)(=["'"'"']?)(styles|scripts)#\1\2../assets/\3#g' >foobar.html &&
-          mv foobar.html example/index.html &&
-          cp -r example dbpedia &&
-          cp config/exampleOntology.js example/overwrite.js &&
-          cp config/dbpedia.js dbpedia/overwrite.js
+        name: Run afterbuild scripts
+        code: bash config/afterBuild.sh
     - leipert/git-push:
         gh_oauth: $GH_TOKEN
         gh_pages: true
         basedir: landing
         clean_removed_files: true
-    - script:
-        name: Copy config to dist
-        code: rm -rf dist/config && mv config/bower.json dist && cp -r config dist/config
     - leipert/git-push:
         gh_oauth: $GH_TOKEN
         branch: dist
