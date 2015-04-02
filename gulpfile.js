@@ -78,7 +78,7 @@ var options = gulpStack.options(gulp, $, [
             ghostMode: false,
             notify: false
         }
-    } );
+    });
 
 gulp = gulpStack.gulp(gulp, options);
 
@@ -87,7 +87,7 @@ gulp = gulpStack.gulp(gulp, options);
  * Alias Tasks
  */
 
-gulp.task('default', ['build', 'jshint']);
+gulp.task('default', ['build', 'jshint', 'test']);
 
 gulp.task('build', ['rev']);
 
@@ -183,7 +183,6 @@ gulp.task('generateMockPersons', function () {
     }
 
 });
-
 
 
 gulp.task('inject-karma', function () {
