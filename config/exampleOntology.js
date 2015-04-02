@@ -7,12 +7,12 @@ angular.module('VSB.config')
         languageStorage.mergeLanguages({
             de: {
                 EXAMPLE_MESSAGE: 'Diese Beispielontologie ist Großenteils zum Testen der technischen Grezen des VSB gedacht.' +
-                'Sie finden das Vokabular <a class="alert-link" target="_blank" href="../config/graphs/vsb.ttl">hier</a>.' +
+                'Sie finden das Vokabular <a class="alert-link" target="_blank" href="graphs/vsb.ttl">hier</a>.' +
                 '<br> Es gibt zur Zeit nur gemockte Personendaten.'
             },
             en: {
                 EXAMPLE_MESSAGE: 'This example ontology is mainly to test some technical limits of the VSB.' +
-                'You can find its definition <a class="alert-link" href="../config/graphs/vsb.ttl">here</a>.' +
+                'You can find its definition <a class="alert-link" href="graphs/vsb.ttl">here</a>.' +
                 '<br> The only instances you may find (at the moment) are some mockup persons.'
             }
         });
