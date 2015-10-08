@@ -48,7 +48,7 @@ angular.module('VSB.config')
                         properties: [
                             {
                                 uri: 'http://vsb.leipert.io/ns/ancestor',
-                                type: 'RELATION_PROPERTY',
+                                type: 'OBJECT_PROPERTY',
                                 filterExists: true,
                                 hasFilter: true,
                                 compareRaw: {},
@@ -72,7 +72,7 @@ angular.module('VSB.config')
                         properties: [
                             {
                                 uri: 'http://vsb.leipert.io/ns/ancestor',
-                                type: 'RELATION_PROPERTY',
+                                type: 'OBJECT_PROPERTY',
                                 filterExists: true,
                                 hasFilter: true,
                                 compareRaw: {},

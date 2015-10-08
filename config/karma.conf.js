@@ -20,7 +20,8 @@ module.exports = function (config) {
             //start-app
             //end-app
             'node_modules/chai-string/chai-string.js',
-            'app/**/*.spec.js'
+            'app/**/*.spec.js',
+            'app/**/fixtures/**/*.json'
         ],
 
         // list of files to exclude
@@ -30,7 +31,17 @@ module.exports = function (config) {
 
         // preprocess matching files before serving them to the browser
         preprocessors: {
-            'app/!(bower_components)/**/!(*spec).js': ['coverage']
+            'app/!(bower_components)/**/!(*spec).js': ['coverage'],
+            'app/**/fixtures/**/*.json': ['json_fixtures']
+        },
+
+        jsonFixturesPreprocessor: {
+            // strip this from the file path \ fixture name
+            stripPrefix: '.+fixtures/',
+            // strip this to the file path \ fixture name
+            //prependPrefix: '',
+            // change the global fixtures variable name
+            variableName: 'fixtures'
         },
 
         coverageReporter: {

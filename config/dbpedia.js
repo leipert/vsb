@@ -3,7 +3,7 @@
 angular.module('VSB.config')
     .config(function (globalConfig) {
         globalConfig.name = 'DBPEDIA_CONFIG';
-        globalConfig.propertyTypeByRange['http://dbpedia.org/ontology/'] = 'RELATION_PROPERTY';
+        globalConfig.propertyTypeByRange['http://dbpedia.org/ontology/'] = 'OBJECT_PROPERTY';
         globalConfig.prefixes = _.merge(globalConfig.prefixes, {
             'category': 'http://dbpedia.org/resource/Category:',
             'dbpedia': 'http://dbpedia.org/resource/',
@@ -79,7 +79,7 @@ angular.module('VSB.config')
                         "properties": [
                             {
                                 "uri": "http://dbpedia.org/ontology/birthPlace",
-                                "type": "RELATION_PROPERTY",
+                                "type": "OBJECT_PROPERTY",
                                 "filterExists": true,
                                 "hasFilter": true,
                                 "compareRaw": {},
@@ -92,7 +92,7 @@ angular.module('VSB.config')
                             },
                             {
                                 "uri": "http://dbpedia.org/ontology/almaMater",
-                                "type": "RELATION_PROPERTY",
+                                "type": "OBJECT_PROPERTY",
                                 "filterExists": true,
                                 "hasFilter": true,
                                 "compareRaw": {},
@@ -145,7 +145,7 @@ angular.module('VSB.config')
                         "properties": [
                             {
                                 "uri": "http://dbpedia.org/ontology/city",
-                                "type": "RELATION_PROPERTY",
+                                "type": "OBJECT_PROPERTY",
                                 "filterExists": true,
                                 "hasFilter": true,
                                 "compareRaw": {},
