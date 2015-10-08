@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    angular.module('VSB.layout.result', [ 'VSB.config'])
+    angular.module('VSB.layout.result', [ 'VSB.config', 'SPARQLJS'])
         .filter('deepOrderBy', deepOrderBy)
         .controller('ResultCtrl', ResultCtrl);
 
-    function ResultCtrl($scope, ParserManager, globalConfig, $filter) {
+    function ResultCtrl($scope, ParserManager, globalConfig, $filter, sparqljs) {
         //ngTableParams, EndPointService
         //var vm = this;
         $scope.resultHead = [];
@@ -15,52 +15,73 @@
         $scope.showQueries = true;
 
         $scope.resultFormats = globalConfig.resultFormats;
-        $scope.currentFormat = globalConfig.resultFormats[0];
 
         var JSON = ParserManager.translateVSBLToSPARQL();
 
         $scope.translatedJSON = JSON.json;
-        var prefixes = '';
-        _.forEach(globalConfig.prefixes, function (uri, prefix) {
-            prefixes += 'prefix ' + prefix + ': <' + uri + '> \n';
-        });
-        $scope.translatedSPARQL = prefixes + '\n' + beautifySPARQL(JSON.sparql.toString());
 
-        function beautifySPARQL(query) {
-            query = $filter('beautifySPARQL')(query);
-            query = $filter('replaceURIsWithPrefixes')(query);
-            return query;
-        }
+        var query = sparqljs.parse(JSON.sparql.toString());
+        $scope.translatedSPARQL = sparqljs.stringify(query);
 
-        /**
-         * Open the SPARQL Query in a new dbpedia tab
-         */
 
+        $scope.queryExecutor = {
+            endpoint: globalConfig.resultURL,
+            limit: 100,
+            offset: 0,
+            resultFormat : globalConfig.resultFormats[0]
+        };
 
         $scope.openInNewTab = function () {
-            var win = window.open(createQueryURL(), '_blank');
+            if ($scope.runQuery.$invalid) {
+                $scope.runQuery.$submitted = true;
+                return;
+            }
+            var win = window.open(createQueryURL($scope.queryExecutor), '_blank');
             win.focus();
         };
 
-        function createQueryURL() {
-            var format = '&format=' + encodeURIComponent($scope.currentFormat.format);
-            var query = '&query=' + encodeURIComponent($scope.translatedSPARQL);
+        function createQueryURL(queryExecutor) {
+            var format = '&format=' + encodeURIComponent(queryExecutor.resultFormat.format);
+            var query = sparqljs.parse($scope.translatedSPARQL);
+            query.limit = queryExecutor.limit;
+            query.offset = queryExecutor.offset;
+            query = sparqljs.stringify(query);
+
             var defaultGraphs = '';
-            globalConfig.defaultGraphURIs.forEach(function (graph) {
-                defaultGraphs += '&default-graph-uri=' + encodeURIComponent(graph);
-            });
 
-            if ($scope.currentFormat.qtxt) {
-                query = '&qtxt=' + encodeURIComponent($scope.translatedSPARQL);
+            if (queryExecutor.resultFormat.qtxt) {
+                query = '&qtxt=' + encodeURIComponent(query);
                 defaultGraphs = '';
+            } else {
+                query = '&query=' + encodeURIComponent(query);
+                globalConfig.defaultGraphURIs.forEach(function (graph) {
+                    defaultGraphs += '&default-graph-uri=' + encodeURIComponent(graph);
+                });
             }
 
-            if (globalConfig.resultURL.indexOf('?') === -1) {
-                return globalConfig.resultURL + '?' + format + defaultGraphs + query;
+            if (queryExecutor.endpoint.indexOf('?') === -1) {
+                return queryExecutor.endpoint + '?' + format + defaultGraphs + query;
             }
 
-            return globalConfig.resultURL + format + defaultGraphs + query;
+            return queryExecutor.endpoint + format + defaultGraphs + query;
         }
+
+        $scope.tabs = [
+
+
+            {
+                'title': 'RESULTS_PREVIEW',
+                'template': '/modules/result/tabs/preview.tpl.html'
+            },
+            {
+                'title': 'SPARQL_QUERY',
+                'template': '/modules/result/tabs/sparql.tpl.html'
+            },
+            {
+                'title': 'JSON',
+                'template': '/modules/result/tabs/json.tpl.html'
+            }
+        ];
 
         //TODO: Refactor
 

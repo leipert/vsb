@@ -17,10 +17,20 @@
                 'http://www.w3.org/2001/XMLSchema#date': 'DATE_PROPERTY'
             },
             prefixes: {
-                'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
-                'foaf': 'http://xmlns.com/foaf/0.1/',
-                'owl': 'http://www.w3.org/2002/07/owl#',
-                'vsb': 'http://vsb.leipert.io/ns/'
+                //Custom prefixes:
+                mo: 'http://purl.org/ontology/mo/',
+                // Top prefixes from prefix.cc:
+                yago: 'http://yago-knowledge.org/resource/',
+                rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+                foaf: 'http://xmlns.com/foaf/0.1/',
+                dbo: 'http://dbpedia.org/ontology/',
+                dbp: 'http://dbpedia.org/property/',
+                dc: 'http://purl.org/dc/elements/1.1/',
+                owl: 'http://www.w3.org/2002/07/owl#',
+                rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
+                ont: 'http://purl.org/net/ns/ontology-annot#',
+                skos: 'http://www.w3.org/2004/02/skos/core#',
+                geo: 'http://www.w3.org/2003/01/geo/wgs84_pos#'
             },
             resultFormats: [
                 {
