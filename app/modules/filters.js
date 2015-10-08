@@ -4,31 +4,40 @@
         .filter('replaceURIsWithPrefixes', replaceURIsWithPrefixes)
         .filter('beautifySPARQL', beautifySPARQL);
 
+    var rdfType = new RegExp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>','ig');
+
     function replaceURIsWithPrefixes(globalConfig) {
-        return function (string) {
+        return function (string, isQuery) {
             if(!_.isString(string)){
                 return string;
             }
-            for (var key in globalConfig.prefixes) {
-                if (globalConfig.prefixes.hasOwnProperty(key)) {
-                    var regex = new RegExp('<?' + globalConfig.prefixes[key] + '(\\w+)>?', 'ig');
-                    string = string.replace(regex, key + ':$1');
-                }
+
+            if(isQuery) {
+                string = string.replace(rdfType, 'a');
             }
-            return string;
+
+            var usedPrefixes = '';
+            _.forEach(globalConfig.prefixes, function(prefix, key){
+                var regex = new RegExp('<?' + prefix + '(\\w+)>?', 'ig');
+                if(regex.test(string)) {
+                    string = string.replace(regex, key + ':$1');
+                    if(isQuery){
+                        usedPrefixes += 'PREFIX ' + key + ': <' + prefix + '>\n';
+                    }
+                }
+            });
+
+            return usedPrefixes + string;
         };
     }
 
     function beautifySPARQL() {
-        return function (string) {
-            return string
-                .replace(/<http:\/\/www.w3.org\/1999\/02\/22-rdf-syntax-ns#type>/ig, 'a')
-                .replace(/where\s+/ig, 'WHERE \n')
+        return function (query) {
+            return query
+                .replace(/where\s+/ig, '\nWHERE')
                 .replace(/limit/ig, 'LIMIT')
                 .replace(/ +\.\s+/ig, ' .\n')
                 .replace(/ +;\s+/ig, ' .\n')
-                .replace(/\{/ig, '\n{\n')
-                .replace(/}\s+/ig, '\n}\n')
                 .replace(/^\?/igm, '\t?')
                 .replace(/^FILTER/igm, '\tFILTER')
                 .replace(/^BIND/igm, '\tBIND')

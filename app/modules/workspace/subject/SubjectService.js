@@ -92,7 +92,7 @@
                 });
             } else {
                 $modal.open({
-                    template: '/modules/workspace/modals/findRelationModal.tpl.html',
+                    templateUrl: '/modules/workspace/modals/findRelationModal.tpl.html',
                     controller: 'findRelationModalCtrl',
                     controllerAs: 'foo',
                     resolve: {

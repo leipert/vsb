@@ -8,7 +8,7 @@
             angular.extend($dropdownProvider.defaults, {
                 html: true,
                 placement: 'bottom',
-                template: '/components/angular-strap-patches/src/dropdown/dropdown.tpl.html',
+                templateUrl: '/components/angular-strap-patches/src/dropdown/dropdown.tpl.html',
                 container: 'body'
             });
         })

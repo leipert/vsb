@@ -83,7 +83,7 @@
             template: '{{ "NO_COMPARISON" | translate }}'
         });
 
-        vm.allowedLanguages = globalConfig.allowedLanguages;
+        vm.availableLanguages = globalConfig.languages.StringComparison;
 
         vm.stringComparison = null;
         vm.comparisonInput = '';

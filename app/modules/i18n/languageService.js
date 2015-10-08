@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('VSB.language', ['VSB.config', 'VSB.language.translationCacheService', 'pascalprecht.translate'])
+    angular.module('VSB.language', ['VSB.config', 'VSB.language.translationCacheService', 'pascalprecht.translate', 'ngCookies'])
         .config(translationProviderConfig)
         .factory('languageStorage', languageStorage)
         .factory('languageLoader', languageLoader)
@@ -31,9 +31,21 @@
     }
 
     function translationProviderConfig($translateProvider, globalConfig) {
-        globalConfig.fallBackLanguages.push('default');
-        $translateProvider.useLoader('languageLoader')
-            .fallbackLanguage(globalConfig.fallBackLanguages)
+
+        var availableLanguageKeys = _.chain(globalConfig.languages.GUI)
+            .map(function(language){
+                return [language + '-*', language];
+            })
+            .zipObject()
+            .value();
+
+        $translateProvider
+            .useLoader('languageLoader')
+            .useSanitizeValueStrategy('escapeParameters')
+            .useLocalStorage()
+            .uniformLanguageTag('bcp47')
+            .registerAvailableLanguageKeys(globalConfig.languages.GUI, availableLanguageKeys)
+            .fallbackLanguage('default')
             .determinePreferredLanguage();
     }
 
@@ -81,6 +93,7 @@
                     IS_MANDATORY: 'is mandatory',
                     IS_OPTIONAL: 'is optional',
                     KEEP_OPEN: 'Keep open',
+                    PRINT_PREVIEW: 'Print Preview',
                     HIDE_SUBJECT: 'Hide Subject',
                     SHOW_SUBJECT: 'Show Subject',
                     DELETE_SUBJECT: 'Delete Subject',

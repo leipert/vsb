@@ -26,7 +26,8 @@
         "moment": true,
         "jQuery": true,
         "angular": true,
-        "Jassa": true
+        "Jassa": true,
+        "sparqljs": true
 
     }
 }
