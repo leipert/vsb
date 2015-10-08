@@ -52,7 +52,7 @@ en:
     AGGREGATE_PROPERTY: aggregate property
 
 ## Objekte
-    RELATION_PROPERTY: relation
+    OBJECT_PROPERTY: relation
     INVERSE_PROPERTY: inverse relation
 
     ADD_APPROPRIATE_CLASS: Add appropriate Subject

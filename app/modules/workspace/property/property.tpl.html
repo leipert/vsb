@@ -65,7 +65,7 @@
          ng-switch on="property.type">
 
         <div ng-switch-when="AGGREGATE_PROPERTY" aggregate-property-dir property="property"></div>
-        <div ng-switch-when="RELATION_PROPERTY" object-property-dir property="property"></div>
+        <div ng-switch-when="OBJECT_PROPERTY" object-property-dir property="property"></div>
         <div ng-switch-when="NUMBER_PROPERTY" number-property-dir property="property"></div>
         <div ng-switch-when="STRING_PROPERTY" string-property-dir property="property"
              hide-language="property.uri === '$$uri'"></div>

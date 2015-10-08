@@ -198,8 +198,8 @@ If you don't want to overwrite the default prefixes, you simply can add some usi
 Mapping from the range of a property to an internal property type. Defaults to
 ```javascript
     globalConfig.propertyTypeByRange = {
-      'http://vsb.leipert.io/ns/': 'RELATION_PROPERTY',
-      'http://xmlns.com/foaf/0.1/': 'RELATION_PROPERTY',
+      'http://vsb.leipert.io/ns/': 'OBJECT_PROPERTY',
+      'http://xmlns.com/foaf/0.1/': 'OBJECT_PROPERTY',
       'http://www.w3.org/2001/XMLSchema#(integer|float|double|decimal|positiveInteger|nonNegativeInteger)': 'NUMBER_PROPERTY',
       'http://www.w3.org/2001/XMLSchema#(string|literal)': 'STRING_PROPERTY',
       'http://www.w3.org/2001/XMLSchema#date': 'DATE_PROPERTY'
@@ -210,7 +210,7 @@ Mapping from the range of a property to an internal property type. Defaults to
 Mapping from the property type to an internal property type. Defaults to
 ```javascript
     globalConfig.propertyTypeByType = {
-      'http://www.w3.org/2002/07/owl#ObjectProperty': 'RELATION_PROPERTY'
+      'http://www.w3.org/2002/07/owl#ObjectProperty': 'OBJECT_PROPERTY'
     }
 ```
 

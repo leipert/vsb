@@ -24,7 +24,7 @@ describe('translatorToSPARQL tests', function (){
           "alias": "birth place",
           "comment": "where the person was born",
           "uri": "http://dbpedia.org/ontology/birthPlace",
-          "type": "RELATION_PROPERTY",
+          "type": "OBJECT_PROPERTY",
           "propertyRange": [
             "http://dbpedia.org/ontology/Place"
           ],

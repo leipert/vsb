@@ -50,7 +50,7 @@ de:
     AGGREGATE_PROPERTY: Aggregat
 
 ## Objekte
-    RELATION_PROPERTY: Relation
+    OBJECT_PROPERTY: Relation
     INVERSE_PROPERTY: Inverse Relation
 
     ADD_APPROPRIATE_CLASS: Füge passendes Subjekt hinzu

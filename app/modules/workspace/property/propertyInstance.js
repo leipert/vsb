@@ -94,7 +94,7 @@
             },
             {
                 hide: function () {
-                    return !(property.type === 'RELATION_PROPERTY' || property.type === 'INVERSE_PROPERTY');
+                    return !(property.type === 'OBJECT_PROPERTY' || property.type === 'INVERSE_PROPERTY');
                 },
                 click: function () {
                     addAppropriateClass();
@@ -103,7 +103,7 @@
             },
             {
                 hide: function () {
-                    return !(property.type !== 'RELATION_PROPERTY' && property.type !== 'INVERSE_PROPERTY' && property.type !== 'AGGREGATE_PROPERTY');
+                    return !(property.type !== 'OBJECT_PROPERTY' && property.type !== 'INVERSE_PROPERTY' && property.type !== 'AGGREGATE_PROPERTY');
                 },
                 click: function () {
                     castProperty();
