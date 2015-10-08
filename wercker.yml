@@ -34,7 +34,5 @@ deploy:
         gh_oauth: $GH_TOKEN
         branch: dist
         basedir: dist
-        tag: bower
-        tag_overwrite: true
         clean_removed_files: true
         debug: true

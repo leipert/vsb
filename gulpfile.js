@@ -137,13 +137,13 @@ gulp.task('inject-karma', function () {
 
 
 gulp.task('test', ['inject-karma'], function () {
-    var karma = require('karma').server;
-    karma.start({
+    var Server = new require('karma').Server;
+    var karma = new Server({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true,
         autoWatch: true
     });
-
+    karma.start()
 });
 
 function createKarmaInjectConfig(suffix) {
