@@ -1,0 +1,47 @@
+{
+  "name": "Simple Object Property with link",
+  "result": "Select Distinct ?person ?university {?person <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Person> . Filter(NOT EXISTS {?university <http://dbpedia.org/ontology/almaMater> ?person}) . ?university <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/University>} ",
+  "json": {
+    "CONFIG": "DBPEDIA_CONFIG",
+    "START": {
+      "type": "LIST_ALL",
+      "linkTo": "person"
+    },
+    "SUBJECTS": [
+      {
+        "uri": "http://dbpedia.org/ontology/Person",
+        "pos": {
+          "x": 350,
+          "y": 150
+        },
+        "view": true,
+        "alias": "person",
+        "properties": [
+          {
+            "uri": "http://dbpedia.org/ontology/almaMater",
+            "type": "INVERSE_PROPERTY",
+            "filterExists": false,
+            "hasFilter": true,
+            "compareRaw": {},
+            "linkTo": "university",
+            "view": true,
+            "optional": false,
+            "arithmetic": null,
+            "compare": null,
+            "alias": "alma mater"
+          }
+        ]
+      },
+      {
+        "uri": "http://dbpedia.org/ontology/University",
+        "pos": {
+          "x": 894,
+          "y": 152
+        },
+        "view": true,
+        "alias": "university",
+        "properties": []
+      }
+    ]
+  }
+}

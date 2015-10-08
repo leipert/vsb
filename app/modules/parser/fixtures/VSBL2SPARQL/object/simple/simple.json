@@ -1,0 +1,37 @@
+{
+  "name": "Simple Object Property without link",
+  "result": "Select Distinct ?person ?person_alma_mater {?person <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Person> . ?person <http://dbpedia.org/ontology/almaMater> ?person_alma_mater} ",
+  "json": {
+    "CONFIG": "DBPEDIA_CONFIG",
+    "START": {
+      "type": "LIST_ALL",
+      "linkTo": "person"
+    },
+    "SUBJECTS": [
+      {
+        "uri": "http://dbpedia.org/ontology/Person",
+        "pos": {
+          "x": 350,
+          "y": 150
+        },
+        "view": true,
+        "alias": "person",
+        "properties": [
+          {
+            "uri": "http://dbpedia.org/ontology/almaMater",
+            "type": "OBJECT_PROPERTY",
+            "filterExists": true,
+            "hasFilter": false,
+            "compareRaw": {},
+            "linkTo": null,
+            "view": true,
+            "optional": false,
+            "arithmetic": null,
+            "compare": null,
+            "alias": "alma mater"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -122,69 +122,6 @@ gulp.task('locale', function () {
         .pipe(gulp.dest('.tmp'))
 });
 
-gulp.task('generateMockPersons', function () {
-    var faker = require('faker');
-    var _ = require('lodash');
-    var moment = require('moment');
-    var ptemplate = _.template(
-        '<%= uri %> a :Person ;rdfs:label "<%= label %>"@de ;' +
-        ':name "<%= name %>"; :birthDate "<%= birthDate.format("YYYY-MM-DD") %>>"^^xsd:date ;' +
-        '<%= scion %>' +
-        '<% _.forEach(parents, function(parent) { %>:ancestor <%- parent.uri %>;<% }); %>' +
-        ':age <%= age %> .'
-    );
-    var persons = _.reduce(generatePeople(3, 3), reducePerson, '');
-
-    console.warn(persons);
-
-    function reducePerson(result, person) {
-        return result + '\n' + person.toString() + _.reduce(person.parents, reducePerson, '');
-    }
-
-    function generatePeople(amount, generations, scion) {
-        generations -= 1;
-        var people = [];
-        for (var i = 0; i < amount; i++) {
-            people.push(new Person(generations, scion));
-        }
-        return people;
-    }
-
-    function Person(generation, scion) {
-
-        var birthDate = (scion) ?
-            moment(scion.birthDate)
-                .subtract(_.random(16, 40), 'years')
-                .subtract(_.random(1, 12), 'months')
-                .subtract(_.random(0, 30), 'days')
-            :
-            moment(faker.date.past()).subtract(1, 'year');
-        var firstName = faker.name.firstName();
-        var name = firstName + ' ' + faker.name.lastName();
-        var p = {
-            name: name,
-            label: firstName,
-            uri: ':' + _.kebabCase(_.deburr(name)),
-            birthDate: birthDate,
-            age: moment().diff(birthDate, 'years'),
-            parents: [],
-            scion: (scion) ? ':scion ' + scion.uri + ';' : ''
-        };
-
-        if (generation > 0) {
-            p.parents = generatePeople(2, generation, p);
-        }
-
-        p.toString = function () {
-            return ptemplate(p);
-        };
-
-        return p;
-    }
-
-});
-
-
 gulp.task('inject-karma', function () {
     return gulp.src('./config/karma.conf.js')
         .pipe($.inject(

@@ -1,0 +1,23 @@
+{
+  "name": "Simple subject",
+  "result": "Select Distinct ?person {?person <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Person>} ",
+  "json": {
+    "CONFIG": "DBPEDIA_CONFIG",
+    "START": {
+      "type": "LIST_ALL",
+      "linkTo": "person"
+    },
+    "SUBJECTS": [
+      {
+        "uri": "http://dbpedia.org/ontology/Person",
+        "pos": {
+          "x": 350,
+          "y": 150
+        },
+        "view": true,
+        "alias": "person",
+        "properties": []
+      }
+    ]
+  }
+}
