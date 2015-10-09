@@ -23,6 +23,7 @@
 
             options.timeout = cancelPendingRequest.promise;
             options.params = options.data;
+            options.headers = {'Accept': 'application/sparql-results+json'};
             delete (options.data);
 
             $http(options).success(httpRequest.resolve).error(httpRequest.reject);
@@ -75,6 +76,7 @@
             return str.replace(/^<+/, '').replace(/>+$/, '');
         };
 
+        //TODO: Make private or move to other service
         factory.extractLabelFromURI = function (uri) {
             uri = cleanURI(uri);
             var hashPos = uri.lastIndexOf('#'),

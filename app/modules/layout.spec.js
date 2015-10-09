@@ -24,7 +24,6 @@ describe('Unit Test:', function () {
             inject(function($rootScope){
                 $rootScope.$emit('updateJSON','{}');
             });
-            //console.warn(scope);
             expect(scope.blobURL).not.to.equal(undefined);
             expect(scope.blobURL).to.startsWith('blob:');
         });

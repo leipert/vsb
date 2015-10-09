@@ -1,6 +1,11 @@
 (function () {
     'use strict';
-    angular.module('VSB.subject.service', ['VSB.endPointService', 'VSB.language', 'VSB.subject.model', 'VSB.arrowService'])
+    angular.module('VSB.subject.service', [
+        'VSB.endPointService',
+        'VSB.language',
+        'VSB.subject.model',
+        'VSB.arrowService'
+    ])
         .factory('SubjectService', SubjectService)
         .directive('popoverWrap', popoverWrap)
     ;

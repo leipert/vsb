@@ -122,7 +122,7 @@
 
         function addAppropriateClass() {
             $modal.open({
-                template: '/modules/workspace/modals/addAppropriateClass.tpl.html',
+                templateUrl: '/modules/workspace/modals/addAppropriateClass.tpl.html',
                 controller: 'addAppropriateClassCtrl',
                 resolve: {
                     subject: function () {
@@ -137,7 +137,7 @@
 
         function castProperty() {
             $modal.open({
-                template: '/modules/workspace/modals/castProperty.tpl.html',
+                templateUrl: '/modules/workspace/modals/castProperty.tpl.html',
                 controller: 'castPropertyCtrl',
                 resolve: {
                     property: function () {

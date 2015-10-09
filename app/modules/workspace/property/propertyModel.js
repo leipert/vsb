@@ -1,6 +1,10 @@
 (function () {
     'use strict';
-    angular.module('VSB.property.model', ['VSB.endPointService', 'pascalprecht.translate', 'VSB.connectionService'])
+    angular.module('VSB.property.model', [
+        'VSB.endPointService',
+        'VSB.connectionService',
+        'pascalprecht.translate'
+        ])
         .factory('Property', PropertyConstructor);
 
     function PropertyConstructor(EndPointService, $log, $translate, $q, connectionService, $rootScope) {

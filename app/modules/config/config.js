@@ -105,8 +105,8 @@
                 }
             ],
             defaultGraphURIs: [],
-            baseURL: 'https://leipert.io/sparql',
-            resultURL: 'https://leipert.io/sparql?timeout=5000&debug=on',
+            baseURL: 'http://localhost:5000/sparql',
+            resultURL: 'http://localhost:5000/sparql?timeout=5000&debug=on',
             languages : {
                 StringComparison: ['*', 'de', 'en'],
                 GUI: ['de', 'en'],
@@ -198,6 +198,7 @@
                 }
             ],
             endPointQueries: {
+                getLabel: 'SELECT DISTINCT ?label {<%= uri %> rdfs:label ?label }',
                 getDirectProperties: '<%uri%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?class .' +
                 '?uri rdfs:domain ?class .' +
                 'OPTIONAL { ?uri rdfs:range ?range }  .' +

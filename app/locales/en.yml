@@ -15,10 +15,15 @@ en:
     RESET_WORKSPACE: Reset Workspace
 
 # Result-Page
-    HIDE_QUERIES: hide queries
-    QUERIES: Queries
-    SHOW_QUERIES: show queries
     RESULTS: Results
+    QUERY_EXECUTOR: Query Executor
+    FORMAT: Format
+    LIMIT: Limit
+    OFFSET: Offset
+    ENDPOINT: Endpoint
+    RESULTS_PREVIEW: Results Preview
+    SPARQL_QUERY: SPARQL Query
+    JSON: JSON Serialisation
 
 # Workspace
     LIST_ALL: List all
@@ -94,6 +99,24 @@ en:
     PROPERTIES_FOUND_X_MORE: "Showing {{x}} of {{matching}} found properties.<br>Total properties: {{total}}"
     PROPERTIES_FOUND_NO_SEARCH: Showing {{matching}} of {{total}} properties,<br>Please enter a search term.
 
+#TODO:
+    BUTTON_LANG_DE: german
+    BUTTON_LANG_EN: english
+
+# Hilfe
+    HELP_FIRST: >-
+      <h1>Visual SPARQL Builder Help</h1>
+      <p>Click on the little arrow to start the tour.</p>
+    HELP_SECOND: >-
+      <h2>Workspace</h2>
+      <p>In the background the workspace can be seen. Here you will create queries.</p>
+    HELP_THIRD: >-
+      <h2>Navigation</h2>
+      <p>This is the navigation. The most important functionalities can be found here.</p>
+    HELP_FOURTH: >-
+      <h2>End of the tour.</h2>
+      <p>This is everything for now.</p>
+
 # Messages
     MINIMUM_SUBJECTS: Please add at least one subject to the workspace.
     PRINT_PREVIEW_MESSAGE: >-
@@ -113,12 +136,3 @@ en:
         please click on the
         <i class='fa fa-plug fa-fw'></i> plug button of this subject.
 
-# Hilfe - TODO
-    HELP_FIRST: >-
-        <h1>Visual SPARQL Builder Hilfe</h1>
-        <p>Der Visual SPARQL Builder....</p>
-        <p>Zum Start der Tour, bitte auf weiter klicken.</p>
-
-#TODO:
-    BUTTON_LANG_DE: german
-    BUTTON_LANG_EN: english

@@ -9,16 +9,20 @@ de:
     KEEP_OPEN: Offen lassen
     HELP: Hilfe
     WORKSPACE: Arbeitsfläche
-    RUN_QUERY: Abfrage starten
+    RUN_QUERY: Anfrage starten
     PRINT_PREVIEW: Druckvorschau
     RESET_WORKSPACE: Arbeitsfläche leeren
 
-
 # Result-Page
-    HIDE_QUERIES: Verstecke Abfragen
-    QUERIES: Abfragen
-    SHOW_QUERIES: Zeige Abfragen
     RESULTS: Ergebnisse
+    QUERY_EXECUTOR: Anfrage-Designer
+    FORMAT: Format
+    LIMIT: Limit
+    OFFSET: Offset
+    ENDPOINT: Endpunkt
+    RESULTS_PREVIEW: Ergebnisvorschau
+    SPARQL_QUERY: SPARQL-Anfrage
+    JSON: JSON-Serialisierung
 
 # Workspace
     LIST_ALL: Liste alle
@@ -81,7 +85,6 @@ de:
     AFTER: nach dem
     BEFORE: vor dem
 
-
 # Search Results
 
     CLASSES_FOUND_ZERO: Keine Klassen gefunden.<br>Bitte versuchen Sie eine andere Suche.
@@ -92,6 +95,25 @@ de:
     PROPERTIES_FOUND_X: "{{matching}} Eigenschaften gefunden.<br>Gesamtzahl an Eigenschaften: {{total}}"
     PROPERTIES_FOUND_X_MORE: "Zeige {{x}} von {{matching}} gefundenen Eigenschaften.<br>Gesamtzahl an Eigenschaften: {{total}}"
     PROPERTIES_FOUND_NO_SEARCH: Zeige {{matching}} von {{total}} Eigenschaften.<br>Bitte geben Sie einen Suchterm ein.
+
+# Hilfe
+    HELP_FIRST: >-
+      <h1>Visual SPARQL Builder Hilfe</h1>
+      <p>Der Visual SPARQL Builder....</p>
+      <p>Zum Start der Tour, bitte auf weiter klicken.</p>
+    HELP_SECOND: >-
+      <h2>Arbeitsfläche</h2>
+      <p>Im Hintergrund sehen Sie die Arbeitsfläche, das Kernstück des VSB. Hier können Sie Anfragen zusammenstellen.</p>
+    HELP_THIRD: >-
+      <h2>Navigation</h2>
+      <p>Dies ist die Navigation. Hier erreichen sie finden Sie die wichtigsten Funktionalitäten.</p>
+    HELP_FOURTH: >-
+      <h2>Ende der Tour</h2>
+      <p>Das war vorerst alles, was diese kleine Tour enthält.</p>
+
+# TODO:
+    BUTTON_LANG_DE: Deutsch
+    BUTTON_LANG_EN: Englisch
 
 # Messages
     MINIMUM_SUBJECTS: Bitte wenigstens ein Subjekt zur Arbeitsfläche hinzufügen.
@@ -111,14 +133,4 @@ de:
     SEARCH_RELATION: >-
         Um eine Relation zwischen {{alias}} und einem anderen Subjekt zu finden,
         klicken Sie das
-        <i class='fa fa-plug fa-fw'></i> Verbindungssymbol von letzterem an.
-
-# Hilfe
-    HELP_FIRST: >-
-      <h1>Visual SPARQL Builder Hilfe</h1>
-      <p>Der Visual SPARQL Builder....</p>
-      <p>Zum Start der Tour, bitte auf weiter klicken.</p>
-
-#TODO:
-    BUTTON_LANG_DE: Deutsch
-    BUTTON_LANG_EN: Englisch
+        <i class="fa fa-plug fa-fw"></i> Verbindungssymbol von letzterem an.

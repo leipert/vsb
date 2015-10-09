@@ -1,6 +1,12 @@
 (function () {
     'use strict';
-    angular.module('VSB.layout', ['VSB.layout.workspace', 'VSB.layout.workspace.navigation', 'VSB.layout.result', 'VSB.language', 'ui.router'])
+    angular.module('VSB.layout', [
+        'VSB.layout.workspace',
+        'VSB.layout.workspace.navigation',
+        'VSB.layout.result',
+        'VSB.language',
+        'ui.router'
+    ])
         .controller('NavigationCtrl', NavigationCtrl)
         .config(stateProviderConfig)
         .run(forceWorkSpaceOnStart);

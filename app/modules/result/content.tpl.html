@@ -1,10 +1,10 @@
 <!-- Result area -->
 <div id="result">
-    <h3>{{ 'RESULTS' | translate }}</h3>
+    <h1 class="h3">{{ 'RESULTS' | translate }}</h1>
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" id="query-executor">
         <div class="panel-heading">
-            <h3 class="panel-title">{{'QUERY_EXECUTOR' | translate}}</h3>
+            <h2 class="h4 panel-title">{{'QUERY_EXECUTOR' | translate}}</h2>
         </div>
         <div class="panel-body">
             <form name="runQuery" novalidate ng-submit="openInNewTab()">
@@ -71,7 +71,7 @@
     </div>
     <div bs-tabs>
         <div ng-repeat="tab in tabs"
-             title="{{ tab.title | translate }}"
+             title="<b>{{ tab.title | translate }}</b>"
              name="{{ tab.title | translate }}"
              bs-pane>
             <div class="panel panel-default">

@@ -8,12 +8,21 @@
         'VSB.layout',
         'VSB.filters',
         'VSB.subject',
-        'VSB.mainCtrl',
+        'VSB.helpCtrl',
         'VSB.language',
         'pascalprecht.translate'
     ])
         .run(mixedContentCheck)
         .run(loadLastFromForage)
+        .config(['$localForageProvider', function($localForageProvider){
+            $localForageProvider.config({
+                //driver      : 'localStorageWrapper', // if you want to force a driver
+                name        : 'myApp', // name of the database and prefix for your data, it is "lf" by default
+                //version     : 1.0, // version of the database, you shouldn't have to use this
+                storeName   : 'keyvaluepairs', // name of the table
+                description : 'some description'
+            });
+        }])
         .config(allowBlobs);
 
 
@@ -41,7 +50,7 @@
 
         if ($window.location.protocol !== parser.protocol) {
 
-            $http.get(globalConfig.baseURL + '?query=select+%3Fs+where+%7B%5B%5D+a+%3Fs%7D+LIMIT+1&format=json')
+            $http.get(globalConfig.baseURL + '?query=select+%3Fs+where+%7B%5B%5D+a+%3Fs%7D+LIMIT+1')
                 .success(function () {
                     hideMessage = true;
                 });

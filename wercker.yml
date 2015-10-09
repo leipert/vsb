@@ -30,9 +30,3 @@ deploy:
         basedir: landing
         clean_removed_files: true
         debug: true
-    - leipert/git-push:
-        gh_oauth: $GH_TOKEN
-        branch: dist
-        basedir: dist
-        clean_removed_files: true
-        debug: true

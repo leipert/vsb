@@ -1,6 +1,10 @@
 (function () {
     'use strict';
-    angular.module('VSB.subject.model', ['VSB.endPointService', 'pascalprecht.translate', 'VSB.connectionService'])
+    angular.module('VSB.subject.model', [
+        'VSB.connectionService',
+        'VSB.endPointService',
+        'pascalprecht.translate'
+    ])
         .factory('Subject', SubjectConstructor);
 
     function SubjectConstructor(EndPointService, $log, $translate, helperFunctions, $q, Property, connectionService, translationCacheService, MessageService, $rootScope) {

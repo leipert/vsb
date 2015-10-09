@@ -10,5 +10,5 @@ app/bower_components/
 app/styles/styles.css
 app/overwrite.js
 
-!/config/karma.conf.js
 karma.conf.js
+!/config/karma.conf.js
