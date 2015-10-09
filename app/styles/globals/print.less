@@ -1,0 +1,55 @@
+@import "../variables";
+
+@media print {
+  .mover, .messageContainer {
+    display: none;
+  }
+}
+
+.beingPrinted {
+
+  * {
+    box-shadow: none !important;
+  }
+
+  #navigation, .addSubjectBox, .hidden-print {
+    display: none;
+  }
+
+  .connector-label {
+    background: white !important;
+    opacity: 1 !important;
+  }
+
+  .startPointCSS {
+    margin-left: -100px;
+    border-width: 4px;
+    margin-top: 50px;
+    background: transparent;
+  }
+
+  .subject-container, .property-container {
+    border-width: 4px;
+    background: transparent;
+  }
+
+  .navigation + .content {
+    margin-left: 0;
+  }
+
+  #workspace {
+    background: white;
+  }
+
+  .navigation.fixed-width + .content {
+    margin-left: 0;
+    #workspace {
+      margin-left: 0;
+      .startPointCSS {
+        margin-left: -300px;
+      }
+    }
+
+  }
+
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Visual SPARQL Builder",
+  "version": "1.1.0-SNAPSHOT",
+  "homepage": "https://github.com/leipert/vsb",
+  "authors": [
+    "Lukas Eipert <git@leipert.io>"
+  ],
+  "description": "Visual SPARQL Builder - Model SPARQL-Select-Queries in a browser",
+  "main": "index.html",
+  "keywords": [
+    "SPARQL",
+    "Virtuoso",
+    "Visual",
+    "Semantic",
+    "Web",
+    "Angular"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

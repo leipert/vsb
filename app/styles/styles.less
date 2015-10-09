@@ -1,0 +1,241 @@
+@import "imports";
+@import "variables";
+
+/* No need to think about the following */
+
+body {
+  background: url('../images/background.png');
+}
+
+html, body, #root, #content, #workspace {
+  height: 100%;
+  overflow: hidden;
+}
+
+* {
+  -webkit-touch-callout: none;
+  user-select: none;
+  cursor: default;
+}
+
+pre {
+  -webkit-touch-callout: default;
+  user-select: text;
+  cursor: text;
+
+}
+
+table.table td {
+  cursor: text;
+}
+
+table.table td span {
+  -webkit-touch-callout: default;
+  user-select: text;
+  cursor: inherit;
+}
+
+a {
+  cursor: pointer !important;
+}
+
+.mouse-down {
+  z-index: 2000;
+}
+
+/* Set height and color of workspace and result area */
+
+#sparql-query, #json-query {
+  border: 1px solid black;
+  font-family: monospace;
+  min-height: 300px;
+}
+
+.box {
+  border-radius: @border-radius-base;
+  border: 1px solid black;
+  padding: 5px;
+  margin: 5px 0;
+  width: 250px;
+}
+
+.startPointCSS {
+  .box();
+  background: @startpoint-bg-color;
+  border-color: @startpoint-border-color;
+  color: @startpoint-heading-color;
+  z-index: 10;
+  position: fixed;
+  top: 66px;
+  left: 150px;
+}
+
+.connectNotification {
+  .box();
+  position: fixed;
+  z-index: 10;
+  bottom: 66px;
+  left: 50%;
+  width: 300px;
+  margin-left: -150px;
+}
+
+.ui-draggable-dragging {
+
+  .show-while-dragging {
+    display: inline;
+  }
+
+  .hide-while-dragging {
+    display: none;
+  }
+
+}
+
+.show-while-dragging {
+  display: none;
+}
+
+.hide-while-dragging {
+  display: inline;
+}
+
+i.pointer, .icon-list i {
+  cursor: pointer;
+  color: @icon-color;
+  text-decoration: none;
+  &:hover {
+    color: @icon-color-hover;
+  }
+
+  &.text-info {
+    color: @state-info-text;
+
+    &.hover {
+      color: darken(@state-info-text, 10%);
+    }
+
+  }
+
+}
+
+.connector {
+  z-index: 10;
+  &-label {
+    background-color: fadeout(white, 10%) !important;
+    padding: 0.3em;
+    border-radius: 0.5em;
+    border: 1px solid @arrow-color;
+    z-index: 15;
+  }
+  path {
+    stroke: @arrow-color;
+    stroke-width: 2px;
+    outline: transparent 4px;
+    &.arrow {
+      fill: @arrow-color;
+    }
+  }
+
+}
+
+.property-endpoint {
+
+  &._jsPlumb_endpoint_anchor_left svg {
+    left: -5px !important;
+  }
+
+  &._jsPlumb_endpoint_anchor_right svg {
+    left: 5px !important;
+  }
+
+  circle, rect {
+    fill: @arrow-color;
+  }
+}
+
+.generate-z-index(40);
+
+.generate-z-index(@n, @i: 0) when (@i =< @n) {
+  .z-index-@{i} {
+    z-index: 100 + @i * 10;
+    &.property-endpoint {
+      z-index: 105 + @i * 10;
+    }
+    &.connector {
+      z-index: 105 + @i * 10;
+      &-label {
+        z-index: 107 + @i * 10;
+      }
+    }
+  }
+  .generate-z-index(@n, (@i + 1));
+}
+
+.navigation + .content {
+  margin-left: 87px;
+
+  #result {
+    padding: 50px 50px 0;
+
+    h1 {
+      margin: 0;
+    }
+
+    #query-executor {
+      margin: 0;
+      margin-top: 25px;
+      margin-bottom: 30px;
+    }
+
+  }
+
+}
+
+.navigation.fixed-width + .content {
+  margin-left: 300px;
+
+  #workspace {
+
+    .startPointCSS {
+      left: 350px;
+    }
+
+  }
+}
+
+#result {
+  overflow: scroll;
+  max-height: 100%;
+}
+
+.bg-scroll {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: all-scroll;
+}
+
+//Tooltip for introjs
+
+.introjs-tooltip {
+  &.wide {
+    width: 650px;
+    max-width: 650px;
+    min-width: 650px;
+  }
+  .introjs-button {
+    .btn();
+    .btn-default();
+  }
+}
+
+@import "../components/ui.select/ui-select";
+
+@import "globals/print";
+@import "globals/navigation";
+
+@import "subjectBox";
+

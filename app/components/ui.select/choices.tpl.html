@@ -1,0 +1,38 @@
+<ul class="ui-select-choices ui-select-choices-content dropdown-menu"
+    ng-class="{'no-divider':($select.items.length === 0)}"
+    role="listbox">
+    <li class="ui-select-choices-list" ng-show="$select.items.length > 0">
+        <div class="ui-select-choices-group" id="ui-select-choices-{{ $select.generatedId }}">
+            <div class="divider" ng-show="$select.isGrouped && $index > 0"></div>
+            <div ng-show="$select.isGrouped" class="ui-select-choices-group-label dropdown-header">
+                {{$group.name | translate}}
+            </div>
+            <div id="ui-select-choices-row-{{ $select.generatedId }}-{{$index}}" class="ui-select-choices-row"
+                 ng-class="{active: $select.isActive(this), disabled: $select.isDisabled(this)}" role="option">
+                <a href="javascript:void(0)" class="ui-select-choices-row-inner"></a>
+            </div>
+        </div>
+    </li>
+    <li class="ui-select-footer">
+        <div class="divider" ng-if="$select.items.length > 0"></div>
+        <div class="ui-select-footer-content">
+            <small ng-if="$select.items.length === 0"
+                   translate="{{::footerZero}}"
+                    ></small>
+            <div ng-if="$select.items.length">
+                <small ng-if="$select.search.length === 0"
+                       translate="{{::footerNoSearch}}"
+                       translate-values="{ matching: $select.items.length, total: $select.totalItems }"
+                        ></small>
+                <small ng-if="$select.items.length.toString() !== $select.matchingItems && $select.search.length > 0"
+                       translate-values="{ x: $select.items.length, matching: $select.matchingItems, total: $select.totalItems }"
+                       translate="{{::footerFound+ '_MORE'}}"
+                        ></small>
+                <small ng-if="$select.items.length.toString() === $select.matchingItems && $select.search.length > 0"
+                       translate-values="{ matching: $select.matchingItems, total: $select.totalItems }"
+                       translate="{{::footerFound }}"
+                        ></small>
+            </div>
+        </div>
+    </li>
+</ul>

@@ -1,0 +1,82 @@
+<div class="property-container" ng-class="property.filterExists ? '' : 'notExists'" id="{{$id}}">
+    <!-- Template for property directive -->
+    <!-- Top of a property -->
+    <div class="property-head">
+        <span class="pull-right icon-list">
+
+            <i class="fa fa-square-o fa-fw"
+               ng-if="!property.filterExists"
+               ng-click="vm.toggle('filterExists')"></i>
+
+            <i class="fa fa-fw fa-question-circle"
+               ng-if="property.filterExists && property.optional"
+               ng-click="vm.toggle('optional')"></i>
+
+            <!-- Button (Eyes) to show whether a property will be visible in the result or not. -->
+            <i class="fa fa-fw fa-eye-slash"
+               ng-if="!property.view" ng-click="vm.toggle('view')"></i>
+
+            <!-- Button (Info-Sign) to show more Infos of property on hover -->
+             <popover-wrap ng-if="property.$comment"
+                           data-settings="{ class: 'fa fa-fw fa-info-circle hidden-print', content: property.$comment }"
+                     ></popover-wrap>
+
+               <i class="fa fa-fw fa-ellipsis-h hidden-print"
+                  data-container="body"
+                  bs-dropdown="vm.dropdownConfig"
+                  bs-model="property">
+               </i>
+
+        </span>
+        <!-- Alias of property -->
+        <b>
+            <span class="h5"><b>{{property.alias}}
+                <span ng-if="property.type === 'INVERSE_PROPERTY'"
+                      class="text-danger">&#x207b;&#x00b9;</span> </b>
+            </span>
+            <i class="fa fa-edit pointer hidden-print" ng-click="vm.editAlias = true"></i>
+            <small>
+                <small>({{ ::property.uri | replaceURIsWithPrefixes}})</small>
+            </small>
+        </b>
+
+        <!--Input for changing the Alias:-->
+        <div class="input-group hidden-print" ng-show="vm.editAlias">
+
+            <input type="text" size="30" maxlength="40"
+                   class="form-control" placeholder="Alias"
+                   ng-model="property.alias">
+
+            <div class="input-group-btn">
+                <button class="btn btn-success" ng-click="vm.editAlias = false">
+                    <i class="fa fa-check-square-o"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+
+    <!--Depending on PropertyType the appropriate controls are inserted,
+    you can use ng-include for direct insertion templates or
+    a own directive with templates and controllers
+    This is the place if you want to add new property Types.-->
+    <div ng-if="property.filterExists && property.hasFilter"
+         ng-switch on="property.type">
+
+        <div ng-switch-when="AGGREGATE_PROPERTY" aggregate-property-dir property="property"></div>
+        <div ng-switch-when="OBJECT_PROPERTY" object-property-dir property="property"></div>
+        <div ng-switch-when="NUMBER_PROPERTY" number-property-dir property="property"></div>
+        <div ng-switch-when="STRING_PROPERTY" string-property-dir property="property"
+             hide-language="property.uri === '$$uri'"></div>
+        <div ng-switch-when="STANDARD_PROPERTY" string-property-dir property="property"
+             hide-language="property.uri === '$$uri'"></div>
+        <div ng-switch-when="INVERSE_PROPERTY" object-property-dir property="property"></div>
+        <div ng-switch-when="DATE_PROPERTY" date-property-dir property="property"></div>
+
+        <div ng-switch-default></div>
+    </div>
+    <!-- CSS Trick, because pull-right does not make the container higher -->
+
+
+</div>

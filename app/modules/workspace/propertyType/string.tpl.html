@@ -1,0 +1,47 @@
+<div class="property-body" on-before-print="printed = true" on-after-print="printed = false">
+    <div ng-if="!printed">
+        <div class="input-group input-group-sm">
+            <div class="input-group-addon">
+                {{'COMPARISON' | translate}}
+            </div>
+            <div class="input-group-btn dropdown" is-open="dd2.isopen">
+                <button type="button" class="btn btn-default"
+                        bs-dropdown="vm.dropdown"
+                        style="border-radius: 0;border-right: 0">
+                    {{vm.getStringComparisonLabel() | translate}} <span class="caret"></span>
+                </button>
+            </div>
+            <input ng-disabled="vm.stringComparison === null" type="text" class="form-control input-sm"
+                   ng-model="vm.comparisonInput">
+            <span ng-show="vm.showFlags" class="input-group-btn" style="width:0; "></span>
+            <input ng-show="vm.showFlags"
+                   type="text" class="form-control input-sm"
+                   ng-model="vm.comparisonRegexFlags"
+                   style="border-left:0"
+                    />
+        </div>
+
+        <div class="input-group input-group-sm" style="margin-top: 5px" ng-if="!hideLanguageFilter">
+            <div class="input-group-addon">
+                {{'LANGUAGE' | translate}}
+            </div>
+            <select ng-model="vm.selectedLanguage"
+                    ng-options="x as x for x in vm.availableLanguages"
+                    title="Select Language"
+                    class="form-control input-sm">
+                <option value="">{{'SELECT_LANGUAGE' | translate}}</option>
+            </select>
+        </div>
+    </div>
+    <small ng-if="printed">
+        <span ng-if="vm.stringComparison !== null">
+        {{ vm.getStringComparisonLabel(vm.stringComparison) | translate}}
+        "{{vm.comparisonInput }}"
+        <span ng-if="vm.selectedLanguage"> & </span>
+        </span>
+        <span ng-if="vm.selectedLanguage">
+        is in the language<!-- TODO-->
+        "{{vm.selectedLanguage }}"
+        </span>
+    </small>
+</div>

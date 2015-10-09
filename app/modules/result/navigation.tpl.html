@@ -1,0 +1,15 @@
+<!-- Row containing top controls -->
+<div class="list-group">
+    <a class="list-group-item" ui-sref="workspace">
+        <i class="fa fa-fw fa-3x fa-backward "></i>
+        <span class="list-group-item-description">{{ 'BACK_TO_WORKSPACE' | translate }}</span>
+    </a>
+    <a class="list-group-item" ng-href="{{ blobURL }}" download="query.json" target="_blank">
+        <i class="fa fa-fw fa-3x fa-download"></i>
+        <span class="list-group-item-description">{{ 'DOWNLOAD_JSON' | translate }}</span>
+    </a>
+    <!--<a class="list-group-item">-->
+    <!--<i class="fa fa-fw fa-3x fa-question"></i>-->
+    <!--<span class="list-group-item-description">{{ 'HELP' | translate }}</span>-->
+    <!--</a>-->
+</div>

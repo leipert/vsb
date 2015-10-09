@@ -1,0 +1,103 @@
+{
+  "name": "test",
+  "result": "Select Distinct ?person ?city ?city_Label ?university {?person <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Person> . ?person <http://dbpedia.org/ontology/birthPlace> ?city . ?person <http://dbpedia.org/ontology/almaMater> ?university . ?city <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/City> . ?city <http://www.w3.org/2000/01/rdf-schema#label> ?city_Label . Filter(langMatches(lang(?city_Label), \"*\") && regex(?city_Label, \"Hamburg\", \"i\")) . ?university <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/University> . ?university <http://dbpedia.org/ontology/city> ?city} ",
+  "json": {
+    "CONFIG": "DBPEDIA_CONFIG",
+    "START": {
+      "type": "LIST_ALL",
+      "linkTo": "person"
+    },
+    "SUBJECTS": [
+      {
+        "uri": "http://dbpedia.org/ontology/Person",
+        "pos": {
+          "x": 350,
+          "y": 150
+        },
+        "view": true,
+        "alias": "person",
+        "properties": [
+          {
+            "uri": "http://dbpedia.org/ontology/birthPlace",
+            "type": "OBJECT_PROPERTY",
+            "filterExists": true,
+            "hasFilter": true,
+            "compareRaw": {},
+            "linkTo": "city",
+            "view": true,
+            "optional": false,
+            "arithmetic": null,
+            "compare": null,
+            "alias": "birth place"
+          },
+          {
+            "uri": "http://dbpedia.org/ontology/almaMater",
+            "type": "OBJECT_PROPERTY",
+            "filterExists": true,
+            "hasFilter": true,
+            "compareRaw": {},
+            "linkTo": "university",
+            "view": true,
+            "optional": false,
+            "arithmetic": null,
+            "compare": null,
+            "alias": "alma mater"
+          }
+        ]
+      },
+      {
+        "uri": "http://dbpedia.org/ontology/City",
+        "pos": {
+          "x": 837,
+          "y": 133
+        },
+        "view": true,
+        "alias": "city",
+        "properties": [
+          {
+            "uri": "http://www.w3.org/2000/01/rdf-schema#label",
+            "type": "STRING_PROPERTY",
+            "filterExists": true,
+            "hasFilter": true,
+            "compareRaw": {
+              "selectedLanguage": "*",
+              "stringComparison": 0,
+              "comparisonInput": "Hamburg",
+              "comparisonRegexFlags": "i"
+            },
+            "linkTo": null,
+            "view": true,
+            "optional": false,
+            "arithmetic": null,
+            "compare": "langMatches(lang(%after_arithmetic%), \"*\") && regex(%after_arithmetic%, \"Hamburg\", \"i\")",
+            "alias": "Label"
+          }
+        ]
+      },
+      {
+        "uri": "http://dbpedia.org/ontology/University",
+        "pos": {
+          "x": 688,
+          "y": 505
+        },
+        "view": true,
+        "alias": "university",
+        "properties": [
+          {
+            "uri": "http://dbpedia.org/ontology/city",
+            "type": "OBJECT_PROPERTY",
+            "filterExists": true,
+            "hasFilter": true,
+            "compareRaw": {},
+            "linkTo": "city",
+            "view": true,
+            "optional": false,
+            "arithmetic": null,
+            "compare": null,
+            "alias": "city"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Simple Object Property not existing without link",
+  "result": "Select Distinct ?person {?person <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Person> . Filter(NOT EXISTS {?person <http://dbpedia.org/ontology/almaMater> ?person_alma_mater})} ",
+  "json": {
+    "CONFIG": "DBPEDIA_CONFIG",
+    "START": {
+      "type": "LIST_ALL",
+      "linkTo": "person"
+    },
+    "SUBJECTS": [
+      {
+        "uri": "http://dbpedia.org/ontology/Person",
+        "pos": {
+          "x": 350,
+          "y": 150
+        },
+        "view": true,
+        "alias": "person",
+        "properties": [
+          {
+            "uri": "http://dbpedia.org/ontology/almaMater",
+            "type": "OBJECT_PROPERTY",
+            "filterExists": false,
+            "hasFilter": false,
+            "compareRaw": {},
+            "linkTo": null,
+            "view": true,
+            "optional": false,
+            "arithmetic": null,
+            "compare": null,
+            "alias": "alma mater"
+          }
+        ]
+      }
+    ]
+  }
+}

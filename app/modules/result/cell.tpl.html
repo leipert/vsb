@@ -1,0 +1,24 @@
+<div ng-switch="bound.type">
+    <span ng-switch-when="uri">
+        <a ng-href="{{bound.value}}" target="_blank">
+            {{ label || bound.value }}
+        </a>
+        <span ng-if="label"><br><small>{{bound.value}}</small></span>
+    </span>
+    <span ng-switch-when="literal">
+        {{bound.value}}
+        <span ng-if="bound['xml:lang']"><br><small>Language: {{bound['xml:lang']}}</small></span>
+        <span ng-if="bound.datatype"><br><small>Type: {{bound.datatype | replaceURIsWithPrefixes}}</small></span>
+    </span>
+    <span ng-switch-when="typed-literal">
+        {{bound.value}}<br>
+        <span ng-if="bound.datatype"><small>Type: {{bound.datatype | replaceURIsWithPrefixes}}</small></span>
+    </span>
+    <span ng-switch-when="bnode">
+        {{bound.value}} <small>(blank node)</small>
+    </span>
+    <pre ng-switch-default>
+        {{bound | json}}
+    </pre>
+</div>
+

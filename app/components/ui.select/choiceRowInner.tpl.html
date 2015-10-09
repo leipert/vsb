@@ -1,0 +1,23 @@
+<div class="ui-select-choices-row-inner" style="">
+    <div class="content"
+         ng-class="{'has-comment':item.$comment}">
+        <p><span ng-bind-html="item.$label | highlightSearchTerm: $select.search"></span><b
+                ng-if="item.type === 'INVERSE_PROPERTY'"
+                class="text-danger">&#x207b;&#x00b9;</b></p>
+
+        <p ng-bind-html="item.uri | replaceURIsWithPrefixes | highlightSearchTerm: $select.search"></p>
+    </div>
+    <div ng-if="item.$comment"
+         ng-class="{'highlight': $select.containsSearchTerm(item.$comment,$select.search)}"
+         bs-popover
+         data-trigger="hover"
+         data-type="success"
+         data-container="body"
+         data-placement="left"
+         data-html="true"
+         data-content="{{item.$comment| highlightSearchTerm: $select.search}}"
+         class="fa-stack">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-info fa-stack-1x"></i>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+<!-- Result area -->
+<div id="result">
+    <h1 class="h3">{{ 'RESULTS' | translate }}</h1>
+
+    <div class="panel panel-default" id="query-executor">
+        <div class="panel-heading">
+            <h2 class="h4 panel-title">{{'QUERY_EXECUTOR' | translate}}</h2>
+        </div>
+        <div class="panel-body">
+            <form name="runQuery" novalidate ng-submit="openInNewTab()">
+            <div class="form-group col-xs-12 col-md-6"
+                 ng-class="{ 'has-error': runQuery.endpoint.$invalid && runQuery.$submitted }">
+                <label for="endpoint" class="control-label" >{{'ENDPOINT' | translate}}</label>
+                <input type="text"
+                       ng-model="queryExecutor.endpoint"
+                       class="form-control"
+                       id="endpoint"
+                       name="endpoint"
+                       required
+                       placeholder="{{'ENDPOINT' | translate}}">
+                <p class="help-block" ng-if="runQuery.endpoint.$error.required && runQuery.$submitted">{{'REQUIRED_ERROR' | translate }}</p>
+            </div>
+            <div class="form-group col-xs-6 col-md-3"
+                 ng-class="{ 'has-error': runQuery.limit.$invalid && runQuery.$submitted }">
+                <label for="limit" class="control-label" >{{'LIMIT' | translate}}</label>
+                <input type="number"
+                       ng-model="queryExecutor.limit"
+                       class="form-control"
+                       id="limit"
+                       name="limit"
+                       step="25"
+                       required
+                       placeholder="{{'LIMIT' | translate}}">
+                <p class="help-block" ng-if="runQuery.limit.$error.required && runQuery.$submitted">{{'REQUIRED_ERROR' | translate }}</p>
+                <p class="help-block" ng-if="runQuery.limit.$error.number && runQuery.$submitted">{{'NUMBER_ERROR' | translate }}</p>
+            </div>
+            <div class="form-group col-xs-6 col-md-3"
+                 ng-class="{ 'has-error': runQuery.offset.$invalid && runQuery.$submitted }">
+                <label for="offset" class="control-label" >{{'OFFSET' | translate}}</label>
+                <input type="number"
+                       ng-model="queryExecutor.offset"
+                       class="form-control"
+                       id="offset"
+                       name="offset"
+                       step="25"
+                       required
+                       placeholder="{{'OFFSET' | translate}}">
+                <p class="help-block" ng-if="runQuery.offset.$error.required && runQuery.$submitted">{{'REQUIRED_ERROR' | translate }}</p>
+                <p class="help-block" ng-if="runQuery.offset.$error.number && runQuery.$submitted">{{'NUMBER_ERROR' | translate }}</p>
+            </div>
+            <div class="form-group col-xs-6 col-md-3"
+                 ng-class="{ 'has-error': runQuery.resultFormat.$invalid && runQuery.$submitted }">
+                <label for="resultFormat" class="control-label" >{{'FORMAT' | translate}}</label>
+                <select class="form-control"
+                        id="resultFormat"
+                        name="resultFormat"
+                        ng-model="queryExecutor.resultFormat"
+                        required
+                        ng-options="format.name for format in resultFormats">
+                    <option value="">{{'SELECT_FORMAT' | translate}}</option>
+                </select>
+                <p class="help-block" ng-if="runQuery.resultFormat.$error.required && runQuery.$submitted">{{'REQUIRED_ERROR' | translate }}</p>
+            </div>
+            <div class="form-group col-xs-6 col-md-3">
+                <label for="limit">&nbsp;</label><br>
+                <button type="submit" class="btn btn-default">{{'RUN_QUERY' | translate}}</button>
+            </div>
+            </form>
+
+        </div>
+    </div>
+    <div bs-tabs>
+        <div ng-repeat="tab in tabs"
+             title="<b>{{ tab.title | translate }}</b>"
+             name="{{ tab.title | translate }}"
+             bs-pane>
+            <div class="panel panel-default">
+                <div class="panel-body" ng-include="tab.template">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

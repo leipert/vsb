@@ -1,0 +1,14 @@
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <tr>
+            <th ng-repeat="col in resultColumns track by $index">
+                {{col}}
+            </th>
+        </tr>
+        <tr ng-repeat="row in resultRows track by $index">
+            <td ng-repeat="col in resultColumns track by $index">
+                <binding-cell bound="row[col]"></binding-cell>
+            </td>
+        </tr>
+    </table>
+</div>

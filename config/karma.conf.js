@@ -1,37 +1,75 @@
-module.exports = function(config){
+// Karma configuration
+// Generated on Mon Jul 21 2014 11:48:34 GMT+0200 (CEST)
+module.exports = function (config) {
     config.set({
-    basePath : '../',
 
-    files : [
-      'app/lib/angular/angular.js',
-      'app/lib/angular/angular-*.js',
-      'test/lib/angular/angular-mocks.js',
-      'app/js/**/*.js',
-      'test/unit/**/*.js'
-    ],
+        // base path used to resolve all patterns (e.g. files, exclude)
+        basePath: '',
 
-    exclude : [
-      'app/lib/angular/angular-loader.js',
-      'app/lib/angular/*.min.js',
-      'app/lib/angular/angular-scenario.js'
-    ],
+        // frameworks to use
+        frameworks: ['mocha', 'chai-sinon'],
 
-    autoWatch : true,
+        // list of files / patterns to load in the browser
 
-    frameworks: ['jasmine'],
+        files: [
+            //start-vendor
+            //end-vendor
+            'app/bower_components/jassa/jassa.js',
+            'app/bower_components/Blob.js/Blob.js',
+            'app/**/angular-mocks.js',
+            //start-app
+            //end-app
+            'node_modules/chai-string/chai-string.js',
+            'app/**/*.spec.js',
+            'app/**/fixtures/**/*.json'
+        ],
 
-    browsers : ['Firefox'],
+        // list of files to exclude
+        exclude: [
+            'app/bower_components/**/*.spec.js'
+        ],
 
-    plugins : [
-            'karma-junit-reporter',
-            'karma-chrome-launcher',
-            'karma-firefox-launcher',
-            'karma-jasmine'
-            ],
+        // preprocess matching files before serving them to the browser
+        preprocessors: {
+            'app/!(bower_components)/**/!(*spec).js': ['coverage'],
+            'app/**/fixtures/**/*.json': ['json_fixtures']
+        },
 
-    junitReporter : {
-      outputFile: 'test_out/unit.xml',
-      suite: 'unit'
-    }
+        jsonFixturesPreprocessor: {
+            // strip this from the file path \ fixture name
+            stripPrefix: '.+fixtures/',
+            // strip this to the file path \ fixture name
+            //prependPrefix: '',
+            // change the global fixtures variable name
+            variableName: 'fixtures'
+        },
 
-})}
+        coverageReporter: {
+            type: 'html',
+            dir: '.tmp/coverage/'
+        },
+
+        // test results reporter to use
+        reporters: ['progress', 'coverage'],
+
+        // web server port
+        port: 9876,
+
+        // enable / disable colors in the output (reporters and logs)
+        colors: true,
+
+        // level of logging
+        logLevel: config.LOG_INFO,
+
+        // enable / disable watching file and executing tests on file changes
+        autoWatch: true,
+
+        // start these browsers
+        browsers: ['PhantomJS'],
+
+        // Continuous Integration mode
+        // if true, Karma captures browsers, runs the tests and exits
+        singleRun: false
+
+    });
+};

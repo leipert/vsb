@@ -1,0 +1,53 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title h4">Possible {{property.alias}} of {{subject.alias}}:</h1>
+
+                <div class="input-group" style="padding-top: 10px;width:100%">
+
+                    <input type="text"
+                           class="form-control" placeholder="Filter available Classes"
+                           ng-model="search.$">
+
+                </div>
+            </div>
+            <div class="modal-body" style="max-height: 350px; overflow-y: scroll">
+                <h2 class="h5">
+                    {{subject.alias}}
+                    <i class="fa fa-fw " ng-class="arrowClass"></i>
+                    {{property.alias}}
+                    <i class="fa fa-fw " ng-class="arrowClass"></i>
+                    ???
+                </h2>
+
+                <div class="list-group">
+                    <a class="list-group-item" ng-class="(selected === subject)?'active':''"
+                       ng-repeat="subject in availableSubjects | filter : search"
+                       ng-click="select(subject)">
+                        <popover-wrap ng-if="subject.$comment"
+                                      data-settings="{ class: 'fa fa-fw fa-info-circle pull-right', content: subject.$comment }"
+                                ></popover-wrap>
+                        {{ subject.$label }}
+                        <small>({{subject.uri | replaceURIsWithPrefixes}})</small>
+
+                    </a>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <div ng-if="selected" class="pull-left text-left">
+                    Do you want to create the class:<br>
+                    {{subject.alias}}
+                    <i class="fa fa-fw " ng-class="arrowClass"></i>
+                    {{property.alias}}
+                    <i class="fa fa-fw " ng-class="arrowClass"></i>
+                    <b>{{selected.$label}}</b>
+                    ?
+                </div>
+                <button class="btn btn-primary" ng-click="ok()">Create Class</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

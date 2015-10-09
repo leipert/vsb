@@ -1,15 +1,71 @@
 {
-  "name": "gsb",
-  "version": "1.0.0",
-  "main": "app/",
+  "name": "VSB",
+  "version": "1.1.0-SNAPSHOT",
+  "main": "dist/",
   "dependencies": {
-    "jquery": "~2.1",
-    "angular": "1.2.14",
-    "bootstrap": "~3.1",
-    "angular-bootstrap": "~0.10.0",
-    "angular-sanitize": "1.2.14",
-    "angular-ui-select": "just-boris/ui-select#bower",
-    "momentjs": "~2.6.0",
-    "lodash": "~2.4"
+    "angular": "1.4.6",
+    "angular-intro.js": "~1.3.0",
+    "angular-localforage": "~1.2.2",
+    "angular-sanitize": "1.4.6",
+    "angular-strap": "~2.3.3",
+    "angular-toggle-switch": "~1.2.1",
+    "angular-translate": "~2.8.1",
+    "angular-translate-storage-local": "~2.8.1",
+    "angular-ui-select": "0.11.2",
+    "bluebird": "~2.3.5",
+    "bootstrap": "~3.3.5",
+    "font-awesome": "~4.4.0",
+    "intro.js": "~1.1.0",
+    "jassa": "https://github.com/GeoKnow/Jassa-Bower.git#2e5f4e415bd087cf714ead50dfbf31aa83fd7aba",
+    "jsPlumb": "1.7.4",
+    "localforage": "~1.2.10",
+    "lodash": "~3.10.0",
+    "moment": "~2.8.0",
+    "ui-router": "~0.2.13"
+  },
+  "overrides": {
+    "angular-toggle-switch": {
+      "dependencies": {
+        "angular": "*"
+      }
+    },
+    "lodash": {
+      "main": [
+        "lodash.js"
+      ]
+    },
+    "jsPlumb": {
+      "main": [
+        "dist/js/jquery.jsPlumb-1.7.4.js"
+      ],
+      "dependencies": {
+        "jquery-ui": "*"
+      }
+    },
+    "angular": {
+      "dependencies": {
+        "jquery": "*"
+      }
+    },
+    "jassa": {
+      "main": []
+    },
+    "bootstrap": {
+      "main": []
+    },
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.css",
+        "fonts/*"
+      ]
+    }
+  },
+  "resolutions": {
+    "angular": "1.4.6",
+    "localforage": "~1.2.10"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.4.6",
+    "Blob.js": "eligrey/Blob.js"
   }
 }
