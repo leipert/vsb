@@ -81,9 +81,9 @@ angular.module('VSB.config')
                                 "uri": "http://dbpedia.org/ontology/birthPlace",
                                 "type": "OBJECT_PROPERTY",
                                 "filterExists": true,
-                                "hasFilter": true,
+                                "hasFilter": false,
                                 "compareRaw": {},
-                                "linkTo": "city",
+                                "linkTo": null,
                                 "view": true,
                                 "optional": false,
                                 "arithmetic": null,
@@ -94,67 +94,14 @@ angular.module('VSB.config')
                                 "uri": "http://dbpedia.org/ontology/almaMater",
                                 "type": "OBJECT_PROPERTY",
                                 "filterExists": true,
-                                "hasFilter": true,
+                                "hasFilter": false,
                                 "compareRaw": {},
-                                "linkTo": "university",
+                                "linkTo": null,
                                 "view": true,
                                 "optional": false,
                                 "arithmetic": null,
                                 "compare": null,
                                 "alias": "alma mater"
-                            }
-                        ]
-                    },
-                    {
-                        "uri": "http://dbpedia.org/ontology/City",
-                        "pos": {
-                            "x": 837,
-                            "y": 133
-                        },
-                        "view": true,
-                        "alias": "city",
-                        "properties": [
-                            {
-                                "uri": "http://www.w3.org/2000/01/rdf-schema#label",
-                                "type": "STRING_PROPERTY",
-                                "filterExists": true,
-                                "hasFilter": true,
-                                "compareRaw": {
-                                    "selectedLanguage": "*",
-                                    "stringComparison": 0,
-                                    "comparisonInput": "Hamburg",
-                                    "comparisonRegexFlags": "i"
-                                },
-                                "linkTo": null,
-                                "view": true,
-                                "optional": false,
-                                "arithmetic": null,
-                                "compare": "langMatches(lang(%after_arithmetic%), \"*\") && langMatches(lang(%after_arithmetic%), \"*\") && regex(%after_arithmetic%, \"Hamburg\", \"i\")",
-                                "alias": "Label"
-                            }
-                        ]
-                    },
-                    {
-                        "uri": "http://dbpedia.org/ontology/University",
-                        "pos": {
-                            "x": 688,
-                            "y": 505
-                        },
-                        "view": true,
-                        "alias": "university",
-                        "properties": [
-                            {
-                                "uri": "http://dbpedia.org/ontology/city",
-                                "type": "OBJECT_PROPERTY",
-                                "filterExists": true,
-                                "hasFilter": true,
-                                "compareRaw": {},
-                                "linkTo": "city",
-                                "view": true,
-                                "optional": false,
-                                "arithmetic": null,
-                                "compare": null,
-                                "alias": "city"
                             }
                         ]
                     }
