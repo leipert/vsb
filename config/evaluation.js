@@ -2,12 +2,17 @@
 
 angular.module('VSB.config')
 
-    .run(function ($localForage, TranslatorToVSBL, MessageService, languageStorage) {
+    .config(function(globalConfig){
+        globalConfig.baseURL = '//leipert.io/sparql';
+        globalConfig.resultURL = globalConfig.baseURL;
+    })
+
+    .run(function ($localForage, TranslatorToVSBL, MessageService, languageStorage, $timeout) {
 
         languageStorage.mergeLanguages({
             de: {
-                EXAMPLE_MESSAGE: 'Diese Beispielontologie ist zum Evaluieren des VSB gedacht.' +
-                'Sie enthält nur Daten zur Band Nirvana'
+                EXAMPLE_MESSAGE: 'Diese Beispielontologie ist zum Evaluieren des VSB gedacht.<br>' +
+                'Sie enthält nur Daten zur Band Nirvana.'
             },
             en: {
                 EXAMPLE_MESSAGE: 'This Ontology only contains Data regarding the Band Nirvana.'
@@ -16,11 +21,13 @@ angular.module('VSB.config')
 
         MessageService.addMessage('<span translate="EXAMPLE_MESSAGE"></span>');
 
-        $localForage.getItem('current').then(function (data) {
-            if (data === null || data === undefined) {
-                loadExample()
-            }
-        }, loadExample);
+        $timeout(function(){
+            $localForage.getItem('current').then(function (data) {
+                if (data === null || data === undefined) {
+                    loadExample()
+                }
+            }, loadExample);
+        }, 500);
 
         function loadExample() {
             TranslatorToVSBL.translateJSONToVSBL(getExample());
@@ -49,7 +56,7 @@ angular.module('VSB.config')
                                 "filterExists": true,
                                 "hasFilter": true,
                                 "compareRaw": {},
-                                "linkTo": "MusicArtist",
+                                "linkTo": "Musiker",
                                 "view": true,
                                 "optional": false,
                                 "arithmetic": null,
